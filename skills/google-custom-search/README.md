@@ -11,7 +11,7 @@ The skill files are located in `~/.openclaw/workspace/skills/google-custom-searc
 ## 3. Usage
 
 ### Prerequisites
-- **API Key**: `AIzaSyAK3yryzq5nb2tD6NvXHMCsCzXzWEuLKyI` (Hardcoded as default).
+- **API Key**: Set via `GOOGLE_API_KEY` environment variable.
 - **CX ID**: A Programmable Search Engine ID (CX) is required.
 
 ### Command Line Interface

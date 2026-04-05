@@ -39,7 +39,7 @@ The script outputs structured JSON to stdout, making it easy for agents to parse
 
 ## Configuration
 
-- **API Key**: Currently hardcoded to `AIzaSyAK3yryzq5nb2tD6NvXHMCsCzXzWEuLKyI` as per instructions. Override with `GOOGLE_API_KEY` env var.
+- **API Key**: Set via `GOOGLE_API_KEY` environment variable.
 - **CX ID**: Set `GOOGLE_CX` env var to your "Whole Web" search engine ID to make it the default.
 
 ## Note on Whole Web Search
