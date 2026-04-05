@@ -47,7 +47,8 @@ Add whatever helps you do your job. This is your cheat sheet.
 
 ### API Keys
 
-- TAVILY_API_KEY: `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`
+- **TAVILY_API_KEY**: 存储在环境变量中
+- **GitHub Token**: 存储在`~/.github_token.json`
 
 ### 搜索工具配置 (Search Configuration)
 
