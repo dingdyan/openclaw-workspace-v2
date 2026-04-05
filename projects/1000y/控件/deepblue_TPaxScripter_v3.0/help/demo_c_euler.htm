@@ -1,0 +1,74 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Euler algorithm (paxC).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>variant</b></font> Cycle(InitV, A){
+  <font color="blue"><b>variant</b></font> P, Stack, result;
+  <font color="blue"><b>int</b></font> U, V;
+  result = <font color="blue"><b>NULL</b></font>;
+  Stack = [InitV, <font color="blue"><b>NULL</b></font>];
+  <font color="blue"><b>while</b></font> (Stack != <font color="blue"><b>NULL</b></font>) {
+    V = Stack[0];
+    P = & A[V];
+    <font color="blue"><b>if</b></font> (P != <font color="blue"><b>NULL</b></font>) {
+      U = P[0];
+      <font color="blue"><b>reduced</b></font> P = P[1];
+      Stack = [U, Stack];
+      P = & A[U];
+      <font color="blue"><b>while</b></font> (P != <font color="blue"><b>NULL</b></font>) {
+        <font color="blue"><b>if</b></font> (P[0] == V) {
+          <font color="blue"><b>reduced</b></font> P = P[1];
+          <font color="blue"><b>break</b></font>;
+        }
+        P = & P[1];
+      }
+    }
+    <font color="blue"><b>else</b></font> {
+      <font color="blue"><b>reduced</b></font> Stack = Stack[1];
+      result = [V, result];
+    }
+  }
+  <font color="blue"><b>return</b></font> result;
+}
+
+<font color="blue"><b>variant</b></font> A[10], Path, P;
+
+A[1] = [2, [3, <font color="blue"><b>NULL</b></font>]];
+A[2] = [1, [3, [7, [8, <font color="blue"><b>NULL</b></font>]]]];
+A[3] = [1, [2, [4, [5, <font color="blue"><b>NULL</b></font>]]]];
+A[4] = [3, [5, <font color="blue"><b>NULL</b></font>]];
+A[5] = [3, [4, [6, [8, <font color="blue"><b>NULL</b></font>]]]];
+A[6] = [5, [7, [8, [9, <font color="blue"><b>NULL</b></font>]]]];
+A[7] = [2, [6, [8, [9, <font color="blue"><b>NULL</b></font>]]]];
+A[8] = [2, [5, [6, [7, <font color="blue"><b>NULL</b></font>]]]];
+A[9] = [6, [7, <font color="blue"><b>NULL</b></font>]];
+
+Path = Cycle(1, A);
+
+<font color="blue"><b>println</b></font> <font color="Red">'Euler path: '</font>;
+P = & Path;
+<font color="blue"><b>while</b></font> (P != <font color="blue"><b>NULL</b></font>) {
+  <font color="blue"><b>println</b></font> P[0];
+  P = & P[1];
+}
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

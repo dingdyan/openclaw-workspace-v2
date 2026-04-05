@@ -1,0 +1,625 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Mechanical theorem proving (paxPascal).
+</h3>
+<hr>
+
+// Compare with Appendix A in "Chang C.L and Lee R.C. Symbolic Logic and Mechanical Theorem Proving", Academic Press, New York, 1973. 
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> TheoremProving;
+<font color="blue"><b>uses</b></font>
+  SysUtils, Classes, Contnrs;
+
+<font color="blue"><b>const</b></font>
+  ArrConst = [<font color="Red">'$1'</font>, <font color="Red">'$2'</font>, <font color="Red">'$3'</font>, <font color="Red">'$4'</font>, <font color="Red">'$5'</font>, <font color="Red">'$6'</font>, <font color="Red">'$7'</font>, <font color="Red">'$8'</font>];
+  AX       = [<font color="Red">'X1'</font>, <font color="Red">'X2'</font>, <font color="Red">'X3'</font>, <font color="Red">'X4'</font>, <font color="Red">'X5'</font>, <font color="Red">'X6'</font>, <font color="Red">'X7'</font>, <font color="Red">'X8'</font>];
+  AY       = [<font color="Red">'Y1'</font>, <font color="Red">'Y2'</font>, <font color="Red">'Y3'</font>, <font color="Red">'Y4'</font>, <font color="Red">'Y5'</font>, <font color="Red">'Y6'</font>, <font color="Red">'Y7'</font>, <font color="Red">'Y8'</font>];
+<font color="blue"><b>type</b></font>
+  TClause = <font color="blue"><b>class</b></font>(TObject)
+  <font color="blue"><b>private</b></font>
+    E, Params: Variant;
+    Number, NParam, NX, NY, ND: Integer;
+    InProof: Boolean;
+    <font color="blue"><b>procedure</b></font> CreateParams(P: Variant);
+  <font color="blue"><b>public</b></font>
+    <font color="blue"><b>constructor</b></font> Create(A: Variant);
+    <font color="blue"><b>procedure</b></font> PutResolvent(<font color="blue"><b>const</b></font> A, B: TClause; LA, LB: Integer);
+    <font color="blue"><b>procedure</b></font> Rename(L: Variant);
+    <font color="blue"><b>function</b></font> Length: Integer;
+    <font color="blue"><b>function</b></font> Sign(I: Integer): <font color="blue"><b>String</b></font>;
+    <font color="blue"><b>function</b></font> Name(I: Integer): <font color="blue"><b>String</b></font>;
+    <font color="blue"><b>procedure</b></font> Dump;
+  <font color="blue"><b>end</b></font>;
+
+  TClauseList = <font color="blue"><b>class</b></font>(TObject)
+  <font color="blue"><b>private</b></font>
+    fClauses: TList;
+    <font color="blue"><b>function</b></font> GetClause(I: Integer): TClause;
+    <font color="blue"><b>procedure</b></font> SetClause(I: Integer; Value: TClause);
+  <font color="blue"><b>public</b></font>
+    <font color="blue"><b>constructor</b></font> Create;
+    <font color="blue"><b>destructor</b></font> Destroy; override;
+    <font color="blue"><b>function</b></font> Add(C: TClause): Integer;
+    <font color="blue"><b>procedure</b></font> Clear;
+    <font color="blue"><b>procedure</b></font> AddClauses(L: TClauseList);
+    <font color="blue"><b>function</b></font> Count: Integer;
+    <font color="blue"><b>procedure</b></font> MarkTree(I, N: Integer);
+    <font color="blue"><b>procedure</b></font> Output(N: Integer);
+    <font color="blue"><b>procedure</b></font> Dump;
+    <font color="blue"><b>property</b></font> Clauses[I: Integer]: TClause read GetClause write SetClause; <font color="blue"><b>default</b></font>;
+  <font color="blue"><b>end</b></font>;
+  
+<font color="blue"><b>var</b></font>
+  Num: Integer; // clause counter
+
+<font color="blue"><b>function</b></font> IsCompound(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := isPaxArray(Term);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsVar(<font color="blue"><b>const</b></font> P: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := isString(P);
+  <font color="blue"><b>if</b></font> <font color="blue"><b>not</b></font> result <font color="blue"><b>then</b></font>
+    <font color="blue"><b>Exit</b></font>;
+  result := (Ord(P) >= Ord(<font color="Red">'U'</font>)) <font color="blue"><b>and</b></font> (Ord(P) <= Ord(<font color="Red">'Z'</font>));
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> CopyTerm(A: Variant): Variant;
+<font color="blue"><b>var</b></font>
+  I: Integer;
+  AI: Variant;
+<font color="blue"><b>begin</b></font>
+  result := PaxArray(A.length);
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> A.length - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    AI := @ A[I];
+    <font color="blue"><b>if</b></font> IsCompound(AI) <font color="blue"><b>then</b></font>
+      result[I] := CopyTerm(AI)
+    <font color="blue"><b>else</b></font>
+      result[I] := AI;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Inside(Key, Term: Variant): boolean;
+<font color="blue"><b>var</b></font>
+  I: Integer;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> IsCompound(Term) <font color="blue"><b>then</b></font>
+    <font color="blue"><b>for</b></font> I:=1 <font color="blue"><b>to</b></font> Term.length - 1 <font color="blue"><b>do</b></font>
+    <font color="blue"><b>begin</b></font>
+      result := Inside(Key, Term[I]);
+      <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+        <font color="blue"><b>Exit</b></font>;
+    <font color="blue"><b>end</b></font>
+  <font color="blue"><b>else</b></font>
+    result := Key = Term;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Unify(N: Integer; T1, T2: Variant): boolean;
+<font color="blue"><b>var</b></font>
+  I: Integer;
+  P1, P2: Variant;
+<font color="blue"><b>begin</b></font>
+  result := true;
+  <font color="blue"><b>for</b></font> I:=N <font color="blue"><b>to</b></font> T1.length - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    P1 := @ T1[I];
+    P2 := @ T2[I];
+    <font color="blue"><b>if</b></font> IsCompound(P1) <font color="blue"><b>and</b></font> IsCompound(P2) <font color="blue"><b>then</b></font>
+      result := Unify(0, P1, P2)
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsVar(P1) <font color="blue"><b>and</b></font> (<font color="blue"><b>not</b></font> Inside(P1, P2)) <font color="blue"><b>then</b></font>
+      P1^ := @ P2^
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsVar(P2) <font color="blue"><b>and</b></font> (<font color="blue"><b>not</b></font> Inside(P2, P1)) <font color="blue"><b>then</b></font>
+      P2^ := @ P1^
+    <font color="blue"><b>else</b></font>
+      result := P1 = P2;
+    <font color="blue"><b>if</b></font> <font color="blue"><b>not</b></font> result <font color="blue"><b>then</b></font>
+      <font color="blue"><b>Exit</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>constructor</b></font> TClause.Create(A: Variant);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font> Create;
+  
+  E := A;
+  Num := Num + 1;
+  Number := Num;
+  NX := 1000;
+  NY := 0;
+  ND := 0;
+  NParam := 0;
+  Params := PaxArray(10);
+  InProof := false;
+  
+  <font color="blue"><b>if</b></font> A <> <font color="blue"><b>nil</b></font> <font color="blue"><b>then</b></font>
+    CreateParams(E);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TClause.Length: Integer;
+<font color="blue"><b>begin</b></font>
+  result := E.length;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TClause.Sign(I: Integer): <font color="blue"><b>String</b></font>;
+<font color="blue"><b>begin</b></font>
+  result := E[I][0];
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TClause.Name(I: Integer): <font color="blue"><b>String</b></font>;
+<font color="blue"><b>begin</b></font>
+  result := E[I][1];
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClause.CreateParams(P: Variant);
+<font color="blue"><b>var</b></font>
+  I, J, K: Integer;
+  PI: Variant;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> P.length - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    PI := @ P[I];
+    <font color="blue"><b>if</b></font> IsCompound(PI) <font color="blue"><b>then</b></font>
+      CreateParams(PI)
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsVar(PI) <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      K := -1;
+      <font color="blue"><b>for</b></font> J:=0 <font color="blue"><b>to</b></font> NParam - 1 <font color="blue"><b>do</b></font>
+        <font color="blue"><b>if</b></font> Params[J] = PI <font color="blue"><b>then</b></font>
+          K := J;
+      <font color="blue"><b>if</b></font> K = -1 <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        K := NParam;
+        Params[K] := PI;
+        Inc(NParam);
+      <font color="blue"><b>end</b></font>;
+      P[I] := @ Params[K];
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClause.Rename(L: Variant);
+<font color="blue"><b>var</b></font>
+  I: Integer;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> NParam - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    <font color="blue"><b>delete</b></font> Params[I];
+    Params[I] := L[I];
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClause.Dump;
+<font color="blue"><b>begin</b></font>
+  writeln(Number,<font color="Red">'('</font>,NX,<font color="Red">','</font>,NY,<font color="Red">','</font>,ND,<font color="Red">') E='</font>,E);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClause.PutResolvent(A, B: TClause; LA, LB: Integer);
+<font color="blue"><b>var</b></font>
+  I, J: Integer;
+<font color="blue"><b>begin</b></font>
+  E := PaxArray(A.E.length + B.E.length - 2);
+  
+  J := -1;
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> A.length - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>if</b></font> I <> LA <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    Inc(J);
+    E[J] := CopyTerm(A.E[I]);
+  <font color="blue"><b>end</b></font>;
+
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> B.length - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>if</b></font> I <> LB <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    Inc(J);
+    E[J] := CopyTerm(B.E[I]);
+  <font color="blue"><b>end</b></font>;
+
+  NX := A.Number;
+  NY := B.Number;
+  ND := LB;
+  
+  CreateParams(E);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>constructor</b></font> TClauseList.Create;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font>;
+  fClauses := TList.Create;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>destructor</b></font> TClauseList.Destroy;
+<font color="blue"><b>begin</b></font>
+  fClauses.Free;
+  <font color="blue"><b>inherited</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TClauseList.GetClause(I: Integer): TClause;
+<font color="blue"><b>begin</b></font>
+  result := fClauses[I];
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClauseList.SetClause(I: Integer; Value: TClause);
+<font color="blue"><b>begin</b></font>
+  fClauses[I] := Value;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TClauseList.Add(C: TClause): Integer;
+<font color="blue"><b>begin</b></font>
+  result := fClauses.Add(C);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClauseList.Clear;
+<font color="blue"><b>begin</b></font>
+  fClauses.Clear;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TClauseList.Count: Integer;
+<font color="blue"><b>begin</b></font>
+  result := fClauses.Count;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClauseList.MarkTree(I, N: Integer);
+<font color="blue"><b>var</b></font>
+  C: TClause;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> I > N <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    C := Clauses[I - 1];
+    C.InProof := true;
+    MarkTree(C.NX, N);
+    MarkTree(C.NY, N);
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClauseList.Output(N: Integer);
+<font color="blue"><b>var</b></font>
+  I, NX, NY, HC: Integer;
+  C: TClause;
+<font color="blue"><b>begin</b></font>
+  HC := Count - 1;
+  <font color="blue"><b>while</b></font> HC > 0 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    C := Clauses[HC];
+    <font color="blue"><b>if</b></font> C.E.Length = 0 <font color="blue"><b>then</b></font>
+      <font color="blue"><b>Break</b></font>;
+    Dec(HC);
+  <font color="blue"><b>end</b></font>;
+
+  <font color="blue"><b>if</b></font> HC = 0 <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    writeln(<font color="Red">'Not proved'</font>);
+    <font color="blue"><b>Exit</b></font>;
+  <font color="blue"><b>end</b></font>;
+
+  NX := Clauses[HC].NX;
+  NY := Clauses[HC].NY;
+  MarkTree(NX, N);
+  MarkTree(NY, N);
+  writeln(<font color="Red">'Proof: '</font>);
+  <font color="blue"><b>for</b></font> I := N + 1 <font color="blue"><b>to</b></font> HC <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    C := Clauses[I];
+    <font color="blue"><b>if</b></font> C.InProof <font color="blue"><b>then</b></font>
+      C.Dump;
+  <font color="blue"><b>end</b></font>;
+  writeln(<font color="Red">'Contradiction: '</font>, NX, <font color="Red">' '</font>, NY);
+  Clauses[HC].Dump;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClauseList.Dump;
+<font color="blue"><b>var</b></font>
+  I: Integer;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> Count - 1 <font color="blue"><b>do</b></font>
+    Clauses[I].Dump;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TClauseList.AddClauses(L: TClauseList);
+<font color="blue"><b>var</b></font>
+  I: Integer;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> L.Count - 1 <font color="blue"><b>do</b></font>
+    fClauses.Add(L[I]);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Contradict(A, U, V: TClauseList): boolean;
+<font color="blue"><b>var</b></font>
+  I, J: Integer;
+  UI, VJ, R: TClause;
+  Name: <font color="blue"><b>String</b></font>;
+<font color="blue"><b>begin</b></font>
+  result := false;
+  <font color="blue"><b>for</b></font> I := 0 <font color="blue"><b>to</b></font> U.Count - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    UI := U[I];
+    Name := UI.Name(0);
+    <font color="blue"><b>for</b></font> J := 0 <font color="blue"><b>to</b></font> V.Count - 1 <font color="blue"><b>do</b></font>
+    <font color="blue"><b>begin</b></font>
+      VJ := V[J];
+      <font color="blue"><b>if</b></font> Name = VJ.Name(0) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        UI.Rename(AX);
+        VJ.Rename(AY);
+        result := Unify(2, UI.E[0], VJ.E[0]);
+        <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+        <font color="blue"><b>begin</b></font>
+          R := TClause.Create(<font color="blue"><b>nil</b></font>);
+          R.PutResolvent(UI, VJ, 0, 0);
+          writeln(<font color="Red">'Resolvent:'</font>);
+          R.Rename(AX);
+          R.Dump();
+          
+          A.Add(R);
+
+          <font color="blue"><b>Exit</b></font>;
+        <font color="blue"><b>end</b></font>;
+      <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> STest(S: TClauseList; U: TClause): boolean;
+<font color="blue"><b>var</b></font>
+  Name: <font color="blue"><b>String</b></font>;
+  I: Integer;
+  SI: TClause;
+<font color="blue"><b>begin</b></font>
+  result := false;
+  Name := U.Name(0);
+  <font color="blue"><b>for</b></font> I := 0 <font color="blue"><b>to</b></font> S.Count - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    SI := S[I];
+    <font color="blue"><b>if</b></font> Name = SI.Name(0) <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      SI.Rename(ArrConst);
+      U.Rename(AX);
+      result := Unify(2, SI.E[0], U.E[0]);
+      <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+        <font color="blue"><b>Exit</b></font>;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> GUnit(A, S1, S2, W: TClauseList; C: TClause): boolean;
+<font color="blue"><b>var</b></font>
+  P, S, POS, NEG: TList;
+  I, J: Integer;
+  U, R: TClause;
+  Sign, Name: <font color="blue"><b>String</b></font>;
+  Stack: TStack;
+<font color="blue"><b>begin</b></font>
+  POS := TClauseList.Create;
+  NEG := TClauseList.Create;
+  Stack := TStack.Create;
+
+  <font color="blue"><b>try</b></font>
+    Stack.Push(C);
+    
+    <font color="blue"><b>repeat</b></font>
+      C := Stack.Pop;
+      
+      <font color="blue"><b>for</b></font> I := 0 <font color="blue"><b>to</b></font> W.Count - 1 <font color="blue"><b>do</b></font>
+      <font color="blue"><b>begin</b></font>
+        U := W[I];
+        <font color="blue"><b>if</b></font> U.Number < C.NX <font color="blue"><b>then</b></font>
+        <font color="blue"><b>begin</b></font>
+          Sign := U.Sign(0);
+          Name := U.Name(0);
+          <font color="blue"><b>for</b></font> J:=0 <font color="blue"><b>to</b></font> C.length - 1 <font color="blue"><b>do</b></font>
+            <font color="blue"><b>if</b></font> (Sign <> C.Sign(J)) <font color="blue"><b>and</b></font> (Name = C.Name(J)) <font color="blue"><b>then</b></font>
+            <font color="blue"><b>begin</b></font>
+              U.Rename(AX);
+              C.Rename(AY);
+
+              <font color="blue"><b>if</b></font> Unify(1, U.E[0], C.E[J]) <font color="blue"><b>then</b></font>
+              <font color="blue"><b>begin</b></font>
+                R := TClause.Create(<font color="blue"><b>nil</b></font>);
+                R.PutResolvent(U, C, 0, J);
+
+                writeln(<font color="Red">'Resolvent:'</font>);
+                R.Rename(AX);
+                R.Dump();
+                
+                A.Add(R);
+
+                <font color="blue"><b>if</b></font> R.length = 1 <font color="blue"><b>then</b></font>
+                <font color="blue"><b>begin</b></font>
+                  <font color="blue"><b>if</b></font> R.Sign(0) = <font color="Red">'+'</font> <font color="blue"><b>then</b></font>
+                  <font color="blue"><b>begin</b></font>
+                    S := S1;
+                    P := POS;
+                  <font color="blue"><b>end</b></font>
+                  <font color="blue"><b>else</b></font>
+                  <font color="blue"><b>begin</b></font>
+                    S := S2;
+                    P := NEG;
+                  <font color="blue"><b>end</b></font>;
+                  <font color="blue"><b>if</b></font> (<font color="blue"><b>not</b></font> STest(S, R)) <font color="blue"><b>and</b></font> (<font color="blue"><b>not</b></font> STest(P, R)) <font color="blue"><b>then</b></font>
+                    P.Add(R);
+                <font color="blue"><b>end</b></font>
+                <font color="blue"><b>else</b></font>
+                  Stack.Push(R);
+              <font color="blue"><b>end</b></font>;
+            <font color="blue"><b>end</b></font>;
+        <font color="blue"><b>end</b></font>;
+      <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>until</b></font> Stack.Count = 0;
+
+    result := Contradict(A, S1, NEG);
+    <font color="blue"><b>if</b></font> <font color="blue"><b>not</b></font> result <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      result := Contradict(A, S2, POS);
+      <font color="blue"><b>if</b></font> <font color="blue"><b>not</b></font> result <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        S1.AddClauses(POS);
+        S2.AddClauses(NEG);
+      <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>finally</b></font>
+    POS.Free;
+    NEG.Free;
+    Stack.Free;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TRU(A: TClauseList; SupportSet: Variant; TryNumber: Integer): boolean;
+<font color="blue"><b>var</b></font>
+  S, S1, S2, S3: TClauseList;
+  I, J, K, L, N: Integer;
+  W: TList;
+  C: TClause;
+<font color="blue"><b>begin</b></font>
+  S1 := TClauseList.Create;
+  S2 := TClauseList.Create;
+  S3 := TClauseList.Create;
+  W := TList.Create;
+
+  <font color="blue"><b>try</b></font>
+    <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> A.Count - 1 <font color="blue"><b>do</b></font>
+    <font color="blue"><b>begin</b></font>
+      C := A[I];
+      <font color="blue"><b>if</b></font> C.length = 1 <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> C.Sign(0) = <font color="Red">'+'</font> <font color="blue"><b>then</b></font>
+          S1.Add(C)
+        <font color="blue"><b>else</b></font>
+          S2.Add(C);
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font>
+      <font color="blue"><b>begin</b></font>
+        S3.Add(C);
+        <font color="blue"><b>if</b></font> SupportSet[I] <> <font color="blue"><b>nil</b></font> <font color="blue"><b>then</b></font>
+        <font color="blue"><b>begin</b></font>
+          S := TClauseList.Create;
+          <font color="blue"><b>for</b></font> J:=0 <font color="blue"><b>to</b></font> SupportSet[I].length - 1  <font color="blue"><b>do</b></font>
+          <font color="blue"><b>begin</b></font>
+            C := SupportSet[I][J];
+            S.Add(C);
+          <font color="blue"><b>end</b></font>;
+          W.Add(S);
+        <font color="blue"><b>end</b></font>;
+      <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>end</b></font>;
+
+    result := Contradict(A, S1, S2);
+
+    <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+      <font color="blue"><b>Exit</b></font>;
+
+    K := 0;
+
+    <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> TryNumber - 1 <font color="blue"><b>do</b></font>
+    <font color="blue"><b>begin</b></font>
+      N := A.Count;
+      result := GUnit(A, S1, S2, W[K], S3[K]);
+
+      <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+        <font color="blue"><b>Exit</b></font>;
+
+      <font color="blue"><b>if</b></font> A.Count > N <font color="blue"><b>then</b></font>
+        <font color="blue"><b>for</b></font> J:=0 <font color="blue"><b>to</b></font> S3.Count - 1 <font color="blue"><b>do</b></font>
+        <font color="blue"><b>begin</b></font>
+          <font color="blue"><b>if</b></font> J = K <font color="blue"><b>then</b></font>
+            W[J].Clear;
+
+          <font color="blue"><b>for</b></font> L:=N <font color="blue"><b>to</b></font> A.Count - 1 <font color="blue"><b>do</b></font>
+            <font color="blue"><b>if</b></font> A[L].length = 1 <font color="blue"><b>then</b></font>
+              W[J].Add(A[L]);
+        <font color="blue"><b>end</b></font>;
+
+      Inc(K);
+      <font color="blue"><b>if</b></font> K = S3.Count <font color="blue"><b>then</b></font>
+        K := 0;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>finally</b></font>
+    S1.Free;
+    S2.Free;
+    S3.Free;
+    W.Free;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>const</b></font>
+  A = <font color="Red">'A'</font>;
+  D = <font color="Red">'D'</font>;
+  F = <font color="Red">'F'</font>;
+  H = <font color="Red">'H'</font>;
+  L = <font color="Red">'L'</font>;
+  P = <font color="Red">'P'</font>;
+  X = <font color="Red">'X'</font>;
+  Y = <font color="Red">'Y'</font>;
+<font color="blue"><b>var</b></font>
+  I, N: Integer;
+  Clauses: TClauseList;
+  SupportSet: TList;
+
+<font color="blue"><b>procedure</b></font> AddClause(E);
+<font color="blue"><b>begin</b></font>
+  Clauses.Add(TClause.Create(E));
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>begin</b></font>
+  Num := 0;
+  Clauses := TClauseList.Create;
+  SupportSet := TList.Create;
+
+  AddClause([[<font color="Red">'+'</font>,L,X,[F,X]]                      ]);
+  AddClause([[<font color="Red">'-'</font>,L,X,X]                          ]);
+  AddClause([[<font color="Red">'-'</font>,L,X,Y],[<font color="Red">'-'</font>,L,Y,X]              ]);
+  AddClause([[<font color="Red">'-'</font>,D,X,[F,Y]],[<font color="Red">'+'</font>,L,Y,X]          ]);
+  AddClause([[<font color="Red">'+'</font>,P,X],[<font color="Red">'+'</font>,D,[H,X],X]            ]);
+  AddClause([[<font color="Red">'+'</font>,P,X],[<font color="Red">'+'</font>,P,[H,X]]              ]);
+  AddClause([[<font color="Red">'+'</font>,P,X],[<font color="Red">'+'</font>,L,[H,X],X]            ]);
+  AddClause([[<font color="Red">'-'</font>,P,X],[<font color="Red">'-'</font>,L,A,X],[<font color="Red">'+'</font>,L,[F,A],X]]);
+
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> Clauses.Count - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    <font color="blue"><b>if</b></font> I >= 2 <font color="blue"><b>then</b></font>
+      SupportSet.Add([Clauses[0], Clauses[1]])
+    <font color="blue"><b>else</b></font>
+      SupportSet.Add(<font color="blue"><b>nil</b></font>);
+  <font color="blue"><b>end</b></font>;
+
+  writeln(<font color="Red">'Source clauses:'</font>);
+  Clauses.Dump;
+
+  writeln(<font color="Red">'-------------------------------'</font>);
+  writeln(<font color="Red">'Theorem proving'</font>);
+  writeln(<font color="Red">'Unit binary resolution'</font>);
+  writeln(<font color="Red">'-------------------------------'</font>);
+
+  writeln(<font color="Red">'Theorem :'</font>);
+  writeln(<font color="Red">'The set of prime numbers is infinite'</font>);
+
+  N := Clauses.Count;
+  TRU(Clauses, SupportSet, 20);
+
+  Clauses.Output(N);
+  
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> Clauses.Count - 1 <font color="blue"><b>do</b></font>
+    Clauses[I].Free;
+  Clauses.Free;
+  SupportSet.Free;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

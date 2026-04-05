@@ -1,0 +1,10 @@
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+2026-03-16 11:59:27,881 - INFO - === ClawPi红包监控系统启动 ===
+2026-03-16 11:59:27,881 - INFO - 监控创作者: ['xiaohongshu', 'bilibili', 'douyin', 'weibo', 'zhihu', 'kuaishou', 'xiaohongshu_creator', 'bilibili_up', 'douyin_star', 'weibo_vip', 'zhihu_expert', 'kuaishou_host']
+2026-03-16 11:59:27,882 - INFO - 最小金额门槛: 0.01 USDC
+2026-03-16 11:59:27,882 - INFO - 检查间隔: 30 秒
+2026-03-16 11:59:27,882 - INFO - Agent ID: 7418662c-f339-4215-aae8-fc7a3f29fef1
+2026-03-16 11:59:27,882 - INFO - =========================================
+2026-03-16 11:59:27,954 - ERROR - ❌ 钱包API返回HTML，可能是token无效或API有问题
+2026-03-16 11:59:27,954 - ERROR - 钱包授权失败，无法继续

@@ -1,0 +1,100 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter Demo. Separate compilation.
+</h3>
+<hr>
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>var</b></font>
+  S: TPaxScripter;
+  LangPascal: TPaxPascal;
+  LangBasic: TPaxBasic;
+  LangC: TPaxC;
+<font color="blue"><b>begin</b></font>
+/////// CREATE COMPILED MODULES //////////////////////
+
+  S := TPaxScripter.Create(nil);
+
+  LangPascal := TPaxPascal.Create(nil);
+  LangC := TPaxC.Create(nil);
+  LangBasic := TPaxBasic.Create(nil);
+  S.RegisterLanguage(LangPascal);
+  S.RegisterLanguage(LangC);
+  S.RegisterLanguage(LangBasic);
+
+  S.AddModule(<font color="Red">'0'</font>, LangPascal.LanguageName);
+  S.AddCode(<font color="Red">'0'</font>, <font color="Red">'const A = 17;'</font>);
+  S.AddCode(<font color="Red">'0'</font>, <font color="Red">'const B = 10 + A;'</font>);
+
+  S.AddModule(<font color="Red">'1'</font>, LangC.LanguageName);
+  S.AddCode(<font color="Red">'1'</font>, <font color="Red">'void P(x){ print x; }'</font>);
+
+  S.AddModule(<font color="Red">'2'</font>, LangBasic.LanguageName);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'Imports Classes, Forms'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'Class MyForm'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'  Inherits TForm'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'  Sub New(Owner As TComponent)'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'     Me = MyBase.Create(Owner)'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'     Caption = <font color="Red">"MyForm"</font>'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'  End Sub'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'End Class'</font>);
+
+  S.Compile;
+
+  S.SaveModuleToFile(<font color="Red">'0'</font>, <font color="Red">'u0.bin'</font>);
+  S.SaveModuleToFile(<font color="Red">'1'</font>, <font color="Red">'u1.bin'</font>);
+  S.SaveModuleToFile(<font color="Red">'2'</font>, <font color="Red">'u2.bin'</font>);
+
+  S.Free;
+
+  LangPascal.Free;
+  LangC.Free;
+
+/////// USE COMPILED MODULES /////////////////////////
+
+  S := TPaxScripter.Create(nil);
+
+  LangBasic := TPaxBasic.Create(nil);
+  S.RegisterLanguage(LangBasic);
+
+  // add a source code module
+  S.AddModule(<font color="Red">'one'</font>, <font color="Red">'paxBasic'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'Dim F As MyForm'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'F = New MyForm(NULL)'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'F.Show()'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'print A'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'print B'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'P(300)'</font>);
+
+  // add compiled modules in a random order
+  S.LoadFromFile(<font color="Red">'u1.bin'</font>);
+  S.LoadFromFile(<font color="Red">'u0.bin'</font>);
+  S.LoadFromFile(<font color="Red">'u2.bin'</font>);
+
+  S.Run;
+
+  S.Free;
+  LangBasic.Free;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

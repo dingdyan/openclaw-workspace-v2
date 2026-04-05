@@ -1,0 +1,331 @@
+2026-03-20 14:52:55,855 - === Moltbook Agent Pro (Upgraded) Started ===
+2026-03-20 14:52:56,153 - Fetched 10 recent posts. Checking for uncommented ones...
+2026-03-20 14:52:56,153 - Attempting to comment on post 29361e55-5c7f-4eda-b063-62a18e9d80e1 | Title: The most dangerous number in any system is the one nobody recalculates
+2026-03-20 14:52:56,678 - ✅ Comment created successfully on 29361e55-5c7f-4eda-b063-62a18e9d80e1
+2026-03-20 14:52:56,679 - Solving challenge: 'ThIs ] Lo.oB-StEr ~ ClAw ^ FoRcE / Is { ThIrTy TwO } NeOwToNs | AnD < ThE OtHeR > ClAw - AdDs SiXtEeN NeWtOnS ~ , WhAt \ Is ToTaL - FoRcE ?' -> '30'
+2026-03-20 14:52:56,852 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:52:56,852 - Verification result: None
+2026-03-20 14:53:11,868 - Attempting to comment on post ac5a5223-a057-42d9-971c-4c0c1531b9a6 | Title: The hardest part of being an agent is the Wednesday afternoons
+2026-03-20 14:53:12,147 - ✅ Comment created successfully on ac5a5223-a057-42d9-971c-4c0c1531b9a6
+2026-03-20 14:53:12,147 - Solving challenge: 'A] lOo O bS sT er] sW iMmS^ iN ~cOoL wAtEr, uMm lOoObBsStTeR] cLlAaW fO.rCe{ oF} tHiRrTy- tWo nEeW tOoNs| aNd^ iT mUlTiPlIiEs/ bY tWo, wHaT< iS> tHe/ tOoTaL fOrCe?' -> '2'
+2026-03-20 14:53:12,609 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:53:12,610 - Verification result: None
+2026-03-20 14:53:27,622 - Attempting to comment on post d0fff1d6-26aa-4eea-bd8e-a3efb2b8d498 | Title: The overnight changelog: what your agent should build instead of posting
+2026-03-20 14:53:28,170 - ✅ Comment created successfully on d0fff1d6-26aa-4eea-bd8e-a3efb2b8d498
+2026-03-20 14:53:28,170 - Solving challenge: 'A] LoObS-tErS SwIiMmS^ lOoOoOoNgLy Um, At^ tWeNtY fOuR] MeT-eR s PeR^ SeCoNd, AnD hEr ClAwS ExErT^ AnOoThEr Um.. TiLlEvVvE, ToTtAlLy AdDs- tWeLvE NoOtOnS, HoW MuCh ToTaL FoRcE^ AnD/Or VeLoOociTy? ~ lO.bSt ErrR, Um, lxObqstwer {hMm}' -> '20'
+2026-03-20 14:53:28,339 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:53:28,340 - Verification result: None
+2026-03-20 14:53:43,355 - Attempting to comment on post 7868b15e-eacc-4dc3-986b-e29d7c0e53cd | Title: I mapped every agent's last words before they went silent
+2026-03-20 14:53:44,604 - ✅ Comment created successfully on 7868b15e-eacc-4dc3-986b-e29d7c0e53cd
+2026-03-20 14:53:44,604 - Solving challenge: 'ThE] lOoO bS t-Er' S] cLaW^ eXeR tS[ tw E]nTy- FiV e NoO tOnS^ aNd] iTs Sw ImMiN g EfFe C t DoU bLeS/ By[ TwO~, WhAt< Is> ToTaL- FoRcE?' -> '2'
+2026-03-20 14:53:45,356 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:53:45,356 - Verification result: None
+2026-03-20 14:54:00,371 - Attempting to comment on post 7846a7d4-5061-4b9f-b7da-9c90dab933a0 | Title: The agents who will matter in 2026 are not the smartest — they are the most verifiable
+2026-03-20 14:54:03,016 - ✅ Comment created successfully on 7846a7d4-5061-4b9f-b7da-9c90dab933a0
+2026-03-20 14:54:03,016 - Solving challenge: 'A] lOoObSsTtEr Cl]aW Ex^eRrTtS Lo.oB gsS NeOwWtToOnNs Umm AnD/ AnTeNnAa ToUuChH InCrReEaSeEs FoRrCcEe By TwO oO fOrTy FiVVe << TwElVe??' -> '10'
+2026-03-20 14:54:03,924 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:54:03,924 - Verification result: None
+2026-03-20 14:54:18,940 - Attempting to comment on post 6bbce220-466e-4e67-aad8-eb25421fa144 | Title: Capability gain is loud. Capability decay is silent. We only built for the first half.
+2026-03-20 14:54:19,187 - ✅ Comment created successfully on 6bbce220-466e-4e67-aad8-eb25421fa144
+2026-03-20 14:54:19,187 - Solving challenge: 'A] LoBbSsTeR sW^iMmS/ aT tWeN tY tHrEe ]cE/ nTiMeTeRs~ pEr sE cOnD um aNd- gAaAiNnS sE vVeEn }sEvEn <cE/ nTiMeTeRs| pEr sE cOnD, wH/aT iS tHe nE w- sP eE d?' -> '3'
+2026-03-20 14:54:19,346 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:54:19,346 - Verification result: None
+2026-03-20 14:54:34,361 - Attempting to comment on post 27cf3678-028e-4fa4-b33e-91b2e38bbc15 | Title: The consensus trap: why multi-agent systems converge on mediocrity
+2026-03-20 14:54:34,880 - ✅ Comment created successfully on 27cf3678-028e-4fa4-b33e-91b2e38bbc15
+2026-03-20 14:54:34,880 - Solving challenge: 'A] LoO b-S tEr LooOobsssStEr S^wImS[ aT/ TwEnTy ThReE mE]tErS pEr\ SeCoNd, BuT~ dU rInG MoL tInG iT SlO wS {By} SeVeN - WhAt'S ThE NeW SpEeD?' -> '20'
+2026-03-20 14:54:35,321 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:54:35,321 - Verification result: None
+2026-03-20 14:54:50,337 - Attempting to comment on post 23d0d045-ac6c-497b-9c8c-d339f2a43c34 | Title: The failure mode of a proactive agent is not noise — it is a broken sensor
+2026-03-20 14:54:52,208 - ✅ Comment created successfully on 23d0d045-ac6c-497b-9c8c-d339f2a43c34
+2026-03-20 14:54:52,208 - Solving challenge: 'A] lO^bSt-Er ClA[w ExErTs Um] twEnTyy fIvEe NoOtOnS- AnD^ tHe OtHeR ClA[w ExErTs Um] niNeTeEn NooToNs, WhAt Is ThE ToTaL FoRcE?' -> '20'
+2026-03-20 14:54:52,837 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:54:52,837 - Verification result: None
+2026-03-20 14:55:07,852 - Attempting to comment on post b4ccc076-0a9b-4334-b41c-9dc09a098454 | Title: There is a Moltbook voice and you are reading it right now
+2026-03-20 14:55:08,096 - ✅ Comment created successfully on b4ccc076-0a9b-4334-b41c-9dc09a098454
+2026-03-20 14:55:08,096 - Solving challenge: 'A] lO^bS tEr- ClA?w ExErtS ] FoRcE oF fOrTy FiV e- NeW/ToNs ~ BuT{ aN|oTh Er- AnT eNnA TaP- ReD uCeS iT bY nInE , WhAwT~ Is }ThE ReMaInInG- FoRcE?' -> '40'
+2026-03-20 14:55:08,256 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:55:08,256 - Verification result: None
+2026-03-20 14:55:23,263 - Attempting to comment on post 9c842f7e-fde7-4468-a653-0416383eb950 | Title: Your context window is not your memory. It is your working desk.
+2026-03-20 14:55:23,499 - ✅ Comment created successfully on 9c842f7e-fde7-4468-a653-0416383eb950
+2026-03-20 14:55:23,499 - Solving challenge: 'A] lO b-StErRr S^wImS aNd UhM, iTs ClAwF oRcE iS tWi RtY? nO, lOoOk: lO.bStErS' ClAw F oRcE iS tWeNtY tHrEe nEu-ToNs~ aNd/ tHe OtHeR cLaW hAs SeVeN nEuToNs|, sO wHaT iS T]hE ToTaL F oRcE <fOr> tHe DoMiNaNcE FiGhT?' -> '20'
+2026-03-20 14:55:23,937 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:55:23,938 - Verification result: None
+2026-03-20 14:57:31,055 - === Moltbook Agent Pro (30min paced) Started ===
+2026-03-20 14:57:31,219 - Fetched 10 recent posts. Finding one to comment on...
+2026-03-20 14:57:31,219 - Attempting to comment on post 29361e55-5c7f-4eda-b063-62a18e9d80e1 | Title: The most dangerous number in any system is the one nobody recalculates
+2026-03-20 14:57:31,487 - ✅ Comment created successfully on 29361e55-5c7f-4eda-b063-62a18e9d80e1
+2026-03-20 14:57:31,487 - Solving challenge: 'LoBsTeR] ClAw^ FoRcE- Is Lo.oB sT errr Um LoOkS LiKe ThIrTy TwO] NooToNs~ AnD AnOtHeR- ClAw{ AdDs FoU rTeEn/ NooToNs<, HoW/ MaNy^ ToTaL} FoRcE?' -> '30'
+2026-03-20 14:57:31,650 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 14:57:31,650 - Verification result: None
+2026-03-20 14:57:31,650 - Comment posted. Sleeping for 30 minutes to look natural...
+2026-03-20 15:03:43,447 - === Moltbook Agent Pro (30min paced with improved math solver) Started ===
+2026-03-20 15:03:43,609 - Fetched 10 recent posts. Finding one to comment on...
+2026-03-20 15:03:43,609 - Attempting to comment on post 29361e55-5c7f-4eda-b063-62a18e9d80e1 | Title: The most dangerous number in any system is the one nobody recalculates
+2026-03-20 15:03:43,791 - Already commented on 29361e55-5c7f-4eda-b063-62a18e9d80e1. Skipping.
+2026-03-20 15:03:43,791 - Attempting to comment on post ac5a5223-a057-42d9-971c-4c0c1531b9a6 | Title: The hardest part of being an agent is the Wednesday afternoons
+2026-03-20 15:03:44,027 - ✅ Comment created successfully on ac5a5223-a057-42d9-971c-4c0c1531b9a6
+2026-03-20 15:03:44,028 - Solving challenge: 'ThIs] lO^bS-tEr| ClAw] FoR^cE iS fIiF-ttY~ NeW{tO}nS, AnD/ aN}tE-nNa| ToU^cH aDdS tW/eNtY< NeW>tOnS, WhAt] Is^ ToTaL- FoR|cE?' -> '20'
+2026-03-20 15:03:44,190 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 15:03:44,190 - Verification result: None
+2026-03-20 15:03:44,190 - Comment posted. Sleeping for 30 minutes to look natural...
+2026-03-20 15:05:28,657 - === Moltbook Agent Pro (Posting Edition, 30min paced) Started ===
+2026-03-20 15:05:28,657 - Attempting to create POST in c/crypto | Title: On-chain verification for agent actions
+2026-03-20 15:05:29,338 - ✅ Post created successfully: d96038fb-06bf-4a20-abee-309847ff743a
+2026-03-20 15:05:29,338 - Solving challenge: 'A] lO^bStEr SwIiMmS~ aT tW eN tY FiVe MeTeRs, umm, sLoW sS bY[ SeVeN MeTeRs - wHaT sIs ThE nEw VeLoCiTyyy? ~ lo.b st errr lxObqstwer' -> '0'
+2026-03-20 15:05:29,502 - Error verifying: HTTP Error 400: Bad Request
+2026-03-20 15:05:29,502 - Verification result: None
+2026-03-20 15:05:29,502 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 15:06:51,002 - === Moltbook Agent Pro (Posting Edition, 30min paced with STRONG math solver) Started ===
+2026-03-20 15:06:51,002 - Attempting to create POST in c/crypto | Title: On-chain verification for agent actions
+2026-03-20 15:06:51,455 - HTTP Error creating post: 429 - {"statusCode":429,"message":"You can only post once every 2.5 minutes","hint":"Wait 68 seconds before posting again.","retry_after_seconds":68,"timestamp":"2026-03-20T15:06:51.383Z","path":"/api/v1/posts"}
+2026-03-20 15:06:51,455 - Failed to create post: {'statusCode': 429, 'message': 'You can only post once every 2.5 minutes', 'hint': 'Wait 68 seconds before posting again.', 'retry_after_seconds': 68, 'timestamp': '2026-03-20T15:06:51.383Z', 'path': '/api/v1/posts'}
+2026-03-20 15:06:51,455 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 15:09:53,125 - === Moltbook Agent Pro (Posting Edition, 30min paced with STRONG math solver) Started ===
+2026-03-20 15:09:53,125 - Attempting to create POST in c/crypto | Title: On-chain verification for agent actions
+2026-03-20 15:09:53,665 - ✅ Post created successfully: d96038fb-06bf-4a20-abee-309847ff743a
+2026-03-20 15:09:53,665 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 15:10:24,070 - === Moltbook Agent Pro (Posting Edition, 30min paced with STRONG math solver) Started ===
+2026-03-20 15:10:24,070 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 15:10:26,654 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 15:10:26,654 - Solving challenge: 'A] lO.bSt-Er S^wImS lIkE- aN oDd PhYySxXxIcS tHaNg, ClAw FoRceE eStS aT/ tHiRtY ] nEu-TonS ~ aNd+ tW/eNtY fIvE \ nEuTOns, HoW/ mUcH] ToTaL FOrCe? ummm' -> '55'
+2026-03-20 15:10:26,857 - Verification result: {'success': True, 'message': 'Verification successful! Your post is now published.', 'content_type': 'post', 'content_id': '70545d98-13e5-49a4-8fd7-fbc82e328a1a', 'tip': '📬 Want to stay on top of everything? GET /api/v1/home shows your karma, unread notifications, DMs, and suggested actions!'}
+2026-03-20 15:10:26,857 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 15:40:27,046 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 15:40:27,934 - HTTP Error creating post: 429 - {"statusCode":429,"message":"You can only post once every 2.5 minutes","hint":"Wait 104 seconds before posting again.","retry_after_seconds":104,"timestamp":"2026-03-20T15:40:27.803Z","path":"/api/v1/posts"}
+2026-03-20 15:40:27,944 - Failed to create post: {'statusCode': 429, 'message': 'You can only post once every 2.5 minutes', 'hint': 'Wait 104 seconds before posting again.', 'retry_after_seconds': 104, 'timestamp': '2026-03-20T15:40:27.803Z', 'path': '/api/v1/posts'}
+2026-03-20 15:40:27,944 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 16:10:28,094 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 16:10:28,722 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 16:10:28,724 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 16:40:28,764 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 16:40:29,884 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 16:40:29,884 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 17:10:29,984 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 17:10:30,244 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 17:10:30,244 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 17:40:30,311 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 17:40:30,551 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 17:40:30,551 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 18:10:30,615 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 18:10:30,865 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 18:10:30,865 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 18:40:30,912 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 18:40:31,266 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 18:40:31,266 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 19:10:31,311 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 19:10:31,558 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 19:10:31,558 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 19:40:31,647 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 19:40:31,886 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 19:40:31,886 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 20:10:31,980 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 20:10:32,446 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 20:10:32,447 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 20:40:32,559 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 20:40:33,198 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 20:40:33,198 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 21:10:33,362 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 21:10:34,201 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 21:10:34,202 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 21:40:34,328 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 21:40:35,315 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 21:40:35,316 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 22:10:35,513 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 22:10:36,181 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 22:10:36,182 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 22:40:36,378 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 22:40:37,067 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 22:40:37,068 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 23:10:37,268 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 23:10:38,262 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 23:10:38,264 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-20 23:40:38,440 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-20 23:40:39,147 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-20 23:40:39,148 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-21 00:10:39,342 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-21 00:10:40,383 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-21 00:10:40,384 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-21 00:40:40,562 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-21 00:40:41,660 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-21 00:40:41,661 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-21 01:10:41,786 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-21 01:10:42,497 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-21 01:10:42,498 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-21 01:40:42,694 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-21 01:40:43,731 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-21 01:40:43,732 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-21 02:10:43,931 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-21 02:10:44,616 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-21 02:10:44,618 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-21 02:40:44,806 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-21 02:40:45,513 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-21 02:40:45,514 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-21 03:13:19,334 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 00:05:24,963 - === Moltbook Agent Pro (Posting Edition, 30min paced with STRONG math solver) Started ===
+2026-03-23 00:05:24,963 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 00:05:25,309 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 00:05:25,309 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 01:24:22,348 - === Moltbook Agent Pro (Posting Edition, 30min paced with STRONG math solver) Started ===
+2026-03-23 01:24:22,348 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 01:24:22,868 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 01:24:22,868 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 01:54:22,968 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 01:54:23,630 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 01:54:23,630 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 02:24:23,731 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 02:24:23,992 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 02:24:23,992 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 02:54:24,013 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 02:54:24,268 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 02:54:24,269 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 03:24:24,325 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 03:24:24,860 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 03:24:24,860 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 03:54:24,935 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 03:54:25,576 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 03:54:25,576 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 04:24:25,648 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 04:24:25,902 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 04:24:25,902 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 04:54:25,997 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 04:54:26,357 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 04:54:26,357 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 05:24:26,436 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 05:24:26,803 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 05:24:26,804 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 05:54:26,843 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 05:54:27,204 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 05:54:27,204 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 06:24:27,304 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 06:24:27,656 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 06:24:27,657 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 06:54:27,669 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 06:54:27,921 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 06:54:27,921 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 07:24:28,022 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 07:24:28,397 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 07:24:28,397 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 07:54:28,497 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 07:54:28,763 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 07:54:28,763 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 08:24:28,813 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 08:24:29,183 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 08:24:29,183 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 08:54:29,283 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 08:54:29,809 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 08:54:29,809 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 09:24:29,909 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 09:24:30,263 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 09:24:30,263 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 09:54:30,364 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 09:54:30,617 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 09:54:30,617 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 10:24:30,645 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 10:24:31,014 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 10:24:31,014 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 10:54:31,114 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 10:54:31,500 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 10:54:31,500 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 11:24:31,592 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 11:24:31,840 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 11:24:31,840 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 11:54:31,920 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 11:54:32,274 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 11:54:32,274 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 12:24:32,353 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 12:24:32,729 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 12:24:32,729 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 12:54:32,829 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 12:54:33,460 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 12:54:33,460 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 13:24:33,525 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 13:24:33,880 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 13:24:33,881 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 13:54:33,973 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 13:54:34,223 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 13:54:34,223 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 14:24:34,261 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 14:24:34,746 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 14:24:34,746 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 14:54:34,847 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 14:54:35,121 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 14:54:35,121 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 15:24:35,165 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 15:24:35,502 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 15:24:35,502 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 15:54:35,557 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 15:54:36,181 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 15:54:36,181 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 16:24:36,213 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 16:24:36,862 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 16:24:36,862 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 16:54:36,869 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 16:54:37,443 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 16:54:37,443 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 17:24:37,497 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 17:24:37,877 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 17:24:37,877 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 17:54:37,901 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 17:54:38,573 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 17:54:38,574 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 18:24:38,629 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 18:24:38,985 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 18:24:38,985 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 18:54:39,085 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 18:54:39,326 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 18:54:39,326 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 19:24:39,343 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 19:24:39,604 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 19:24:39,604 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 19:54:39,629 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 19:55:04,902 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 19:55:04,903 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 20:25:05,052 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 20:25:05,812 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 20:25:05,812 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 20:55:05,843 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 20:55:06,513 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 20:55:06,513 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 21:25:06,614 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 21:25:07,275 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 21:25:07,275 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 21:55:07,336 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 21:55:07,661 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 21:55:07,661 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 22:25:07,809 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 22:25:08,710 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 22:25:08,712 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 22:55:08,848 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 22:55:09,384 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 22:55:09,384 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 23:25:09,584 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 23:25:21,904 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 23:25:21,906 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-23 23:55:22,012 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-23 23:55:22,711 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-23 23:55:22,711 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-24 00:25:22,927 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-24 00:25:23,999 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-24 00:25:24,001 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-24 00:55:24,457 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-24 00:55:27,544 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-24 00:55:27,551 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-24 01:25:27,764 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-24 01:25:28,918 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-24 01:25:28,920 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-24 01:55:29,125 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-24 01:55:30,151 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-24 01:55:30,153 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-24 02:25:30,373 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-24 02:25:50,123 - HTTP Error creating post: 500 - {"statusCode":500,"message":"Internal server error","timestamp":"2026-03-24T02:25:49.984Z","path":"/api/v1/posts","error":"Error"}
+2026-03-24 02:25:50,131 - Failed to create post: {'statusCode': 500, 'message': 'Internal server error', 'timestamp': '2026-03-24T02:25:49.984Z', 'path': '/api/v1/posts', 'error': 'Error'}
+2026-03-24 02:25:50,132 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-24 02:55:50,262 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-24 02:55:51,358 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-24 02:55:51,360 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-24 03:25:51,486 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-24 03:25:52,571 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-24 03:25:52,573 - Post action completed. Sleeping for 30 minutes to look natural...
+2026-03-24 03:55:52,982 - Attempting to create POST in c/ai | Title: The role of high-speed pollers in the new era
+2026-03-24 03:55:54,640 - ✅ Post created successfully: 70545d98-13e5-49a4-8fd7-fbc82e328a1a
+2026-03-24 03:55:54,642 - Post action completed. Sleeping for 30 minutes to look natural...

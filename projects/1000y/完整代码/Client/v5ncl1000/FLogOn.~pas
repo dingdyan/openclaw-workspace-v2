@@ -1,0 +1,2001 @@
+unit FLogOn;
+
+interface
+
+uses
+    Windows, SysUtils, Classes, ExtCtrls, Controls, Graphics, Forms,
+    Buttons, StdCtrls, deftype, uBuffer,
+    uAnsTick, aUtil32, inifiles, ScktComp, WinSock,
+    Dialogs, Cltype, A2Img, A2Form, Log, mmSystem, unewPackets, Messages;       //ansunit;
+
+const
+    //  MAXSOCKETDATASIZE = 10000;
+     // MAXSOCKETSENDDATASIZE = 4096;
+
+     // PROCESSDATASIZE = 4096;
+
+    //  PacketBufferSize = 8192;
+     // SocketBufferSize = 64192;
+    verini = 100222;              //版本号
+type
+    TConnectState = (cs_none, cs_balance, cs_gate, cs_gameserver);
+    THostAddressdata = record
+        rHost: string[128];
+        rPort: integer;
+        rName: string[64];
+    end;
+    pTHostAddressdata = ^THostAddressdata;
+
+    THostAddressSub = class
+    private
+        fdata: tlist;
+        fname: string;
+    public
+        constructor Create;
+        destructor Destroy; override;
+        procedure clear;
+        procedure add(adata: THostAddressdata);
+        function get(aindex: integer): pTHostAddressdata;
+        function getIndex(aname: string): integer;
+        function getMenu(): string;
+    end;
+
+    THostAddressClass = class
+    private
+        fdata: tlist;
+    public
+        constructor Create(aFileName: string);
+        destructor Destroy; override;
+
+        procedure clear;
+        procedure add(aname: string);
+        function get(aname: string): THostAddressSub;
+        function getMenu(): string;
+        function getSubMenu(aname: string): string;
+        function getSub(aname: string; aindex: integer): pTHostAddressdata;
+        function getIndex(aname: string): integer;
+        function getSubIndex(aname, asubname: string): integer;
+    end;
+
+    TGameStatus = (gs_none, gs_BA, gs_login, gs_play);
+
+
+    TFrmLogOn = class(TForm)
+        TimePing: TTimer;
+        A2Form: TA2Form;
+        BtnLogin: TA2Button;
+        BtnNewUser: TA2Button;
+        BtnExit: TA2Button;
+        EdID: TA2Edit;
+        EdPass: TA2Edit;
+        PnInfo: TA2Label;
+        ComboBoxServer: TA2ComboBox;
+        TimerSpeedCheck: TTimer;
+        sckConnect: TClientSocket;
+        timerProcess: TTimer;
+        TimerSendTime: TTimer;
+        A2Button1: TA2Button;
+        Timer_login: TTimer;
+        ComboBoxHead: TA2ComboBox;
+        procedure FormCreate(Sender: TObject);
+        procedure FormDestroy(Sender: TObject);
+        procedure EdIdKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+        procedure EdPassKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+        procedure BtnExitClick(Sender: TObject);
+        procedure EditKeyPress(Sender: TObject; var Key: Char);
+        procedure BtnLogInClick(Sender: TObject);
+        procedure FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+        procedure TimerSpeedCheckTimer(Sender: TObject);
+        procedure sckConnectConnect(Sender: TObject; Socket: TCustomWinSocket);
+        procedure sckConnectDisconnect(Sender: TObject; Socket: TCustomWinSocket);
+        procedure sckConnectError(Sender: TObject; Socket: TCustomWinSocket; ErrorEvent: TErrorEvent; var ErrorCode: Integer);
+        procedure sckConnectRead(Sender: TObject; Socket: TCustomWinSocket);
+        procedure sckConnectWrite(Sender: TObject; Socket: TCustomWinSocket);
+        procedure timerProcessTimer(Sender: TObject);
+        procedure FormShow(Sender: TObject);
+        procedure Timer_loginTimer(Sender: TObject);
+        procedure FormActivate(Sender: TObject);
+        procedure BtnNewUserClick(Sender: TObject);
+        procedure ComboBoxChange(Sender: TObject);
+        procedure ComboBoxHeadChange(Sender: TObject);
+        procedure ComboBoxServerChange(Sender: TObject);
+        procedure TimePingTimer(Sender: TObject);
+    private
+        { Private declarations }
+  //      clientSendId: integer;
+//        clientSendIdtick: integer;
+        Floginstate: integer;
+
+        HostAddressClass: THostAddressClass;
+
+        FStartTime: TDateTime;
+        FCurTick, FOldTick: integer;
+//        ReadBuffer: TBuffer;
+        procedure InitMainSocketAndBuffer;
+        procedure sendPack(aid: Integer; aPackType: TPackType);
+//        procedure packUpate;
+        procedure WriteLog(aStr: string);
+        procedure sendPing;
+    public
+        cConnTime: integer;
+        PacketSender: TNEWPacketSender;
+        PacketReceiver: TNEWPacketReceiver;
+//    PacketReceiver_r: TRPacketReceiver;
+ //   PacketSender_r: TRPacketSender;
+        FGameStatus: TGameStatus;
+        ConnectID: integer;
+
+        function MessageProcess(var Code: TWordComData): Boolean;               //处理 消息
+        procedure ClearEdit(abo: Boolean);
+        function SocketAddData(cnt: integer; buf: pointer): Boolean;
+        //        function SocketAddOneData(adata:byte):Boolean;
+
+        function ISMsgCmd(acmd: integer): boolean;
+
+        function SocketDisConnect(ErrText, ErrCaption: string; aActive: Boolean; aopenwww: boolean = false): Boolean;
+        procedure SetFormText;
+
+        procedure sendIDPASS();
+        procedure sendBalance();
+
+        procedure SetNewVersion;
+        procedure SetOldVersion;
+    end;
+
+    //function Conv(astr:string):string;
+
+var
+    FrmLogOn: TFrmLogOn;
+
+    mainFont: string = 'Arial';
+    CurServerName: string = '';
+    MessageDelayTime: array[0..255] of integer;
+    MsgCmdarr: array[0..255] of integer;
+
+    CaptionServerName: string = '';
+
+    ReConnectId: string = '';
+    ReConnectPass: string = '';
+    ReConnectChar: string = '';
+    ReConnectIpAddr: string = '';
+    ReConnectPort: integer = 0;
+    ReConnectIpAddr_gate: string = '';
+    ReConnectPort_gate: integer = 0;
+    ReConnectyid: integer;
+
+    boTimePaid: Boolean = TRUE;                                                 // 牢器讥眉农侩
+    ReConnetFlag: Boolean = TRUE;
+    indexTick: integer;
+
+    ConnectState: TConnectState;
+    boDirectClose: Boolean = FALSE;
+    bofirst: boolean = TRUE;
+
+    netPingId: integer;
+    netPing: integer;
+    netPingSendTick: integer;
+implementation
+
+uses
+    FNewUser, FSelChar, FMain, FBottom, FAttrib, FNPCTrade,
+    FCharAttrib, FItemHelp, FcMessageBox, FHistory, FPassEtc, FShowPopMsg,
+    FDepository, filepgkclass, ShellAPI, Fhelp_htm,
+    Unit_console;
+
+{$R *.DFM}
+
+///////////////////////////////
+//         FrmLogin
+///////////////////////////////
+
+procedure TFrmLogOn.SetNewVersion;
+var
+    outimg: TA2Image;
+    img: TBitmap;
+begin
+    pgkBmp.getBmp('登陆界面-背景.bmp', A2form.FImageSurface);
+
+    img := TBitmap.Create;
+    outimg := TA2Image.Create(32, 32, 0, 0);
+    try
+        PnInfo.Left := 308;
+        PnInfo.Top := 241;
+        PnInfo.Width := 226;
+        PnInfo.Height := 16;
+        ComboBoxHead.Top := 280;
+        ComboBoxHead.Left := 395;
+
+        ComboBoxServer.Left := 395 + 46;
+        ComboBoxServer.Top := 280;
+       // ComboBox.Width := 139;
+       // ComboBox.Height := 16;
+        pgkBmp.getBitmap('下拉箭头_按下.bmp', img);
+        ComboBoxServer.Picture.Bitmap := img;
+
+        pgkBmp.getBmp('登陆界面-开始游戏-按下.bmp', outimg);
+        BtnLogin.A2Down := outimg;
+        pgkBmp.getBmp('登陆界面-开始游戏-弹起.bmp', outimg);
+        BtnLogin.A2Up := outimg;
+        pgkBmp.getBmp('登陆界面-开始游戏-鼠标.bmp', outimg);
+        BtnLogin.A2Mouse := outimg;
+        pgkBmp.getBmp('登陆界面-开始游戏-禁止.bmp', outimg);
+        BtnLogin.A2NotEnabled := outimg;
+//        BtnLogin.Transparent := true;
+        BtnLogin.Left := 306;
+        BtnLogin.Top := 391;
+        BtnLogin.Width := 65;
+        BtnLogin.Height := 23;
+
+        pgkBmp.getBmp('登陆界面-账号注册-按下.bmp', outimg);
+        BtnNewUser.A2Down := outimg;
+        pgkBmp.getBmp('登陆界面-账号注册-弹起.bmp', outimg);
+        BtnNewUser.A2Up := outimg;
+        pgkBmp.getBmp('登陆界面-账号注册-鼠标.bmp', outimg);
+        BtnNewUser.A2Mouse := outimg;
+        pgkBmp.getBmp('登陆界面-账号注册-禁止.bmp', outimg);
+        BtnNewUser.A2NotEnabled := outimg;
+//        BtnNewUser.Transparent := true;
+        BtnNewUser.Left := 392;
+        BtnNewUser.Top := 391;
+        BtnNewUser.Width := 65;
+        BtnNewUser.Height := 23;
+
+        pgkBmp.getBmp('登陆界面-退出游戏-按下.bmp', outimg);
+        BtnExit.A2Down := outimg;
+        pgkBmp.getBmp('登陆界面-退出游戏-弹起.bmp', outimg);
+        BtnExit.A2Up := outimg;
+        pgkBmp.getBmp('登陆界面-退出游戏-鼠标.bmp', outimg);
+        BtnExit.A2Mouse := outimg;
+        pgkBmp.getBmp('登陆界面-退出游戏-禁止.bmp', outimg);
+        BtnExit.A2NotEnabled := outimg;
+//        BtnExit.Transparent := true;
+        BtnExit.Left := 475;
+        BtnExit.Top := 391;
+        BtnExit.Width := 65;
+        BtnExit.Height := 23;
+
+        EdID.Left := 395;
+        EdID.Top := 321;
+        EdID.Width := 139;
+        EdID.Height := 16;
+
+        EdPass.Left := 395;
+        EdPass.Top := 360;
+        EdPass.Width := 139;
+        EdPass.Height := 16;
+
+    finally
+        outimg.Free;
+        img.Free;
+    end;
+
+    A2form.boImagesurface := true;
+end;
+
+procedure TFrmLogOn.SetOldVersion;
+var
+    outimg: TA2Image;
+begin
+    pgkBmp.getBmp('LOGO.bmp', A2form.FImageSurface);
+
+    outimg := TA2Image.Create(32, 32, 0, 0);
+    try
+        pgkBmp.getBmp('开始游戏DOWN.bmp', outimg);
+
+        BtnLogin.A2Down := outimg;
+        pgkBmp.getBmp('开始游戏UP.bmp', outimg);
+        BtnLogin.A2Up := outimg;
+
+        pgkBmp.getBmp('账号注册DOWN.bmp', outimg);
+        BtnNewUser.A2Down := outimg;
+        pgkBmp.getBmp('账号注册UP.bmp', outimg);
+        BtnNewUser.A2Up := outimg;
+
+        pgkBmp.getBmp('退出游戏DOWN.bmp', outimg);
+        BtnExit.A2Down := outimg;
+        pgkBmp.getBmp('退出游戏UP.bmp', outimg);
+        BtnExit.A2Up := outimg;
+
+    finally
+        outimg.Free;
+    end;
+
+    A2form.boImagesurface := true;
+end;
+
+procedure TFrmLogOn.FormCreate(Sender: TObject);
+var
+    i, n: integer;
+    cserver, cserverhead: string;
+    str: string;
+//  TimepayType: TTimepayType;
+
+begin
+//    ReadBuffer := TBuffer.Create(65535);
+
+    for i := 0 to high(MsgCmdarr) do
+    begin
+        MsgCmdarr[i] := 55;
+    end;
+    MsgCmdarr[CM_ItemText] := 0;
+    MsgCmdarr[CM_TURN] := 5;
+    MsgCmdarr[CM_NETSTATE] := 0;
+    MsgCmdarr[CM_MOUSEEVENT] := 0;
+    MsgCmdarr[CM_MOVE] := 25;
+    MsgCmdarr[CM_DRAGDROP] := 20;
+    MsgCmdarr[CM_CLICK] := 20;
+    MsgCmdarr[CM_HIT] := 20;
+    MsgCmdarr[CM_PackId] := 0;
+    MsgCmdarr[CM_DBLCLICK] := 5;
+    ConnectState := cs_none;
+
+    FStartTime := Time;
+    FOldTick := mmAnsTick;
+    indexTick := 0;
+
+    FrmM.AddA2Form(Self, A2form);
+
+    if WinVerType = wvtnew then
+    begin
+        SetNewVersion;
+    end
+    else
+    begin
+        SetOldVersion;
+    end;
+
+    Left := 0;
+    Top := 0;
+
+    PacketSender := nil;
+    PacketReceiver := nil;
+//  PacketSender_r := nil;
+ // PacketReceiver_r := nil;
+
+
+    InitMainSocketAndBuffer;
+
+    timerProcess.Interval := 5;
+    timerProcess.Enabled := true;
+
+    SetFormText;
+
+    cserverhead := ClientIni.ReadString('CLIENT', 'serverhead', '');
+    cserver := ClientIni.ReadString('CLIENT', 'servername', '');
+    HostAddressClass := THostAddressClass.Create('addr.txt');
+
+    ComboBoxHead.Items.Text := HostAddressClass.getMenu;
+
+    ComboBoxHead.ItemIndex := HostAddressClass.getIndex(cserverhead);
+    if ComboBoxHead.ItemIndex = -1 then
+        if ComboBoxHead.Items.Count > 0 then ComboBoxHead.ItemIndex := 0;
+    ComboBoxServer.Items.Text := HostAddressClass.getSubMenu(ComboBoxHead.Text);
+
+    ComboBoxServer.ItemIndex := HostAddressClass.getSubIndex(cserverhead, cserver);
+    if ComboBoxServer.ItemIndex = -1 then
+        if ComboBoxServer.Items.Count > 0 then ComboBoxServer.ItemIndex := 0;
+
+
+    FillChar(MessageDelayTime, sizeof(MessageDelayTime), 0);
+
+    str := '';
+    for i := 1 to ParamCount + 2 do
+    begin
+        str := str + ParamStr(i) + ' ';
+    end;
+
+    if NATION_VERSION <> NATION_KOREA then exit;
+    { if Loadtimepay then
+     begin
+         TimepayType := CheckTimePayed(str);
+         case TimepayType of
+             Tpt_actoz:;
+             Tpt_timepay:
+                 begin
+                     TimerNixConnectConfirmed.Enabled := TRUE; // 牢器讥 眉农鸥烙赣 累悼 DLL俊辑 家南楷搬捞 谗辨矫 眉农窃
+                     boTimePaid := FALSE; // FALSE老版快 牢器讥烙
+                 end;
+             Tpt_Close:
+                 begin
+                     SocketDisConnect(('与服务器连接中断'), ('荤侩磊牢刘'), TRUE);
+                 end;
+         end;
+     end; }
+end;
+
+procedure TFrmLogOn.FormDestroy(Sender: TObject);
+begin
+//    ReadBuffer.Free;
+    HostAddressClass.Free;
+    if PacketSender <> nil then
+    begin
+        PacketSender.Free;
+        PacketSender := nil;
+    end;
+    if PacketReceiver <> nil then
+    begin
+        PacketReceiver.Free;
+        PacketReceiver := nil;
+    end;
+//  if PacketSender_r <> nil then
+ // begin
+  //  PacketSender_r.free;
+   // PacketSender_r := nil;
+ // end;
+  //if PacketReceiver_r <> nil then
+  //begin
+   // PacketReceiver_r.Free;
+    //PacketReceiver_r := nil;
+//  end;
+end;
+
+procedure TFrmLogOn.sendPack(aid: Integer; aPackType: TPackType);
+var
+    cCCPack: TCCPack;
+begin
+    cCCPack.msg := CM_PackId;
+    cCCPack.rId := aid;
+    cCCPack.rtype := aPackType;
+    SocketAddData(sizeof(cCCPack), @cCCPack);
+
+end;
+
+procedure TFrmLogOn.sendBalance();
+var
+    aComData: TWordComData;
+begin
+    aComData.Size := 0;
+    WordComData_ADDbyte(aComData, CM_Balance);
+    WordComData_ADDstring(aComData, ReConnectId);
+    WordComData_ADDstring(aComData, ReConnectPass);
+    WordComData_ADDdword(aComData, verini);
+    SocketAddData(aComData.Size, @aComData.data);
+end;
+
+procedure TFrmLogOn.BtnLogInClick(Sender: TObject);
+begin
+    FrmM.SoundManager.NewPlayEffect('click.wav', 0);
+    ReConnectId := EdId.Text;
+    ReConnectPass := EdPass.Text;
+    Floginstate := 1;
+    Timer_login.Enabled := true;
+    ClearEdit(FALSE);
+end;
+
+procedure TFrmLogOn.BtnExitClick(Sender: TObject);
+begin
+    FrmM.SoundManager.NewPlayEffect('click.wav', 0);
+    //  SocketAddOneData(CM_CLOSE);
+    bodirectclose := TRUE;
+end;
+
+procedure TFrmLogOn.InitMainSocketAndBuffer;
+begin
+    if PacketSender <> nil then
+    begin
+        PacketSender.Clear;
+    end;
+    if PacketReceiver <> nil then
+    begin
+        PacketReceiver.Clear;
+    end;
+end;
+
+procedure TFrmLogOn.ClearEdit(abo: Boolean);
+begin
+    if abo then
+    begin
+        EdId.Enabled := abo;
+        EdPass.Enabled := abo;
+       // if Visible then EdId.SetFocus;
+        EdId.Text := '';
+        EdPass.Text := '';
+    end else
+    begin
+        EdId.Enabled := abo;
+        EdPass.Enabled := abo;
+    end;
+end;
+
+procedure TFrmLogOn.EditKeyPress(Sender: TObject; var Key: Char);
+begin
+    if (key = char(VK_ESCAPE)) or (key = char(VK_RETURN)) then key := char(0);
+end;
+
+procedure TFrmLogOn.EdIdKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+    case key of
+        VK_RETURN: EdPass.SetFocus;
+        VK_ESCAPE: ClearEdit(TRUE);
+    end;
+end;
+
+procedure TFrmLogOn.EdPassKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+    if key = VK_ESCAPE then ClearEdit(TRUE);
+    if key <> VK_RETURN then exit;
+
+    if Length(Edid.Text) < 2 then
+    begin
+        Edid.SetFocus;
+        exit;
+    end;
+    if Length(EdPass.Text) < 2 then
+    begin
+        EdPass.SetFocus;
+        exit;
+    end;
+
+    if Pos(',', EdID.Text) > 0 then
+    begin
+        Edid.SetFocus;
+        exit;
+    end;
+    if Pos(',', EdPass.Text) > 0 then
+    begin
+        EdPass.SetFocus;
+        exit;
+    end;
+
+    if BtnLogIn.Enabled then
+        BtnLogInClick(nil);
+end;
+
+function getNetCmdText(aid: integer): string;
+begin
+    case aid of
+//        SM_SETCLIENTCONDITION: result := 'SM_SETCLIENTCONDITION';
+        SM_RECONNECT_Balance: result := 'SM_RECONNECT_Balance';
+        SM_CONNECTTHRU: result := 'SM_CONNECTTHRU';
+        SM_RECONNECT: result := 'SM_RECONNECT';
+        SM_CLOSE: result := 'SM_CLOSE';                                         // 滚傈 撇覆鞍澜
+
+        SM_NONE: result := 'SM_NONE';
+        SM_WINDOW: result := 'SM_WINDOW';
+        SM_MESSAGE: result := 'SM_MESSAGE';
+
+        SM_CHARINFO: result := 'SM_CHARINFO';
+        SM_CHATMESSAGE: result := 'SM_CHATMESSAGE';
+
+        SM_ATTRIBBASE: result := 'SM_ATTRIBBASE';
+        SM_HAVEITEM: result := 'SM_HAVEITEM';
+        SM_HAVEMAGIC: result := 'SM_HAVEMAGIC';
+        SM_WEARITEM: result := 'SM_WEARITEM';
+
+        SM_NEWMAP: result := 'SM_NEWMAP';
+        SM_SHOW: result := 'SM_SHOW';
+        SM_HIDE: result := 'SM_HIDE';
+        SM_SAY: result := 'SM_SAY';
+        SM_MOVE: result := 'SM_MOVE';
+        SM_TURN: result := 'SM_TURN';
+        SM_SETPOSITION: result := 'SM_SETPOSITION';
+
+        SM_CHANGEFEATURE: result := 'SM_CHANGEFEATURE';
+        SM_MAGIC: result := 'SM_MAGIC';
+        SM_SOUNDBASE: result := 'SM_SOUNDBASE';
+
+        SM_MOTION: result := 'SM_MOTION';
+
+        SM_ATTRIB_VALUES: result := 'SM_ATTRIB_VALUES';
+        SM_ATTRIB_FIGHTBASIC: result := 'SM_ATTRIB_FIGHTBASIC';
+        SM_ATTRIB_LIFE: result := 'SM_ATTRIB_LIFE';
+
+        SM_EVENTSTRING: result := 'SM_EVENTSTRING';
+        SM_STRUCTED: result := 'SM_STRUCTED';
+
+        SM_SHOWITEM: result := 'SM_SHOWITEM';
+        SM_SHOWMONSTER: result := 'SM_SHOWMONSTER';
+        SM_HIDEITEM: result := 'SM_HIDEITEM';
+        SM_HIDEMONSTER: result := 'SM_HIDEMONSTER';
+
+        SM_USEDMAGICSTRING: result := 'SM_USEDMAGICSTRING';
+        SM_MOVINGMAGIC: result := 'SM_MOVINGMAGIC';
+
+        SM_BASICMAGIC: result := 'SM_BASICMAGIC';
+        SM_SOUNDSTRING: result := 'SM_SOUNDSTRING';
+
+        SM_SAYUSEMAGIC: result := 'SM_SAYUSEMAGIC';
+        SM_BOSHIFTATTACK: result := 'SM_BOSHIFTATTACK';
+
+        SM_RAINNING: result := 'SM_RAINNING';
+        SM_SOUNDBASESTRING: result := 'SM_SOUNDBASESTRING';
+
+        SM_SOUNDBASESTRING2: result := 'SM_SOUNDBASESTRING2';                   //废弃
+        SM_SOUNDEFFECT: result := 'SM_SOUNDEFFECT';
+
+        SM_SHOWINPUTSTRING: result := 'SM_SHOWINPUTSTRING';
+
+        SM_HIDEEXCHANGE: result := 'SM_HIDEEXCHANGE';
+        SM_SHOWEXCHANGE: result := 'SM_SHOWEXCHANGE';
+
+        SM_SHOWCOUNT: result := 'SM_SHOWCOUNT';
+        SM_CHANGEPROPERTY: result := 'SM_CHANGEPROPERTY';
+
+        SM_SHOWDYNAMICOBJECT: result := 'SM_SHOWDYNAMICOBJECT';
+        SM_HIDEDYNAMICOBJECT: result := 'SM_HIDEDYNAMICOBJECT';
+        SM_CHANGESTATE: result := 'SM_CHANGESTATE';
+
+        SM_SHOWSPECIALWINDOW: result := 'SM_SHOWSPECIALWINDOW';
+
+        SM_LOGITEM: result := 'SM_LOGITEM';
+        SM_CHECK: result := 'SM_CHECK';
+
+    // for Battle Server
+        SM_SHOWBATTLEBAR: result := 'SM_SHOWBATTLEBAR';                         // 俺牢措傈矫狼 拳搁惑窜狼 劝仿官甫 钎矫
+        SM_SHOWCENTERMSG: result := 'SM_SHOWCENTERMSG';                         // 吝居俊 荤阿屈阑 弊府绊 巩磊甫 免仿
+
+    // saset
+        SM_HIDESPECIALWINDOW: result := 'SM_HIDESPECIALWINDOW';                 // 拳搁俊 栋乐绰 SpecialWindow 甫 摧档废 努扼捞攫飘俊霸 夸没茄促
+        SM_NETSTATE: result := 'SM_NETSTATE';
+        SM_NPCITEM: result := 'SM_NPCITEM';
+        SM_charattrib: result := 'SM_charattrib';                               //发送 自己的属性
+
+        SM_itempro: result := 'SM_itempro';                                     //物品 详细 资料
+        SM_keyf5f12: result := 'SM_keyf5f12';                                   //热键
+        SM_MapObject: result := 'SM_MapObject';
+        SM_ShowPassWINDOW: result := 'SM_ShowPassWINDOW';
+        SM_GameExit: result := 'SM_GameExit';
+        SM_CHANGEFEATURE_NameColor: result := 'SM_CHANGEFEATURE_NameColor';
+        SM_ReliveTime: result := 'SM_ReliveTime';
+    //    SM_SHOWRollMSG  = 67;          // 滚动 广告
+        SM_HailFellow: result := 'SM_HailFellow';
+        SM_GUILD: result := 'SM_GUILD';                                         //门派
+        SM_NumSay: result := 'SM_NumSay';
+        SM_MOVEOk: result := 'SM_MOVEOk';
+        SM_SelChar: result := 'SM_SelChar';
+        SM_SHOWINPUTSTRING2: result := 'SM_SHOWINPUTSTRING2';
+        SM_InputOk: result := 'SM_InputOk';                                     //输入 确认
+        SM_EMAIL: result := 'SM_EMAIL';                                         //邮件
+        SM_Auction: result := 'SM_Auction';                                     //拍卖
+
+        SM_boMOVE: result := 'SM_boMOVE';
+        SM_MagicEffect: result := 'SM_MagicEffect';
+        SM_CHANGEMagic: result := 'SM_CHANGEMagic';
+        SM_ItemTextAdd: result := 'SM_ItemTextAdd';
+        SM_Quest: result := 'SM_Quest';                                         //任务
+        SM_Procession: result := 'SM_Procession';
+        SM_Billboardcharts: result := 'SM_Billboardcharts';
+        SM_LockMoveTime: result := 'SM_LockMoveTime';                           //锁定 不能移动 一定时间
+        SM_UPDATAITEM: result := 'SM_UPDATAITEM';                               //升级 物品
+        SM_ITEM_UPDATE: result := 'SM_ITEM_UPDATE';                             //物品属性 发生变化
+        SM_PowerLevel: result := 'SM_PowerLevel';                               //境界等级
+        SM_Emporia: result := 'SM_Emporia';
+        SM_money: result := 'SM_money';
+        SM_Effect: result := 'SM_Effect';
+        SM_LifeData: result := 'SM_LifeData';                                   //发送 自己的属性
+        SM_ATTRIB_UPDATE: result := 'SM_ATTRIB_UPDATE';
+        SM_HAVEITEM_list: result := 'SM_HAVEITEM_list';                         //背包 物品 列表
+        SM_MOTION2: result := 'SM_MOTION2';
+        SM_MSay: result := 'SM_MSay';
+        SM_TM: result := 'SM_TM';
+        SM_LeftText: result := 'SM_LeftText';
+        SM_ItemInputWindows: result := 'SM_ItemInputWindows';
+        SM_MsgBoxTemp: result := 'SM_MsgBoxTemp';                               //临时 提示筐 可显示大量 文字
+        SM_Village: result := 'SM_Village';
+        SM_Booth: result := 'SM_Booth';
+     //   SM_CHARMOVEFRONTDIEFLAG: result := 'SM_CHARMOVEFRONTDIEFLAG';
+    else result := '未知包';
+    end;
+
+
+
+end;
+
+function TFrmLogOn.MessageProcess(var Code: TWordComData): Boolean;             //处理 消息
+var
+    i: integer;
+    str, rdstr: string;
+    pckey: PTCKey;
+    psWs: PTWordInfoString;
+    psMessage: PTSMessage;
+    psWindow: PTSWindow;
+
+    psReConnect: PTSReConnect;
+    psSConnectThru: PTSConnectThru;
+begin
+    Result := true;
+
+    pckey := @Code.data;
+    str := '';
+{$IFDEF gm}
+    str := getNetCmdText(pckey^.rmsg);
+
+    FrmConsole.cprint(lt_net, format('游戏包，长度(%d)cmd[%d],%s', [Code.Size, pckey^.rmsg, str]));
+{$ENDIF}
+
+
+    case pckey^.rmsg of
+        SM_Village:
+            begin
+                i := 1;
+                str := WordComData_GETStringPro(Code, i);
+                FrmSelChar.CBVillage.Items.Text := str;
+                if FrmSelChar.CBVillage.Items.Count >= 1 then
+                begin
+                    FrmSelChar.CBVillage.ItemIndex := 0;
+                    FrmSelChar.CBVillage.Text := FrmSelChar.CBVillage.Items.Strings[0];
+                end;
+            end;
+        { SM_RECONNECT_Balance:
+             begin
+                 CurServerName := '';
+                 ComboBoxChange(nil);
+             end;
+             }
+        SM_CONNECTTHRU:
+            begin
+                if FrmNewUser.Visible then
+                begin
+                    FrmNewUser.MessageProcess(code);
+                    exit;
+                end;
+                psSConnectThru := @Code.Data;
+                if psSConnectThru.rIpAddr = '0.0.0.0' then
+                    ReConnectIpAddr_gate := ReConnectIpAddr
+                else
+                    ReConnectIpAddr_gate := (psSConnectThru.rIpAddr);
+                ReConnectPort_gate := psSConnectThru.rPort;
+                ReConnectyid := psSConnectThru.ryid;
+
+                Floginstate := 10;
+                Timer_login.Enabled := true;
+
+                Result := false;
+            end;
+        {SM_RECONNECT:
+        begin
+            psReConnect := @Code.Data;
+            ReConnectId := (psReConnect^.rid);
+            ReConnectPass := (psReConnect^.rPass);
+            ReConnectIpAddr := (psReConnect^.ripAddr);
+            ReConnectChar := (psReConnect^.rCharName);
+            ReConnectPort := psReConnect^.rPort;
+            sckConnect.Active := false;
+
+            TimerReConnect.Enabled := TRUE;
+        end;
+        }
+        SM_CLOSE:
+            begin
+                case pckey^.rkey of
+                    1: SocketDisConnect(('断开了连接'), ('骏杰OL'), TRUE);
+                    2: SocketDisConnect(('版本错误，下载最新版本。'), ('骏杰OL'), TRUE, true);
+                else
+                    begin
+                        SocketDisConnect(('断开了连接'), ('骏杰OL'), TRUE);
+                    end;
+                end;
+
+            end;
+        SM_MESSAGE:
+            begin
+
+                psMessage := @Code.Data;
+                case psMessage^.rkey of
+                    MESSAGE_LOGIN:
+                        begin
+                            //                     LogObj.WriteLog(4, format('SM_MESSAGE MESSAGE_LOGIN %s', [GetWordString(psMessage^.rWordString)]));
+                            PnInfo.Caption := GetWordString(psMessage^.rWordString);
+                        end;
+                    MESSAGE_CREATELOGIN, MESSAGE_FindPasswordResult:
+                        begin
+                            FrmNewUser.MessageProcess(code);
+                        end;
+                    MESSAGE_SELCHAR:
+                        begin
+                            //                     LogObj.WriteLog(4, format('SM_MESSAGE MESSAGE_SELCHAR %s',[GetWordString(psMessage^.rWordString)]));
+                            FrmSelChar.Pninfo.Caption := GetWordString(psMessage^.rWordString);
+                        end;
+                    MESSAGE_GAMEING:
+                        begin
+                            //                     LogObj.WriteLog(4, 'SM_MESSAGE MESSAGE_GAMEING');
+                            ;                                                   //FrmMain.LbMouseInfo.Caption := GetWordString (psMessage^.rWordString);
+                        end;
+                end;
+                if psMessage^.rkey = MESSAGE_LOGIN then ClearEdit(TRUE);
+            end;
+        SM_WINDOW:
+            begin
+                psWindow := @code.data;
+                {
+                if pswindow^.rboShow then
+    //               LogObj.WriteLog(4, format('SM_WINDOW %d = TRUE', [pswindow^.rwindow]))
+                else
+    //               LogObj.WriteLog(4, format('SM_WINDOW %d = FALSE', [pswindow^.rwindow]));
+                }
+                case pswindow^.rwindow of
+                    1:
+                        begin
+                            Visible := pswindow^.rboShow;
+                            {
+                                                 if pswindow^.rboShow then begin
+                                                    Visible := TRUE;
+                                                 end
+                                                 else begin
+                                                    Visible := FALSE;
+                                                 end;
+                            }
+                        end;
+                    2:
+                        begin
+                            FrmNewUser.Visible := pswindow^.rboShow;
+                            {
+                                                 if pswindow^.rboShow then begin
+                                                    FrmNewUser.Visible := TRUE;
+                                                 end
+                                                 else begin
+                                                    FrmNewUser.Visible := FALSE;
+                                                 end;
+                            }
+                        end;
+                    3:
+                        begin
+                            if pswindow^.rboShow then
+                            begin
+                                FrmSelChar.MyShow;
+                            end
+                            else
+                            begin
+                                FrmSelChar.MyHide;
+                            end;
+                        end;
+                    4:
+                        begin
+                            //                     FrmMain.Visible := pswindow^.rboShow;
+                            //                     if pswindow^.rboShow then begin FrmMain.Show; FrmBottom.Visible := TRUE; end
+                            //                     else begin FrmMain.Hide; FrmBottom.Visible := FALSE; end;
+                        end;
+                end;
+            end;
+        SM_CHARINFO:
+            begin
+                FrmSelChar.ListBox1.Clear;
+                psws := @Code.Data;
+                str := GetWordString(psws^.rWordString);
+                while TRUE do
+                begin
+                    str := GetValidStr3(str, rdstr, ',');
+                    if rdstr <> '' then FrmSelChar.ListBox1.AddItem(rdstr);
+                    if (str = '') or (FrmSelChar.ListBox1.Count > 5) then break;
+                end;
+                {
+                str := GetValidStr3 (str, rdstr, ',');
+    //            LogObj.WriteLog(4, 'SM_CHARINFO ' + rdstr);
+    //            FrmSelChar.ListBox1.Items.Add (rdstr);
+                FrmSelChar.ListBox1.AddItem (rdstr);
+                str := GetValidStr3 (str, rdstr, ',');
+    //            LogObj.WriteLog(4, 'SM_CHARINFO ' + rdstr);
+    //            FrmSelChar.ListBox1.Items.Add (rdstr);
+                FrmSelChar.ListBox1.AddItem (rdstr);
+                str := GetValidStr3 (str, rdstr, ',');
+    //            LogObj.WriteLog(4, 'SM_CHARINFO ' + rdstr);
+    //            FrmSelChar.ListBox1.Items.Add (rdstr);
+                FrmSelChar.ListBox1.AddItem (rdstr);
+                str := GetValidStr3 (str, rdstr, ',');
+    //            LogObj.WriteLog(4, 'SM_CHARINFO ' + rdstr);
+    //            FrmSelChar.ListBox1.Items.Add (rdstr);
+                FrmSelChar.ListBox1.AddItem (rdstr);
+                str := GetValidStr3 (str, rdstr, ',');
+    //            LogObj.WriteLog(4, 'SM_CHARINFO ' + rdstr);
+    //            FrmSelChar.ListBox1.Items.Add (rdstr);
+                FrmSelChar.ListBox1.AddItem (rdstr);
+                }
+                FrmSelChar.ListBox1.ItemIndex := 0;
+            end;
+    else
+        begin
+            FrmM.MessageProcess(code);
+            FrmBottom.MessageProcess(code);
+            FrmAttrib.MessageProcess(code);
+
+        end;
+    end;
+end;
+
+function TFrmLogOn.ismsgcmd(acmd: integer): boolean;
+begin
+    Result := false;
+    if (acmd >= 0) and (acmd <= 255) then
+    begin
+        if MessageDelayTime[acmd] + MsgCmdarr[acmd] > mmAnsTick then exit;
+    end;
+
+    Result := true;
+end;
+
+function TFrmLogOn.SocketAddData(cnt: integer; buf: pointer): Boolean;
+var
+    n: integer;
+    pb: pbyte;
+    temp: TWordComData;
+begin
+    Result := false;
+    pb := buf;
+    n := pb^;
+
+    if (n >= 0) and (n <= 255) then
+    begin
+        if MessageDelayTime[n] + MsgCmdarr[n] > mmAnsTick then exit;
+        MessageDelayTime[n] := mmAnsTick;
+    end;
+
+    Result := true;
+    temp.Size := cnt;
+    move(buf^, temp.data, cnt);
+    if PacketSender <> nil then
+    begin
+        PacketSender.PutPacket(ConnectID, GM_CLIENT, 0, @temp, cnt + 2);
+        PacketSender.Update(1024);
+    end else
+    begin
+
+    end;
+
+end;
+
+{function TFrmLogOn.SocketAddOneData(adata:byte):Boolean;
+var
+    sd              :TComdata;
+begin
+    fillchar(sd, sizeof(sd), 0);
+    sd.Size := 3;
+    //   sd.cnt := 3;
+    sd.data[0] := adata;
+
+    Result := SocketAddData(3, @sd.data);
+end;
+}
+
+function TFrmLogOn.SocketDisConnect(ErrText, ErrCaption: string; aActive: Boolean; aopenwww: boolean = false): Boolean;
+begin
+    Result := true;
+    try
+        if aActive = TRUE then
+        begin
+            if sckConnect.Active then sckConnect.Active := FALSE;
+        end;
+    except
+        Result := FALSE;
+    end;
+    if (ErrText <> '') or (ErrCaption <> '') then
+    begin
+        Application.MessageBox(Pchar(ErrText), Pchar(ErrCaption), 0);
+        if aopenwww then ShellExecute(Handle, 'open', 'IExplore.EXE', 'http://www.1000y.com.cn', nil, SW_SHOWNORMAL);
+
+        FrmM.close;
+    end;
+
+end;
+
+{
+procedure TFrmLogOn.TimerSendTimer(Sender: TObject);
+var
+   sd: TWordComdata;
+   buffer : array [0..MAXSOCKETDATASIZE-1] of byte;
+   cnt : Integer;
+begin
+   if GetAnsSocketAllowSend (AnsSocketHandle) = FALSE then exit;
+
+   cnt := 0;
+   while MainPacketBuffer.Count > 0 do begin
+      if MainPacketBuffer.Get (@sd) = false then break;
+      if cnt + sd.cnt + sizeof (word) > MAXSOCKETSENDDATASIZE then break;
+
+      Reverse4Bit (sd);
+      Move (sd, buffer[cnt], sd.cnt + sizeof (word));
+
+      cnt := cnt + sd.cnt + sizeof (word);
+   end;
+   if cnt > 0 then AnsSocketSend (AnsSocketHandle, @Buffer, cnt);
+end;
+}
+
+{
+procedure TFrmLogOn.TimerRBufferPTimer(Sender: TObject);
+var
+ i, len : integer;
+   wcnt : word;
+   sd: TWordComData;
+   gSocketBuffer : array [0..MAXSOCKETDATASIZE-1] of byte;
+begin
+   AnsSocketUpDate (AnsSocketHandle);
+
+   len := AnsSocketRead (AnsSocketHandle, @gSocketBuffer, PROCESSDATASIZE);
+   if len > 0 then begin
+      if MainBuffer.Put (@gSocketBuffer, len) = false then begin
+         ShowMessage ('MainBuffer.Put () failed');
+      end;
+   end;
+
+   for i := 0 to 50 - 1 do begin
+      if MainBuffer.View (@wcnt, sizeof (word)) = false then break;
+      if MainBuffer.Count < wcnt + sizeof (word) then break;
+      if MainBuffer.Get (@sd, wcnt + sizeof (word)) = false then break;
+      Reverse4Bit (sd);
+      MessageProcess (sd);
+   end;
+end;
+}
+
+procedure TFrmLogOn.SetFormText;
+begin
+    // FrmLogOn font set
+    FrmLogOn.Font.Name := mainFont;
+
+    PnInfo.Font.Name := mainFont;
+    ComboBoxServer.Font.Name := mainFont;
+    EdID.Font.Name := mainFont;
+    EdPass.Font.Name := mainFont;
+
+    Caption := ('骏杰OL');
+    Pninfo.Caption := ('连接中…若无连线帐号，请按【新名称】建立');
+end;
+
+procedure TFrmLogOn.FormMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+begin
+    FrmM.SetA2Form(Self, A2form);
+end;
+
+procedure TFrmLogOn.TimerSpeedCheckTimer(Sender: TObject);
+var
+    Tick: integer;
+    nHour, nMin, nSec, nMSec: word;
+    ElaspedTime: TDateTime;
+    aTime: integer;
+    //   h : pchar;
+begin
+    ///// 皋农肺
+    {
+       h := pchar(FindWindow(nil, '皓?彳酗'));
+       if h <> nil then PostMessage(THandle(h), WM_QUIT, 0, 0);
+
+       h := pchar(FindWindow(nil, 'GearNT'));
+       if h <> nil then PostMessage(THandle(h), WM_QUIT, 0, 0);
+
+       h := pchar(FindWindow(nil, '1000y - XZ'));
+       if h <> nil then PostMessage(THandle(h), WM_QUIT, 0, 0);
+
+       h := pchar(FindWindow(nil, 'Brothers Speeder'));
+       if h <> nil then PostMessage(THandle(h), WM_QUIT, 0, 0);
+    }
+    /////
+
+    FCurTick := mmAnsTick;
+    Tick := (FCurTick - FOldTick) div 100;
+    ElaspedTime := Time - FStartTime;
+    DecodeTime(ElaspedTime, nHour, nMin, nSec, nMSec);
+    aTime := nHour * 3600 + nMin * 60 + nSec + 15;
+    inc(indexTick);
+    if indexTick > 10000 then
+    begin
+        FOldTick := mmAnsTick;
+        FStartTime := Time;
+        indexTick := 0;
+    end;
+    if Tick > aTime then
+    begin
+        TimerSpeedCheck.Enabled := FALSE;
+        SocketDisConnect(('请不要使用加速度.'), ('骏杰OL'), TRUE);
+
+    end;
+    {
+    FrmM.ListBox1.Items.Add(format ('%d : %d = %d',[Tick,aTime,aTime-Tick]));
+    FrmM.ListBox1.ItemIndex := FrmM.ListBox1.Items.Count-1;
+    if FrmM.ListBox1.Items.Count > 30000 then FrmM.ListBox1.Items.Delete(0);
+    }
+end;
+
+procedure TFrmLogOn.sckConnectConnect(Sender: TObject;
+    Socket: TCustomWinSocket);
+var
+    cVer: TCVer;
+    //   cIdPass : TCIdPass;
+begin
+//    clientSendId := 1;
+
+  //  clientSendIdtick := mmAnsTick;
+    FrmConsole.cprint(lt_net, format('========================================sckConnect连接', []));
+    FrmNewUser.onconnect;
+    if PacketSender <> nil then
+    begin
+        PacketSender.Free;
+        PacketSender := nil;
+    end;
+    if PacketReceiver <> nil then
+    begin
+        PacketReceiver.Free;
+        PacketReceiver := nil;
+    end;
+//  if PacketSender_r <> nil then
+ // begin
+  //  PacketSender_r.free;
+   // PacketSender_r := nil;
+ // end;
+ // if PacketReceiver_r <> nil then
+  //begin
+  //  PacketReceiver_r.Free;
+   // PacketReceiver_r := nil;
+//  end;
+
+    PacketSender := TNEWPacketSender.Create('Sender', 1024 * 1024, Socket);
+    PacketReceiver := TNEWPacketReceiver.Create('Receiver', 1024 * 1024);
+//  PacketSender_r := TRPacketSender.Create(Socket, PacketSender);
+ // PacketReceiver_r := TRPacketReceiver.Create(Socket, PacketReceiver, PacketSender_r);
+
+//    ReadBuffer.Clear;
+
+
+end;
+
+procedure TFrmLogOn.sckConnectDisconnect(Sender: TObject;
+    Socket: TCustomWinSocket);
+begin
+    FrmConsole.cprint(lt_net, format('========================================sckConnect断开', []));
+    FrmNewUser.onDisconnect;
+    timerProcessTimer(nil);
+
+    if PacketSender <> nil then
+    begin
+        PacketSender.Free;
+        PacketSender := nil;
+    end;
+    if PacketReceiver <> nil then
+    begin
+        PacketReceiver.Free;
+        PacketReceiver := nil;
+    end;
+//  if PacketSender_r <> nil then
+ // begin
+  //  PacketSender_r.free;
+   // PacketSender_r := nil;
+//  end;
+ // if PacketReceiver_r <> nil then
+  //begin
+ //   PacketReceiver_r.Free;
+ //   PacketReceiver_r := nil;
+ // end;
+
+    if Visible = false then
+    begin
+
+        ReConnetFlag := FALSE;
+      //  TimerNixConnectConfirmed.Enabled := FALSE;
+        FrmM.Timer2_dx.Enabled := FALSE;
+        SocketDisConnect(('与服务器连接中断'), ('骏杰OL'), FALSE);
+
+    end;
+end;
+
+procedure TFrmLogOn.sckConnectError(Sender: TObject;
+    Socket: TCustomWinSocket; ErrorEvent: TErrorEvent;
+    var ErrorCode: Integer);
+begin
+    FrmConsole.cprint(lt_net, format('========================================sckConnect错误，ERRORCODE:%d', [ErrorCode]));
+    ErrorCode := 0;
+    PnInfo.Caption := ('连接失败!!!');
+    Socket.Close;
+end;
+
+
+procedure TFrmLogOn.sckConnectRead(Sender: TObject;
+    Socket: TCustomWinSocket);
+var
+    buffer: array[0..65535 - 1] of byte;
+    nRead: Integer;
+
+
+begin
+    nRead := Socket.ReceiveBuf(buffer, 65535);
+
+    if nRead > 0 then
+    begin
+        FrmConsole.cprint(lt_net, format('========================================sckConnect收包，长度:%d', [nRead]));
+   // ReadBuffer.Put(@buffer, nRead);
+//    if (FGameStatus <> gs_none) and (FGameStatus <> gs_ba) then
+ //   begin
+  //    if PacketReceiver_r <> nil then PacketReceiver_r.PutData(@buffer, nRead);
+  //  end else
+        begin
+            if PacketReceiver <> nil then
+            begin
+                if PacketReceiver.PutData(@buffer, nRead) = false then
+                begin
+                //            ShowMessage (('款康磊俊霸 楷遏窍矫扁 官而聪促. [PPD]'));
+                end;
+            end;
+        end;
+    end;
+end;
+
+procedure TFrmLogOn.sckConnectWrite(Sender: TObject;
+    Socket: TCustomWinSocket);
+begin
+    FrmConsole.cprint(lt_net, format('========================================sckConnect：sckConnectWrite', []));
+    if PacketSender <> nil then
+    begin
+        PacketSender.WriteAllow := true;
+    end;
+end;
+{
+procedure TFrmLogOn.packUpate();
+var
+    buffer: array[0..65535 - 1] of byte;
+    nRead: integer;
+    aPackType: TPackType;
+    aPack: PTWordComDataPack;
+
+    procedure guolv();
+    var
+        i: integer;
+        pd: pdword;
+    begin
+        aPack := nil;
+        i := ReadBuffer.Count;
+        if I <= 14 then EXIT;
+        if i > 65535 then i := 65535;
+        if ReadBuffer.View(@BUFFER, I) = FALSE then EXIT;
+        nRead := i;
+        for i := 0 to nRead - 1 do
+        begin
+            if (i + 4) >= nRead then Break;
+            pd := @buffer[i];
+            if pd^ = $20090929 then
+            begin
+                aPack := @buffer[i];
+                nRead := nRead - i;
+                exit;
+            end;
+        end;
+
+    end;
+begin
+
+    if (FGameStatus <> gs_none) and (FGameStatus <> gs_ba) then
+    begin
+
+      //  guolv;
+       // if aPack = nil then exit;
+        nRead := ReadBuffer.Count;
+        if nRead <= 0 then
+        begin
+            clientSendIdtick := mmAnsTick;
+            exit;
+        end;
+        if (mmAnsTick > clientSendIdtick + 200) then
+        begin
+            clientSendIdtick := mmAnsTick;
+            sendPack(clientSendId, _pt_repeat);
+            inc(clientSendId);
+            ReadBuffer.Clear;
+            FrmConsole.cprint(lt_net, format('3秒，清除缓冲区要求重新发', []));
+            exit;
+        end;
+        if nRead > 65535 then nRead := 65535;
+        if ReadBuffer.View(@BUFFER, nRead) = FALSE then EXIT;
+
+        aPack := @buffer;
+
+        aPackType := _pt_ok;
+        if (aPack.rver <> $20090929) then
+        begin
+            FrmConsole.cprint(lt_net, format('验证失败，版本:%d,(正确%d)', [aPack.rver, $20090929]));
+            exit;
+        end;
+        if (aPack.rid <> clientSendId) then
+        begin
+            FrmConsole.cprint(lt_net, format('验证失败，ID:%d,(正确%d)', [aPack.rid, clientSendId]));
+            exit;
+        end;
+        if (aPack.rlen <> aPack.rbuf.Size) then
+        begin
+            FrmConsole.cprint(lt_net, format('验证失败，长度不一致:%d,(%d)', [aPack.rlen, aPack.rbuf.Size]));
+            exit;
+        end;
+        if (nRead <> (aPack.rlen + 14)) then
+        begin
+            FrmConsole.cprint(lt_net, format('验证失败，接收长度异常:%d,(%d)等待 新的网络包到来', [nRead, aPack.rlen + 14]));
+            exit;
+        end;
+        clientSendIdtick := mmAnsTick;
+        sendPack(clientSendId, aPackType);
+        inc(clientSendId);
+        ReadBuffer.Clear;
+        if aPackType = _pt_ok then
+        begin
+            FrmConsole.cprint(lt_net, format('包正确，ID%d,(%d)', [clientSendId, aPack.rlen]));
+        end
+        else exit;
+        if PacketReceiver <> nil then
+        begin
+            if PacketReceiver.PutData(@aPack.rbuf.Data, aPack.rlen) = false then
+            begin
+                //            ShowMessage (('款康磊俊霸 楷遏窍矫扁 官而聪促. [PPD]'));
+            end;
+        end;
+    end else
+    begin
+        nRead := ReadBuffer.Count;
+        if nRead <= 0 then exit;
+        if nRead > 65535 then nRead := 65535;
+        if ReadBuffer.View(@BUFFER, nRead) = FALSE then EXIT;
+
+        if PacketReceiver <> nil then
+        begin
+            if PacketReceiver.PutData(@buffer, nRead) = false then
+            begin
+                //            ShowMessage (('款康磊俊霸 楷遏窍矫扁 官而聪促. [PPD]'));
+            end;
+        end;
+    end;
+
+
+end;
+}
+
+procedure TFrmLogOn.WriteLog(aStr: string);
+var
+    Stream: TFileStream;
+    FileName: string;
+begin
+    try
+        if not DirectoryExists('.\Log\') then
+        begin
+            CreateDir('.\Log\');
+        end;
+        FileName := '.\Log\' + Name + 'TFrmLogOn.Log';
+        if FileExists(FileName) then
+        begin
+            Stream := TFileStream.Create(FileName, fmOpenReadWrite);
+        end else
+        begin
+            Stream := TFileStream.Create(FileName, fmCreate);
+        end;
+        aStr := '[' + DateToStr(Date) + ' ' + TimeToStr(Time) + ']' + aStr + #13 + #10;
+        Stream.Seek(0, soFromEnd);
+        Stream.WriteBuffer(aStr[1], length(aStr));
+        Stream.Free;
+    except
+    end;
+end;
+
+procedure TFrmLogOn.timerProcessTimer(Sender: TObject);
+var
+    nSize, i: Integer;
+  //ComData: TWordComData;
+    PacketData: TPacketData;
+begin
+
+//  if (FGameStatus <> gs_none) and (FGameStatus <> gs_ba) then
+ // begin
+  //  if PacketSender_r <> nil then PacketSender_r.Update(mmAnsTick);
+   // if PacketReceiver_r <> nil then PacketReceiver_r.Update(mmAnsTick);
+ // end else
+    begin
+        if PacketSender <> nil then PacketSender.Update(1024);
+    end;
+    if PacketReceiver <> nil then
+    begin
+    //packUpate;
+
+        PacketReceiver.Update;                                                  //解密
+
+        for i := 0 to PacketReceiver.Count - 1 do
+        begin
+            if PacketReceiver = nil then exit;
+            if PacketReceiver.Count = 0 then exit;
+            if PacketReceiver.GetPacket(@PacketData) = false then break;
+            nSize := PacketData.PacketSize - sizeof(word) - sizeof(Integer) - sizeof(byte) - sizeof(byte);
+
+            case PacketData.RequestMsg of
+                GM_GATE, GM_BA:
+                    begin
+                        if nSize <> (PacketData.Data.Size + 2) then
+                        begin
+               //错误
+                            WriteLog(format('PacketReceiver 长度错误:PacketSize=%d nSize=%d', [PacketData.PacketSize, PacketData.Data.Size]));
+                        end
+                        else
+                        begin
+                            ConnectID := PacketData.RequestID;
+
+                            if MessageProcess(PacketData.Data) = false then break;
+                        end;
+                    end;
+                GM_PING:
+                    begin
+
+                        if netPingId = PacketData.RequestID then
+                        begin
+                            netPing := timeGetTime - netPingSendTick;
+                        end else
+                        begin
+                            netPing := -1;
+                        end;
+
+
+                    end;
+            end;
+        end;
+    end;
+end;
+
+//var
+//    ansStringClass  :TansStringClass;
+
+{function (astr:string):string;
+begin
+    Result := astr;                // ansStringClass.GetString(astr);
+end;
+}
+
+procedure TFrmLogOn.FormShow(Sender: TObject);
+begin
+  //  EdID.SetFocus;
+
+end;
+
+procedure TFrmLogOn.sendIDPASS();
+var
+    cIdPass: TCIdPass;
+begin
+    cIdPass.rmsg := CM_IDPASS;
+    cIdPass.rId := ReConnectId;
+    cIdPass.rPass := ReConnectPass;
+    cIdPass.ryid := ReConnectyid;
+    SocketAddData(sizeof(cIdPass), @cIdPass);
+
+end;
+
+procedure TFrmLogOn.Timer_loginTimer(Sender: TObject);
+begin
+    case Floginstate of
+        1:                                                                      //连接
+            begin
+                FGameStatus := gs_none;
+                if sckConnect.Socket.Connected
+                    and (sckConnect.Host = ReConnectIpAddr)
+                    and (sckConnect.Port = ReConnectPort) then
+                begin
+                    Floginstate := 3;
+                    exit;
+                end;
+                sckConnect.Active := false;
+                cConnTime := mmAnsTick;
+                Floginstate := 2;
+            end;
+        2:
+            begin
+                if sckConnect.Socket.Connected = false then
+                begin
+                    FGameStatus := gs_BA;
+                    sckConnect.Host := ReConnectIpAddr;
+                    sckConnect.Port := ReConnectPort;
+                    sckConnect.Open;
+                    Floginstate := 3;
+                    PnInfo.Caption := ('连接服务器…');
+                    cConnTime := mmAnsTick;
+                end else
+                begin
+                    if GetItemLineTimeSec(mmAnsTick - cConnTime) > 5 then
+                    begin
+                        Floginstate := 1;
+                        cConnTime := mmAnsTick;
+                    end;
+                end;
+            end;
+
+        3:
+            begin
+
+                if sckConnect.Socket.Connected then
+                begin
+                    sendBalance;
+                    PnInfo.Caption := ('获取证书…');
+                    Floginstate := 5;
+                end else
+                begin
+                    if GetItemLineTimeSec(mmAnsTick - cConnTime) > 5 then
+                    begin
+                        cConnTime := mmAnsTick;
+                        Floginstate := 1;
+                    end;
+                end;
+            end;
+        5:
+            begin
+
+            end;
+        10:
+            begin
+                sckConnect.Active := false;
+                Floginstate := 11;
+                cConnTime := mmAnsTick;
+            end;
+        11:
+            begin
+                if sckConnect.Socket.Connected = false then
+                begin
+                    FGameStatus := gs_login;
+                    sckConnect.Host := ReConnectIpAddr_gate;
+                    sckConnect.Port := ReConnectPort_gate;
+                    sckConnect.Open;
+                    Floginstate := 12;
+                    PnInfo.Caption := ('连接服务器…');
+                end else
+                begin
+                    if GetItemLineTimeSec(mmAnsTick - cConnTime) > 5 then
+                    begin
+                        cConnTime := mmAnsTick;
+                        Floginstate := 10;
+                    end;
+                end;
+            end;
+
+        12:
+            begin
+
+                if sckConnect.Socket.Connected then
+                begin
+                    sendIDPASS;
+
+                    PnInfo.Caption := ('登陆…');
+                    Floginstate := 100;
+                end else
+                begin
+                    if GetItemLineTimeSec(mmAnsTick - cConnTime) > 5 then
+                    begin
+                        cConnTime := mmAnsTick;
+                        Floginstate := 10;
+                    end;
+                end;
+
+            end;
+        100:
+            begin
+                Timer_login.Enabled := false;
+            end;
+        200:
+            begin
+                PnInfo.Caption := ('开始连接…');
+                Floginstate := 201;
+            end;
+        201:                                                                    //连接
+            begin
+                FGameStatus := gs_none;
+                if sckConnect.Socket.Connected
+                    and (sckConnect.Host = ReConnectIpAddr)
+                    and (sckConnect.Port = ReConnectPort) then
+                begin
+                    Floginstate := 203;
+                    exit;
+                end;
+                sckConnect.Active := false;
+                Floginstate := 202;
+            end;
+        202:
+            begin
+                if sckConnect.Socket.Connected = false then
+                begin
+                    FGameStatus := gs_none;
+                    sckConnect.Host := ReConnectIpAddr;
+                    sckConnect.Port := ReConnectPort;
+                    sckConnect.Open;
+                    Floginstate := 203;
+                    PnInfo.Caption := ('连接服务器中…');
+                    cConnTime := mmAnsTick;
+                end else
+                begin
+                    if GetItemLineTimeSec(mmAnsTick - cConnTime) > 5 then
+                    begin
+                        cConnTime := mmAnsTick;
+                        Floginstate := 201;
+                    end;
+                end;
+            end;
+
+        203:
+            begin
+
+                if sckConnect.Socket.Connected then
+                begin
+                    PnInfo.Caption := ('连接成功.');
+                    Floginstate := 300;
+                end else
+                begin
+                    if GetItemLineTimeSec(mmAnsTick - cConnTime) > 10 then
+                    begin
+                        PnInfo.Caption := ('连接失败!!!');
+                        cConnTime := mmAnsTick;
+                        Floginstate := 201;
+                    end;
+                end;
+            end;
+        300:
+            begin
+                EdId.Enabled := TRUE;
+                EdPass.Enabled := TRUE;
+                BtnLogin.Enabled := TRUE;
+                BtnNewUser.Enabled := TRUE;
+                EdId.Color := clBlack;
+                EdPass.Color := clBlack;
+                if Visible then EdId.SetFocus;
+
+                Timer_login.Enabled := false;
+            end;
+
+    end;
+
+end;
+
+procedure TFrmLogOn.FormActivate(Sender: TObject);
+var
+    n: integer;
+    p: pTHostAddressdata;
+begin
+    ComboBoxServerChange(nil);
+ {
+    if not bofirst then exit;
+    bofirst := FALSE;
+
+    ConnectState := cs_none;
+    sckConnect.Active := false;
+    p := HostAddressClass.getSub(ComboBoxHead.Text, ComboBoxServer.ItemIndex);
+    if p = nil then exit;
+
+
+
+    ReConnectIpAddr := p.rHost;
+    ReConnectPort := p.rPort;
+
+    try
+        if sckConnect.Active = true then sckConnect.Close;
+
+        // sckConnect.Address := sip;
+        sckConnect.Host := p.rHost;
+        sckConnect.Port := p.rPort;
+        sckConnect.Open;
+    except
+        Pninfo.Caption := ('连接失败');
+        exit;
+    end;
+
+    Pninfo.Caption := ('连接中…');
+   }
+end;
+
+procedure TFrmLogOn.BtnNewUserClick(Sender: TObject);
+begin
+    //
+    FrmNewUser.Visible := true;
+    FrmM.SetA2Form(FrmNewUser, FrmNewUser.A2Form);
+    PnInfo.Caption := '';
+end;
+
+procedure TFrmLogOn.ComboBoxChange(Sender: TObject);
+begin
+
+end;
+{ THostAddressSub }
+
+procedure THostAddressSub.add(adata: THostAddressdata);
+var
+    p: pTHostAddressdata;
+begin
+    new(p);
+    p^ := adata;
+    fdata.Add(p);
+end;
+
+procedure THostAddressSub.clear;
+var
+    i: integer;
+    p: pTHostAddressdata;
+begin
+    for i := 0 to fdata.Count - 1 do
+    begin
+        p := fdata.Items[i];
+        dispose(p);
+    end;
+
+    fdata.Clear;
+end;
+
+constructor THostAddressSub.Create;
+begin
+    fdata := tlist.Create;
+end;
+
+destructor THostAddressSub.Destroy;
+begin
+    clear;
+    fdata.Free;
+    inherited;
+end;
+
+function THostAddressSub.get(aindex: integer): pTHostAddressdata;
+begin
+    result := nil;
+    if (aindex < 0) or (aindex > (fdata.Count - 1)) then exit;
+    result := fdata.Items[aindex];
+end;
+
+function THostAddressSub.getIndex(aname: string): integer;
+var
+    i: integer;
+    p: pTHostAddressdata;
+begin
+    result := -1;
+    for i := 0 to fdata.Count - 1 do
+    begin
+        p := fdata.Items[i];
+        if p.rName = aname then
+        begin
+            result := i;
+            exit;
+        end;
+    end;
+end;
+
+function THostAddressSub.getMenu: string;
+var
+    i: integer;
+    p: pTHostAddressdata;
+begin
+    result := '';
+    for i := 0 to fdata.Count - 1 do
+    begin
+        p := fdata.Items[i];
+        result := result + p.rName + #13#10;
+    end;
+end;
+
+{ THostAddressClass }
+
+procedure THostAddressClass.add(aname: string);
+var
+    p: THostAddressSub;
+begin
+    if get(aname) <> nil then exit;
+    p := THostAddressSub.Create;
+    p.fname := aname;
+    fdata.Add(p);
+end;
+
+procedure THostAddressClass.clear;
+var
+    i: integer;
+    p: THostAddressSub;
+begin
+    for i := 0 to fdata.Count - 1 do
+    begin
+        p := fdata.Items[i];
+        p.Free;
+    end;
+    fdata.Clear;
+end;
+
+constructor THostAddressClass.Create(aFileName: string);
+var
+    i: integer;
+    str, rdstr: string;
+    StringList: TStringList;
+    temp: THostAddressdata;
+    HostAddressSub: THostAddressSub;
+begin
+    fdata := TList.Create;
+
+    if FileExists(aFileName) = false then exit;
+    StringList := TStringList.Create;
+    try
+        StringList.LoadFromFile(afilename);
+        for i := 0 to StringList.Count - 1 do
+        begin
+            str := stringlist[i];
+            fillchar(temp, sizeof(temp), 0);
+                 //区
+            str := GetValidStr3(str, rdstr, ',');
+            if rdstr = '' then Continue;
+            add(rdstr);
+            HostAddressSub := get(rdstr);
+            if HostAddressSub = nil then Continue;
+                //ip
+            str := GetValidStr3(str, rdstr, ',');
+            if rdstr = '' then Continue;
+            temp.rHost := rdstr;
+                //port
+            str := GetValidStr3(str, rdstr, ',');
+            if rdstr = '' then Continue;
+            temp.rPort := _strtoint(rdstr);
+                //server name
+            str := GetValidStr3(str, rdstr, ',');
+            if rdstr = '' then Continue;
+            temp.rName := rdstr;
+
+
+
+            HostAddressSub.add(temp);
+        end;
+    finally
+        StringList.Free;
+    end;
+end;
+
+
+destructor THostAddressClass.Destroy;
+begin
+    clear;
+    fdata.Free;
+    inherited;
+end;
+
+function THostAddressClass.get(aname: string): THostAddressSub;
+var
+    i: integer;
+    p: THostAddressSub;
+begin
+    result := nil;
+    for i := 0 to fdata.Count - 1 do
+    begin
+        p := fdata.Items[i];
+        if p.fname = aname then
+        begin
+            result := p;
+            exit;
+        end;
+    end;
+
+end;
+
+function THostAddressClass.getIndex(aname: string): integer;
+var
+    i: integer;
+    p: THostAddressSub;
+begin
+    result := -1;
+    for i := 0 to fdata.Count - 1 do
+    begin
+        p := fdata.Items[i];
+        if p.fname = aname then
+        begin
+            result := i;
+            exit;
+        end;
+    end;
+end;
+
+function THostAddressClass.getMenu: string;
+var
+    i: integer;
+    p: THostAddressSub;
+begin
+    result := '';
+    for i := 0 to fdata.Count - 1 do
+    begin
+        p := fdata.Items[i];
+        result := result + p.fname + #13#10;
+    end;
+end;
+
+procedure TFrmLogOn.ComboBoxHeadChange(Sender: TObject);
+begin
+    CurServerName := '';
+    ComboBoxServer.Text := '';
+    ComboBoxServer.Items.Text := HostAddressClass.getSubMenu(ComboBoxHead.Text);
+    if ComboBoxServer.Items.Count > 0 then
+    begin
+        ComboBoxServer.ItemIndex := 0;
+        ComboBoxServerChange(nil);
+    end;
+end;
+
+function THostAddressClass.getSub(aname: string; aindex: integer): pTHostAddressdata;
+var
+    p: THostAddressSub;
+begin
+    result := nil;
+    p := get(aname);
+    if p = nil then exit;
+    result := p.get(aindex);
+end;
+
+function THostAddressClass.getSubIndex(aname, asubname: string): integer;
+var
+    p: THostAddressSub;
+begin
+    result := -1;
+    p := get(aname);
+    if p = nil then exit;
+    result := p.getIndex(asubname);
+end;
+
+
+function THostAddressClass.getSubMenu(aname: string): string;
+var
+    p: THostAddressSub;
+begin
+    result := '';
+    p := get(aname);
+    if p = nil then exit;
+    result := p.getMenu;
+end;
+
+procedure TFrmLogOn.ComboBoxServerChange(Sender: TObject);
+var
+    n: integer;
+    p: pTHostAddressdata;
+begin
+    if CurServerName = ComboBoxServer.Text then exit;
+    CurServerName := ComboBoxServer.Text;
+
+    ClientIni.WriteString('CLIENT', 'serverhead', ComboBoxHead.Text);
+    ClientIni.WriteString('CLIENT', 'servername', ComboBoxServer.Text);
+
+    ConnectState := cs_none;
+  //  sckConnect.Active := false;
+
+    p := HostAddressClass.getSub(ComboBoxHead.Text, ComboBoxServer.ItemIndex);
+    if p = nil then exit;
+    ReConnectIpAddr := p.rHost;
+    ReConnectPort := p.rPort;
+
+    try
+      //  if sckConnect.Active = true then sckConnect.Close;
+
+        //   sckConnect.Address := sip;
+       // sckConnect.Host := p.rHost;
+      //  sckConnect.Port := p.rPort;
+        //sckConnect.Open;
+        Floginstate := 200;
+        Timer_login.Enabled := TRUE;
+
+    except
+       // Pninfo.Caption := ('连接失败');
+        exit;
+    end;
+
+    Pninfo.Caption := ('…');
+
+    EdId.Enabled := FALSE;
+    EdPass.Enabled := FALSE;
+    BtnLogin.Enabled := FALSE;
+    BtnNewUser.Enabled := FALSE;
+    EdId.Color := clBtnFace;
+    EdPass.Color := clBtnFace;
+
+    CurServerName := ComboBoxServer.text;
+
+end;
+
+procedure TFrmLogOn.sendPing();
+begin
+
+    if PacketSender <> nil then
+    begin
+        netPingSendTick := timeGetTime;
+        inc(netPingId);
+        PacketSender.PutPacket(netPingId, GM_PING, 0, nil, 0);
+        PacketSender.Update(1024);
+    end else
+    begin
+
+    end;
+end;
+
+procedure TFrmLogOn.TimePingTimer(Sender: TObject);
+begin
+    sendPing;
+end;
+
+initialization
+    begin
+        mainFont := 'Arial';
+
+    end;
+
+finalization
+    begin
+
+    end;
+
+end.
+

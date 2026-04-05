@@ -1,0 +1,33 @@
+{.$define TRIAL}
+{.$define UNDECLARED_EX}
+
+// {$define FP}
+{$ifdef FP}
+  {$ASMMODE intel}
+  {$DEFINE VARIANTS}
+   {$M+}
+{$endif}
+
+{$define THREADS}
+
+
+{$define ONRUNNING}
+{$ifdef Ver140}
+  {$define VARIANTS}
+{$endif}
+{$ifdef Ver150}
+  {$define VARIANTS}
+{$endif}
+{$ifdef Ver160}
+  {$define VARIANTS}
+{$endif}
+{$ifdef Ver170}
+  {$define VARIANTS}
+{$endif}
+{$ifdef Ver180}
+  {$define VARIANTS}
+{$endif}
+{$ifdef FP}
+  {$define VARIANTS}
+{$endif}
+

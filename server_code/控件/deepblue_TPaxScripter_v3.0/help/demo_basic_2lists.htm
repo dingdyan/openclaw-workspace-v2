@@ -1,0 +1,124 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Two Way Linked lists (paxBasic).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Function</b></font> Insert(Value, P)
+  <font color="blue"><b>Dim</b></font> result = [Value, P]
+  <font color="blue"><b>If</b></font> P <> <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+    P.Owner = result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  P = result
+  <font color="blue"><b>return</b></font> P
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> Add(Value, P)
+  <font color="blue"><b>Dim</b></font> result
+  <font color="blue"><b>If</b></font> P = <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+    result = Insert(Value, P)
+  <font color="blue"><b>Else</b></font>
+    result = Insert(Value, <font color="blue"><b>AddressOf</b></font> P(1))
+    result.Owner = P
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>return</b></font> result
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> Remove(Value, L)
+  <font color="blue"><b>Dim</b></font> temp, result
+  result = <font color="blue"><b>AddressOf</b></font> Find(Value, L)
+  <font color="blue"><b>If</b></font> result <> <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+    temp = result.Owner
+    <font color="blue"><b>Reduced</b></font> result = result(1)
+    <font color="blue"><b>If</b></font> result <> <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+      result.Owner = temp
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> Find(Key, P)
+  <font color="blue"><b>Dim</b></font> result = <font color="blue"><b>AddressOf</b></font> P
+  <font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> result <> <font color="blue"><b>null</b></font>
+    <font color="blue"><b>If</b></font> result(0) = Key <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>Return</b></font> result
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    result = <font color="blue"><b>AddressOf</b></font> result(1)
+  <font color="blue"><b>Loop</b></font>
+  <font color="blue"><b>Return</b></font> <font color="blue"><b>null</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Sub</b></font> StraightOrder(A)
+  <font color="blue"><b>Dim</b></font> P = A
+  <font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> P <> <font color="blue"><b>null</b></font>
+    <font color="blue"><b>Println</b></font> P(0)
+    P = P(1)
+  <font color="blue"><b>Loop</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Sub</b></font> BackwardOrder(A)
+  <font color="blue"><b>Dim</b></font> P
+  <font color="blue"><b>If</b></font> A = <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>println</b></font> A
+  <font color="blue"><b>Else</b></font>
+    P = A
+    <font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> P(1) <> <font color="blue"><b>null</b></font>
+      P = P(1)
+    <font color="blue"><b>Loop</b></font>
+    <font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> P <> <font color="blue"><b>null</b></font>
+      <font color="blue"><b>Println</b></font> P(0)
+      P = P.Owner
+    <font color="blue"><b>Loop</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>println</b></font> <font color="Red">"start"</font>
+
+<font color="blue"><b>Dim</b></font> A = <font color="blue"><b>null</b></font>, P
+
+Add(300, <font color="blue"><b>AddressOf</b></font> A)
+
+Insert(100, <font color="blue"><b>AddressOf</b></font> A)
+Insert(50, <font color="blue"><b>AddressOf</b></font> A)
+<font color="blue"><b>Println</b></font> A
+BackOrder(A)
+
+P = Find(300, A)
+Add(400, <font color="blue"><b>AddressOf</b></font> P)
+<font color="blue"><b>Println</b></font> A
+BackOrder(A)
+
+P = Find(300, A)
+Add(350, <font color="blue"><b>AddressOf</b></font> P)
+<font color="blue"><b>Println</b></font> A
+BackOrder(A)
+
+P = Find(100, A)
+Add(150, <font color="blue"><b>AddressOf</b></font> P)
+<font color="blue"><b>Println</b></font> A
+BackOrder(A)
+
+Remove(100, A)
+<font color="blue"><b>Println</b></font> A
+BackOrder(A)
+
+<font color="blue"><b>Println</b></font> A
+StraightOrder(A)
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

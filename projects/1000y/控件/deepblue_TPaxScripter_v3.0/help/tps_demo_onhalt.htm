@@ -1,0 +1,102 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter.OnHalt event demo.
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>unit</b></font> Unit1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, PaxScripter, PaxPascal, BASE_PARSER;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    PaxPascal1: TPaxPascal;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+     S: TPaxScripter;
+    { <font color="blue"><b>Private</b></font> declarations }
+    <font color="blue"><b>procedure</b></font> OnHalt(Sender: TPaxScripter);
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.dfm}
+
+<font color="blue"><b>uses</b></font> IMP_Forms;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  S := TPaxScripter.Create(Self);
+  S.RegisterLanguage(PaxPascal1);
+  S.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+  S.AddCodeFromFile(<font color="Red">'1'</font>, <font color="Red">'script.txt'</font>);
+  S.OnHalt := OnHalt;
+  S.Run();
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.OnHalt(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  S.Free;
+  ShowMessage(<font color="Red">'scripter has been destroyed'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<h4>
+script.txt:
+</h4>
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>uses</b></font>
+  Forms;
+<font color="blue"><b>var</b></font>
+  Frm : TForm;
+<font color="blue"><b>procedure</b></font> FrmClose(Sender : Tobject; <font color="blue"><b>var</b></font> Action : TCloseAction);
+<font color="blue"><b>begin</b></font>
+  Action := caFree;
+  <font color="blue"><b>print</b></font> <font color="Red">'done'</font>;
+  <font color="blue"><b>Halt</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>begin</b></font>
+  Frm := Forms.TForm.Create(<font color="blue"><b>nil</b></font>);
+  Frm.OnClose := @FrmClose;
+  Frm.Show;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

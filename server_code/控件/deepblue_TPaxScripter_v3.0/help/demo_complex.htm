@@ -1,0 +1,428 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+Operator Overloading. Complex Numbers in paxJavaScript, paxPascal, paxBasic and paxC.
+</h3>
+<hr>
+
+<H4>
+paxJavaScript
+</H4>
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>function</b></font> Complex(re, im)
+{
+  <font color="blue"><b>this</b></font>.re = re;
+  <font color="blue"><b>this</b></font>.im = im;
+
+  <font color="blue"><b>this</b></font>.op_Addition = <font color="blue"><b>function</b></font> (x, y){ <font color="blue"><b>return</b></font> <font color="blue"><b>new</b></font> Complex(x.re + y.re, x.im + y.im); }
+  <font color="blue"><b>this</b></font>.op_Subtraction = <font color="blue"><b>function</b></font> (x, y){ <font color="blue"><b>return</b></font> <font color="blue"><b>new</b></font> Complex(x.re - y.re, x.im - y.im); }
+  <font color="blue"><b>this</b></font>.op_Multiply = <font color="blue"><b>function</b></font> (x, y){ <font color="blue"><b>return</b></font> <font color="blue"><b>new</b></font> Complex(x.re * y.re - x.im * y.im,
+                                                         x.re * y.im + y.re * x.im); }
+  <font color="blue"><b>this</b></font>.op_Division = <font color="blue"><b>function</b></font> (x, y)
+                     {
+                       result = <font color="blue"><b>new</b></font> Complex(0, 0);
+                       d = y.re * y.re + y.im * y.im;
+                       result.re = (x.re * y.re + x.im * y.im) / d;
+                       result.im = (x.im * y.re - x.re * y.im) / d;
+                       <font color="blue"><b>return</b></font> result;
+                     }
+  <font color="blue"><b>this</b></font>.op_Negation = <font color="blue"><b>function</b></font> (x){ <font color="blue"><b>return</b></font> <font color="blue"><b>new</b></font> Complex(- x.re, - x.im); }
+  <font color="blue"><b>this</b></font>.op_Equality = <font color="blue"><b>function</b></font> op_Equality(x, y) { <font color="blue"><b>return</b></font> (x.re == y.re) && (x.im == y.im); }
+  <font color="blue"><b>this</b></font>.op_Inequality = <font color="blue"><b>function</b></font> op_Inequality(x, y) { <font color="blue"><b>return</b></font> (x.re != y.re) || (x.im != y.im); }
+}
+
+c1 = <font color="blue"><b>new</b></font> Complex(10, 20);
+c2 = <font color="blue"><b>new</b></font> Complex(30, 40);
+c3 = c1 + c2;
+<font color="blue"><b>println</b></font> c3.re, <font color="Red">" "</font>, c3.im;
+c3 = c1 - c2;
+<font color="blue"><b>println</b></font> c3.re, <font color="Red">" "</font>, c3.im;
+c3 = c1 * c2;
+<font color="blue"><b>println</b></font> c3.re, <font color="Red">" "</font>, c3.im;
+c3 = c1 / c2;
+<font color="blue"><b>println</b></font> c3.re, <font color="Red">" "</font>, c3.im;
+c3 = - c3;
+<font color="blue"><b>println</b></font> c3.re, <font color="Red">" "</font>, c3.im;
+<font color="blue"><b>println</b></font> c1 == c2;
+<font color="blue"><b>println</b></font> c1 != c2;
+</pre>
+</blockquote>
+
+<H4>
+paxPascal
+</H4>
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  Complex = <font color="blue"><b>record</b></font>
+    re, im: Double;
+    <font color="blue"><b>static</b></font> <font color="blue"><b>const</b></font> i: Complex = (0.0, 1.0);
+    // +
+    <font color="blue"><b>operator</b></font> + (x, y: Complex): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x.re + y.re;
+      result.im := x.im + y.im;
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> + (x: Complex; y: Double): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x.re + y;
+      result.im := x.im;
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> + (x: Double; y: Complex): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x + y.re;
+      result.im := y.im;
+    <font color="blue"><b>end</b></font>;
+    // -
+    <font color="blue"><b>operator</b></font> - (x, y: Complex): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x.re - y.re;
+      result.im := x.im - y.im;
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> - (x: Complex; y: Double): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x.re - y;
+      result.im := x.im;
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> - (x: Double; y: Complex): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x - y.re;
+      result.im := - y.im;
+    <font color="blue"><b>end</b></font>;
+    // unary -
+    <font color="blue"><b>operator</b></font> - (x: Complex): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := -x.re;
+      result.im := -x.im;
+    <font color="blue"><b>end</b></font>;
+    // *
+    <font color="blue"><b>operator</b></font> * (x, y: Complex): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x.re * y.re - x.im * y.im;
+      result.im := x.re * y.im + y.re * x.im;
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> * (x: Complex; y: Double): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x.re * y;
+      result.im := x.im * y;
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> * (x: Double; y: Complex): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := y.re * x;
+      result.im := y.im * x;
+    <font color="blue"><b>end</b></font>;
+    // /
+    <font color="blue"><b>operator</b></font> / (x, y: Complex): Complex;
+    <font color="blue"><b>var</b></font>
+      d: Double;
+    <font color="blue"><b>begin</b></font>
+      d := y.re * y.re + y.im * y.im;
+      result.re := (x.re * y.re + x.im * y.im) / d;
+      result.im := (x.im * y.re - x.re * y.im) / d;
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> / (x: Complex; y: Double): Complex;
+    <font color="blue"><b>begin</b></font>
+      result.re := x.re / y;
+      result.im := x.im / y;
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> / (x: Double; y: Complex): Complex;
+    <font color="blue"><b>var</b></font>
+      d: Double;
+    <font color="blue"><b>begin</b></font>
+      d := y.re * y.re + y.im * y.im;
+      result.re := x * y.re / d;
+      result.im := - x * y.im / d;
+    <font color="blue"><b>end</b></font>;
+    // =
+    <font color="blue"><b>operator</b></font> = (x, y: Complex): Boolean;
+    <font color="blue"><b>begin</b></font>
+      result := (x.re = y.re) <font color="blue"><b>and</b></font> (x.im = y.im);
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> = (x: Double; y: Complex): Boolean;
+    <font color="blue"><b>begin</b></font>
+      result := (x = y.re) <font color="blue"><b>and</b></font> (0.0 = y.im);
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> = (x: Complex; y: Double): Boolean;
+    <font color="blue"><b>begin</b></font>
+      result := (x.re = y) <font color="blue"><b>and</b></font> (x.im = 0.0);
+    <font color="blue"><b>end</b></font>;
+    // <>
+    <font color="blue"><b>operator</b></font> <> (x, y: Complex): Boolean;
+    <font color="blue"><b>begin</b></font>
+      result := (x.re <> y.re) <font color="blue"><b>or</b></font> (x.im <> y.im);
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> <> (x: Double; y: Complex): Boolean;
+    <font color="blue"><b>begin</b></font>
+      result := (x <> y.re) <font color="blue"><b>or</b></font> (0.0 <> y.im);
+    <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>operator</b></font> <> (x: Complex; y: Double): Boolean;
+    <font color="blue"><b>begin</b></font>
+      result := (x.re <> y) <font color="blue"><b>or</b></font> (x.im <> 0.0);
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>var</b></font>
+  x, y, z: Complex;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>println</b></font> Complex.i.re;
+  <font color="blue"><b>println</b></font> Complex.i.im;
+
+  x.re := 10.3;
+  x.im := 100.2;
+  y.re := 5.3;
+  y.im := 5.5;
+  
+  <font color="blue"><b>println</b></font> x = y;
+  <font color="blue"><b>println</b></font> x <> y;
+
+  z := x + y;
+  <font color="blue"><b>println</b></font> z.re;
+  <font color="blue"><b>println</b></font> z.im;
+  z := z + 5.5;
+  <font color="blue"><b>println</b></font> z.re;
+  <font color="blue"><b>println</b></font> z.im;
+  z := 7 + z;
+  <font color="blue"><b>println</b></font> z.re;
+  <font color="blue"><b>println</b></font> z.im;
+  z := -z;
+  <font color="blue"><b>println</b></font> z.re;
+  <font color="blue"><b>println</b></font> z.im;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<H4>
+paxBasic
+</H4>
+<blockquote>
+<pre>
+<font color="blue"><b>Structure</b></font> Complex
+  <font color="blue"><b>Dim</b></font> re <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>
+  <font color="blue"><b>Dim</b></font> im <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>
+  <font color="blue"><b>Shared</b></font> <font color="blue"><b>Dim</b></font> i <font color="blue"><b>As</b></font> Complex = (0.0, 1.0)
+  ' +
+  <font color="blue"><b>Operator</b></font> + (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x.re + y.re, x.im + y.im)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> + (x <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x + y.re, y.im)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> + (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x.re + y, x.im)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  ' -
+  <font color="blue"><b>Operator</b></font> - (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x.re - y.re, x.im - y.im)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> - (x <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x - y.re, - y.im)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> - (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x.re - y, x.im)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  ' unary -
+  <font color="blue"><b>Operator</b></font> - (x <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (-x.re, -x.im)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  ' *
+  <font color="blue"><b>Operator</b></font> * (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x.re * y.re - x.im * y.im, x.re * y.im + y.re * x.im)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> * (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x.re * y, x.im * y)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> * (x <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (y.re * x, y.im * x)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  ' /
+  <font color="blue"><b>Operator</b></font> / (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> d <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font> = y.re * y.re + y.im * y.im
+    result.re = (x.re * y.re + x.im * y.im) / d
+    result.im = (x.im * y.re - x.re * y.im) / d
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> / (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex = (x.re / y, x.im / y)
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> / (x <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> Complex
+    <font color="blue"><b>Dim</b></font> d <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font> = y.re * y.re + y.im * y.im
+    result.re = x * y.re / d
+    result.im = - x * y.im / d
+    <font color="blue"><b>return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  ' =
+  <font color="blue"><b>Operator</b></font> = (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+    <font color="blue"><b>return</b></font> (x.re = y.re) <font color="blue"><b>and</b></font> (x.im = y.im)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> = (x <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+    <font color="blue"><b>return</b></font> (x = y.re) <font color="blue"><b>and</b></font> (0.0 = y.im)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> = (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+    <font color="blue"><b>return</b></font> (x.re = y) <font color="blue"><b>and</b></font> (x.im = 0.0)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  ' <>
+  <font color="blue"><b>Operator</b></font> <> (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+    <font color="blue"><b>return</b></font> (x.re <> y.re) <font color="blue"><b>or</b></font> (x.im <> y.im)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> <> (x <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>, y <font color="blue"><b>As</b></font> Complex) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+    <font color="blue"><b>return</b></font> (x <> y.re) <font color="blue"><b>or</b></font> (0.0 <> y.im)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+  <font color="blue"><b>Operator</b></font> <> (x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> <font color="blue"><b>Double</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+    <font color="blue"><b>return</b></font> (x.re <> y) <font color="blue"><b>or</b></font> (x.im <> 0.0)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Operator</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Structure</b></font>
+
+<font color="blue"><b>Dim</b></font> x <font color="blue"><b>As</b></font> Complex, y <font color="blue"><b>As</b></font> Complex, z <font color="blue"><b>As</b></font> Complex
+
+<font color="blue"><b>println</b></font> Complex.i.re
+
+x.re = 56.7
+x.im = 8
+y.re = 12
+y.im = 22.2
+z = x + y
+<font color="blue"><b>println</b></font> x, y, z
+</pre>
+</blockquote>
+
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+<font color="blue"><b>structure</b></font> Complex {
+  <font color="blue"><b>double</b></font> re, im;
+  <font color="blue"><b>static</b></font> Complex i = (0.0, 1.0);
+  // +
+  Complex <font color="blue"><b>operator</b></font> + (Complex x, Complex y) {
+    Complex result = (x.re + y.re, x.im + y.im);
+    <font color="blue"><b>return</b></font> result;
+  }
+  Complex <font color="blue"><b>operator</b></font> + (Complex x, <font color="blue"><b>double</b></font> y) {
+    Complex result = (x.re + y, x.im);
+    <font color="blue"><b>return</b></font> result;
+  }
+  Complex <font color="blue"><b>operator</b></font> + (<font color="blue"><b>double</b></font> x, Complex y) {
+    Complex result = (x + y.re, y.im);
+    <font color="blue"><b>return</b></font> result;
+  }
+  // -
+  Complex <font color="blue"><b>operator</b></font> - (Complex x, Complex y) {
+    Complex result = (x.re - y.re, x.im - y.im);
+    <font color="blue"><b>return</b></font> result;
+  }
+  Complex <font color="blue"><b>operator</b></font> - (Complex x, <font color="blue"><b>double</b></font> y) {
+    Complex result = (x.re - y, x.im);
+    <font color="blue"><b>return</b></font> result;
+  }
+  Complex <font color="blue"><b>operator</b></font> - (<font color="blue"><b>double</b></font> x, Complex y) {
+    Complex result = (x - y.re, - y.im);
+    <font color="blue"><b>return</b></font> result;
+  }
+  // unary -
+  Complex <font color="blue"><b>operator</b></font> - (Complex x) {
+    Complex result = (-x.re, -x.im);
+    <font color="blue"><b>return</b></font> result;
+  }
+  // *
+  Complex <font color="blue"><b>operator</b></font> * (Complex x, Complex y) {
+    Complex result = (x.re * y.re - x.im * y.im, x.re * y.im + y.re * x.im);
+    <font color="blue"><b>return</b></font> result;
+  }
+  Complex <font color="blue"><b>operator</b></font> * (Complex x, <font color="blue"><b>double</b></font> y) {
+    Complex result = (x.re * y, x.im * y);
+    <font color="blue"><b>return</b></font> result;
+  }
+  Complex <font color="blue"><b>operator</b></font> * (<font color="blue"><b>double</b></font> x, Complex y) {
+    Complex result = (y.re * x, y.im * x);
+    <font color="blue"><b>return</b></font> result;
+  }
+  // /
+  Complex <font color="blue"><b>operator</b></font> / (Complex x, Complex y) {
+    Complex result;
+    <font color="blue"><b>double</b></font> d;
+    d = y.re * y.re + y.im * y.im;
+    result.re = (x.re * y.re + x.im * y.im) / d;
+    result.im = (x.im * y.re - x.re * y.im) / d;
+    <font color="blue"><b>return</b></font> result;
+  }
+  Complex <font color="blue"><b>operator</b></font> / (Complex x, <font color="blue"><b>double</b></font> y) {
+    Complex result;
+    result.re = x.re / y;
+    result.im = x.im / y;
+    <font color="blue"><b>return</b></font> result;
+  }
+  Complex <font color="blue"><b>operator</b></font> / (<font color="blue"><b>double</b></font> x, Complex y) {
+    Complex result;
+    <font color="blue"><b>double</b></font> d;
+    d = y.re * y.re + y.im * y.im;
+    result.re = x * y.re / d;
+    result.im = - x * y.im / d;
+    <font color="blue"><b>return</b></font> result;
+  }
+  // ==
+  <font color="blue"><b>bool</b></font> <font color="blue"><b>operator</b></font> == (Complex x, Complex y) {
+    <font color="blue"><b>return</b></font> (x.re == y.re) && (x.im == y.im);
+  }
+  <font color="blue"><b>bool</b></font> <font color="blue"><b>operator</b></font> == (Complex x, <font color="blue"><b>double</b></font> y) {
+    <font color="blue"><b>return</b></font> (x.re == y) && (x.im == 0.0);
+  }
+  <font color="blue"><b>bool</b></font> <font color="blue"><b>operator</b></font> == (<font color="blue"><b>double</b></font> x, Complex y) {
+    <font color="blue"><b>return</b></font> (x == y.re) && (0.0 == y.im);
+  }
+  // !=
+  <font color="blue"><b>bool</b></font> <font color="blue"><b>operator</b></font> != (Complex x, Complex y) {
+    <font color="blue"><b>return</b></font> (x.re != y.re) || (x.im != y.im);
+  }
+  <font color="blue"><b>bool</b></font> <font color="blue"><b>operator</b></font> != (Complex x, <font color="blue"><b>double</b></font> y) {
+    <font color="blue"><b>return</b></font> (x.re != y) || (x.im != 0.0);
+  }
+  <font color="blue"><b>bool</b></font> <font color="blue"><b>operator</b></font> != (<font color="blue"><b>double</b></font> x, Complex y) {
+    <font color="blue"><b>return</b></font> (x != y.re) || (0.0 != y.im);
+  }
+}
+
+Complex x, y, z;
+
+<font color="blue"><b>println</b></font> Complex.i.re;
+
+x.re = 16.3;
+x.im = 7.5;
+y.re = 106.7;
+y.im = 13.4;
+z = x + y;
+<font color="blue"><b>println</b></font> z.re;
+<font color="blue"><b>println</b></font> z.im;
+<font color="blue"><b>println</b></font> x == y;
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

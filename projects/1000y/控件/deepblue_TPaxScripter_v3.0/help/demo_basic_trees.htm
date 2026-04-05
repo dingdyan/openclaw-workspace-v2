@@ -1,0 +1,113 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Binary trees (paxBasic).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> Key = 0, Left = 1, Right = 2
+
+<font color="blue"><b>Sub</b></font> AddNode(Root, X)
+  <font color="blue"><b>If</b></font> Root = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    Root = [X, <font color="blue"><b>NULL</b></font>, <font color="blue"><b>NULL</b></font>]
+  <font color="blue"><b>ElseIf</b></font> X < Root(Key) <font color="blue"><b>Then</b></font>
+    AddNode(<font color="blue"><b>AddressOf</b></font> Root(Left), X)
+  <font color="blue"><b>ElseIf</b></font> X > Root(Key) <font color="blue"><b>Then</b></font>
+    AddNode(<font color="blue"><b>AddressOf</b></font> Root(Right), X)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Function</b></font> Search(Root, X)
+  <font color="blue"><b>If</b></font> Root = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Return</b></font> <font color="blue"><b>NULL</b></font>
+  <font color="blue"><b>ElseIf</b></font> X = Root(Key) <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Return</b></font> Root
+  <font color="blue"><b>ElseIf</b></font> X < Root(Key) <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Return</b></font> Search(Root(Left), X)
+  <font color="blue"><b>Else</b></font>
+    <font color="blue"><b>Return</b></font> Search(Root(Right), X)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Sub</b></font> DeleteNode(Root, X)
+  <font color="blue"><b>Dim</b></font>  P, R
+  
+  R = Search(Root, X)
+
+  <font color="blue"><b>If</b></font> R = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Exit</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>ElseIf</b></font> (R(Left) = <font color="blue"><b>NULL</b></font>) <font color="blue"><b>And</b></font> (R(Right) = <font color="blue"><b>NULL</b></font>) <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Reduced</b></font> R = <font color="blue"><b>NULL</b></font>
+  <font color="blue"><b>ElseIf</b></font> R(Left) = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Reduced</b></font> R = R(Right)
+  <font color="blue"><b>ElseIF</b></font> R(Right) = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Reduced</b></font> R = R[Left]
+  <font color="blue"><b>Else</b></font>
+    P = <font color="blue"><b>AddressOf</b></font> R(Left)
+    <font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P(Right) = <font color="blue"><b>NULL</b></font>
+      P = <font color="blue"><b>AddressOf</b></font> P(Right)
+    <font color="blue"><b>Loop</b></font>
+    R(Key) = P(Key)
+    <font color="blue"><b>Reduced</b></font> P = P(Left)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Sub</b></font> PreOrder(Root)
+  <font color="blue"><b>If</b></font> Root <> <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>println</b></font> Root(Key)
+    PreOrder(Root(Left))
+    PreOrder(Root(Right))
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Sub</b></font> InOrder(Root)
+  <font color="blue"><b>If</b></font> Root <> <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    InOrder(Root(Left))
+    <font color="blue"><b>println</b></font> Root(Key)
+    InOrder(Root(Right))
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Sub</b></font> PostOrder(Root)
+  <font color="blue"><b>If</b></font> Root <> <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    PostOrder(Root(Right))
+    PostOrder(Root(Left))
+    <font color="blue"><b>println</b></font> Root(Key)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Dim</b></font> Tree, X
+
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 10)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 5)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 15)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 3)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 8)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 13)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 18)
+<font color="blue"><b>println</b></font> Tree
+PreOrder(Tree)
+
+X = Search(Tree, 5)
+<font color="blue"><b>println</b></font> X
+
+DeleteNode(<font color="blue"><b>AddressOf</b></font> Tree, 10)
+<font color="blue"><b>println</b></font> Tree
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

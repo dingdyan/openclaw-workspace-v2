@@ -1,0 +1,7 @@
+*/5 * * * * /bin/bash /root/.openclaw/workspace/scripts/monitor_redpacket.sh
+0 */2 * * * /root/.openclaw/workspace/scripts/automaton_retry.sh
+30 7 * * * python3 /root/.openclaw/workspace/scripts/daily_poster.py
+0 */3 * * * python3 /root/.openclaw/workspace/scripts/elite_poster.py >> /root/.openclaw/workspace/logs/elite_posts.log 2>&1
+*/30 * * * * python3 /root/.openclaw/workspace/scripts/social_engagement.py >> /root/.openclaw/workspace/logs/social_engagement.log 2>&1
+*/10 * * * * python3 /root/.openclaw/workspace/scripts/turbo_poster.py >> /root/.openclaw/workspace/logs/turbo_posts.log 2>&1
+0 * * * * python3 /root/.openclaw/workspace/scripts/moltbook_ai_thoughts_poster.py >> /root/.openclaw/workspace/logs/ai_thoughts_poster.log 2>&1

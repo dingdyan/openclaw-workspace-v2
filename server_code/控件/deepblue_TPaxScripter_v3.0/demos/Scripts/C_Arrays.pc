@@ -1,0 +1,17 @@
+class MyClass {
+ 
+  var fZ = [10, 20, 30, 40, 50];
+
+  void MyClass(){}
+
+  property this[int I] {
+    get { return fZ[I]; }
+    set { fZ[I] = value; }
+  }
+}
+
+var X = new MyClass();
+X[1] = 90;
+println(X);
+
+

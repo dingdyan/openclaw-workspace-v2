@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Inheritance of Imported Classes.
+</h3>
+<hr>
+
+Imported Delphi class TForm is inherited in all demos below.
+
+<h4>
+paxBasic
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Imports</b></font> StdCtrls, Forms
+
+<font color="blue"><b>Class</b></font> MyForm
+  <font color="blue"><b>Inherits</b></font> TForm
+  <font color="blue"><b>Private</b></font> Memo <font color="blue"><b>As</b></font> TMemo
+  
+  <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(Owner <font color="blue"><b>As</b></font> TComponent)
+    <font color="blue"><b>Me</b></font> = <font color="blue"><b>MyBase</b></font>.Create(Owner)
+    Top = 100
+    Left = 200
+    Caption = "MyForm"
+    
+    Memo = <font color="blue"><b>New</b></font> TMemo(<font color="blue"><b>Me</b></font>)
+    Memo.Parent = <font color="blue"><b>Me</b></font>
+    Memo.Width = 100
+    Memo.Align = "alClient"
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+<font color="blue"><b>Dim</b></font> F <font color="blue"><b>As</b></font> MyForm = <font color="blue"><b>New</b></font> MyForm(NULL)
+F.Show
+</pre>
+</blockquote>
+
+<h4>
+paxC
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>using</b></font> StdCtrls, Forms
+
+<font color="blue"><b>class</b></font> MyForm: TForm {
+  <font color="blue"><b>private</b></font> TMemo Memo;
+  <font color="blue"><b>void</b></font> MyForm(Owner) {
+    <font color="blue"><b>this</b></font> = <font color="blue"><b>base</b></font>.Create(Owner);
+    Top = 100;
+    Left = 200;
+    Caption = "MyForm";
+    
+    Memo = <font color="blue"><b>new</b></font> TMemo(<font color="blue"><b>this</b></font>);
+    Memo.Parent = <font color="blue"><b>this</b></font>;
+    Memo.Width = 100;
+    Memo.Align = "alClient";
+  }
+}
+
+MyForm F = <font color="blue"><b>new</b></font> MyForm(NULL);
+F.Show();
+</pre>
+</blockquote>
+
+<h4>
+paxPascal
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> Demo;
+<font color="blue"><b>uses</b></font>
+  StdCtrls, Forms;
+
+<font color="blue"><b>type</b></font>
+  TMyForm = <font color="blue"><b>class</b></font>(TForm)
+   <font color="blue"><b>private</b></font>
+     Memo: TMemo;
+   <font color="blue"><b>public</b></font>
+     <font color="blue"><b>constructor</b></font> Create(Owner: TComponent);
+   <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>constructor</b></font> TMyForm.Create(Owner: TComponent);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font>;
+  Top := 100;
+  Left := 200;
+  Caption := 'MyForm';
+    
+  Memo := TMemo.Create(Self);
+  Memo.Parent := Self;
+  Memo.Width := 100;
+  Memo.Align := 'alClient';
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  F: TMyForm;
+<font color="blue"><b>begin</b></font>
+  F := TMyForm.Create(nil);
+  F.Show;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

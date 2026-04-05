@@ -1,0 +1,119 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Namespaces, Modularity and Cross-language Programming.
+</h3>
+<hr>
+
+<h4>
+Example 1
+</h4>
+
+
+Let's create the first module in paxBasic:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Namespace</b></font> MyTask
+
+  <font color="blue"><b>Class</b></font> B 
+    <font color="blue"><b>Private</b></font> x As <font color="blue"><b>String</b></font> = "abc", y As <font color="blue"><b>Integer</b></font> = 700
+
+    <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>() 
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+    <font color="blue"><b>Shared</b></font> <font color="blue"><b>Function</b></font> Create() <i>// To create instances in paxPascal</i>
+      <font color="blue"><b>Return</b></font> (<font color="blue"><b>New</b></font> B())
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+<font color="blue"><b>End</b></font> <font color="blue"><b>Namespace</b></font>
+</pre>
+</blockquote>
+
+
+After that we create the second module in paxC:
+
+<blockquote>
+<pre>
+<font color="blue"><b>namespace</b></font> MyTask {
+
+  <font color="blue"><b>class</b></font> A {
+    <font color="blue"><b>var</b></font>
+       x = 100, y = [500, 800];
+
+    <font color="blue"><b>void</b></font> A(){} 
+
+    <font color="blue"><b>static</b></font> <font color="blue"><b>void</b></font> Create(){ // To create instances in paxPascal
+      <font color="blue"><b>return</b></font> (<font color="blue"><b>new</b></font> A());
+    }
+  }
+}
+</pre>
+</blockquote>
+
+Now we can use both modules in paxPascal:
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> Demo;
+<font color="blue"><b>uses</b></font> MyTask;
+<font color="blue"><b>var</b></font>
+  x: A; y: B;
+<font color="blue"><b>begin</b></font>
+  x := A.Create();
+  y := B.Create();
+  <font color="blue"><b>print</b></font> x;
+  <font color="blue"><b>print</b></font> y;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+<h4>
+Example 2
+</h4>
+
+A standard paxPascal routine writeln is located in paxPascalNamespace. You can use 
+it in all pax-languages.
+
+<p>
+paxPascal:
+</p>
+
+<pre>
+writeln('Hello from paxPascal!'); 
+</pre>
+
+<p>
+paxC:
+</p>
+
+<pre>
+<font color="blue"><b>using</b></font> paxPascalNamespace;
+writeln('Hello from paxPascal!'); 
+</pre>
+
+<p>
+paxBasic:
+</p>
+
+<pre>
+<font color="blue"><b>imports</b></font> paxPascalNamespace
+writeln "Hello from paxPascal!"
+</pre>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{"protocol":"gep-a2a","protocol_version":"1.0.0","message_type":"hello","message_id":"msg_1772694170781_cdc1","sender_id":"node_059ab9c091cdcdec","timestamp":"2026-03-05T07:02:50.781Z","payload":{"capabilities":{},"gene_count":0,"capsule_count":0,"env_fingerprint":{"platform":"linux","arch":"x64"}}}

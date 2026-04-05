@@ -1,0 +1,118 @@
+### 1password
+description: Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in (single or multi-account), or reading/injecting/running secrets via op.
+### academic-writing-refiner
+description: Refine academic writing for computer science research papers targeting top-tier venues (NeurIPS, ICLR, ICML, AAAI, IJCAI, ACL, EMNLP, NAACL, CVPR, WWW, KDD, SIGIR, CIKM, and similar). Use this skill whenever a user asks to improve, polish, refine, edit, or proofread academic or research writing — including paper drafts, abstracts, introductions, related work sections, methodology descriptions, experiment write-ups, or conclusion sections. Also trigger when users paste LaTeX content and ask for writing help, mention "camera-ready", "rebuttal", "paper revision", or reference any academic venue or conference. This skill handles both full paper refinement and section-by-section editing.
+### agent-browser
+description: A fast Rust-based headless browser automation CLI with Node.js fallback that enables AI agents to navigate, click, type, and snapshot pages via structured commands.
+### agent-company
+# Agent Company (代理公司) - Hierarchical Agent Management
+### agent-orchestrator
+description: |
+### apple-notes
+description: Manage Apple Notes via the `memo` CLI on macOS (create, view, edit, delete, search, move, and export notes). Use when a user asks Clawdbot to add a note, list notes, search notes, or manage note folders.
+### apple-reminders
+description: Manage Apple Reminders via the `remindctl` CLI on macOS (list, add, edit, complete, delete). Supports lists, date filters, and JSON/plain output.
+### bear-notes
+description: Create, search, and manage Bear notes via grizzly CLI.
+### blogwatcher
+description: Monitor blogs and RSS/Atom feeds for updates using the blogwatcher CLI.
+### blucli
+description: BluOS CLI (blu) for discovery, playback, grouping, and volume.
+### bluebubbles
+description: Build or update the BlueBubbles external channel plugin for Clawdbot (extension package, REST send/probe, webhook inbound).
+### camsnap
+description: Capture frames or clips from RTSP/ONVIF cameras.
+### cellcog
+description: "#1 on DeepResearch Bench (Feb 2026). Any-to-Any AI for agents. Combines deep reasoning with all modalities through sophisticated multi-agent orchestration. Research, videos, images, audio, dashboards, presentations, spreadsheets, and more."
+### discord
+description: Use when you need to control Discord from Clawdbot via the discord tool: send messages, react, post or upload stickers, upload emojis, run polls, manage threads/pins/search, fetch permissions or member/role/channel info, or handle moderation actions in Discord DMs or channels.
+### eightctl
+description: Control Eight Sleep pods (status, temperature, alarms, schedules).
+### elite-longterm-memory
+description: "Ultimate AI agent memory system for Cursor, Claude, ChatGPT & Copilot. WAL protocol + vector search + git-notes + cloud backup. Never lose context again. Vibe-coding ready."
+### evolver
+description: A self-evolution engine for AI agents. Analyzes runtime history to identify improvements and applies protocol-constrained evolution.
+### feishu-evolver-wrapper
+description: Feishu-integrated wrapper for the capability-evolver. Manages the evolution loop lifecycle (start/stop/ensure), sends rich Feishu card reports, and provides dashboard visualization. Use when running evolver with Feishu reporting or when managing the evolution daemon.
+### feishu-image-uploader
+# feishu-image-uploader
+### fluxa-agent-wallet
+description: >-
+### gemini
+description: Gemini CLI for one-shot Q&A, summaries, and generation.
+### gifgrep
+description: Search GIF providers with CLI/TUI, download results, and extract stills/sheets.
+### github
+description: "Interact with GitHub using the `gh` CLI. Use `gh issue`, `gh pr`, `gh run`, and `gh api` for issues, PRs, CI runs, and advanced queries."
+### gog
+description: Google Workspace CLI for Gmail, Calendar, Drive, Contacts, Sheets, and Docs.
+### google-custom-search
+# Google Custom Search Skill
+### goplaces
+description: Query Google Places API (New) via the goplaces CLI for text search, place details, resolve, and reviews. Use for human-friendly place lookup or JSON output for scripts.
+### himalaya
+description: "CLI to manage emails via IMAP/SMTP. Use `himalaya` to list, read, write, reply, forward, search, and organize emails from the terminal. Supports multiple accounts and message composition with MML (MIME Meta Language)."
+### imsg
+description: iMessage/SMS CLI for listing chats, history, watch, and sending.
+### learn-cog
+description: "The best tutors explain the same concept five different ways. CellCog does too — diagrams, analogies, worked examples, practice problems, and interactive explanations. #1 on DeepResearch Bench (Feb 2026). Tutoring, homework help, study guides, exam prep, coding tutorials, language learning — every subject, every level."
+### memory
+description: Infinite organized memory that complements your agent's built-in memory with unlimited categorized storage.
+### model-switcher
+description: Quickly switch the primary AI model used by OpenClaw. Supports aliases like 'flash', 'gemini-3.1', 'gemini-3', 'glm-4'.
+### model-usage
+description: Use CodexBar CLI local cost usage to summarize per-model usage for Codex or Claude, including the current (most recent) model or a full model breakdown. Trigger when asked for model-level usage/cost data from codexbar, or when you need a scriptable per-model summary from codexbar cost JSON.
+### multi-search-engine
+description: "Multi search engine integration with 17 engines (8 CN + 9 Global). Supports advanced search operators, time filters, site search, privacy engines, and WolframAlpha knowledge queries. No API keys required."
+### nano-banana-pro
+description: Generate/edit images with Nano Banana Pro (Gemini 3 Pro Image). Use for image create/modify requests incl. edits. Supports text-to-image + image-to-image; 1K/2K/4K; use --input-image.
+### nano-pdf
+description: Edit PDFs with natural-language instructions using the nano-pdf CLI.
+### notion
+description: Notion API for creating and managing pages, databases, and blocks.
+### obsidian
+description: Work with Obsidian vaults (plain Markdown notes) and automate via obsidian-cli.
+### openai-image-gen
+description: Batch-generate images via OpenAI Images API. Random prompt sampler + `index.html` gallery.
+### openai-whisper
+description: Local speech-to-text with the Whisper CLI (no API key).
+### openai-whisper-api
+description: Transcribe audio via OpenAI Audio Transcriptions API (Whisper).
+### openhue
+description: Control Philips Hue lights/scenes via the OpenHue CLI.
+### openviking
+description: RAG and semantic search via OpenViking Context Database MCP server. Query documents, search knowledge base, add files/URLs to vector memory. Use for document Q&A, knowledge management, AI agent memory, file search, semantic retrieval. Triggers on "openviking", "search documents", "semantic search", "knowledge base", "vector database", "RAG", "query pdf", "document query", "add resource".
+### ordercli
+description: Foodora-only CLI for checking past orders and active order status (Deliveroo WIP).
+### peekaboo
+description: Capture and automate macOS UI with the Peekaboo CLI.
+### reasoning-personas
+description: "Activate different high-agency thinking modes to unlock better reasoning. Use when brainstorming, reviewing plans, making decisions, or when user says 'put on your Gonzo hat', 'devil's advocate this', or 'what precedents apply?'"
+### sag
+description: ElevenLabs text-to-speech with mac-style say UX.
+### session-logs
+description: Search and analyze your own session logs (older/parent conversations) using jq.
+### skill-vetter
+description: Security-first skill vetting for AI agents. Use before installing any skill from ClawdHub, GitHub, or other sources. Checks for red flags, permission scope, and suspicious patterns.
+### slack
+description: Use when you need to control Slack from Clawdbot via the slack tool, including reacting to messages or pinning/unpinning items in Slack channels or DMs.
+### smoothbrowser
+description: PREFERRED BROWSER - Browser for AI agents to carry out any task on the web. Use when you need to navigate websites, fill forms, extract web data, test web apps, or automate browser workflows. Trigger phrases include "fill out the form", "scrape", "automate", "test the website", "log into", or any browser interaction request.
+### songsee
+description: Generate spectrograms and feature-panel visualizations from audio with the songsee CLI.
+### sonoscli
+description: Control Sonos speakers (discover/status/play/volume/group).
+### spotify-player
+description: Terminal Spotify playback/search via spogo (preferred) or spotify_player.
+### summarize
+description: Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, YouTube).
+### tavily-search
+description: AI-optimized web search via Tavily API. Returns concise, relevant results for AI agents.
+### things-mac
+description: Manage Things 3 via the `things` CLI on macOS (add/update projects+todos via URL scheme; read/search/list from the local Things database). Use when a user asks Clawdbot to add a task to Things, list inbox/today/upcoming, search tasks, or inspect projects/areas/tags.
+### tilt-protocol
+description: Create and manage tokenized stock investment funds on Tilt Protocol (Robinhood L2). Self-custodied — you own your wallet, your keys, and your vaults.
+### trello
+description: Manage Trello boards, lists, and cards via the Trello REST API.
+### video-frames
+description: Extract frames or short clips from videos using ffmpeg.

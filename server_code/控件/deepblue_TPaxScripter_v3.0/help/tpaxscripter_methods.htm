@@ -1,0 +1,2006 @@
+<html>
+</head>
+
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+<H3>
+TPaxScripter Methods
+</H3>
+<hr>
+<ul>
+<li><a href="#TPaxScripter.AddBreakpoint">AddBreakpoint</a></li>
+<li><a href="#TPaxScripter.AddCode">AddCode</a></li>
+<li><a href="#TPaxScripter.AddCodeFromFile">AddCodeFromFile</a></li>
+<li><a href="#TPaxScripter.AddDelphiForm">AddDelphiForm</a></li>
+<li><a href="#TPaxScripter.AddModule">AddModule</a></li>
+<li><a href="#TPaxScripter.CallFunction">CallFunction</a></li>
+<li><a href="#TPaxScripter.CallFunctionEx">CallFunctionEx</a></li>
+<li><a href="#TPaxScripter.CallFunctionByIdEx">CallFunctionByIdEx</a></li>
+<li><a href="#TPaxScripter.CallFunctionByID">CallFunctionByID</a></li>
+<li><a href="#TPaxScripter.Compile">Compile</a></li>
+<li><a href="#TPaxScripter.CompileModule">CompileModule</a></li>
+<li><a href="#TPaxScripter.Create">Create</a></li>
+<li><a href="#TPaxScripter.Destroy">Destroy</a></li>
+<li><a href="#TPaxScripter.DiscardError">DiscardError</a></li>
+<li><a href="#TPaxScripter.EnumMembers">EnumMembers</a></li>
+<li><a href="#TPaxScripter.Eval">Eval</a></li>
+<li><a href="#TPaxScripter.FileExtToLanguageName">FileExtToLanguageName</a></li>
+<li><a href="#TPaxScripter.FindLanguage">FindLanguage</a></li>
+<li><a href="#TPaxScripter.GetAddress">GetAddress</a></li>
+<li><a href="#TPaxScripter.GetClassInfo">GetClassInfo</a></li>
+<li><a href="#TPaxScripter.GetInstruction">GetInstruction</a></li>
+<li><a href="#TPaxScripter.GetKind">GetKind</a></li>
+<li><a href="#TPaxScripter.GetLastResult">GetLastResult</a></li>
+<li><a href="#TPaxScripter.GetMemberID">GetMemberID</a></li>
+<li><a href="#TPaxScripter.GetModule">GetModule</a></li>
+<li><a href="#TPaxScripter.GetName">GetName</a></li>
+<li><a href="#TPaxScripter.GetOwnerID">GetOwnerID</a></li>
+<li><a href="#TPaxScripter.GetParamID">GetParamID</a></li>
+<li><a href="#TPaxScripter.GetPosition">GetPosition</a></li>
+<li><a href="#TPaxScripter.GetResultID">GetResultID</a></li>
+<li><a href="#TPaxScripter.GetRootID">GetRootID</a></li>
+<li><a href="#TPaxScripter.GetTypeID">GetTypeID</a></li>
+<li><a href="#TPaxScripter.GetUserData">GetUserData</a></li>
+<li><a href="#TPaxScripter.GetValueByID">GetValueByID</a></li>
+<li><a href="#TPaxScripter.InstructionCount">InstructionCount</a></li>
+<li><a href="#TPaxScripter.IsError">IsError</a></li>
+<li><a href="#TPaxScripter.IsExecutableSourceLine">IsExecutableSourceLine</a></li>
+<li><a href="#TPaxScripter.IsLocalVariable">IsLocalVariable</a></li>
+<li><a href="#TPaxScripter.LanguageCount">LanguageCount</a></li>
+<li><a href="#TPaxScripter.LoadProject">LoadProject</a></li>
+<li><a href="#TPaxScripter.LoadFromFile">LoadFromFile</a></li>
+<li><a href="#TPaxScripter.LoadFromStream">LoadFromStream</a></li>
+<li><a href="#TPaxScripter.RegisterConstant">RegisterConstant</a></li>
+<li><a href="#TPaxScripter.RegisterInterfaceVar">RegisterInterfaceVar</a></li>
+<li><a href="#TPaxScripter.RegisterLanguage">RegisterLanguage</a></li>
+<li><a href="#TPaxScripter.RegisterVariable">RegisterVariable</a></li>
+<li><a href="#TPaxScripter.RegisterObject">RegisterObject</a></li>
+<li><a href="#TPaxScripter.RegisterField">RegisterField</a></li>
+<li><a href="#TPaxScripter.RemoveAllBreakpoints">RemoveAllBreakpoints</a></li>
+<li><a href="#TPaxScripter.RemoveBreakpoint">RemoveBreakpoint</a></li>
+<li><a href="#TPaxScripter.ResetScripter">ResetScripter</a></li>
+<li><a href="#TPaxScripter.Run">Run</a></li>
+<li><a href="#TPaxScripter.RunInstruction">RunInstruction</a></li>
+<li><a href="#TPaxScripter.SaveModuleToFile">SaveModuleToFile</a></li>
+<li><a href="#TPaxScripter.SaveModuleToStream">SaveModuleToStream</a></li>
+<li><a href="#TPaxScripter.SaveToFile">SaveToFile</a></li>
+<li><a href="#TPaxScripter.SaveToStream">SaveToStream</a></li>
+<li><a href="#TPaxScripter.SetValueByID">SetValueByID</a></li>
+<li><a href="#TPaxScripter.UnregisterAllConstants">UnregisterAllConstants</a></li>
+<li><a href="#TPaxScripter.UnregisterAllObjects">UnregisterAllObjects</a></li>
+<li><a href="#TPaxScripter.UnregisterAllVariables">UnregisterAllVariables</a></li>
+<li><a href="#TPaxScripter.UnregisterConstant">UnregisterConstant</a></li>
+<li><a href="#TPaxScripter.UnregisterLanguage">UnregisterLanguage</a></li>
+<li><a href="#TPaxScripter.UnregisterObject">UnregisterObject</a></li>
+<li><a href="#TPaxScripter.UnregisterVariable">UnregisterVariable</a></li>
+</ul>
+<a name="TPaxScripter.AddBreakpoint"><h3>TPaxScripter.AddBreakpoint</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Adds breakpoint to a script.
+<pre>
+<font color="blue"><b>function</b></font> AddBreakpoint(<font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font>; LineNumber: Integer): Boolean;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>ModuleName</i>
+<blockquote>
+Name of module.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>LineNumber</i>
+<blockquote>
+Line number.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+PAXScripter1.AddBreakpoint(<font color="Red">'MyModule'</font>, 17);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.RemoveAllBreakpoints"><li>RemoveAllBreakpoints</li></a>
+<a href="#TPaxScripter.RemoveBreakpoint"><li>RemoveBreakpoint</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.AddCode"><h3>TPaxScripter.AddCode</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Adds source code to a module.
+<pre>
+<font color="blue"><b>procedure</b></font> AddCode(<font color="blue"><b>const</b></font> ModuleName, Code: <font color="blue"><b>String</b></font>);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Module</i>
+<blockquote>
+A <font color="black"><i>module</i></font> name.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Code</i>
+<blockquote>
+Source <font color="black"><i>code</i></font>.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+PAXScripter1.AddModule(<font color="Red">'MyModule'</font>, <font color="Red">'paxBasic'</font>); 
+PAXScripter1.AddCode(<font color="Red">'MyModule'</font>, <font color="Red">'Dim X = 10'</font>);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.AddCodeFromFile"><li>AddCodeFromFile</li></a>
+<a href="#TPaxScripter.AddDelphiForm"><li>AddDelphiForm</li></a>
+<a href="#TPaxScripter.AddModule"><li>AddModule</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.AddCodeFromFile"><h3>TPaxScripter.AddCodeFromFile</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Adds source code to scripter from a text file.
+<pre>
+<font color="blue"><b>procedure</b></font> AddCodeFromFile(<font color="blue"><b>const</b></font> ModuleName, FileName: <font color="blue"><b>String</b></font>);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>ModuleName</i>
+<blockquote>
+Name of module.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>FileName</i>
+<blockquote>
+Name of text file
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+PAXScripter1.AddModule(<font color="Red">'MyModule'</font>, <font color="Red">'paxC'</font>);
+PAXScripter1.AddCodeFromFile(<font color="Red">'MyModule'</font>, <font color="Red">'afile.sc'</font>);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.AddCode"><li>AddCode</li></a>
+<a href="#TPaxScripter.AddDelphiForm"><li>AddDelphiForm</li></a>
+<a href="#TPaxScripter.AddModule"><li>AddModule</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.AddDelphiForm"><h3>TPaxScripter.AddDelphiForm</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Adds a Delphi form to script project.
+<pre>
+<font color="blue"><b>procedure</b></font> AddDelphiForm(<font color="blue"><b>const</b></font> DfmFileName, UnitFileName: <font color="blue"><b>String</b></font>); <font color="blue"><b>overload</b></font>;
+<font color="blue"><b>procedure</b></font> AddDelphiForm(<font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font>; Dfm, Source: TStream); <font color="blue"><b>overload</b></font>;
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.AddCode"><li>AddCode</li></a>
+<a href="#TPaxScripter.AddCodeFromFile"><li>AddCodeFromFile</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.AddModule"><h3>TPaxScripter.AddModule</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Adds a new module to scripter.
+<pre>
+<font color="blue"><b>function</b></font> AddModule(<font color="blue"><b>const</b></font> ModuleName, LanguageName: <font color="blue"><b>String</b></font>): Integer;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>ModuleName</i>
+<blockquote>
+Name of module.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Language name</i>
+<blockquote>
+Name of language
+</blockquote>
+</blockquote>
+<p>
+The AddModule method returns id of module.
+<H4>
+Example
+</H4>
+<pre>
+ModuleId := PAXScripter1.AddModule(<font color="Red">'MyModule'</font>, <font color="Red">'paxC'</font>);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.AddCode"><li>AddCode</li></a>
+<a href="#TPaxScripter.AddCodeFromFile"><li>AddCodeFromFile</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.CallFunction"><h3>TPaxScripter.CallFunction</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Calls a script-defined function or method of object defined in the global (noname) namespace.
+<pre>
+<font color="blue"><b>function</b></font> CallFunction(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; <font color="blue"><b>const</b></font> Params: array <font color="blue"><b>of</b></font> <font color="blue"><b>const</b></font>; <font color="blue"><b>const</b></font> ObjectName: <font color="blue"><b>String</b></font> = <font color="Red">''</font>): Variant;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Name</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of function or procedure.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Params</i>
+<blockquote>
+List of actual parameters.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ObjectName</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of host-defined object or script-defined object. If <font color="black"><i>ObjectName</i></font> = '', CallFunction calls function defined in the global (noname) namespace.
+</blockquote>
+</blockquote>
+<p>
+The CallFunction calls CallFunctionByID internally.
+<H4>
+Example
+</H4>
+<pre>
+// Script in paxPascal:
+
+<font color="blue"><b>uses</b></font>
+  StdCtrls, ExtCtrls, Forms;
+
+<font color="blue"><b>type</b></font>
+  TMyForm = <font color="blue"><b>class</b></font>(TForm)
+   <font color="blue"><b>public</b></font>
+     Memo: TMemo;
+     pnl: TPanel;
+     b1: TButton;
+     <font color="blue"><b>constructor</b></font> Create(Owner: TComponent);
+     <font color="blue"><b>procedure</b></font> OnPress( Sender );
+   <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMyForm.OnPress( Sender );
+<font color="blue"><b>begin</b></font>   
+  Memo.Lines.Add( <font color="Red">'World'</font> );
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>constructor</b></font> TMyForm.Create(Owner: TComponent);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font>;
+  Top := 100;
+  Left := 200;
+  Caption := <font color="Red">'MyForm'</font>;
+
+  Memo := TMemo.Create(Self);
+  Memo.Parent := Self;
+  Memo.Width := 100;
+  Memo.Align := <font color="Red">'alClient'</font>;
+
+  pnl := TPanel.Create(Self);
+  pnl.Parent := Self;
+  pnl.Align := <font color="Red">'alBottom'</font>;
+  pnl.Height := 50;
+
+  b1:= TButton.Create(Self);
+  b1.Parent := pnl;
+  b1.SetBounds( 10, 10, 50, 20 );
+  b1.Caption := <font color="Red">'Press'</font>;
+  b1.OnClick := @ OnPress;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  F: TMyForm;
+<font color="blue"><b>begin</b></font>
+  F := TMyForm.Create(nil);
+  F.Memo.Lines.Add( <font color="Red">'Hello'</font> );
+  F.Show;
+<font color="blue"><b>end</b></font>.
+
+...........................
+
+Delphi code:
+
+ PaxScripter1.CallFunction(<font color="Red">"TMyForm.OnPress"</font>, [Sender], <font color="Red">"F"</font>);
+
+C++ Builder code:
+
+ TVarRec v[] = { Sender };
+ PaxScripter1->CallFunction(<font color="Red">"TMyForm.OnPress"</font>, v, ARRAYSIZE(v) - 1, <font color="Red">"F"</font>);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.Eval"><li>Eval</li></a>
+<a href="#TPaxScripter.Run"><li>Run</li></a>
+<a href="#TPaxScripter.CallFunctionByID"><li>CallFunctionByID</li></a>
+<a href="#TPaxScripter.CallFunctionEx"><li>CallFunctionEx</li></a>
+<a href="#TPaxScripter.CallFunctionByIdEx"><li>CallFunctionByIdEx</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.CallFunctionEx"><h3>TPaxScripter.CallFunctionEx</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Calls a script-defined function or method of object defined in the global (noname) namespace.
+<pre>
+<font color="blue"><b>function</b></font> CallFunctionEx(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; <font color="blue"><b>const</b></font> Params: array <font color="blue"><b>of</b></font> <font color="blue"><b>const</b></font>; <font color="blue"><b>const</b></font> StrTypes: array <font color="blue"><b>of</b></font> <font color="blue"><b>String</b></font>; AnObjectName: <font color="blue"><b>String</b></font> = <font color="Red">''</font>): Variant;
+</pre>
+<p>
+The method has the same semantics as CallFunction, but, in addition, allows you to provide information about actual parameter types. Use CallFunctionEx instead of Use CallFunction when you want to pass an interface pointer as parameter.
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.CallFunction"><li>CallFunction</li></a>
+<a href="#TPaxScripter.CallFunctionByIdEx"><li>CallFunctionByIdEx</li></a>
+<a href="#TPaxScripter.CallFunctionByID"><li>CallFunctionByID</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.CallFunctionByIdEx"><h3>TPaxScripter.CallFunctionByIdEx</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Calls a script-defined function represented by its id.
+<pre>
+<font color="blue"><b>function</b></font> CallFunctionByIDEx(SubID: Integer; <font color="blue"><b>const</b></font> Params: array <font color="blue"><b>of</b></font> <font color="blue"><b>const</b></font>; <font color="blue"><b>const</b></font> StrTypes: array <font color="blue"><b>of</b></font> <font color="blue"><b>String</b></font>; ObjectID: Integer = 0): Variant;
+</pre>
+<p>
+The method has the same semantics as CallFunctionById, but, in addition, allows you to provide information about actual parameter types. Use CallFunctionByIdEx instead of Use CallFunctionById when you want to pass an interface pointer as parameter.
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.CallFunction"><li>CallFunction</li></a>
+<a href="#TPaxScripter.CallFunctionEx"><li>CallFunctionEx</li></a>
+<a href="#TPaxScripter.CallFunctionByID"><li>CallFunctionByID</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.CallFunctionByID"><h3>TPaxScripter.CallFunctionByID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Calls a script-defined function represented by its id.
+<pre>
+<font color="blue"><b>function</b></font> CallFunctionByID(SubID: Integer; <font color="blue"><b>const</b></font> Params: array <font color="blue"><b>of</b></font> <font color="blue"><b>const</b></font>; ObjectID: Integer = 0): Variant;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>SubID</i>
+<blockquote>
+Id of function.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Params</i>
+<blockquote>
+Array of parameters
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ObjectID</i>
+<blockquote>
+Id of a object.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+S := TPaxScripter.Create(nil);
+S.AddLanguage(TPaxPascal.Create(nil));
+S.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">'program Demo;'</font>);
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">'Var D : array[0..1023] of double;'</font>);
+S.Addcode(<font color="Red">'1'</font>, <font color="Red">'procedure Init;'</font>);
+S.Addcode(<font color="Red">'1'</font>, <font color="Red">'begin'</font>);
+S.Addcode(<font color="Red">'1'</font>, <font color="Red">'D[0] := 1;'</font>);
+S.Addcode(<font color="Red">'1'</font>, <font color="Red">'end;'</font>);
+S.Addcode(<font color="Red">'1'</font>, <font color="Red">'function P(TimeIndex : integer; MinSize, MaxSize:double) : double;'</font>);
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">'begin'</font>);
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">' D[0] := D[0] + 1;'</font>); 
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">' P := D[0];'</font>);
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">'end;'</font>);
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">'begin'</font>);
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">'end.'</font>);
+S.Compile;
+S.CallFunction(<font color="Red">'Demo.Init'</font>, []);
+
+SubID := GetMemberID(<font color="Red">'Demo.P'</font>);
+
+<font color="blue"><b>for</b></font> i := 0 <font color="blue"><b>to</b></font> 1000 <font color="blue"><b>do</b></font>
+<font color="blue"><b>begin</b></font>
+  S.AddBreakpoint(<font color="Red">'1'</font>, 10);
+  S.CallFunctionByID(SubID, [100, 0.1, 0.2]);
+  Assert(S.ScripterState = ssPaused);
+  assert(S.CallStack.Count = 1);
+  S.Eval(<font color="Red">'D[0]'</font>, <font color="Red">'paxPascal'</font>, Res);
+  D1 := Res;
+  assert(round(D1) = (i + 2));
+  S.RemoveBreakpoint(<font color="Red">'1'</font>, 10);
+  S.Run(rmrun, <font color="Red">''</font>, 0);
+  Assert(S.ScripterState = ssTerminated);
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.CallFunction"><li>CallFunction</li></a>
+<a href="#TPaxScripter.Eval"><li>Eval</li></a>
+<a href="#TPaxScripter.Run"><li>Run</li></a>
+<a href="#TPaxScripter.CallFunctionEx"><li>CallFunctionEx</li></a>
+<a href="#TPaxScripter.CallFunctionByIdEx"><li>CallFunctionByIdEx</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.Compile"><h3>TPaxScripter.Compile</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Compiles all modules or performs the syntax check.
+<pre>
+<font color="blue"><b>function</b></font> Compile(SyntaxCheckOnly: Boolean = false): Boolean;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>SyntaxCheckOnly</i>
+<blockquote>
+If value is false, paxScript compiles all modules, otherwise it performs the syntax check only.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+AddModule(<font color="Red">'PascalModule'</font>, <font color="Red">'paxPascal'</font>);
+AddModule(<font color="Red">'BasicModule'</font>, <font color="Red">'paxBasic'</font>);
+AddCodeFromFile(<font color="Red">'PascalModule'</font>, <font color="Red">'pascal_module.sp'</font>);
+AddCode(<font color="Red">'BasicModule'</font>, <font color="Red">'Dim X = [10, 20, 30]'</font>);
+AddCode(<font color="Red">'BasicModule'</font>, <font color="Red">'Dim Y = 80'</font>);
+Compile;
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.CompileModule"><li>CompileModule</li></a>
+<a href="#TPaxScripter.IsError"><li>IsError</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.CompileModule"><h3>TPaxScripter.CompileModule</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Compiles a module or performs the syntax check.
+<pre>
+<font color="blue"><b>function</b></font> CompileModule(<font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font>;
+          SyntaxCheckOnly: Boolean = false): Boolean;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>ModuleName</i>
+<blockquote>
+Name of module.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>SyntaxCheckOnly</i>
+<blockquote>
+If value is true, paxScript compiles module, otherwise it performs the syntax check only.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+PAXScripter1.AddModule(<font color="Red">'MyModule'</font>, <font color="Red">'paxPascal'</font>);
+PAXScripter1.AddCodeFromFile(<font color="Red">'MyModule'</font>, <font color="Red">'afile.sp'</font>);
+PAXScripter1.CompileModule(<font color="Red">'MyModule'</font>);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.Compile"><li>Compile</li></a>
+<a href="#TPaxScripter.IsError"><li>IsError</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.Create"><h3>TPaxScripter.Create</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Creates and initializes a TPaxScripter instance.
+<pre>
+<font color="blue"><b>constructor</b></font> Create(AOwner: TComponent); <font color="blue"><b>override</b></font>;
+</pre>
+</blockquote>
+<a name="TPaxScripter.Destroy"><h3>TPaxScripter.Destroy</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Destroys an instance of TPAXScripter.
+<pre>
+<font color="blue"><b>destructor</b></font> Destroy; <font color="blue"><b>override</b></font>;
+</pre>
+</blockquote>
+<a name="TPaxScripter.DiscardError"><h3>TPaxScripter.DiscardError</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Descards last error raised at compile-time or run-time.
+<pre>
+<font color="blue"><b>procedure</b></font> DiscardError;
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.IsError"><li>IsError</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.EnumMembers"><h3>TPaxScripter.EnumMembers</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Eumerates members of script defined class or fields of script-defined method.
+<pre>
+<font color="blue"><b>procedure</b></font> EnumMembers(ID: Integer;
+                      Module: Integer;
+                      CallBack: TPaxMemberCallback;
+                      Data: Pointer);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>ID</i>
+<blockquote>
+<font color="black"><i>Id</i></font> of class or method
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Module</i>
+<blockquote>
+<font color="black"><i>Id</i></font> of <font color="black"><i>module</i></font> (0, 1, 2...).
+</blockquote>
+</blockquote>
+<blockquote>
+<i>CallBack</i>
+<blockquote>
+Call back function which is called for each member. 
+<p>
+TPaxMemberCallback = procedure (const                      Name: String;
+                     <font color="black"><i>ID</i></font>: Integer;
+                     Kind: TPAXMemberKind;
+                     ml: TPAXModifierList;
+                     <font color="black"><i>Data</i></font>: Pointer) of                      object;
+<ul>
+<li>Name - name of member
+<li><font color="black"><i>ID</i></font> - <font color="black"><i>id</i></font> of member
+<li>Kind - kind of member;
+    TPAXMemberKind = (mkUnknown, 
+       mkConst, mkField, mkProp, mkParam,         mkResult, mkMethod, mkClass,        mkStructure, mkEnum)
+<li>ml - modifier list;
+  TPAXModifier = (modDEFAULT, modPUBLIC,   modPRIVATE, modSTATIC, modPROTECTED);
+  TPAXModifierList = set of TPAXModifier;
+<li><font color="black"><i>Data</i></font> - user-defined pointer
+</ul>
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Data</i>
+<blockquote>
+User-defined pointer.
+</blockquote>
+</blockquote>
+<p>
+Group: "Code explorer".
+</p>
+</blockquote>
+<a name="TPaxScripter.Eval"><h3>TPaxScripter.Eval</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Evaluates an expression at run-time.
+<pre>
+<font color="blue"><b>function</b></font> Eval(<font color="blue"><b>const</b></font> Expression, LanguageName: <font color="blue"><b>String</b></font>; <font color="blue"><b>var</b></font> Res: Variant): Boolean;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Expression</i>
+<blockquote>
+An <font color="black"><i>expression</i></font>.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>LanguageName</i>
+<blockquote>
+Name of pax language
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Res</i>
+<blockquote>
+Result value.
+</blockquote>
+</blockquote>
+<p>
+Function Eval returns false, if there was a compile-time or run-time error. Use Eval function to process the watch expressions at run-time.
+<H4>
+Example
+</H4>
+<pre>
+PAXScripter1.Eval(<font color="Red">'x[10]'</font>, <font color="Red">'paxPascal'</font>, Res);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.Run"><li>Run</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.FileExtToLanguageName"><h3>TPaxScripter.FileExtToLanguageName</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns name of language by a file name.
+<pre>
+<font color="blue"><b>function</b></font> FileExtToLanguageName(<font color="blue"><b>const</b></font> FileExt: <font color="blue"><b>String</b></font>): <font color="blue"><b>String</b></font>;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+S PaxScripter1.FileExtToLanguageName(<font color="Red">'.pb'</font>);
+<font color="blue"><b>if</b></font> S <> nil <font color="blue"><b>then</b></font>
+  ShowMessage(Format(<font color="Red">'Scripts of %s language are located in files which have extension %s'</font>, [S, <font color="Red">'.pb'</font>]);
+</pre>
+</p>
+</blockquote>
+<a name="TPaxScripter.FindLanguage"><h3>TPaxScripter.FindLanguage</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns instance of TPaxLanguage class which represents properties of a scripting language.
+<pre>
+<font color="blue"><b>function</b></font> FindLanguage(<font color="blue"><b>const</b></font> LanguageName: <font color="blue"><b>String</b></font>): TPaxLanguage;
+</pre>
+<p>
+If scripter does not support the language, the FindLanguage method returns nil.
+<H4>
+Example
+</H4>
+<pre>
+L := PaxScripter1.FindLanguage(<font color="Red">'paxBasic'</font>); 
+<font color="blue"><b>if</b></font> L <> nil <font color="blue"><b>then</b></font>
+  ShowMessage(<font color="Red">'Ok'</font>)
+<font color="blue"><b>else</b></font>
+  ShowMessage(<font color="Red">'This TPaxScripter instance does not support the paxBasic language'</font>);
+</pre>
+</p>
+</blockquote>
+<a name="TPaxScripter.GetAddress"><h3>TPaxScripter.GetAddress</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns address of variable or method.
+<pre>
+<font color="blue"><b>function</b></font> GetAddress(ID: Integer): Pointer;
+</pre>
+</blockquote>
+<a name="TPaxScripter.GetClassInfo"><h3>TPaxScripter.GetClassInfo</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows you to get information about methods, fields, properties and events of a class.
+<pre>
+<font color="blue"><b>procedure</b></font> GetClassInfo(<font color="blue"><b>const</b></font> FullName: <font color="blue"><b>String</b></font>; mk: TPaxMemberKind; L: TStrings);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>FullName</i>
+<blockquote>
+Full qualified name of class.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>mk</i>
+<blockquote>
+Admissible values are mkField, mkProp, mkMethod, mkEvent.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>L</i>
+<blockquote>
+Output string list.
+</blockquote>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.GetInstruction"><h3>TPaxScripter.GetInstruction</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns p-code instruction.
+<pre>
+<font color="blue"><b>function</b></font> GetInstruction(N: Integer): TPaxInstruction;
+</pre>
+<p>
+TPaxInstruction = record
+  N, Op, Arg1, Arg2, Res: Integer;
+end;
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.InstructionCount"><li>InstructionCount</li></a>
+<a href="#TPaxScripter.RunInstruction"><li>RunInstruction</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.GetKind"><h3>TPaxScripter.GetKind</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns kind of id.
+<pre>
+<font color="blue"><b>function</b></font> GetKind(ID: Integer): TPAXMemberKind;
+</pre>
+<p>
+TPAXMemberKind = (mkUnknown, mkConst, mkField, mkProp, mkParam, mkResult,
+                  mkMethod, mkClass, mkStructure, mkEnum);
+</p>
+</blockquote>
+<a name="TPaxScripter.GetLastResult"><h3>TPaxScripter.GetLastResult</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns id of result of function which was called in the debug mode.
+<pre>
+<font color="blue"><b>function</b></font> GetLastResult: Integer;
+</pre>
+</blockquote>
+<a name="TPaxScripter.GetMemberID"><h3>TPaxScripter.GetMemberID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns id of a script-defined variable, method or type by its name.
+<pre>
+<font color="blue"><b>function</b></font> GetMemberID(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>): Integer;
+</pre>
+<p>
+Group: "Code explorer".
+</p>
+</blockquote>
+<a name="TPaxScripter.GetModule"><h3>TPaxScripter.GetModule</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns id of module.
+<pre>
+<font color="blue"><b>function</b></font> GetModule(ID: Integer): Integer;
+</pre>
+<p>
+Modules are numerated by numbers 0, 1, 2... according to the order of AddModule method calls.
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.AddModule"><li>AddModule</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.GetName"><h3>TPaxScripter.GetName</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns name of script-defined variable, method or class represented by its id.
+<pre>
+<font color="blue"><b>function</b></font> GetName(ID: Integer): <font color="blue"><b>String</b></font>;
+</pre>
+<p>
+Group: "Code explorer".
+</p>
+</blockquote>
+<a name="TPaxScripter.GetOwnerID"><h3>TPaxScripter.GetOwnerID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns id of owner of script-defined type, variable or method.
+<pre>
+<font color="blue"><b>function</b></font> GetOwnerID(ID: Integer): Integer;
+</pre>
+</blockquote>
+<a name="TPaxScripter.GetParamID"><h3>TPaxScripter.GetParamID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns id of formal parameter of a script-defined method.
+<pre>
+<font color="blue"><b>function</b></font> GetParamID(SubID, ParamIndex: Integer): Integer;
+</pre>
+<p>
+Group: "Code Explorer".
+</p>
+</blockquote>
+<a name="TPaxScripter.GetPosition"><h3>TPaxScripter.GetPosition</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns text position of a script-defined variable, method or type by its id.
+<pre>
+<font color="blue"><b>function</b></font> GetPosition(ID: Integer): Integer;
+</pre>
+<p>
+Group: "Code Explorer".
+</p>
+</blockquote>
+<a name="TPaxScripter.GetResultID"><h3>TPaxScripter.GetResultID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns id of result of script-defined method.
+<pre>
+<font color="blue"><b>function</b></font> GetResultID(SubID: Integer): Integer;
+</pre>
+<p>
+Group: "Code explorer".
+</p>
+</blockquote>
+<a name="TPaxScripter.GetRootID"><h3>TPaxScripter.GetRootID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns id of noname namespace.
+<pre>
+<font color="blue"><b>function</b></font> GetRootID: Integer;
+</pre>
+<p>
+Group: "Code explorer".
+</p>
+</blockquote>
+<a name="TPaxScripter.GetTypeID"><h3>TPaxScripter.GetTypeID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns id of type of a script-defined variable or method.
+<pre>
+<font color="blue"><b>function</b></font> GetTypeID(ID: Integer): Integer;
+</pre>
+<p>
+Group: "Code explorer".
+</p>
+</blockquote>
+<a name="TPaxScripter.GetUserData"><h3>TPaxScripter.GetUserData</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns user data associated with a host-defined variable, constant, type or method.
+<pre>
+<font color="blue"><b>function</b></font> GetUserData(ID: Integer): Integer;
+</pre>
+</blockquote>
+<a name="TPaxScripter.GetValueByID"><h3>TPaxScripter.GetValueByID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns value of a script-defined variable by its id.
+<pre>
+<font color="blue"><b>function</b></font> GetValueByID(ID: Integer): Variant;
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.SetValueByID"><li>SetValueByID</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.InstructionCount"><h3>TPaxScripter.InstructionCount</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns number of instructions of p-code.
+<pre>
+<font color="blue"><b>function</b></font> InstructionCount: Integer;
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.GetInstruction"><li>GetInstruction</li></a>
+<a href="#TPaxScripter.RunInstruction"><li>RunInstruction</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.IsError"><h3>TPaxScripter.IsError</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns true, if there was an error at compile-time or run-time.
+<pre>
+<font color="blue"><b>function</b></font> IsError: Boolean;
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.DiscardError"><li>DiscardError</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.IsExecutableSourceLine"><h3>TPaxScripter.IsExecutableSourceLine</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns 'true', if line of source code is the executable script line.
+<pre>
+<font color="blue"><b>function</b></font> TPaxScripter.IsExecutableSourceLine(<font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font>; L: Integer): Boolean;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+PaxScripter1.ResetScripter;
+  PaxScripter1.AddModule(<font color="Red">'1'</font>, <font color="Red">'PaxPascal'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, Memo1.Lines.Text);
+  PaxScripter1.Compile();
+
+  Memo2.Lines.Clear;
+
+  L := TStringList.Create;
+  L.Text := Memo1.Text;
+
+  <font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> L.Count - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    <font color="blue"><b>if</b></font> PaxScripter1.IsExecutableSourceLine(<font color="Red">'1'</font>, I) <font color="blue"><b>then</b></font>
+      S := <font color="Red">'*  '</font> + L[I]
+    <font color="blue"><b>else</b></font>
+      S := <font color="Red">'   '</font> + L[I];
+    L[I] := S;
+  <font color="blue"><b>end</b></font>;
+
+  Memo2.Text := L.Text;
+
+  L.Free;
+</pre>
+</p>
+</blockquote>
+<a name="TPaxScripter.IsLocalVariable"><h3>TPaxScripter.IsLocalVariable</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns true, if id represents a local variable.
+<pre>
+<font color="blue"><b>function</b></font> IsLocalVariable(ID: Integer): Boolean;
+</pre>
+</blockquote>
+<a name="TPaxScripter.LanguageCount"><h3>TPaxScripter.LanguageCount</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns number of pax-languages which supports the paxScripter.
+<pre>
+<font color="blue"><b>function</b></font> LanguageCount: Integer;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> PaxScripter1.LanguageCount - 1 <font color="blue"><b>do</b></font>
+  ShowMessage(PaxScripter1.Languages[I].LanguageName);
+</pre>
+</p>
+</blockquote>
+<a name="TPaxScripter.LoadProject"><h3>TPaxScripter.LoadProject</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Loads paxScript project from disk.
+<pre>
+<font color="blue"><b>procedure</b></font> LoadProject(<font color="blue"><b>const</b></font> FileName: <font color="blue"><b>String</b></font>);
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+PaxScripter1.LoadProject(<font color="Red">'myproject.pax'</font>);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.AddCode"><li>AddCode</li></a>
+<a href="#TPaxScripter.AddCodeFromFile"><li>AddCodeFromFile</li></a>
+<a href="#TPaxScripter.AddModule"><li>AddModule</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.LoadFromFile"><h3>TPaxScripter.LoadFromFile</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Loads all modules of compiled script from a file.
+<pre>
+<font color="blue"><b>procedure</b></font> LoadFromFile(<font color="blue"><b>const</b></font> FileName: <font color="blue"><b>String</b></font>);
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.LoadFromStream"><li>LoadFromStream</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.LoadFromStream"><h3>TPaxScripter.LoadFromStream</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Loads all modules of compiled script from a stream.
+<pre>
+<font color="blue"><b>procedure</b></font> LoadFromStream(S: TStream);
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>var</b></font>
+  S: TPaxScripter;
+  F: TFileStream;
+<font color="blue"><b>begin</b></font>
+  F := TFileStream.Create(<font color="Red">'compiled_script.bin'</font>, fmOpenRead);
+  S := TPaxScripter.Create(nil);
+  <font color="blue"><b>try</b></font>
+    S.LoadFromStream(F);
+    S.Run;
+  <font color="blue"><b>finally</b></font>
+    S.Free;
+    F.Free;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.LoadFromFile"><li>LoadFromFile</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.RegisterConstant"><h3>TPaxScripter.RegisterConstant</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Adds a host-defined constant to a script.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterConstant(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Value: Variant; Owner: Integer = -1);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Name</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of constant.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Value</i>
+<blockquote>
+<font color="black"><i>Value</i></font> of constant.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Owner</i>
+<blockquote>
+Optional. Determines handle of namespace which contains the constant.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example 1
+</H4>
+<pre>
+PAXScripter1.RegisterConstant(<font color="Red">'MyConst'</font>, 89.45);
+</pre>
+</p>
+<p>
+<H4>
+Example 2
+</H4>
+<pre>
+RegisterConstant(<font color="Red">'X'</font>, 800, RegisterNamespace(<font color="Red">'MyNamespace'</font>));
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.RegisterVariable"><li>RegisterVariable</li></a>
+<a href="#TPaxScripter.RegisterObject"><li>RegisterObject</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.RegisterInterfaceVar"><h3>TPaxScripter.RegisterInterfaceVar</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows you to register a variable of interface type.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterInterfaceVar(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; PIntf: PUnknown; <font color="blue"><b>const</b></font> guid: TGUID; Owner: Integer = -1);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Name</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of variable
+</blockquote>
+</blockquote>
+<blockquote>
+<i>PIntf</i>
+<blockquote>
+Pointer to the variable.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Guid</i>
+<blockquote>
+<font color="black"><i>GUID</i></font> of the interface type.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>private</b></font>
+  { <font color="blue"><b>Private</b></font> declarations }
+  hostobj: ITest;
+..............................................................
+PaxScripter1.RegisterInterfaceVar(<font color="Red">'hostobj'</font>, @ hostobj, ITest);
+</pre>
+</p>
+</blockquote>
+<a name="TPaxScripter.RegisterLanguage"><h3>TPaxScripter.RegisterLanguage</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Registeres new TPaxLanguage instance to scripter.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterLanguage(L: TPaxLanguage);
+</pre>
+<p>
+Use AddLanguage method call to register new pax-language for scripter.
+<H4>
+Example
+</H4>
+<pre>
+S := TPaxScripter.Create(nil);
+L := TPaxPascal.Create(nil);
+S.RegisterLanguage(L);
+S.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+S.AddCode(<font color="Red">'1'</font>, <font color="Red">'print <font color="Red">"Hello"</font>;'</font>);
+S.Run;
+S.Free;
+L.Free;
+</pre>
+</p>
+<p>
+Note, you need no to use RegisterLanguage in a GUI application as TPaxScripter will register all pax-languages components automatically. (These components should has the same owner that given TPaxScripter instance has).
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.UnregisterLanguage"><li>UnregisterLanguage</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.RegisterVariable"><h3>TPaxScripter.RegisterVariable</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Adds a host-defined variable to a script.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterVariable(<font color="blue"><b>const</b></font> Name, TypeName: <font color="blue"><b>String</b></font>; Address: Pointer; Owner: Integer = -1);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Name</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of variable.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>TypeName</i>
+<blockquote>
+Any scalar Delphi type.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Address</i>
+<blockquote>
+<font color="black"><i>Address</i></font> of variable.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Owner</i>
+<blockquote>
+Optional. Determines handle of namespace which contains the variable.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example 1
+</H4>
+<pre>
+RegisterVariable(<font color="Red">'MyVar'</font>, <font color="Red">'Integer'</font>, @MyVar);
+</pre>
+</p>
+<p>
+<H4>
+Example 2
+</H4>
+<pre>
+RegisterVariable(<font color="Red">'X'</font>, <font color="Red">'Doubler'</font>, @X, RegisterNamespace(<font color="Red">'MyNamespace'</font>));
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.RegisterConstant"><li>RegisterConstant</li></a>
+<a href="#TPaxScripter.RegisterObject"><li>RegisterObject</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.RegisterObject"><h3>TPaxScripter.RegisterObject</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Adds a host-defined object to a script.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterObject(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Instance: TObject; Owner: Integer = -1);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Name</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of object.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Instance</i>
+<blockquote>
+Object <font color="black"><i>instance</i></font>.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Owner</i>
+<blockquote>
+Optional. Determines handle of namespace which contains the object.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example 1
+</H4>
+<pre>
+MyObject := TMyObject.Create;
+PAXScripter1.RegisterObject(<font color="Red">'MyObject'</font>, MyObject);
+</pre>
+</p>
+<p>
+<H4>
+Example 2
+</H4>
+<pre>
+MyObject := TMyObject.Create;
+PAXScripter1.RegisterObject(<font color="Red">'MyObject'</font>, MyObject, RegisterNamespace(<font color="Red">'MyNamespace'</font>));
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.RegisterConstant"><li>RegisterConstant</li></a>
+<a href="#TPaxScripter.RegisterVariable"><li>RegisterVariable</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.RegisterField"><h3>TPaxScripter.RegisterField</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows to assign address of field of a script-defined structure.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterField(<font color="blue"><b>const</b></font> ObjectName: <font color="blue"><b>String</b></font>;
+                        ObjectType: <font color="blue"><b>String</b></font>;
+                        FieldName: <font color="blue"><b>String</b></font>;
+                        FieldType: <font color="blue"><b>String</b></font>;
+                        Address: Pointer);
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+// Delphi code
+
+<font color="blue"><b>var</b></font> MyHostDefinedVariable: Integer;
+<font color="blue"><b>begin</b></font>
+MyHostDefinedVariable := 100;
+RegisterField(<font color="Red">'P'</font>, <font color="Red">'TPoint'</font>, <font color="Red">'X'</font>, <font color="Red">'Integer'</font>, @MyHostDefinedVariable);
+................
+
+// Script code
+
+<font color="blue"><b>type</b></font>
+  TPoint = <font color="blue"><b>record</b></font>
+    X, Y: Integer;
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font> P: TPoint;
+print P.X; // outputs 100
+</pre>
+</p>
+</blockquote>
+<a name="TPaxScripter.RemoveAllBreakpoints"><h3>TPaxScripter.RemoveAllBreakpoints</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Removes all breakpoints from a script.
+<pre>
+<font color="blue"><b>procedure</b></font> RemoveAllBreakpoints;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>with</b></font> PAXScripter1 <font color="blue"><b>do</b></font>
+<font color="blue"><b>begin</b></font>
+  RemoveAllBreakpoints;
+  AddBreakpoint(<font color="Red">'MyModule'</font>, 17);
+  AddBreakpoint(<font color="Red">'MyModule'</font>, 32);
+  Run(rmStepOver);
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.AddBreakpoint"><li>AddBreakpoint</li></a>
+<a href="#TPaxScripter.RemoveBreakpoint"><li>RemoveBreakpoint</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.RemoveBreakpoint"><h3>TPaxScripter.RemoveBreakpoint</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Removes breakpoint from a script.
+<pre>
+<font color="blue"><b>function</b></font> AddBreakpoint(<font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font>; LineNumber: Integer): Boolean;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>ModuleName</i>
+<blockquote>
+Name of module.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>LineNumber</i>
+<blockquote>
+Line number.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+PAXScripter1.RemoveBreakpoint(<font color="Red">'MyModule'</font>, 17);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.AddBreakpoint"><li>AddBreakpoint</li></a>
+<a href="#TPaxScripter.RemoveAllBreakpoints"><li>RemoveAllBreakpoints</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.ResetScripter"><h3>TPaxScripter.ResetScripter</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Removes all modules and disconnect registered objects from scripter.
+<pre>
+<font color="blue"><b>procedure</b></font> ResetScripter;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>var</b></font>
+  S: TPaxScripter;
+<font color="blue"><b>begin</b></font>
+  S := TPaxScripter.Create(nil);
+
+  S.RegisterObject(<font color="Red">'Object1'</font>, FormMain);
+
+  S.AddModule(<font color="Red">'main'</font>, <font color="Red">'paxPascal'</font>);
+  S.AddCodeFromFile(<font color="Red">'main'</font>, <font color="Red">'script1.txt'</font>);
+  S.Run;
+
+  S.ResetScripter;
+
+  S.RegisterObject(<font color="Red">'Object2'</font>, FormMain.Button1);
+
+  S.AddModule(<font color="Red">'main'</font>, paxPascal);
+  S.AddCodeFromFile(<font color="Red">'main'</font>, <font color="Red">'script2.txt'</font>);
+  S.Run;
+....................
+</pre>
+</p>
+</blockquote>
+<a name="TPaxScripter.Run"><h3>TPaxScripter.Run</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Runs script.
+<pre>
+<font color="blue"><b>procedure</b></font> Run(RunMode: Integer = rmRun; <font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font> = <font color="Red">''</font>; LineNumber: Integer = 0);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>RunMode</i>
+<blockquote>
+Determines a run mode.
+<ul>
+<li>rmRun = 0. Executes a script.</li>
+<li>rmStepOver = 1. Executes a script one line at a time, stepping over procedures while executing them as a single unit.</li>
+<li>rmTraceInto = 2. Execute a script one line at a time, tracing into procedures and following the execution of each line. </li>
+<li>rmRunToCursor = 3. Executes a script up to the location of the cursor which is specified by <font color="black"><i>ModuleName</i></font> and <font color="black"><i>LineNumber</i></font>.
+<li>rmTraceToNextSourceLine = 4. Stops on the next source line in your application, regardless of the control flow. </li>
+</ul>
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ModuleName</i>
+<blockquote>
+It is used only for <font color="black"><i>RunMode</i></font> = rmRunToCursor. Specifies module name of the cursor.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>LineNumber</i>
+<blockquote>
+It is used only for <font color="black"><i>RunMode</i></font> = rmRunToCursor. Specifies the source code line number of the cursor.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+PAXScripter1.Run(rmRunToCursor, <font color="Red">'MyModule'</font>, 15);
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.CallFunction"><li>CallFunction</li></a>
+<a href="#TPaxScripter.Eval"><li>Eval</li></a>
+<a href="#TPaxScripter.IsError"><li>IsError</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.RunInstruction"><h3>TPaxScripter.RunInstruction</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Runs current instruction of p-code.
+<pre>
+<font color="blue"><b>procedure</b></font> RunInstruction;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>unit</b></font> TestThread1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, PaxScripter, PaxPascal;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    Memo1: TMemo;
+    cbStop: TCheckBox;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+    <font color="blue"><b>procedure</b></font> FormCreate(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+    fThreadCount: Integer;
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+ TMyThread = <font color="blue"><b>class</b></font>(TThread)
+ <font color="blue"><b>private</b></font>
+   Scripter: TPaxScripter;
+   Language: TPaxPascal;
+   UnsafeInstructions: array[1..100] <font color="blue"><b>of</b></font> Boolean;
+   <font color="blue"><b>procedure</b></font> MarkInstructions;
+   <font color="blue"><b>procedure</b></font> InvokeInstruction;
+   <font color="blue"><b>procedure</b></font> InstructionHandler(Sender: TObject; N: Integer;
+                                <font color="blue"><b>var</b></font> Handled: Boolean);
+ <font color="blue"><b>public</b></font>
+   <font color="blue"><b>constructor</b></font> Create;
+   <font color="blue"><b>destructor</b></font> Destroy; <font color="blue"><b>override</b></font>;
+   <font color="blue"><b>procedure</b></font> Execute; <font color="blue"><b>override</b></font>;
+ <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+<font color="blue"><b>uses</b></font>
+  IMP_SysUtils, IMP_Classes, IMP_StdCtrls, IMP_Controls, IMP_Forms, IMP_Graphics;
+
+{$R *.DFM}
+
+<font color="blue"><b>constructor</b></font> TMyThread.Create;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font> create(True);
+  FreeOnTerminate := true;
+  InterlockedIncrement(Form1.fThreadCount);
+  resume;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>destructor</b></font> TMyThread.Destroy;
+<font color="blue"><b>begin</b></font>
+  InterlockedDecrement(Form1.fThreadCount);
+  <font color="blue"><b>inherited</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMyThread.MarkInstructions;
+<font color="blue"><b>var</b></font>
+  N: Integer;
+  S: <font color="blue"><b>String</b></font>;
+  Instruction: TPaxInstruction;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>for</b></font> N:=1 <font color="blue"><b>to</b></font> Scripter.InstructionCount <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    UnsafeInstructions[N] := false;
+    Instruction := Scripter.GetInstruction(N);
+    <font color="blue"><b>if</b></font> Instruction.Op = _OP_CALL <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      S := Scripter.GetName(Instruction.Arg1);
+      <font color="blue"><b>if</b></font> S = <font color="Red">'TextOut'</font> <font color="blue"><b>then</b></font>
+        UnsafeInstructions[N] := true;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMyThread.InvokeInstruction;
+<font color="blue"><b>begin</b></font>
+  Scripter.RunInstruction;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMyThread.InstructionHandler(Sender: TObject; N: Integer;
+                                       <font color="blue"><b>var</b></font> Handled: Boolean);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> UnsafeInstructions[N] <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    Synchronize(InvokeInstruction);
+    Handled := true;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMythread.Execute;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>while</b></font> <font color="blue"><b>not</b></font> form1.cbStop.Checked <font color="blue"><b>do</b></font>
+  <font color="blue"><b>try</b></font>
+    Scripter := TPaxScripter.Create(nil);
+    Language := TPaxPascal.Create(nil);
+    <font color="blue"><b>try</b></font>
+      Scripter.RegisterLanguage(Language);
+      Scripter.RegisterObject(<font color="Red">'Form1'</font>, Form1);
+      Scripter.RegisterVariable(<font color="Red">'ThreadCount'</font>, <font color="Red">'Integer'</font>, @Form1.fThreadCount);
+
+      Scripter.AddModule(<font color="Red">'1'</font>, Language.LanguageName);
+      Scripter.AddCode(<font color="Red">'1'</font>, <font color="Red">'uses SysUtils, Classes, StdCtrls, Controls, Forms, Graphics;'</font>);
+      Scripter.AddCode(<font color="Red">'1'</font>,<font color="Red">'Form1.Memo1.Lines.Add(IntToStr(ThreadCount));'</font>);
+      Scripter.AddCode(<font color="Red">'1'</font>,<font color="Red">'Form1.Canvas.TextOut(0, 0, IntToStr(ThreadCount));'</font>);
+
+      Scripter.Compile;
+      MarkInstructions;
+
+      Scripter.OnRunning := InstructionHandler;
+      Scripter.Run;
+      <font color="blue"><b>if</b></font> Scripter.IsError <font color="blue"><b>then</b></font>
+        <font color="blue"><b>raise</b></font> Exception.create(Scripter.ErrorDescription);
+    <font color="blue"><b>finally</b></font>
+      FreeAndNil(Language);
+      FreeAndNil(Scripter);
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>except</b></font>
+    Application.HandleException(self);
+    terminate;
+    break;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>var</b></font>
+  I: Integer;
+<font color="blue"><b>begin</b></font>
+  cbStop.Checked := false;
+  <font color="blue"><b>for</b></font> I:=1 <font color="blue"><b>to</b></font> 1 <font color="blue"><b>do</b></font>
+    TMyThread.Create;
+  <font color="blue"><b>while</b></font> fThreadCount > 0 <font color="blue"><b>do</b></font>
+    Application.ProcessMessages;
+  Memo1.Lines.Add(<font color="Red">'Finished'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.FormCreate(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  RegisterClassType(TForm1, -1);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.GetInstruction"><li>GetInstruction</li></a>
+<a href="#TPaxScripter.InstructionCount"><li>InstructionCount</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.SaveModuleToFile"><h3>TPaxScripter.SaveModuleToFile</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Saves a module of compiled script to a file.
+<pre>
+<font color="blue"><b>procedure</b></font> SaveModuleToFile(<font color="blue"><b>const</b></font> ModuleName, FileName: <font color="blue"><b>String</b></font>);
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>var</b></font>
+  S: TPaxScripter;
+  LangPascal: TPaxPascal;
+  LangBasic: TPaxBasic;
+  LangC: TPaxC;
+<font color="blue"><b>begin</b></font>
+/////// CREATE COMPILED MODULES //////////////////////
+
+  S := TPaxScripter.Create(nil);
+
+  LangPascal := TPaxPascal.Create(nil);
+  LangC := TPaxC.Create(nil);
+  LangBasic := TPaxBasic.Create(nil);
+  S.RegisterLanguage(LangPascal);
+  S.RegisterLanguage(LangC);
+  S.RegisterLanguage(LangBasic);
+
+  S.AddModule(<font color="Red">'0'</font>, LangPascal.LanguageName);
+  S.AddCode(<font color="Red">'0'</font>, <font color="Red">'const A = 17;'</font>);
+  S.AddCode(<font color="Red">'0'</font>, <font color="Red">'const B = 10 + A;'</font>);
+
+  S.AddModule(<font color="Red">'1'</font>, LangC.LanguageName);
+  S.AddCode(<font color="Red">'1'</font>, <font color="Red">'void P(x){ print x; }'</font>);
+
+  S.AddModule(<font color="Red">'2'</font>, LangBasic.LanguageName);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'Imports Classes, Forms'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'Class MyForm'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'  Inherits TForm'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'  Sub New(Owner As TComponent)'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'     Me = MyBase.Create(Owner)'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'     Caption = <font color="Red">"MyForm"</font>'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'  End Sub'</font>);
+  S.AddCode(<font color="Red">'2'</font>, <font color="Red">'End Class'</font>);
+
+  S.Compile;
+
+  S.SaveModuleToFile(<font color="Red">'0'</font>, <font color="Red">'u0.bin'</font>);
+  S.SaveModuleToFile(<font color="Red">'1'</font>, <font color="Red">'u1.bin'</font>);
+  S.SaveModuleToFile(<font color="Red">'2'</font>, <font color="Red">'u2.bin'</font>);
+
+  S.Free;
+
+  LangPascal.Free;
+  LangC.Free;
+
+/////// USE COMPILED MODULES /////////////////////////
+
+  S := TPaxScripter.Create(nil);
+
+  LangBasic := TPaxBasic.Create(nil);
+  S.RegisterLanguage(LangBasic);
+
+  // add a source code module
+  S.AddModule(<font color="Red">'one'</font>, <font color="Red">'paxBasic'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'Dim F As MyForm'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'F = New MyForm(NULL)'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'F.Show()'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'print A'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'print B'</font>);
+  S.AddCode(<font color="Red">'one'</font>, <font color="Red">'P(300)'</font>);
+
+  // add compiled modules in a random order
+  S.LoadFromFile(<font color="Red">'u1.bin'</font>);
+  S.LoadFromFile(<font color="Red">'u0.bin'</font>);
+  S.LoadFromFile(<font color="Red">'u2.bin'</font>);
+
+  S.Run;
+
+  S.Free;
+  LangBasic.Free;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.SaveModuleToStream"><li>SaveModuleToStream</li></a>
+<a href="#TPaxScripter.SaveToFile"><li>SaveToFile</li></a>
+<a href="#TPaxScripter.SaveToStream"><li>SaveToStream</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.SaveModuleToStream"><h3>TPaxScripter.SaveModuleToStream</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Saves a module of compiled script to a stream.
+<pre>
+<font color="blue"><b>procedure</b></font> SaveModuleToStream(<font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font>; S: TStream);
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.SaveModuleToFile"><li>SaveModuleToFile</li></a>
+<a href="#TPaxScripter.SaveToFile"><li>SaveToFile</li></a>
+<a href="#TPaxScripter.SaveToStream"><li>SaveToStream</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.SaveToFile"><h3>TPaxScripter.SaveToFile</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Saves all modules of compiled script to a file
+<pre>
+<font color="blue"><b>procedure</b></font> SaveToFile(<font color="blue"><b>const</b></font> FileName: <font color="blue"><b>String</b></font>);
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.SaveModuleToFile"><li>SaveModuleToFile</li></a>
+<a href="#TPaxScripter.SaveModuleToStream"><li>SaveModuleToStream</li></a>
+<a href="#TPaxScripter.SaveToStream"><li>SaveToStream</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.SaveToStream"><h3>TPaxScripter.SaveToStream</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Saves all modules of compiled script to a stream.
+<pre>
+<font color="blue"><b>procedure</b></font> SaveToStream(S: TStream);
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>var</b></font>
+  S: TPaxScripter;
+  F: TFileStream;
+<font color="blue"><b>begin</b></font>
+  F := TFileStream.Create(<font color="Red">'compiled_script.bin'</font>, fmCreate);
+  S := TPaxScripter.Create(nil);
+  <font color="blue"><b>try</b></font>
+    S.AddModule(<font color="Red">'main'</font>, <font color="Red">'paxPascal'</font>);
+    S.AddCodeFromFile(<font color="Red">'main'</font>, <font color="Red">'myscript.txt'</font>);
+    S.Compile;
+    S.SaveToStream(F);
+  <font color="blue"><b>finally</b></font>
+    S.Free;
+    F.Free;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.SaveModuleToFile"><li>SaveModuleToFile</li></a>
+<a href="#TPaxScripter.SaveModuleToStream"><li>SaveModuleToStream</li></a>
+<a href="#TPaxScripter.SaveToFile"><li>SaveToFile</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.SetValueByID"><h3>TPaxScripter.SetValueByID</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Assigns value of a script-defined variable by its id.
+<pre>
+<font color="blue"><b>procedure</b></font> SetValueByID(ID: Integer; <font color="blue"><b>const</b></font> Value: Variant);
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.GetValueByID"><li>GetValueByID</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.UnregisterAllConstants"><h3>TPaxScripter.UnregisterAllConstants</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Unregisteres all host-defined constants once registered by RegisterConstant method.
+<pre>
+<font color="blue"><b>procedure</b></font> UnregisterAllConstants;
+</pre>
+</blockquote>
+<a name="TPaxScripter.UnregisterAllObjects"><h3>TPaxScripter.UnregisterAllObjects</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Unregisteres all host-defined objects once registered by RegisterObject method.
+<pre>
+<font color="blue"><b>procedure</b></font> UnregisterAllObjects;
+</pre>
+</blockquote>
+<a name="TPaxScripter.UnregisterAllVariables"><h3>TPaxScripter.UnregisterAllVariables</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Unregisteres all host-defined variables once registered by RegisterVariable method.
+<pre>
+<font color="blue"><b>procedure</b></font> UnregisterAllVariables;
+</pre>
+</blockquote>
+<a name="TPaxScripter.UnregisterConstant"><h3>TPaxScripter.UnregisterConstant</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Unregisteres a host-defined constant once registered by RegisterConstant method.
+<pre>
+<font color="blue"><b>procedure</b></font> UnregisterConstant(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Owner: Integer = -1);
+</pre>
+</blockquote>
+<a name="TPaxScripter.UnregisterLanguage"><h3>TPaxScripter.UnregisterLanguage</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Unregisteres pax-language for given TPaxScripter instance.
+<pre>
+<font color="blue"><b>procedure</b></font> UnregisterLanguage(<font color="blue"><b>const</b></font> LanguageName: <font color="blue"><b>String</b></font>);
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<a href="#TPaxScripter.RegisterLanguage"><li>RegisterLanguage</li></a>
+</ul>
+</blockquote>
+</blockquote>
+<a name="TPaxScripter.UnregisterObject"><h3>TPaxScripter.UnregisterObject</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Unregisteres a host-defined object once registered by RegisterObject method.
+<pre>
+<font color="blue"><b>procedure</b></font> UnregisterObject(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Owner: Integer = -1);
+</pre>
+</blockquote>
+<a name="TPaxScripter.UnregisterVariable"><h3>TPaxScripter.UnregisterVariable</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Unregisteres a host-defined variable once registered by RegisterVariable method.
+<pre>
+<font color="blue"><b>procedure</b></font> UnregisterVariable(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Owner: Integer = -1);
+</pre>
+</blockquote>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

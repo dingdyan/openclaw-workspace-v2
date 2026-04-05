@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter Demo. OnDefine event handler.
+</h3>
+<hr>
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> Unit1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, BASE_PARSER, PaxScripter, PaxPascal, PaxDfm,
+  IMP_Classes, IMP_Controls, IMP_Graphics, IMP_StdCtrls, IMP_Forms;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    Memo1: TMemo;
+    PaxScripter1: TPaxScripter;
+    PaxPascal1: TPaxPascal;
+    PaxDfmConverter1: TPaxDfmConverter;
+    Label1: TLabel;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+    <font color="blue"><b>procedure</b></font> PaxScripter1Define(Sender: TPaxScripter; <font color="blue"><b>const</b></font> S: <font color="blue"><b>String</b></font>);
+    <font color="blue"><b>procedure</b></font> PaxScripter1UsedModule(<font color="blue"><b>const</b></font> UsedModuleName,
+      FileName: <font color="blue"><b>String</b></font>; <font color="blue"><b>var</b></font> SourceCode: <font color="blue"><b>String</b></font>);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.dfm}
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.ResetScripter;
+  PaxScripter1.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'{$define Unit2.dfm}'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'program Test;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'uses'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'  Unit2;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'begin'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'  Form2 := TForm2.Create(nil);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'  Form2.Show;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'end.'</font>);
+
+  PaxScripter1.Run();
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1Define(Sender: TPaxScripter; <font color="blue"><b>const</b></font> S: <font color="blue"><b>String</b></font>);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> Sender.ScripterState = ssCompiling <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+     <font color="blue"><b>with</b></font> PaxDfmConverter1.UsedUnits <font color="blue"><b>do</b></font>
+     <font color="blue"><b>begin</b></font>
+       Add(<font color="Red">'Controls'</font>);
+       Add(<font color="Red">'StdCtrls'</font>);
+       Add(<font color="Red">'Graphics'</font>);
+       Add(<font color="Red">'Forms'</font>);
+     <font color="blue"><b>end</b></font>;
+    Memo1.Lines.Clear;
+    PaxDfmConverter1.Parse(S, Memo1.Lines, true);
+  <font color="blue"><b>end</b></font>
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Sender.ScripterState = ssRunning <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    // nothing
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1UsedModule(<font color="blue"><b>const</b></font> UsedModuleName,
+  FileName: <font color="blue"><b>String</b></font>; <font color="blue"><b>var</b></font> SourceCode: <font color="blue"><b>String</b></font>);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> UsedModuleName = <font color="Red">'Unit2'</font> <font color="blue"><b>then</b></font>
+    SourceCode := Memo1.Lines.Text;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

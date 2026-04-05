@@ -1,0 +1,12 @@
+{
+  "name": "feishu-image-uploader",
+  "version": "1.0.0",
+  "description": "A skill to upload images to Feishu and get the image_key",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.59.0"
+  }
+}

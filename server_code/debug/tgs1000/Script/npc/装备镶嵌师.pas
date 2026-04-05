@@ -1,0 +1,354 @@
+{**************************************************************
+创建人：何永安
+创建时间：2009.11.10
+功能：装备的镶嵌
+***************************************************************}
+
+procedure OnMenu(uSource, uDest:integer);
+begin
+    menusay(uSource, '我师兄精通精炼之术，我便专精镶嵌技术，通^'
+        + '过在武器和护具上镶嵌各种宝石，使其能力得^到增强。^^'
+        + '<〖镶嵌宝石〗/@Menu_Xq>^'
+        + '<〖镶嵌宝石介绍〗/@Menu_Xq_Help>^'
+        + '<〖拆卸宝石〗/@Menu_Cx>^'
+        + '<〖拆卸宝石介绍〗/@Menu_Cx_Help>^'
+        + '<〖 任 务 〗/@Quest>^');
+end;
+
+procedure Menu_Xq_Help(uSource, uDest:integer);
+begin
+    Menusay(uSOurce, '镶嵌宝石可以提升装备的特殊属性^'
+        + '每次镶嵌按装备品级收取一定的费用。^^'
+        + '<〖返回〗/@OnMenu>^^'
+        + '<〖退出〗/@exit>^^');
+end;
+
+procedure Menu_Cx_Help(uSource, uDest:integer);
+begin
+    Menusay(uSOurce, '拆卸宝石就是将装备的上的宝石全部拆下^'
+        + '一次拆卸装备上所有宝石，按装备品级收取一^'
+        + '定的费用。拆卸成功装备上宝石消失，装备恢^'
+        + '复到未镶嵌宝石状态。^^'
+        + '<〖返回〗/@OnMenu>^^'
+        + '<〖退出〗/@exit>^^');
+end;
+
+procedure Quest(uSOurce, uDest:integer);
+var
+    ComQuestId, CurQuestId, CurQuestStep:integer;
+begin
+    ComQuestId := GetQuestNo(uSOurce);
+    if ComQuestId > 4900 then
+    begin
+        Menusay(uSOurce, '别来烦我，没看见我正忙着吗？^^'
+            + '<〖返回〗/@OnMenu>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+    CurQuestId := GetQuestCurrentNo(uSource);
+    case CurQuestId of
+        4950:
+            begin
+                CurQuestStep := GetQuestStep(uSource);
+                if CurQuestStep = 13 then
+                begin
+                    Menusay(uSource, '很高兴认识你啊，我这儿可以为你的装备镶嵌各^'
+                        + '种宝石，需要的话随时可以找我！既然你来拜访^'
+                        + '我，那我就送你点镶嵌宝石吧^^'
+                        + '<〖谢谢〗/@q4950_j14>^^'
+                        + '<〖返回〗/@OnMenu>^^'
+                        + '<〖退出〗/@exit>^^');
+                end else
+                begin
+                    Menusay(uSOurce, '你都拜访了吗？^^'
+                        + '<〖返回〗/@OnMenu>^^'
+                        + '<〖退出〗/@exit>^^');
+                end;
+
+            end;
+    else
+        begin
+            Menusay(uSOurce, '别来烦我，没看见我正忙着吗？^^'
+                + '<〖返回〗/@OnMenu>^^'
+                + '<〖退出〗/@exit>^^');
+        end;
+    end;
+
+end;
+
+procedure q4950_j14(uSource, uDest:integer);
+var
+    aname, notice   :string;
+    acount          :integer;
+begin
+    if getItemSpace(uSource) < 5 then
+    begin
+        Menusay(uSource, '背包空位不足，请留出5个位置！^^'
+            + '<〖返回〗/@OnMenu>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    setQuestStep(uSOurce, 14);
+    notice := getQuestSubRequest(4950, 14);
+    saysystem(uSource, '任务提示：' + notice);
+
+    if getQuestSubItem(4950, 13, 0, aname, acount) = false then exit;
+    additem(uSource, aname, acount);
+    if getQuestSubItem(4950, 13, 1, aname, acount) = false then exit;
+    additem(uSource, aname, acount);
+    if getQuestSubItem(4950, 13, 2, aname, acount) = false then exit;
+    additem(uSource, aname, acount);
+    if getQuestSubItem(4950, 13, 3, aname, acount) = false then exit;
+    additem(uSource, aname, acount);
+    if getQuestSubItem(4950, 13, 4, aname, acount) = false then exit;
+    additem(uSource, aname, acount);
+    saysystem(uSource, '获得任务奖励：一级白.蓝.黄.黑.青玉之石各2个');
+    Menusay(uSOurce, '快去' + notice + '^^'
+        + '<〖返回〗/@OnMenu>^^'
+        + '<〖退出〗/@exit>');
+
+end;
+
+//镶嵌主菜单
+
+procedure Menu_Xq(uSource, uDest:integer);
+begin
+    menusay(uSource, '若要在装备上镶嵌宝石，请把你要镶嵌宝石的^'
+        + '装备放入左下角物品框里，手续费由装备品级^而定。^^^^'
+        + '<               〖镶嵌〗/@Xq_Begin>'
+        + '<               〖放弃〗/@exit>^^');
+    ItemInputWindowsOpen(uSource, 0, '装备栏', '请放入要镶嵌的装备');
+    ItemInputWindowsOpen(uSource, 1, '宝石栏', '请放入要镶嵌的宝石');
+    setItemInputWindowsKey(uSource, 0, -1);
+    setItemInputWindowsKey(uSource, 1, -1);
+end;
+
+procedure Xq_Begin(uSource, uDest:integer);
+var
+    aItemKey, aItemKey1, akind, aWearArr:integer;
+    aitemname       :string;
+    aNeedMoney      :integer;
+    agrade1         :Integer;
+begin
+    //检查两个框是否为空
+    aItemKey := getItemInputWindowsKey(uSource, 0);
+    aItemKey1 := getItemInputWindowsKey(uSource, 1);
+
+    //检查第一个框
+    if (aItemKey < 0) or (aItemKey > 29) then
+    begin
+        menusay(uSource, '请放入要镶嵌的装备^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //获取物品类型 ，判断是否是装备
+    akind := getitemKind(uSource, aitemkey);
+    if akind <> 6 then
+    begin
+        menusay(uSource, '只能镶嵌武器和防具！^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    aWearArr := getitemWearArr(uSource, aItemKey);
+    //判断是否是其他4个防具部位
+    if (aWearArr <> 8)             // 头
+    and (aWearArr <> 6)            // 衣服
+    and (aWearArr <> 1)            // 手
+    and (aWearArr <> 9)            // 手
+    and (aWearArr <> 3) then       // 脚
+    begin
+        menusay(uSource, '只能镶嵌武器，头盔，护腕，靴子和铠甲！^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+    aitemname := getitemname(uSource, aItemKey1);
+    agrade1 := getitemGrade(uSource, aItemKey);
+    //检查装备品级
+    if (aGrade1 <= 0) or (aGrade1 > 12) then
+    begin
+        menusay(uSource, '只能镶嵌1至12品的武器和防具装备！^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //剩余孔检查
+    if getitemSettingSpaceCount(uSource, aitemkey) <= 0 then
+    begin
+        menusay(uSource, '该装备无孔或者没有剩余孔数！^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查第2个框
+    if (aItemKey1 < 0) or (aItemKey1 > 29) then
+    begin
+        menusay(uSource, '请放入要镶嵌的宝石^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查石头对不对
+    akind := getitemkind(uSource, aItemKey1);
+    if (akind <> 121) then
+    begin
+        menusay(uSource, '镶嵌宝石不符！^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查两个框内的装备和宝石部位是否一样
+    if aWearArr <> getitemWearArr(uSource, aItemKey1) then
+    begin
+        menusay(uSource, '该装备不能镶嵌[' + aitemname + ']！^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    case aGrade1 of
+        1:aNeedMoney := 20000;
+        2:aNeedMoney := 25000;
+        3:aNeedMoney := 30000;
+        4:aNeedMoney := 35000;
+        5:aNeedMoney := 45000;
+        6:aNeedMoney := 55000;
+        7:aNeedMoney := 60000;
+        8:aNeedMoney := 75000;
+        9:aNeedMoney := 90000;
+        10:aNeedMoney := 110000;
+        11:aNeedMoney := 150000;
+        12:aNeedMoney := 200000;
+    else aNeedMoney := 200000;
+    end;
+    if (getitemcount(uSource, '钱币') < aNeedMoney) then
+    begin
+        menusay(uSource, '镶嵌该装备需要[钱币]: ' + inttostr(aNeedMoney) + '个^^'
+            + '<〖返回〗/@Menu_Xq>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+    ItemUPdataSetting(uSource, aItemKey, aItemKey1);
+    deleteitem(uSource, '钱币', aNeedMoney);
+
+    menusay(uSource, '恭喜你，[' + getitemname(uSource, aItemKey) + ']镶嵌[' + aitemname + ']成功！^^'
+        + '消耗[钱币]：' + IntToStr(aNeedMoney) + '个^^'
+        + '<〖返回〗/@Menu_Xq>^^'
+        + '<〖退出〗/@exit>^^');
+end;
+
+//////////////////////////////////////////////////////
+//卸下主菜单
+
+procedure Menu_Cx(uSource, uDest:integer);
+begin
+    menusay(uSource, '若要卸下装备上所有宝石，请把你要卸下宝石的物^'
+        + '品放入左下角物品框里，手续费由装备品级而定。^^'
+        + '<〖卸下宝石〗/@Cx_Begin>^^'
+        + '<〖放弃〗/@exit>');
+    ItemInputWindowsOpen(uSource, 0, '装备栏', '请放入要拆卸宝石的装备');
+    setItemInputWindowsKey(uSource, 0, -1);
+end;
+
+procedure Cx_Begin(uSource, uDest:integer);
+var
+    aItemKey, akind, aWearArr:integer;
+    aitemname       :string;
+    aNeedMoney      :integer;
+    agrade1         :Integer;
+begin
+    //检查两个框是否为空
+    aItemKey := getItemInputWindowsKey(uSource, 0);
+    if aItemKey < 0 then
+    begin
+        menusay(uSource, '请放入要拆卸宝石的装备！^^'
+            + '<〖返回〗/@Menu_Cx>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //获取物品类型 ，判断是否是装备
+    akind := getitemKind(uSource, aitemkey);
+    if akind <> 6 then
+    begin
+        menusay(uSource, '只能拆卸武器和防具！^^'
+            + '<〖返回〗/@Menu_Cx>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //判断是否是其他4个防具部位
+    aWearArr := getitemWearArr(uSource, aItemKey);
+    if (aWearArr <> 8)             // 头
+    and (aWearArr <> 6)            // 衣服
+    and (aWearArr <> 1)            // 手
+    and (aWearArr <> 9)            // 手
+    and (aWearArr <> 3) then       // 脚
+    begin
+        menusay(uSource, '只能拆卸武器，头盔，护腕，靴子和铠甲！^^'
+            + '<〖返回〗/@Menu_Cx>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查装备品级
+    agrade1 := getitemGrade(uSource, aItemKey);
+    if (aGrade1 <= 0) or (aGrade1 > 12) then
+    begin
+        menusay(uSource, '只能拆卸1至12品的武器和防具装备！^^'
+            + '<〖返回〗/@Menu_Cx>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查是否被镶嵌过
+    if getitemSettingCount(uSource, aItemKey)
+        - getitemSettingSpaceCount(uSource, aItemKey) = 0 then
+    begin
+        menusay(uSource, '该装备没有被镶嵌宝石！^^'
+            + '<〖返回〗/@Menu_Cx>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    case aGrade1 of
+        1:aNeedMoney := 20000;
+        2:aNeedMoney := 30000;
+        3:aNeedMoney := 40000;
+        4:aNeedMoney := 50000;
+        5:aNeedMoney := 70000;
+        6:aNeedMoney := 90000;
+        7:aNeedMoney := 110000;
+        8:aNeedMoney := 150000;
+        9:aNeedMoney := 190000;
+        10:aNeedMoney := 250000;
+        11:aNeedMoney := 350000;
+        12:aNeedMoney := 500000;
+    else aNeedMoney := 500000;
+    end;
+
+    if (getitemcount(uSource, '钱币') < aNeedMoney) then
+    begin
+        menusay(uSource, '拆卸该装备需要钱币: ' + inttostr(aNeedMoney) + '个^^'
+            + '<〖返回〗/@Menu_Cx>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+    ItemUPdataSetting_del(uSource, aItemKey);
+    deleteitem(uSource, '钱币', aNeedMoney);
+
+    menusay(uSource, '恭喜你，[' + getitemname(uSource, aItemKey) + ']拆卸宝石成功！^^'
+        + '消费[钱币]：' + IntToStr(aNeedMoney) + '个^^'
+        + '<〖返回〗/@Menu_Cx>^^'
+        + '<〖退出〗/@exit>^^');
+end;
+

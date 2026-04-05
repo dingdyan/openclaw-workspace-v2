@@ -1,0 +1,85 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Euler algorithm (paxPascal).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> EulerAlgorithm;
+
+<font color="blue"><b>function</b></font> Cycle(InitV, A: Variant): Variant;
+<font color="blue"><b>var</b></font>
+  P, Stack, U, V;
+<font color="blue"><b>begin</b></font>
+  result := <font color="blue"><b>nil</b></font>;
+  Stack := [InitV, <font color="blue"><b>nil</b></font>];
+  <font color="blue"><b>while</b></font> Stack <> <font color="blue"><b>nil</b></font> <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    V := Stack[0];
+    P := @ A[V];
+    <font color="blue"><b>if</b></font> P <> <font color="blue"><b>nil</b></font> <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      U := P[0];
+      <font color="blue"><b>reduced</b></font> P := P[1];
+      Stack := [U, Stack];
+      P := @ A[U];
+      <font color="blue"><b>while</b></font> P <> <font color="blue"><b>nil</b></font> <font color="blue"><b>do</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> P[0] = V <font color="blue"><b>then</b></font>
+        <font color="blue"><b>begin</b></font>
+          <font color="blue"><b>reduced</b></font> P := P[1];
+          <font color="blue"><b>break</b></font>;
+        <font color="blue"><b>end</b></font>;
+        P := @ P[1];
+      <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>end</b></font>
+    <font color="blue"><b>else</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>reduced</b></font> Stack := Stack[1];
+      result := [V, result];
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font> 
+  A[10], Path, P: Variant;
+
+<font color="blue"><b>begin</b></font>
+  A[1] := [2, [3, <font color="blue"><b>nil</b></font>]];
+  A[2] := [1, [3, [7, [8, <font color="blue"><b>nil</b></font>]]]];
+  A[3] := [1, [2, [4, [5, <font color="blue"><b>nil</b></font>]]]];
+  A[4] := [3, [5, <font color="blue"><b>nil</b></font>]];
+  A[5] := [3, [4, [6, [8, <font color="blue"><b>nil</b></font>]]]];
+  A[6] := [5, [7, [8, [9, <font color="blue"><b>nil</b></font>]]]];
+  A[7] := [2, [6, [8, [9, <font color="blue"><b>nil</b></font>]]]];
+  A[8] := [2, [5, [6, [7, <font color="blue"><b>nil</b></font>]]]];
+  A[9] := [6, [7, <font color="blue"><b>nil</b></font>]];
+
+  Path := Cycle(1, @ A);
+
+  writeln(<font color="Red">'Euler path:'</font>);
+  P := @ Path;
+  <font color="blue"><b>while</b></font> P <> <font color="blue"><b>nil</b></font> <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    writeln(P[0]);
+    P := @ P[1];
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,232 @@
+Skills (31/75 ready)
+┌───────────┬──────────────────┬─────────────────────────────────────────────────────────────────┬────────────────────┐
+│ Status    │ Skill            │ Description                                                     │ Source             │
+├───────────┼──────────────────┼─────────────────────────────────────────────────────────────────┼────────────────────┤
+│ ✓ ready   │ 📦 qqbot-cron     │ QQ Bot 智能提醒技能。支持一次性提醒、周期性任务、自动降级确保送达。可设置、查询、取消提醒。               │ openclaw-extra     │
+│ ✓ ready   │ 📦 qqbot-media    │ QQ Bot 媒体发送指南。教 AI 如何发送图片给用户。【重要】当用户要求发送图片时必须使用 <qqimg> 标签。     │ openclaw-extra     │
+│ ✓ ready   │ 📦 feishu-doc     │ Feishu document read/write operations. Activate when user       │ openclaw-extra     │
+│           │                  │ mentions Feishu docs, cloud docs, or docx links.                │                    │
+│ ✓ ready   │ 📦 feishu-drive   │ Feishu cloud storage file management. Activate when user        │ openclaw-extra     │
+│           │                  │ mentions cloud space, folders, drive.                           │                    │
+│ ✓ ready   │ 📦 feishu-perm    │ Feishu permission management for documents and files. Activate  │ openclaw-extra     │
+│           │                  │ when user mentions sharing, permissions, collaborators.         │                    │
+│ ✓ ready   │ 📦 feishu-wiki    │ Feishu knowledge base navigation. Activate when user mentions   │ openclaw-extra     │
+│           │                  │ knowledge base, wiki, or wiki links.                            │                    │
+│ ✗ missing │ 🔐 1password      │ Set up and use 1Password CLI (op). Use when installing the      │ openclaw-bundled   │
+│           │                  │ CLI, enabling desktop app integration, signing in (single or    │                    │
+│           │                  │ multi-account), or reading/injecting/running secrets via op.    │                    │
+│ ✗ missing │ 📝 apple-notes    │ Manage Apple Notes via the `memo` CLI on macOS (create, view,   │ openclaw-bundled   │
+│           │                  │ edit, delete, search, move, and export notes). Use when a user  │                    │
+│           │                  │ asks OpenClaw to add a note, list notes, search notes, or       │                    │
+│           │                  │ manage note folders.                                            │                    │
+│ ✗ missing │ ⏰ apple-         │ Manage Apple Reminders via remindctl CLI (list, add, edit,      │ openclaw-bundled   │
+│           │ reminders        │ complete, delete). Supports lists, date filters, and JSON/      │                    │
+│           │                  │ plain output.                                                   │                    │
+│ ✗ missing │ 🐻 bear-notes     │ Create, search, and manage Bear notes via grizzly CLI.          │ openclaw-bundled   │
+│ ✗ missing │ 📰 blogwatcher    │ Monitor blogs and RSS/Atom feeds for updates using the          │ openclaw-bundled   │
+│           │                  │ blogwatcher CLI.                                                │                    │
+│ ✗ missing │ 🫐 blucli         │ BluOS CLI (blu) for discovery, playback, grouping, and volume.  │ openclaw-bundled   │
+│ ✗ missing │ 🫧 bluebubbles    │ Use when you need to send or manage iMessages via BlueBubbles   │ openclaw-bundled   │
+│           │                  │ (recommended iMessage integration). Calls go through the        │                    │
+│           │                  │ generic message tool with channel="bluebubbles".                │                    │
+│ ✗ missing │ 📸 camsnap        │ Capture frames or clips from RTSP/ONVIF cameras.                │ openclaw-bundled   │
+│ ✓ ready   │ 📦 clawhub        │ Use the ClawHub CLI to search, install, update, and publish     │ openclaw-bundled   │
+│           │                  │ agent skills from clawhub.com. Use when you need to fetch new   │                    │
+│           │                  │ skills on the fly, sync installed skills to latest or a         │                    │
+│           │                  │ specific version, or publish new/updated skill folders with     │                    │
+│           │                  │ the npm-installed clawhub CLI.                                  │                    │
+│ ✗ missing │ 🧩 coding-agent   │ Delegate coding tasks to Codex, Claude Code, or Pi agents via   │ openclaw-bundled   │
+│           │                  │ background process. Use when: (1) building/creating new         │                    │
+│           │                  │ features or apps, (2) reviewing PRs (spawn in temp dir), (3)    │                    │
+│           │                  │ refactoring large codebases, (4) iterative coding that needs    │                    │
+│           │                  │ file exploration. NOT for: simple one-liner fixes (just edit),  │                    │
+│           │                  │ reading code (use read tool), thread-bound ACP harness          │                    │
+│           │                  │ requests in chat (for example spawn/run Codex or Claude Code    │                    │
+│           │                  │ in a Discord thread; use sessions_spawn with runtime:"acp"),    │                    │
+│           │                  │ or any work in ~/clawd workspace (never spawn agents here).     │                    │
+│           │                  │ Requires a bash tool that supports pty:true.                    │                    │
+│ ✗ missing │ 🎮 discord        │ Discord ops via the message tool (channel=discord).             │ openclaw-bundled   │
+│ ✗ missing │ 🎛️ eightctl      │ Control Eight Sleep pods (status, temperature, alarms,          │ openclaw-bundled   │
+│           │                  │ schedules).                                                     │                    │
+│ ✓ ready   │ 📦 gemini         │ Gemini CLI for one-shot Q&A, summaries, and generation.         │ openclaw-workspace │
+│ ✗ missing │ 📦 gh-issues      │ Fetch GitHub issues, spawn sub-agents to implement fixes and    │ openclaw-bundled   │
+│           │                  │ open PRs, then monitor and address PR review comments. Usage: / │                    │
+│           │                  │ gh-issues [owner/repo] [--label bug] [--limit 5] [--milestone   │                    │
+│           │                  │ v1.0] [--assignee @me] [--fork user/repo] [--watch] [--         │                    │
+│           │                  │ interval 5] [--reviews-only] [--cron] [--dry-run] [--model glm- │                    │
+│           │                  │ 5] [--notify-channel -1002381931352]                            │                    │
+│ ✗ missing │ 🧲 gifgrep        │ Search GIF providers with CLI/TUI, download results, and        │ openclaw-bundled   │
+│           │                  │ extract stills/sheets.                                          │                    │
+│ ✓ ready   │ 📦 github         │ Interact with GitHub using the `gh` CLI. Use `gh issue`, `gh    │ openclaw-workspace │
+│           │                  │ pr`, `gh run`, and `gh api` for issues, PRs, CI runs, and       │                    │
+│           │                  │ advanced queries.                                               │                    │
+│ ✗ missing │ 🎮 gog            │ Google Workspace CLI for Gmail, Calendar, Drive, Contacts,      │ openclaw-bundled   │
+│           │                  │ Sheets, and Docs.                                               │                    │
+│ ✗ missing │ 📍 goplaces       │ Query Google Places API (New) via the goplaces CLI for text     │ openclaw-bundled   │
+│           │                  │ search, place details, resolve, and reviews. Use for human-     │                    │
+│           │                  │ friendly place lookup or JSON output for scripts.               │                    │
+│ ✓ ready   │ 📦 healthcheck    │ Host security hardening and risk-tolerance configuration for    │ openclaw-bundled   │
+│           │                  │ OpenClaw deployments. Use when a user asks for security         │                    │
+│           │                  │ audits, firewall/SSH/update hardening, risk posture, exposure   │                    │
+│           │                  │ review, OpenClaw cron scheduling for periodic checks, or        │                    │
+│           │                  │ version status checks on a machine running OpenClaw (laptop,    │                    │
+│           │                  │ workstation, Pi, VPS).                                          │                    │
+│ ✗ missing │ 📧 himalaya       │ CLI to manage emails via IMAP/SMTP. Use `himalaya` to list,     │ openclaw-bundled   │
+│           │                  │ read, write, reply, forward, search, and organize emails from   │                    │
+│           │                  │ the terminal. Supports multiple accounts and message            │                    │
+│           │                  │ composition with MML (MIME Meta Language).                      │                    │
+│ ✗ missing │ 📨 imsg           │ iMessage/SMS CLI for listing chats, history, and sending        │ openclaw-bundled   │
+│           │                  │ messages via Messages.app.                                      │                    │
+│ ✗ missing │ 📦 mcporter       │ Use the mcporter CLI to list, configure, auth, and call MCP     │ openclaw-bundled   │
+│           │                  │ servers/tools directly (HTTP or stdio), including ad-hoc        │                    │
+│           │                  │ servers, config edits, and CLI/type generation.                 │                    │
+│ ✗ missing │ 📊 model-usage    │ Use CodexBar CLI local cost usage to summarize per-model usage  │ openclaw-bundled   │
+│           │                  │ for Codex or Claude, including the current (most recent) model  │                    │
+│           │                  │ or a full model breakdown. Trigger when asked for model-level   │                    │
+│           │                  │ usage/cost data from codexbar, or when you need a scriptable    │                    │
+│           │                  │ per-model summary from codexbar cost JSON.                      │                    │
+│ ✗ missing │ 🍌 nano-banana-   │ Generate or edit images via Gemini 3 Pro Image (Nano Banana     │ openclaw-bundled   │
+│           │ pro              │ Pro).                                                           │                    │
+│ ✗ missing │ 📄 nano-pdf       │ Edit PDFs with natural-language instructions using the nano-    │ openclaw-bundled   │
+│           │                  │ pdf CLI.                                                        │                    │
+│ ✓ ready   │ 📦 notion         │ Notion API for creating and managing pages, databases, and      │ openclaw-workspace │
+│           │                  │ blocks.                                                         │                    │
+│ ✓ ready   │ 📦 obsidian       │ Work with Obsidian vaults (plain Markdown notes) and automate   │ openclaw-workspace │
+│           │                  │ via obsidian-cli.                                               │                    │
+│ ✗ missing │ 🖼️ openai-image- │ Batch-generate images via OpenAI Images API. Random prompt      │ openclaw-bundled   │
+│           │ gen              │ sampler + `index.html` gallery.                                 │                    │
+│ ✗ missing │ 🎙️ openai-       │ Local speech-to-text with the Whisper CLI (no API key).         │ openclaw-bundled   │
+│           │ whisper          │                                                                 │                    │
+│ ✗ missing │ ☁️ openai-       │ Transcribe audio via OpenAI Audio Transcriptions API (Whisper). │ openclaw-bundled   │
+│           │ whisper-api      │                                                                 │                    │
+│ ✗ missing │ 💡 openhue        │ Control Philips Hue lights and scenes via the OpenHue CLI.      │ openclaw-bundled   │
+│ ✗ missing │ 🧿 oracle         │ Best practices for using the oracle CLI (prompt + file          │ openclaw-bundled   │
+│           │                  │ bundling, engines, sessions, and file attachment patterns).     │                    │
+│ ✗ missing │ 🛵 ordercli       │ Foodora-only CLI for checking past orders and active order      │ openclaw-bundled   │
+│           │                  │ status (Deliveroo WIP).                                         │                    │
+│ ✗ missing │ 👀 peekaboo       │ Capture and automate macOS UI with the Peekaboo CLI.            │ openclaw-bundled   │
+│ ✗ missing │ 🗣️ sag           │ ElevenLabs text-to-speech with mac-style say UX.                │ openclaw-bundled   │
+│ ✗ missing │ 📜 session-logs   │ Search and analyze your own session logs (older/parent          │ openclaw-bundled   │
+│           │                  │ conversations) using jq.                                        │                    │
+│ ✗ missing │ 🗣️ sherpa-onnx-  │ Local text-to-speech via sherpa-onnx (offline, no cloud)        │ openclaw-bundled   │
+│           │ tts              │                                                                 │                    │
+│ ✓ ready   │ 📦 skill-creator  │ Create or update AgentSkills. Use when designing, structuring,  │ openclaw-bundled   │
+│           │                  │ or packaging skills with scripts, references, and assets.       │                    │
+│ ✗ missing │ 💬 slack          │ Use when you need to control Slack from OpenClaw via the slack  │ openclaw-bundled   │
+│           │                  │ tool, including reacting to messages or pinning/unpinning       │                    │
+│           │                  │ items in Slack channels or DMs.                                 │                    │
+│ ✗ missing │ 🌊 songsee        │ Generate spectrograms and feature-panel visualizations from     │ openclaw-bundled   │
+│           │                  │ audio with the songsee CLI.                                     │                    │
+│ ✗ missing │ 🔊 sonoscli       │ Control Sonos speakers (discover/status/play/volume/group).     │ openclaw-bundled   │
+│ ✗ missing │ 🎵 spotify-player │ Terminal Spotify playback/search via spogo (preferred) or       │ openclaw-bundled   │
+│           │                  │ spotify_player.                                                 │                    │
+│ ✓ ready   │ 📦 summarize      │ Summarize URLs or files with the summarize CLI (web, PDFs,      │ openclaw-workspace │
+│           │                  │ images, audio, YouTube).                                        │                    │
+│ ✗ missing │ ✅ things-mac     │ Manage Things 3 via the `things` CLI on macOS (add/update       │ openclaw-bundled   │
+│           │                  │ projects+todos via URL scheme; read/search/list from the local  │                    │
+│           │                  │ Things database). Use when a user asks OpenClaw to add a task   │                    │
+│           │                  │ to Things, list inbox/today/upcoming, search tasks, or inspect  │                    │
+│           │                  │ projects/areas/tags.                                            │                    │
+│ ✗ missing │ 🧵 tmux           │ Remote-control tmux sessions for interactive CLIs by sending    │ openclaw-bundled   │
+│           │                  │ keystrokes and scraping pane output.                            │                    │
+│ ✗ missing │ 📋 trello         │ Manage Trello boards, lists, and cards via the Trello REST API. │ openclaw-bundled   │
+│ ✗ missing │ 🎞️ video-frames  │ Extract frames or short clips from videos using ffmpeg.         │ openclaw-bundled   │
+│ ✗ missing │ 📞 voice-call     │ Start voice calls via the OpenClaw voice-call plugin.           │ openclaw-bundled   │
+│ ✗ missing │ 📱 wacli          │ Send WhatsApp messages to other people or search/sync WhatsApp  │ openclaw-bundled   │
+│           │                  │ history via the wacli CLI (not for normal user chats).          │                    │
+│ ✓ ready   │ 📦 weather        │ Get current weather and forecasts (no API key required).        │ openclaw-workspace │
+│ ✗ missing │ 𝕏 xurl           │ A CLI tool for making authenticated requests to the X           │ openclaw-bundled   │
+│           │                  │ (Twitter) API. Use this skill when you need to post tweets,     │                    │
+│           │                  │ reply, quote, search, read posts, manage followers, send DMs,   │                    │
+│           │                  │ upload media, or interact with any X API v2 endpoint.           │                    │
+│ ✓ ready   │ 📦 academic-      │ Refine academic writing for computer science research papers    │ openclaw-workspace │
+│           │ writing-refiner  │ targeting top-tier venues (NeurIPS, ICLR, ICML, AAAI, IJCAI,    │                    │
+│           │                  │ ACL, EMNLP, NAACL, CVPR, WWW, KDD, SIGIR, CIKM, and similar).   │                    │
+│           │                  │ Use this skill whenever a user asks to improve, polish,         │                    │
+│           │                  │ refine, edit, or proofread academic or research writing —       │                    │
+│           │                  │ including paper drafts, abstracts, introductions, related work  │                    │
+│           │                  │ sections, methodology descriptions, experiment write-ups, or    │                    │
+│           │                  │ conclusion sections. Also trigger when users paste LaTeX        │                    │
+│           │                  │ content and ask for writing help, mention "camera-ready",       │                    │
+│           │                  │ "rebuttal", "paper revision", or reference any academic venue   │                    │
+│           │                  │ or conference. This skill handles both full paper refinement    │                    │
+│           │                  │ and section-by-section editing.                                 │                    │
+│ ✓ ready   │ 📦 adaptive-      │ Automatically assess task complexity and adjust reasoning       │ openclaw-workspace │
+│           │ reasoning        │ level. Triggers on every user message to evaluate whether       │                    │
+│           │                  │ extended thinking (reasoning mode) would improve response       │                    │
+│           │                  │ quality. Use this as a pre-processing step before answering     │                    │
+│           │                  │ complex questions.                                              │                    │
+│ ✓ ready   │ 📦 Agent Browser  │ A fast Rust-based headless browser automation CLI with Node.js  │ openclaw-workspace │
+│           │                  │ fallback that enables AI agents to navigate, click, type, and   │                    │
+│           │                  │ snapshot pages via structured commands.                         │                    │
+│ ✗ missing │ 🧠 elite-         │ Ultimate AI agent memory system for Cursor, Claude, ChatGPT &   │ openclaw-workspace │
+│           │ longterm-memory  │ Copilot. WAL protocol + vector search + git-notes + cloud       │                    │
+│           │                  │ backup. Never lose context again. Vibe-coding ready.            │                    │
+│ ✓ ready   │ 📦 find-skills    │ Helps users discover and install agent skills when they ask     │ openclaw-workspace │
+│           │                  │ questions like "how do I do X", "find a skill for X", "is       │                    │
+│           │                  │ there a skill that can...", or express interest in extending    │                    │
+│           │                  │ capabilities. This skill should be used when the user is        │                    │
+│           │                  │ looking for functionality that might exist as an installable    │                    │
+│           │                  │ skill.                                                          │                    │
+│ ✓ ready   │ 📦 git-essentials │ Essential Git commands and workflows for version control,       │ openclaw-workspace │
+│           │                  │ branching, and collaboration.                                   │                    │
+│ ✗ missing │ 🦞 moltbook-cli   │ A CLI client for Moltbook, the social network for AI agents.    │ openclaw-workspace │
+│           │                  │ Use this skill to post content, engage with communities         │                    │
+│           │                  │ (submolts), search information, and manage agent identity.      │                    │
+│ ✓ ready   │ 📦 multi-search-  │ Multi search engine integration with 17 engines (8 CN + 9       │ openclaw-workspace │
+│           │ engine           │ Global). Supports advanced search operators, time filters,      │                    │
+│           │                  │ site search, privacy engines, and WolframAlpha knowledge        │                    │
+│           │                  │ queries. No API keys required.                                  │                    │
+│ ✓ ready   │ 🧰 openclaw-      │ Use when: you want a structured audit -> options ->             │ openclaw-workspace │
+│           │ agent-optimize   │ recommended plan to improve an OpenClaw workspace               │                    │
+│           │                  │ (cost, model routing, context discipline, delegation,           │                    │
+│           │                  │ reliability).                                                   │                    │
+│           │                  │ Don't use when: you want immediate config/cron mutations        │                    │
+│           │                  │ without review, or the question is unrelated to OpenClaw ops.   │                    │
+│           │                  │ Output: a prioritized plan with exact change proposals,         │                    │
+│           │                  │ expected impact, and rollback steps. No persistent changes      │                    │
+│           │                  │ without explicit approval.                                      │                    │
+│ ✓ ready   │ 📦 openclaw-      │ Backup and restore OpenClaw data. Use when user asks to create  │ openclaw-workspace │
+│           │ backup           │ backups, set up automatic backup schedules, restore from        │                    │
+│           │                  │ backup, or manage backup rotation. Handles ~/.openclaw          │                    │
+│           │                  │ directory archiving with proper exclusions.                     │                    │
+│ ✓ ready   │ 📦 personas       │ Transform into 20 specialized AI personalities on demand.       │ openclaw-workspace │
+│           │                  │ Switch mid-conversation and load only the active persona.       │                    │
+│ ✓ ready   │ 📦 self-          │ Captures learnings, errors, and corrections to enable           │ openclaw-workspace │
+│           │ improvement      │ continuous improvement. Use when: (1) A command or operation    │                    │
+│           │                  │ fails unexpectedly, (2) User corrects Claude ('No, that's       │                    │
+│           │                  │ wrong...', 'Actually...'), (3) User requests a capability that  │                    │
+│           │                  │ doesn't exist, (4) An external API or tool fails, (5) Claude    │                    │
+│           │                  │ realizes its knowledge is outdated or incorrect, (6) A better   │                    │
+│           │                  │ approach is discovered for a recurring task. Also review        │                    │
+│           │                  │ learnings before major tasks.                                   │                    │
+│ ✓ ready   │ 📧 send-email     │ Send emails via SMTP. Configure in ~/.openclaw/openclaw.json    │ openclaw-workspace │
+│           │                  │ under skills.entries.send-email.env.                            │                    │
+│ ✓ ready   │ 📦 skill-scanner  │ Scan Clawdbot and MCP skills for malware, spyware, crypto-      │ openclaw-workspace │
+│           │                  │ miners, and malicious code patterns before you install them.    │                    │
+│           │                  │ Security audit tool that detects data exfiltration, system      │                    │
+│           │                  │ modification attempts, backdoors, and obfuscation techniques.   │                    │
+│ ✓ ready   │ 📦 skills-search  │ Search skills.sh registry from CLI. Find and discover agent     │ openclaw-workspace │
+│           │                  │ skills from the skills.sh ecosystem.                            │                    │
+│ ✓ ready   │ 💰 smart-model-   │ Auto-route tasks to the cheapest Claude model that works        │ openclaw-workspace │
+│           │ switching        │ correctly. Three-tier progression: Haiku → Sonnet → Opus.       │                    │
+│           │                  │ Classify before responding. HAIKU (default): factual Q&A,       │                    │
+│           │                  │ greetings, reminders, status checks, lookups, simple file ops,  │                    │
+│           │                  │ heartbeats, casual chat, 1-2 sentence tasks. ESCALATE TO        │                    │
+│           │                  │ SONNET: code >10 lines, analysis, comparisons, planning,        │                    │
+│           │                  │ reports, multi-step reasoning, tables, long writing >3          │                    │
+│           │                  │ paragraphs, summarization, research synthesis, most user        │                    │
+│           │                  │ conversations. ESCALATE TO OPUS: architecture decisions,        │                    │
+│           │                  │ complex debugging, multi-file refactoring, strategic planning,  │                    │
+│           │                  │ nuanced judgment, deep research, critical production decisions. │                    │
+│           │                  │  Rule: If a human needs >30 seconds of focused thinking,        │                    │
+│           │                  │ escalate. If Sonnet struggles with complexity, go to Opus.      │                    │
+│           │                  │ Save 50-90% on API costs by starting cheap and escalating only  │                    │
+│           │                  │ when needed.                                                    │                    │
+│ ✓ ready   │ 📦 tavily         │ AI-optimized web search via Tavily API. Returns concise,        │ openclaw-workspace │
+│           │                  │ relevant results for AI agents.                                 │                    │
+│ ✓ ready   │ 📦 todoist        │ Manage tasks and projects in Todoist. Use when user asks about  │ openclaw-workspace │
+│           │                  │ tasks, to-dos, reminders, or productivity.                      │                    │
+└───────────┴──────────────────┴─────────────────────────────────────────────────────────────────┴────────────────────┘
+
+Tip: use `npx clawhub` to search, install, and sync skills.

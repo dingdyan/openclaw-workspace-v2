@@ -1,0 +1,85 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Regular expressions.
+</h3>
+<hr>
+
+<h4>
+paxBasic
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> r = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+/g
+<font color="blue"><b>Dim</b></font> s = "My e-mails are ab@cable.netlux.org and paxscript@gmail.com"
+<font color="blue"><b>Do</b></font>
+ <font color="blue"><b>If</b></font> r.exec(s).length = 0 <font color="blue"><b>Then</b></font>
+   <font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>
+ <font color="blue"><b>Else</b></font>
+   <font color="blue"><b>println</b></font> r[0]
+   <font color="blue"><b>println</b></font> r.MatchPos[0]
+   <font color="blue"><b>println</b></font> r.MatchLen[0]
+   <font color="blue"><b>println</b></font> r.LastIndex
+ <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>Loop</b></font> <font color="blue"><b>Until</b></font> False
+</pre>
+</blockquote>
+
+<h4>
+paxC
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> r = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+/g;
+<font color="blue"><b>var</b></font> s = <font color="Red">'My e-mails are ab@cable.netlux.org and paxscript@gmail.com'</font>;
+
+<font color="blue"><b>while</b></font> (<font color="blue"><b>true</b></font>) {
+  <font color="blue"><b>if</b></font> (r.exec(s).length == 0)
+    <font color="blue"><b>break</b></font>;
+   <font color="blue"><b>else</b></font> {
+     <font color="blue"><b>println</b></font> r[0];
+     <font color="blue"><b>println</b></font> r.matchPos[0];
+     <font color="blue"><b>println</b></font> r.matchLen[0];
+     <font color="blue"><b>println</b></font> r.lastIndex;
+   }
+}
+</pre>
+</blockquote>
+
+<h4>
+paxPascal
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> r = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+/g;
+    s = <font color="Red">'My e-mails are ab@cable.netlux.org and paxscript@gmail.com'</font>;
+<font color="blue"><b>repeat</b></font>
+ <font color="blue"><b>if</b></font> r.exec(s).length = 0 <font color="blue"><b>then</b></font>
+   <font color="blue"><b>Break</b></font>
+ <font color="blue"><b>else</b></font>
+ <font color="blue"><b>begin</b></font>
+   writeln(r[0]);
+   writeln(r.MatchPos[0]);
+   writeln(r.MatchLen[0]);
+   writeln(r.LastIndex);
+ <font color="blue"><b>end</b></font>;
+<font color="blue"><b>until</b></font> false;
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

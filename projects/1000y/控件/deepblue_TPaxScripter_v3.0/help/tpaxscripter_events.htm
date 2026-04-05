@@ -1,0 +1,431 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+<H3>
+TPaxScripter events
+</H3>
+<hr>
+<ul>
+<li><a href="#OnAfterCompileStage">OnAfterCompileStage</a></li>
+<li><a href="#OnAfterRunStage">OnAfterRunStage</a></li>
+<li><a href="#OnAssignScript">OnAssignScript</a></li>
+<li><a href="#OnBeforeCompileStage">OnBeforeCompileStage</a></li>
+<li><a href="#OnBeforeRunStage">OnBeforeRunStage</a></li>
+<li><a href="#OnCompilerProgress">OnCompilerProgress</a></li>
+<li><a href="#OnDefine">OnDefine</a></li>
+<li><a href="#OnLoadDll">OnLoadDll</a></li>
+<li><a href="#OnHalt">OnHalt</a></li>
+<li><a href="#OnInclude">OnInclude</a></li>
+<li><a href="#OnPrint">OnPrint</a></li>
+<li><a href="#OnReadExtraData">OnReadExtraData</a></li>
+<li><a href="#OnRunning">OnRunning</a></li>
+<li><a href="#OnShowError">OnShowError</a></li>
+<li><a href="#OnUsedModule">OnUsedModule</a></li>
+<li><a href="#OnWriteExtraData">OnWriteExtraData</a></li>
+</ul>
+<a name="OnAfterCompileStage"><h3>OnAfterCompileStage</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when scripter finishes to compile script.
+<pre>
+<font color="blue"><b>property</b></font> OnAfterCompileStage: TPaxScripterEvent;
+</pre>
+<p>
+Use the OnAfterCompileStage event to display a message that the compilation process has been ended.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>procedure</b></font> TFormMain.PaxScripter1AfterCompileStage(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> CompileAndRun <font color="blue"><b>and</b></font> (<font color="blue"><b>not</b></font> PaxScripter1.IsError) <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    CompileStatusWindow.Hide;
+    Exit;
+  <font color="blue"><b>end</b></font>;
+
+  <font color="blue"><b>if</b></font> PaxScripter1.IsError <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    CompileStatusWindow.LabelStatus.Caption := <font color="Red">'Done: There are errors'</font>;
+    CompileStatusWindow.LabelError.Caption := <font color="Red">'PaxScripter1.ErrorDescription'</font>;
+  <font color="blue"><b>end</b></font>
+  <font color="blue"><b>else</b></font>
+  <font color="blue"><b>begin</b></font>
+    CompileStatusWindow.LabelStatus.Caption := <font color="Red">'Done'</font>;
+    CompileStatusWindow.LabelError.Caption := <font color="Red">'Successful'</font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="OnAfterRunStage"><h3>OnAfterRunStage</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when script running has been finished.
+<pre>
+<font color="blue"><b>property</b></font> OnAfterRunStage: TPaxScripterEvent;
+</pre>
+<p>
+Use this event to display a message that script running has been finished.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>procedure</b></font> TFormMain.PaxScripter1AfterRunStage(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> PaxScripter1.IsError <font color="blue"><b>then</b></font>
+    ShowMessage(<font color="Red">'Ok'</font>)
+  <font color="blue"><b>else</b></font>
+    ShowMessage(<font color="Red">'Terminated. There are errors'</font>);
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="OnAssignScript"><h3>OnAssignScript</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows to assign a script to scripter.
+<pre>
+<font color="blue"><b>property</b></font> OnAssignScript: TPaxScripterEvent;
+</pre>
+<p>
+Use AddModule, AddCode, AddCodeFromFile methods to assign a script to a scripter inside of the OnAssignScript event handler body.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>implementation</b></font>
+
+{$R *.DFM}
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.Run;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1AssignScript(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.AddModule(<font color="Red">'main'</font>, paxBasic);
+  PaxScripter1.AddCode(<font color="Red">'main'</font>, <font color="Red">'print Form1.Caption'</font>);
+  PaxScripter1.RegisterObject(<font color="Red">'Form1'</font>, Form1);
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="OnBeforeCompileStage"><h3>OnBeforeCompileStage</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs before scripter compiles a script.
+<pre>
+<font color="blue"><b>property</b></font> OnBeforeCompileStage: TPaxScripterEvent;
+</pre>
+<p>
+Use The OnBeforeCompileStage event to initialize objects which will reflect the compilation progress.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>procedure</b></font> TFormMain.PaxScripter1BeforeCompileStage(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  CompileStatusWindow.LabelProject.Caption := <font color="Red">'Project: '</font> + ProjectName;
+  CompileStatusWindow.Show;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="OnBeforeRunStage"><h3>OnBeforeRunStage</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs before scripter runs a script.
+<pre>
+<font color="blue"><b>property</b></font> OnBeforeRunStage: TPaxScripterEvent;
+</pre>
+<p>
+Use the OnBeforeRunStage event to add breakpoints to scripter and update objects which reflect the state of your IDE.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>procedure</b></font> TFormMain.PaxScripter1BeforeRunStage(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  SaveProject;
+  RemoveTraceLine;
+  AddBreakpoints;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="OnCompilerProgress"><h3>OnCompilerProgress</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when scripter compiles a script.
+<pre>
+<font color="blue"><b>property</b></font> OnCompilerProgress: TPaxScripterEvent;
+</pre>
+<p>
+Use the OnCompilerProgress event to update objects which reflect the compiler progress.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>procedure</b></font> TFormMain.PaxScripter1CompilerProgress(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  Application.ProcessMessages;
+  CompileStatusWindow.LabelStatus.Caption := <font color="Red">'Compiling: '</font> + PaxScripter1.CurrentModuleName;
+  CompileStatusWindow.LabelCurrLineNumber.Caption := IntToStr(PaxScripter1.CurrentSourceLine);
+  CompileStatusWindow.LabelTotalLinesCount.Caption := IntToStr(PaxScripter1.TotalLineCount);
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+
+<a name="OnDefine"><h3>OnDefine</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when compiler finds $define directive.
+<pre>
+<font color="blue"><b>property</b></font> OnDefine: TPaxScripterDefineEvent;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<A HREF="tps_demo_ondefine.htm">Click here</A>
+</pre>
+</p>
+</blockquote>
+
+<a name="OnHalt"><h3>OnHalt</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when scripter processes Halt statement at run-time.
+<pre>
+<font color="blue"><b>property</b></font> OnHalt: TPaxScripterEvent;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<A HREF="tps_demo_onhalt.htm">Click here</A>
+</pre>
+</p>
+</blockquote>
+
+
+<a name="OnInclude"><h3>OnInclude</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when compiler finds $include directive.
+<pre>
+<font color="blue"><b>property</b></font> OnInclude: TPaxScripterIncludeEvent;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<A HREF="tps_demo_oninclude.htm">Click here</A>
+</pre>
+</p>
+</blockquote>
+
+
+<a name="OnLoadDll"><h3>OnLoadDll</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when scripter processes declaration of an external procedure or function.
+<pre>
+<font color="blue"><b>property</b></font> OnLoadDll: TPaxLoadDllEvent;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<A HREF="tps_demo_onloaddll.htm">Click here</A>
+</pre>
+</p>
+</blockquote>
+
+
+
+<a name="OnPrint"><h3>OnPrint</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when interpreter executes the print statement.
+<pre>
+<font color="blue"><b>property</b></font> OnPrint: TPaxScripterPrintEvent;
+</pre>
+<p>
+Use OnPrint event to customize execution of the print statement.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>procedure</b></font> TFormMain.PaxScripter1Print(Sender: TPaxScripter; <font color="blue"><b>const</b></font> S: <font color="blue"><b>String</b></font>);
+<font color="blue"><b>var</b></font>
+  K: Integer;
+<font color="blue"><b>begin</b></font>
+  FormConsole.Show;
+  K := FormConsole.Memo1.Lines.Count;
+  <font color="blue"><b>if</b></font> K = 0 <font color="blue"><b>then</b></font>
+    FormConsole.Memo1.Lines.Add(S)
+  <font color="blue"><b>else</b></font>
+    FormConsole.Memo1.Lines[K-1] := FormConsole.Memo1.Lines[K-1] + S;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="OnReadExtraData"><h3>OnReadExtraData</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when scriptes loads compiled module from a stream.
+<pre>
+<font color="blue"><b>property</b></font> OnReadExtraData: TPaxScripterStreamEvent;
+</pre>
+<p>
+Allows you to read custom data from a compiled script.
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#OnWriteExtraData">OnWriteExtraData</a></li>
+</ul>
+</blockquote>
+</blockquote>
+<a name="OnRunning"><h3>OnRunning</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs at the script run-time.
+<pre>
+<font color="blue"><b>property</b></font> OnRunning: TPaxScripterEvent;
+</pre>
+<p>
+Use OnRunning event to process messages at the script run-time.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1Running(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  Application.ProcessMessages;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="OnShowError"><h3>OnShowError</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when PaxScript errors raises.
+<pre>
+<font color="blue"><b>property</b></font> OnShowError: TPaxScripterEvent;
+</pre>
+<p>
+Use OnShowError event to customize showing error in your IDE.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>procedure</b></font> TFormMain.PaxScripter1ShowError(Sender: TPaxScripter);
+<font color="blue"><b>var</b></font>
+  Editor: TMemo;
+<font color="blue"><b>begin</b></font>
+  Editor := FindEditor(Sender.ErrorModuleName);
+  Editor.SelStart := Sender.ErrorTextPos;
+  Editor.SelEnd := Sender.ErrorTextPos;
+
+  LabelBottom.Caption := <font color="Red">'Error: '</font> + Sender.ErrorDescription;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="OnUsedModule"><h3>OnUsedModule</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when paxScript parses the uses statement (paxPascal), the imports statement (paxBasic), the using statement (paxC).
+<pre>
+<font color="blue"><b>property</b></font> OnUsedModule: TPaxUsedModuleEvent;
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>type</b></font>
+  THandler = <font color="blue"><b>class</b></font>
+    <font color="blue"><b>procedure</b></font> HandleEvent(<font color="blue"><b>const</b></font> UsedModuleName, FileName: <font color="blue"><b>String</b></font>;
+                          <font color="blue"><b>var</b></font> SourceCode: <font color="blue"><b>String</b></font>);
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> THandler.HandleEvent(<font color="blue"><b>const</b></font> UsedModuleName, FileName: <font color="blue"><b>String</b></font>;
+                               <font color="blue"><b>var</b></font> SourceCode: <font color="blue"><b>String</b></font>);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> UsedModuleName = <font color="Red">'AModule'</font> <font color="blue"><b>then</b></font>
+    SourceCode := <font color="Red">'Unit AModule; interface var X = 10; implementation end.'</font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  P: TPaxScripter;
+  L: TPaxPascal;
+  H: THandler;
+<font color="blue"><b>begin</b></font>
+  P := TPaxScripter.Create(nil);
+  L := TPaxPascal.Create(nil);
+  H := THandler.Create;
+  <font color="blue"><b>try</b></font>
+    P.OnUsedModule := H.HandleEvent;
+    P.RegisterLanguage(L);
+    P.AddModule(<font color="Red">'main'</font>, L.LanguageName);
+    P.AddCode(<font color="Red">'main'</font>, <font color="Red">'uses AModule in <font color="Red">"MyFile"</font>;'</font>);
+    P.AddCode(<font color="Red">'main'</font>, <font color="Red">'print X;'</font>);
+    P.Run;
+  <font color="blue"><b>finally</b></font>
+    P.Free;
+    L.Free;
+    H.Free;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+<p>
+Using OnUsedModule event, you have possiblities:
+
+<ul>
+<li>Assign source code of module. If module UsedModule does not exist, it will be created. 
+<li>Check whether the FileName file exists and if the file does not exist you can create it.
+</ul>
+</p>
+</blockquote>
+<a name="OnWriteExtraData"><h3>OnWriteExtraData</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Occurs when scripter saves compiled script to a stream.
+<pre>
+<font color="blue"><b>property</b></font> OnWriteExtraData: TPaxScripterStreamEvent;
+</pre>
+<p>
+Allows you to add a custom data to a compiled script.
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#OnReadExtraData">OnReadExtraData</a></li>
+</ul>
+</blockquote>
+</blockquote>
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,7 @@
+Name,boSelfSay,boMain,MainNumber,HearString,SayString,NeedItem,GiveItem,CountLimit,RecoverTime,DelayTime,
+1,TRUE,,,,我是神医,,,,,,
+2,TRUE,,,,拿30000钱币就可入门学习了,,,,,1384,
+3,TRUE,,,,出售与购买炼丹师制作的物品,,,,,1769,
+4,TRUE,,,,尽快向神工迈进吧,,,,,2153,
+5,TRUE,,,,转职时数值将恢复成初始值,,,,,2538,
+6,TRUE,,,,转职费用为钱币50000,,,,,2923,

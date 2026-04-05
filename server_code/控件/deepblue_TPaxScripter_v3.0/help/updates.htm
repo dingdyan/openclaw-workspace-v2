@@ -1,0 +1,347 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h2>
+Updates
+</h2>
+<hr>
+<ul>
+
+<li>31 October 2005.
+
+<ul>
+<li>Increased speed of loading compiled scripts.
+<li><a href="tps_demo_onloaddll.htm">TPaxScripter.OnLoadDll</a> event.
+<li>TPaxScripter.IsExecutableSourceLine method.
+</ul>
+
+
+<li>25 August 2005.<a href="tps_demo_onhalt.htm">OnHalt event.</a>
+
+<li>17 August 2005. <a href="tps_demo_oninclude.htm">OnInclude event.</a>
+
+
+<li>30 June 2005. CallFunctionEx, CallFunctionByIdEx methods.
+
+
+<li>14 June 2005. paxScript engine is compatible with <a href="http://www.freepascal.org" target="_BLANK">Free Pascal 2.0</a>.
+
+
+<li>16 March 2005. Support of Single and Currency types.
+
+
+<li>13 March 2005. Importing  zero-based static array types.
+
+
+<li>28 February 2005. Converting dfm files into paxJavaScript, paxBasic and paxC scripts.
+
+
+<li>15 February 2005. VBScript routines.
+
+
+<li>18 January 2005. Importing Delphi forms. New TPaxScripter methods:
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>procedure</b></font> AddDelphiForm(<font color="blue"><b>const</b></font> DfmFileName, UnitFileName: <font color="blue"><b>String</b></font>); <font color="blue"><b>overload</b></font>;
+<font color="blue"><b>procedure</b></font> AddDelphiForm(<font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font>; Dfm, Source: TStream); <font color="blue"><b>overload</b></font>;
+</pre>
+</blockquote>
+
+<li>
+
+<li>5 January 2005. Compact representation typed pax-arrays.
+
+
+<li>25 December 2004. Improvements in the code exploring.
+
+<li>27 November 2004. <a href="demo_intf.htm"> Importing interface types</a>.
+
+<li>2 November 2004. <a href="demo_complex.htm"> Operator overloading in paxJavaScript</a>.
+
+<li>8 October 2004. Improved performance in a multi-threaded application.
+
+<li>20 September 2004. Support of ASP tags <% .... %>.
+
+<li>9 September 2004. New TPaxScripter methods 
+
+
+<blockquote>
+
+<pre>
+    <font color="blue"><b>procedure</b></font> UnregisterConstant(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Owner: Integer = -1);
+    <font color="blue"><b>procedure</b></font> UnregisterVariable(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Owner: Integer = -1);
+    <font color="blue"><b>procedure</b></font> UnregisterObject(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Owner: Integer = -1);
+    <font color="blue"><b>procedure</b></font> UnregisterAllVariables;
+    <font color="blue"><b>procedure</b></font> UnregisterAllObjects;
+    <font color="blue"><b>procedure</b></font> UnregisterAllConstants;
+</pre>
+</blockquote>
+
+
+allows you to unregister once registered variables, constants and objects.
+
+<li>16 August 2004.
+
+<ul>
+<li>Explicit type casting (paxPascal, paxBasic, paxC).
+<li>TPaxScripter.OnDefine event.
+<li>Procedure RegisterField method allows you to register private, protected and public fields
+of a Delphi class. For example:
+
+<blockquote>
+<pre>
+RegisterClassType(TMyClass);
+RegisterField(TMyClass, <font color="Red">'F1'</font>, <font color="Red">'Integer'</font>, Integer(@TMyClass(nil).F1));
+</pre>
+</blockquote>
+
+
+</ul>
+
+
+
+<li>29 July 2004. <a href="demo_complex.htm">Operator overloading</a>. The list of overloadable operators is: '+', '-', '*', '/', 
+'=', '<>', '>', '<', '>=', '<=', 'shl', 'shr', 'mod'. 
+
+<li>23 July 2004. <a href="tps_demo_dyna.htm">Dynamic arrays in paxPascal</a>.
+
+
+<li>7 July 2004. 
+A few bugs, related to the thread safety and JavaScript prototypes, have been fixed. 
+
+New TPaxLanguage property JavaScriptOperators allows paxScript to interpret the arithmetical and
+comparison operators in paxPascal, paxBasic, paxC as JavaScript operators. For example:
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> x, y, z;
+<font color="blue"><b>begin</b></font>
+  x := <font color="Red">'abc'</font>;
+  y := 77;
+  z := x + y;
+  writeln(z); //<i> result: abc77 </i>
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<li>21 June 2004. <a href="tps_demo_overload.htm">Registering overloaded routines and routines 
+which have default parameters.</a>
+
+
+<li>9 June 2004. Set types.
+
+<li>1 June 200 4. Overloaded routines.
+
+<li>12 May 2004. <a href="tpaxscripter_events.htm#TPaxScripter.OnUsedModule">OnUsedModule</a> event allows you to create modules, 
+enumerated in the uses clause, 
+on the fly.
+
+<li>5 May 2004. Default parameters. (All pax-languages).
+
+<li>3 May 2004. Fixed bugs related to the search pathes.
+
+<li>29 April 2004. You can use {$I} directive instead od {$include}.
+
+<li>20 April 2004. Suport of the IN keyword in the uses clause. 
+
+<li>12 April 2004. Conditional compilation.
+
+<li>9 April 2004. <a href="lisppa.htm">LISPPA technology.</a>
+
+<li>15 March 2004. 
+Optimization of working with imported classes. The speed of calling imported methods and routines has been increased considerably.
+
+<li>6 March 2004. >You can import Delphi classes, routines, variables and constants from a dll. 
+paxScript importer 
+(paximp.exe) allows you to generate source code of the dll.
+
+<li>16 February 2004. Separate compilation of paxScript modules. 
+
+<li>11 February 2004. Direct call-routines defined in a dll in paxBasic and paxC.
+
+<li>19 January 2004. paxScript 
+importer has been extended with a possibility to import
+enumeration types, variables and constants.
+
+<li>26 December 2003. Fixed bugs related to the memory leak and thread-safety.
+
+<li>28 November 2003. You can embed your paxScript scripts into html pages and embed variables into 
+the string literals. Println statement has been added to all pax-languages.
+<li>27 November 2003. Decreased size of paxScript footprint. It takes about 20KB per extra TPaxScripter
+instance. Decreased size of compiled scripts. Stack size property.           
+<li>24 November 2003. Pax languages are represented as Delphi components, so you can choose selected
+languages. Besides the base of designing user-defined languages has been created.    
+<li>19 November 2003. Extra TPaxScripter methods allows to build the code explorer tree. The code explorer
+panel has been added to paxIDE.
+<li>15 November 2003. New paxScript importer (comes with full source code for registered paxScript
+    users).
+<li>10 November 2003. Direct call routines defined in a dll.
+
+<li>30 October 2003. Bug fixes in paxJavaScript date functions. Variant array routines.
+
+<li>29 October 2003. Optimization of paxJavaScript code. 
+
+<li>15 October 2003. TPaxScripter.Values property provides access to script-defined variables.
+TPaxScripter.GetMemberID, TPaxScripter.CallFunctionByID methods. Long string literals. String
+literals with parameters (see paxPascal <a href="pascal_features.htm">features </a>. String handling routines. 
+
+<li>2 October 2003. paxJavaScript, final release.
+
+<li>19 September 2003. TPaxScripter property OnUndeclaredIdentifier allows you to set up
+undeclared variables dynamically.
+
+<li>19 September 2003. paxJavaScript, beta-version.
+
+<li>18 September 2003. PAX_RTTI.pas.
+
+
+<li>10 September 2003. 
+Support of Cardinal (uint) and Int64 (long) types. Const and Label statements,
+Inc and Dec procedures in paxPascal. Regular expression support powered by 
+<a href="http://anso.da.ru">TRegExpr library</a>. Memory leak fixes.
+
+
+<li>21 August 2003. 
+All pax-languages support Boolean, Integer, String, Double and record types. 
+paxPascal supports Object Pascal syntax and has a few <a href="pascal_features.htm">
+extra features.</a>
+
+
+<li>18 August 2003. Optimization of array processing.
+
+<li>30 July 2003. SaveToStream, LoadFromStream methods.
+
+<li>25 July 2003. Optimization of recursive procedures.
+
+<li>22 July 2003. Code optimization (data conversion, function calls).
+
+
+<li>17 July 2003. Code optimization (arithmetical, logical, bitwise operations).
+
+
+<li>14 July 2003. Speed of loop processing was increased twice.
+
+
+<li>10 July 2003. 
+<ul>
+<li>You can import Delphi routines that have open array parameters. In partilular, Delphi Format
+function is available for importing now. </li>
+<li>All pax-languages support the member visibility: <b>public</b> and <b>private</b>. 
+</ul>
+
+
+<li>6 July 2003. 
+
+TpaxScripter.CallFunction method allows to call a method of host-defined or script-defined object. 
+For example:
+
+<pre>
+paxScripter1.RegisterObject('FormMain', FormMain);
+paxScripter1.AddModule('main', paxBasic);
+paxScripter1.AddCode('main', 'Function F(N)');
+paxScripter1.AddCode('main', '  return N + N');
+paxScripter1.AddCode('main', 'End Function');
+paxScripter1.Compile;
+V := paxScripter1.CallFunction('F', [3]);
+paxScripter1.CallFunction('Hide', [], 'FormMain');
+</pre>
+
+
+<li>3 July 2003. 
+
+<ul>
+<li>paxC unsigned right shift operator '>>>'.
+<li>Hexadecimal and bit constants in all pax-languages: $5A, 0xFF4E, 0b110001.
+<li>Backslashes in string constants in all pax-languages: "Two \n lines".
+</ul>
+<p>
+
+
+
+<li>2 July 2003. 
+TpaxScripter.OnRunning event allows to process messages at the script run-time.
+For example:
+
+<pre>
+<font color="blue"><b>procedure</b></font> TForm1.paxScripter1Running(Sender: TpaxScripter);
+<font color="blue"><b>begin</b></font>
+  Application.ProcessMessages;
+<font color="blue"><b>end</b></font>;
+</pre>
+
+
+<li>23 June 2003. 
+TpaxScripter.CallFunction method allows to call a script-defined function 
+or procedure located in global (noname) namespace. For example:
+
+<pre>
+paxScripter1.AddModule('main', paxBasic);
+paxScripter1.AddCode('main', 'Function F(N)');
+paxScripter1.AddCode('main', '  return N + N');
+paxScripter1.AddCode('main', 'End Function');
+paxScripter1.Compile;
+V := paxScripter1.CallFunction('F', [3]);
+</pre>
+
+
+
+
+<li>16 June 2003. 
+TpaxScripterPrintEvent type has been changed:
+
+<pre>
+TpaxScripterPrintEvent = <font color="blue"><b>procedure</b></font> (Sender: TpaxScripter;
+                        L: TStringList) <font color="blue"><b>of</b></font> object;
+</pre>
+
+instead of
+
+<pre>
+TpaxScripterPrintEvent = <font color="blue"><b>procedure</b></font> (Sender: TpaxScripter; <font color="blue"><b>const</b></font> S: <font color="blue"><b>String</b></font>) <font color="blue"><b>
+                                               of</b></font> object;
+</pre>
+
+
+<li>16 June 2003.
+Syntax of paxBasic For-Next statement and With statement has been changed
+to provide a compatibility with VB.NET. The following code are allowed now:
+
+<pre>
+<font color="blue"><b>Dim</b></font> I, J
+<font color="blue"><b>For</b></font> I = 1 <font color="blue"><b>To</b></font> 2
+  <font color="blue"><b>For</b></font> J = 1 <font color="blue"><b>to</b></font> 3
+    <font color="blue"><b>print</b></font> I, " ", J
+<font color="blue"><b>Next</b></font> J, I
+</pre>
+
+<pre>
+<font color="blue"><b>With</b></font> Form1
+  .Caption = "abc"
+<font color="blue"><b>End</b></font> <font color="blue"><b>With</b></font>
+</pre>
+
+</ul>
+
+I'll be very grateful for any remarks regarding the language structure and
+bug reports.
+
+Please write to me at the e-mail address:
+<A HREF="mailto:ab@cable.netlux.org">ab@cable.netlux.org</A>.
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

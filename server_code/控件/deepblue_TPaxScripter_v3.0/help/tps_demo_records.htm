@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter Demo. Importing record types.
+</h3>
+<hr>
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> TestRecords1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, BASE_PARSER, PaxScripter, PaxPascal, StdCtrls;
+
+<font color="blue"><b>type</b></font>
+
+  TMyPoint = <font color="blue"><b>record</b></font>
+    X, Y: Integer;
+  <font color="blue"><b>end</b></font>;
+
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    PaxScripter1: TPaxScripter;
+    PaxPascal1: TPaxPascal;
+    <font color="blue"><b>procedure</b></font> PaxScripter1AssignScript(Sender: TPaxScripter);
+    <font color="blue"><b>procedure</b></font> FormCreate(Sender: TObject);
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+    R: TMyPoint;
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.dfm}
+
+<font color="blue"><b>function</b></font> TestRecord(P: TMyPoint): TMyPoint;
+<font color="blue"><b>begin</b></font>
+  Inc(P.X);
+  Inc(P.Y);
+  result := P;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1AssignScript(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'var P, Q: TMyPoint;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print R.X;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print R.Y;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'R.Y := 500;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'Q := R;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print Q.Y;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'Q.Y := 400;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'Q := TestRecord(R);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print Q.X;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print Q.Y;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'P := TestRecord(Q);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print P.X;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print P.Y;'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.FormCreate(Sender: TObject);
+<font color="blue"><b>var</b></font>
+  H: Integer;
+<font color="blue"><b>begin</b></font>
+  R.X := 10;
+  R.Y := 20;
+  H := RegisterRecordType(<font color="Red">'TMyPoint'</font>, SizeOf(TMyPoint));
+  RegisterRecordField(H, <font color="Red">'X'</font>, <font color="Red">'Integer'</font>, 0);
+  RegisterRecordField(H, <font color="Red">'Y'</font>, <font color="Red">'Integer'</font>, 4);
+  RegisterRoutine(<font color="Red">'function TestRecord(P: TMyPoint): TMyPoint;'</font>, @TestRecord);
+  RegisterVariable(<font color="Red">'R'</font>, <font color="Red">'TMyPoint'</font>, @R);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.Run;
+  ShowMessage(<font color="Red">'R.Y='</font> + IntToStr(R.Y));
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

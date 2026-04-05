@@ -1,0 +1,81 @@
+int Key = 0, Left = 1, Right = 2;
+
+void AddNode(variant Root, variant X){
+  if (Root == NULL)
+    Root = [X, NULL, NULL];
+  else if (X < Root[Key])
+    AddNode(& Root[Left], X);
+  else if (X > Root[Key])
+    AddNode(& Root[Right], X);
+}
+
+variant Search(Root, X){
+  if (Root == NULL)
+    return NULL;
+  else if (X == Root[Key])
+    return Root;
+  else if (X < Root[Key])
+    return Search(Root[Left], X);
+  else
+    return Search(Root[Right], X);
+}
+
+void DeleteNode(variant Root, variant X){
+  variant P, R;
+  R = Search(Root, X);
+
+  if (R == NULL) return;
+
+  if ((R[Left] == NULL) && (R[Right] == NULL))
+    reduced R = NULL;
+  else if (R[Left] == NULL)
+    reduced R = R[Right];
+  else if (R[Right] == NULL)
+    reduced R = R[Left];
+  else {
+    P = & R[Left];
+    while (P[Right] != NULL) { P = & P[Right]; };
+    R[Key] = P[Key];
+    reduced P = P[Left];
+  }
+}
+
+void PreOrder(variant Root){
+  if (Root == NULL) return;
+  println Root[Key];
+  PreOrder(Root[Left]);
+  PreOrder(Root[Right]);
+}
+
+void InOrder(variant Root){
+  if (Root == NULL) return;
+  InOrder(Root[Left]);
+  println Root[Key];
+  InOrder(Root[Right]);
+}
+
+void PostOrder(variant Root){
+  if (Root == NULL) return;
+  PostOrder(Root[Right]);
+  PostOrder(Root[Left]);
+  println Root[Key];
+}
+
+variant Tree, X;
+
+AddNode(&Tree, 10);
+AddNode(&Tree, 5);
+AddNode(&Tree, 15);
+AddNode(&Tree, 3);
+AddNode(&Tree, 8);
+AddNode(&Tree, 13);
+AddNode(&Tree, 18);
+println Tree;
+InOrder(Tree);
+
+X = Search(Tree, 5);
+println X;
+
+DeleteNode(&Tree, 10);
+println Tree;
+

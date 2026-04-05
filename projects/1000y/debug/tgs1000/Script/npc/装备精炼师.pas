@@ -1,0 +1,507 @@
+{***********************************************************************
+创建人：何永安
+创建时间：2009.11.9
+功能：装备的精炼
+************************************************************************}
+var
+    log             = false;
+
+procedure OnMenu(uSource, uDest:integer);
+begin
+    menusay(uSource, '本店世代经营武器和护具的打造，已总结出一^'
+        + '套精辟的精炼方法。哪怕是一件普通的装备，^'
+        + '只要经过本人之手，也能成为上品。^^'
+        + '<〖精炼装备〗/@Menu_Jl>^'
+        + '<〖精炼装备介绍〗/@Menu_Jl_Help>^'
+        + '<〖拆分装备〗/@Menu_Cf>^'
+        + '<〖拆分装备介绍〗/@Menu_Cf_Help>^'
+        + '<〖 任 务 〗/@Quest>^^');
+end;
+
+procedure Menu_Jl_Help(uSource, uDest:integer);
+begin
+    menusay(uSource, '所谓精炼就是加工装备。通过精炼来提升装备^'
+        + '的防御力和攻击力。越精良的装备提升的幅度^'
+        + '越高。^'
+        + '根据装备的品级每次精炼需收取一定费用^'
+        + '精炼失败，装备不消失，精炼材料消失^'
+        + '精炼成功，装备精炼等级加1，精炼材料消失^^'
+        + '<〖返回〗/@OnMenu>^^'
+        + '<〖退出〗/@Quest>^^');
+end;
+
+procedure Menu_Cf_Help(uSource, uDest:integer);
+begin
+    menusay(uSource, '只能拆分3星的装备，精炼过鉴定过的也可以^'
+        + '拆分。^'
+        + '拆分会按装备品级收取一定费用^'
+        + '拆分成功，装备消失，获得相应品级个数的精'
+        + '炼石^^'
+        + '<〖返回〗/@OnMenu>^^'
+        + '<〖退出〗/@Quest>^^');
+end;
+
+procedure Quest(uSOurce, uDest:integer);
+var
+    ComQuestId, CurQuestId, CurQuestStep:integer;
+begin
+    ComQuestId := GetQuestNo(uSOurce);
+    if ComQuestId > 4900 then
+    begin
+        Menusay(uSOurce, '别来烦我，没看见我正忙着吗？^^'
+            + '<〖返回〗/@OnMenu>^^'
+            + '<〖退出〗/@exit>');
+        exit;
+    end;
+    CurQuestId := GetQuestCurrentNo(uSource);
+    case CurQuestId of
+        4950:
+            begin
+                CurQuestStep := GetQuestStep(uSource);
+                if CurQuestStep = 12 then
+                begin
+                    Menusay(uSource, '很高兴认识你啊，我这儿可以精炼各种装备，^'
+                        + '需要的话随时可以找我！既然你来拜访我，那^'
+                        + '我就送你点精炼石吧^^'
+                        + '<〖谢谢〗/@q4950_j13>^^'
+                        + '<〖返回〗/@OnMenu>^^'
+                        + '<〖退出〗/@exit>');
+                end else
+                begin
+                    Menusay(uSOurce, '你都拜访了吗？^^'
+                        + '<〖返回〗/@OnMenu>^^'
+                        + '<〖退出〗/@exit>');
+                end;
+
+            end;
+    else
+        begin
+            Menusay(uSOurce, '别来烦我，没看见我正忙着吗？^^'
+                + '<〖返回〗/@OnMenu>^^'
+                + '<〖退出〗/@exit>');
+        end;
+    end;
+
+end;
+
+procedure q4950_j13(uSource, uDest:integer);
+var
+    aname, notice   :string;
+    acount          :integer;
+begin
+    if getItemSpace(uSource) < 1 then
+    begin
+        Menusay(uSource, '背包空位不足，请留出1个位置！^^'
+            + '<〖返回〗/@OnMenu>^^'
+            + '<〖退出〗/@exit>');
+        exit;
+    end;
+
+    setQuestStep(uSOurce, 13);
+    notice := getQuestSubRequest(4950, 13);
+    saysystem(uSource, '任务提示：' + notice);
+
+    if getQuestSubItem(4950, 12, 0, aname, acount) = false then exit;
+    additem(uSource, aname, acount);
+    saysystem(uSource, '获得任务奖励：精炼石:5');
+    Menusay(uSOurce, '快去' + notice + '^^'
+        + '<〖返回〗/@OnMenu>^^'
+        + '<〖退出〗/@exit>');
+end;
+
+//拆分主菜单
+
+procedure Menu_Cf(uSource, uDest:integer);
+begin
+    menusay(uSource, '可将三星装备拆分为精炼石，拆分不同品阶的^'
+        + '装备所获得的精炼石数量也有所不同。手续费^'
+        + '为每个精炼石收取2000钱币。请把你要拆分的^'
+        + '物品放入左下角物品框里。^^'
+        + '           <〖拆分〗/@Cl_Begin>'
+        + '           <〖放弃〗/@exit>');
+    ItemInputWindowsOpen(uSource, 0, '装备栏', '');
+    setItemInputWindowsKey(uSource, 0, -1);
+end;
+
+procedure Cl_Begin(uSource, uDest:integer);
+var
+    aItemKey, akind, aSmithingLevel, aWearArr, aGrade, aMaxUpgrade, amoneycount, aitemcount:integer;
+    aItemName       :string;
+    aboUpgrade      :boolean;
+begin
+    aItemKey := getItemInputWindowsKey(uSource, 0);
+    //检查装备框是否为空
+    if aitemkey < 0 then
+    begin
+        menusay(uSource, '请放入要拆分的武器或者防具！^^'
+            + '<〖返回〗/@Menu_Cf>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+    //检查是否是装备
+    akind := getitemKind(uSource, aitemkey);
+    if akind <> 6 then
+    begin
+        menusay(uSource, '只能拆分武器或者防具！^^'
+            + '<〖返回〗/@Menu_Cf>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+    aItemName := getitemname(uSource, aItemKey);
+    //是否是三星装备
+    if getitemStarLevel(uSource, aItemKey) <> 3 then
+    begin
+        menusay(uSource, '只能拆分三星武器或者防具！^^'
+            + '<〖返回〗/@Menu_Cf>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+    aWearArr := getitemWearArr(uSource, aItemKey);
+    //判断部位
+    if (aWearArr <> 8)             // 头
+    and (aWearArr <> 6)            // 衣服
+    and (aWearArr <> 1)            // 手
+    and (aWearArr <> 9)            // 武器
+    and (aWearArr <> 3) then       // 脚
+    begin
+        menusay(uSource, '只能拆分武器，头盔，护腕，靴子和铠甲！^^'
+            + '<〖返回〗/@Menu_Cf>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查装备品级
+    aGrade := getitemGrade(uSource, aItemKey);
+    if (aGrade <= 0) or (aGrade > 12) then
+    begin
+        menusay(uSource, '只能拆分1至12品武器或者防具！^^'
+            + '<〖返回〗/@Menu_Cf>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    amoneycount := aGrade * 2000;
+    aitemcount := aGrade;
+    if getitemcount(uSource, '钱币') < amoneycount then
+    begin
+        menusay(uSource, '此次拆分需要钱币：' + IntToStr(amoneycount) + '个^^'
+            + '<〖返回〗/@Menu_Cf>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    if getitemspace(uSource) < 1 then
+    begin
+        menusay(uSource, '背包至少留1个空位.^^'
+            + '<〖返回〗/@Menu_Cf>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    aItemName := getitemname(uSource, aItemKey);
+    deleteItemKey(uSource, aItemKey, 1);
+    deleteitem(uSource, '钱币', amoneycount);
+    additem(uSource, '精炼石', aitemcount);
+
+    menusay(uSource, '拆分[' + aItemName + ']成功!^'
+        + '消费[钱币]：' + inttostr(amoneycount) + '个^'
+        + '获得[精炼石]：' + inttostr(aitemcount) + '个^^'
+        + '<〖返回〗/@Menu_Cf>^^'
+        + '<〖退出〗/@exit>^^');
+end;
+//精炼主菜单
+
+procedure Menu_Jl_Main(uSource, aItemKey, aItemKey1, aItemKey2:integer; asaystr:string);
+begin
+    menusay(uSource, '我这里加工精良武器和防具。但不是免费的!^'
+        + asaystr + '^^'
+        + '           <〖精炼〗/@Jl_Begin>'
+        + '           <〖放弃〗/exit>');
+    ItemInputWindowsOpen(uSource, 0, '装备栏', '将要精炼的装备放入此窗口中');
+    ItemInputWindowsOpen(uSource, 1, '精炼材料', '将精炼材料放入此窗口中');
+    ItemInputWindowsOpen(uSource, 2, '辅助材料', '放入不同道具会增加不同的精炼成功率');
+    setItemInputWindowsKey(uSource, 0, aItemKey);
+    setItemInputWindowsKey(uSource, 1, aItemKey1);
+    setItemInputWindowsKey(uSource, 2, aItemKey2);
+end;
+
+procedure Menu_Jl(uSource, uDest:integer);
+begin
+    Menu_Jl_Main(uSource, -1, -1, -1, '');
+end;
+//精炼检查
+
+procedure Jl_Begin(uSource, uDest:integer);
+var
+    ajilv, aItemKey, aItemKey1, aItemKey2, akind, aWearArr, aSmithingLevel, aitemcount:integer;
+    afuzhuname, aitemname, gamename:string;
+    aboUpgrade, astate:boolean;
+    s1, s2, s3      :string;
+    aNeedMoney      :integer;
+    aFuzhukind      :integer;
+    agrade1         :Integer;
+    aSKind          :integer;
+begin
+    aItemKey := getItemInputWindowsKey(uSource, 0); //获取第一个窗口中的物品在背包中的位置
+    aItemKey1 := getItemInputWindowsKey(uSource, 1); //获取第二个窗口中的物品在背包中的位置
+    aItemKey2 := getItemInputWindowsKey(uSource, 2); //获取第三个窗口中的物品在背包中的位置
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    //检查第一个框
+    //基本 检测 背包位置
+    if (aItemKey < 0) or (aItemKey > 29) then
+    begin
+        menusay(uSource, '请放入武器或者防具！^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //判断是否是装备
+    akind := getitemKind(uSource, aitemkey);
+    if akind <> 6 then
+    begin
+        menusay(uSource, '只能精炼武器和防具！^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    aWearArr := getitemWearArr(uSource, aItemKey);
+    //检查部位
+    if (aWearArr <> 8)             // 头
+    and (aWearArr <> 6)            // 衣服
+    and (aWearArr <> 1)            // 手
+    and (aWearArr <> 9)            // 手
+    and (aWearArr <> 3) then       // 脚
+    begin
+        menusay(uSource, '只能精炼武器，头盔，护腕，靴子和铠甲！^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    aGrade1 := getitemGrade(uSource, aItemKey);
+    //检查装备品级
+    if (aGrade1 <= 0) or (aGrade1 > 12) then
+    begin
+        menusay(uSource, '只能精炼1至12品的武器和防具装备！^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查装备是否允许精炼
+    aboUpgrade := getitemboUpgrade(uSource, aItemKey);
+    if aboUpgrade = false then
+    begin
+        menusay(uSource, '该装备不能被精炼！^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查当前该装备的精炼等级是否已最大
+    aSmithingLevel := getitemSmithingLevel(uSource, aItemKey);
+    if aSmithingLevel >= getitemSmithingLevelMax(uSource, aItemKey) then
+    begin
+        menusay(uSource, '该装备已经是最高等级，无法精炼！^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    if log then worldnoticemsg('当前等级:' + IntToStr(aSmithingLevel), $00FF80FF, $00000000);
+
+    //检查第2个框
+    //判断是否有精炼材料
+    if (aItemKey1 < 0) or (aItemKey1 > 29) then
+    begin
+        menusay(uSource, '请放入精炼材料！^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //判断是否是精炼材料
+    akind := getitemKind(uSource, aitemkey1);
+    if akind <> 130 then
+    begin
+        menusay(uSource, '精炼材料不符！^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    //检查第3个框
+    //判断是否是辅助材料
+    akind := getitemkind(uSource, aItemKey2);
+    if (aitemKey2 >= 0) and (aItemKey2 <= 29) then
+    begin
+        if akind <> 132 then
+        begin
+            menusay(uSource, '辅助材料不符！^^'
+                + '<〖返回〗/@Menu_Jl>^^'
+                + '<〖退出〗/@exit>^^');
+            exit;
+        end;
+        s3 := getitemname(uSource, aItemKey2);
+    end;
+    s1 := getitemname(uSource, aItemKey);
+    s2 := getitemname(uSource, aItemKey1);
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //根据品级计算所需要的钱币数量和精炼材料数量
+    aNeedMoney := aGrade1 * 10000;
+    aitemcount := aGrade1 div 2;
+    if aitemcount <= 0 then aitemcount := 1;
+    aSKind := getitemSpecialKind(uSource, aItemKey1);
+    case aSKind of
+        1:aitemcount := aitemcount * 4;
+        2:aitemcount := aitemcount * 3;
+        3:aitemcount := aitemcount * 2;
+        4:aitemcount := aitemcount * 1;
+    end;
+
+    if log then worldnoticemsg('精炼材料总数:' + IntToStr(getitemcount(uSource, '精炼材料')), $00FF80FF, $00000000);
+    if (getitemKeyCount(uSource, aItemKey1) < aitemcount) then
+    begin
+        menusay(uSource, '精炼此物品需要此精炼材料' + inttostr(aitemcount) + '个^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+
+    if getitemcount(uSource, '钱币') < aNeedMoney then
+    begin
+        menusay(uSource, '需要钱币：' + inttostr(aNeedMoney) + '个^^'
+            + '<〖返回〗/@Menu_Jl>^^'
+            + '<〖退出〗/@exit>^^');
+        exit;
+    end;
+    ///////////////////////////////////
+    //成功几率
+    case aSmithingLevel of
+        0:ajilv := 9000;
+        1:ajilv := 7000;
+        2:ajilv := 5000;
+        3:ajilv := 2500;
+        4:ajilv := 1250;
+        5:ajilv := 700;
+        6:ajilv := 350;
+        7:ajilv := 175;
+        8:ajilv := 100;
+        9:ajilv := 10;
+    else
+        begin
+            menusay(uSource, '该物品已达到精炼最大等级！^^'
+                + '<〖返回〗/@Menu_Jl>^^'
+                + '<〖退出〗/@exit>^^');
+            exit;
+        end;
+    end;
+
+    //检查辅助材料类别，确定精炼几率
+    aSKind := getitemSpecialKind(uSource, aItemKey2);
+    case aSKind of
+        1:                         //乾坤
+            begin
+                ajilv := ajilv div 10;
+                if ajilv < 2 then ajilv := 2;
+            end;
+        2:ajilv := ajilv + ajilv div 2; //天罡
+        3:ajilv := ajilv;          //地煞
+        4:ajilv := ajilv + ajilv div 6; //精华素
+        5:ajilv := ajilv + ajilv div 4; //草芥丹
+        6:ajilv := ajilv + ajilv div 2; //生死梦幻丹
+    end;
+
+    //检查是不是丹药
+    if (aSKind = 4) or (aSKind = 5) or (aSKind = 6) then
+    begin
+        if aSmithingLevel > 4 then
+        begin
+            menusay(uSource, '此辅助材料只能精炼5级以下的装备！^^'
+                + '<〖返回〗/@Menu_Jl>^^'
+                + '<〖退出〗/@exit>^^');
+            exit;
+        end;
+    end;
+
+    //计算 成功失败
+    astate := false;
+    if ajilv > 0 then
+    begin
+        if ajilv >= 10000 then astate := true
+        else if random(10000) > (10000 - ajilv) then astate := true;
+    end;
+
+    //不管成功、失败先扣东西
+    deleteitem(uSource, '钱币', aNeedMoney);
+    deleteItemKey(uSource, aItemKey1, aitemcount);
+    //检查精炼材料是否有
+    if getitemKeyCount(uSource, aItemKey1) <= 0 then aItemKey1 := -1;
+
+    //检查是否有辅助石头
+    afuzhuname := getitemname(uSource, aItemKey2); //获取物品的真实名字
+    if afuzhuname <> '' then
+    begin
+        deleteItemKey(uSource, aItemKey2, 1);
+        if getitemcount(uSource, afuzhuname) <= 0 then aItemKey2 := -1;
+    end;
+
+    //失败
+    if astate = false then
+    begin
+        if afuzhuname = '地煞石' then aSmithingLevel := aSmithingLevel - 1
+        else if afuzhuname = '乾坤石' then aSmithingLevel := aSmithingLevel
+        else aSmithingLevel := 0;
+        if aSmithingLevel <= 0 then aSmithingLevel := 0;
+        SetItemUPdataLevelNew(uSource, aItemKey, aSmithingLevel);
+
+        if afuzhuname = '' then
+        begin
+            Menu_Jl_Main(uSource, aitemKey, aItemKey1, aItemKey2,
+                '抱歉，精炼失败！^'
+                + '消费[钱币]：' + inttostr(aNeedMoney) + '个^'
+                + '消耗精炼材料：[' + s2 + ']' + inttostr(aitemcount) + '个^'
+                + '现在的等级是：' + inttostr(aSmithingLevel));
+        end else
+        begin
+            Menu_Jl_Main(uSource, aitemKey, aItemKey1, aItemKey2,
+                '抱歉，精炼失败！^'
+                + '消费[钱币]：' + inttostr(aNeedMoney) + '个^'
+                + '消耗精炼材料：[' + s2 + ']' + inttostr(aitemcount) + '个^'
+                + '消耗辅助材料：[' + s3 + ']1个^'
+                + '现在的等级是：' + inttostr(aSmithingLevel));
+        end;
+        exit;
+    end;
+    aSmithingLevel := aSmithingLevel + 1;
+    SetItemUPdataLevelNew(uSource, aItemKey, aSmithingLevel);
+
+    if afuzhuname = '' then
+    begin
+        Menu_Jl_Main(uSource, aitemKey, aitemKey1, aItemKey2,
+            '恭喜你，精炼成功！^'
+            + '消费[钱币]：' + inttostr(aNeedMoney) + '个^'
+            + '消耗精炼材料：[' + s2 + ']' + inttostr(aitemcount) + '个^'
+            + '现在的等级是：' + inttostr(aSmithingLevel));
+    end else
+    begin
+        Menu_Jl_Main(uSource, aitemKey, aItemKey1, aItemKey2,
+            '恭喜你，精炼成功！^'
+            + '消费[钱币]：' + inttostr(aNeedMoney) + '个^'
+            + '消耗精炼材料：[' + s2 + ']' + inttostr(aitemcount) + '个^'
+            + '消耗辅助材料：[' + s3 + ']1个^'
+            + '现在的等级是：' + inttostr(aSmithingLevel));
+    end;
+    if log then worldnoticemsg('计算等级:' + IntToStr(aSmithingLevel), $00FF80FF, $00000000);
+    //通告
+    if aSmithingLevel >= 3 then
+    begin
+        aitemname := getitem(uSource, '背包', 'rViewName', aItemKey); //获取精炼装备的显示名字
+        gamename := getname(uSource); //返回玩家姓名
+        topmsg('恭喜玩家【' + gamename + '】' + '精炼' + aitemname + '+' + inttostr(aSmithingLevel) + '成功！', $0000FFFF);
+    end;
+end;
+

@@ -1,0 +1,78 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Polynomials (paxC).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>void</b></font> Add(InitP, InitQ) {
+  <font color="blue"><b>variant</b></font> P, Q;
+  P = & InitP;
+  Q = & InitQ;
+  <font color="blue"><b>while</b></font> (<font color="blue"><b>true</b></font>) {
+    <font color="blue"><b>while</b></font> (P[0][1] < Q[0][1]) Q = & Q[1];
+
+    <font color="blue"><b>if</b></font> (P[0][1] > Q[0][1])
+      Q = [ + P[0], Q];
+    <font color="blue"><b>else</b></font> {
+      Q[0][0] += P[0][0];
+      <font color="blue"><b>if</b></font> (Q[0][0] == 0)
+        <font color="blue"><b>reduced</b></font> Q = Q[1];
+      <font color="blue"><b>else</b></font>
+        Q = & Q[1];
+    }
+    P = & P[1];
+    <font color="blue"><b>if</b></font> (P[0][1] < 0) <font color="blue"><b>break</b></font>;
+  }
+}
+
+<font color="blue"><b>void</b></font> Show(P) {
+  <font color="blue"><b>println</b></font> <font color="Red">''</font>;
+  <font color="blue"><b>while</b></font> (<font color="blue"><b>true</b></font>) {
+    <font color="blue"><b>print</b></font> P[0][0], <font color="Red">'X^'</font>, P[0][1];
+    P = & P[1];
+    <font color="blue"><b>if</b></font> (P[0][1] < 0) <font color="blue"><b>break</b></font>;
+    <font color="blue"><b>if</b></font> (P[0][0] >= 0) <font color="blue"><b>print</b></font> <font color="Red">'+'</font>;
+  }
+}
+
+<font color="blue"><b>variant</b></font> P, Q;
+P = [[0, -1], <font color="blue"><b>NULL</b></font>];
+P[1] = & P;
+P = [[600, 1], P];
+P = [[10, 2], P];
+P = [[70, 5], P];
+P = [[150, 6], P];
+P = [[80, 7], P];
+
+Q = [[0, -1], <font color="blue"><b>NULL</b></font>];
+Q[1] = & Q;
+Q = [[600, 1], Q];
+Q = [[170, 3], Q];
+Q = [[60, 5], Q];
+Q = [[-150, 6], Q];
+
+<font color="blue"><b>println</b></font> <font color="Red">'Source polynomials:'</font>;
+Show(P);
+Show(Q);
+Add(P, & Q);
+<font color="blue"><b>println</b></font> <font color="Red">'Sum:'</font>;
+Show(Q);
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

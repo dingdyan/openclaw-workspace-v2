@@ -1,0 +1,113 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Using Imported Classes.
+</h3>
+<hr>
+
+<h4>
+paxBasic
+</h4>
+
+<pre>
+<font color="blue"><b>Imports</b></font> Classes
+
+<font color="blue"><b>Dim</b></font> I, L = <font color="blue"><b>New</b></font> TList()
+
+L.Add(2)
+L.Add(<font color="blue"><b>New</b></font> TObject())
+L.Add(5)
+L.Add(7)
+
+<font color="blue"><b>For</b></font> I = 0 <font color="blue"><b>to</b></font> L.Count - 1
+  <font color="blue"><b>print</b></font> L(I)
+<font color="blue"><b>Next</b></font>
+
+<font color="blue"><b>Dim</b></font> SL = <font color="blue"><b>New</b></font> TStringList()
+
+<font color="blue"><b>With</b></font> SL
+  Add("abc")
+  Add("pqr")
+  Add("xyx")
+<font color="blue"><b>End</b></font> <font color="blue"><b>With</b></font>
+
+<font color="blue"><b>For</b></font> I = 0 <font color="blue"><b>to</b></font> SL.Count - 1
+  <font color="blue"><b>print</b></font> SL(I)
+<font color="blue"><b>Next</b></font>
+</pre>
+
+<h4>
+paxC
+</h4>
+
+<pre>
+<font color="blue"><b>using</b></font> Classes;
+
+<font color="blue"><b>var</b></font> L = <font color="blue"><b>new</b></font> TList();
+
+L.Add(2);
+L.Add(<font color="blue"><b>new</b></font> TObject());
+L.Add(5);
+L.Add(7);
+
+<font color="blue"><b>for</b></font> (<font color="blue"><b>var</b></font> I = 0; I < L.Count; I++)
+  <font color="blue"><b>print</b></font> L[I];
+
+<font color="blue"><b>var</b></font> SL = <font color="blue"><b>new</b></font> TStringList();
+
+<font color="blue"><b>with</b></font> (SL) {
+  Add("abc");
+  Add("pqr");
+  Add("xyx");
+}
+
+<font color="blue"><b>for</b></font> (<font color="blue"><b>var</b></font> I = 0; I < SL.Count; I++)
+  <font color="blue"><b>print</b></font> SL[I];
+</pre>
+
+<h4>
+paxPascal
+</h4>
+
+<pre>
+<font color="blue"><b>uses</b></font>
+  Classes;
+  
+<font color="blue"><b>var</b></font>
+  I, L = TList.Create;
+
+L.Add(2);
+L.Add(TObject.Create);
+L.Add(5);
+L.Add(7);
+
+<font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> L.Count - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>print</b></font> L[I];
+  
+<font color="blue"><b>var</b></font>
+  SL = TStringList.Create;
+
+<font color="blue"><b>with</b></font> SL <font color="blue"><b>do</b></font>
+<font color="blue"><b>begin</b></font>
+  Add('abc');
+  Add('pqr');
+  Add('xyx');
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> SL.Count - 1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>print</b></font> SL[I];
+</pre>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

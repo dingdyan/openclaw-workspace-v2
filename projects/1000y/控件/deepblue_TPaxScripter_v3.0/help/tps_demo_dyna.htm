@@ -1,0 +1,132 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter Demo. Dynamic Arrays.
+</h3>
+<hr>
+
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> Unit1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, BASE_PARSER, PaxScripter, PaxPascal;
+
+<font color="blue"><b>type</b></font>
+  TMyClass = <font color="blue"><b>class</b></font>(TPersistent)
+    <font color="blue"><b>private</b></font>
+      f: <font color="blue"><b>String</b></font>;
+    <font color="blue"><b>public</b></font>
+      <font color="blue"><b>constructor</b></font> Create(<font color="blue"><b>const</b></font> s: <font color="blue"><b>String</b></font>);
+    <font color="blue"><b>published</b></font>
+      <font color="blue"><b>property</b></font> P: <font color="blue"><b>String</b></font> <font color="blue"><b>read</b></font> f <font color="blue"><b>write</b></font> f;
+  <font color="blue"><b>end</b></font>;
+
+  TDynaArrInt = array <font color="blue"><b>of</b></font> Integer;
+  TDynaArrMyClass = array <font color="blue"><b>of</b></font> TMyClass;
+
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    PaxScripter1: TPaxScripter;
+    PaxPascal1: TPaxPascal;
+    Button1: TButton;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+    <font color="blue"><b>procedure</b></font> PaxScripter1AssignScript(Sender: TPaxScripter);
+    <font color="blue"><b>procedure</b></font> FormCreate(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+    A: TDynaArrInt;
+    B: TDynaArrMyClass;
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.DFM}
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+   PaxScripter1.Run;
+   ShowMessage(IntToStr(A[3]));
+   ShowMessage(B[2].P);
+   ShowMessage(B[3].P);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1AssignScript(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'var x, y: TDynaArrInt;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'var z: array of Integer;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print B[2].P;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'B[2].P := <font color="Red">"pqr"</font>;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'B[3] := TMyClass.Create(<font color="Red">"xyz"</font>);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'SetLength(z, 5);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'z[3] := 5;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print z[3];'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'SetLength(x, 10);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'x[5] := 8;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'y := Test(x);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print y[2];'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print x[5];'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print Length(x);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print A[3];'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'A[3] := 88;'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Test(P: TDynaArrInt): TDynaArrInt;
+<font color="blue"><b>begin</b></font>
+  ShowMessage(IntToStr(P[5]));
+  SetLength(result, 20);
+  result[2] := 123;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.FormCreate(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  SetLength(A, 15);
+  A[3] := 77;
+  SetLength(B, 15);
+  B[2] := TMyClass.Create(<font color="Red">'abc'</font>);
+  PaxScripter1.RegisterVariable(<font color="Red">'A'</font>, <font color="Red">'TDynaArrInt'</font>, @A);
+  PaxScripter1.RegisterVariable(<font color="Red">'B'</font>, <font color="Red">'TDynaArrMyClass'</font>, @B);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>constructor</b></font> TMyClass.Create(<font color="blue"><b>const</b></font> s: <font color="blue"><b>String</b></font>);
+<font color="blue"><b>begin</b></font>
+  f := s;
+<font color="blue"><b>end</b></font>;
+
+initialization
+
+RegisterClassType(TMyClass);
+RegisterMethod(TMyClass, <font color="Red">'constructor Create(const s: String);'</font>, @TMyClass.Create);
+RegisterDynamicArrayType(<font color="Red">'TDynaArrInt'</font>, <font color="Red">'Integer'</font>);
+RegisterDynamicArrayType(<font color="Red">'TDynaArrMyClass'</font>, <font color="Red">'TMyClass'</font>);
+RegisterRoutine(<font color="Red">'function Test(P: TDynaArrInt): TDynaArrInt;'</font>, @Test);
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

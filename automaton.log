@@ -1,0 +1,88 @@
+[INFO]  Cloning automaton to /opt/automaton...
+Cloning into '/opt/automaton'...
+[INFO]  Installing dependencies...
+Scope: all 2 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +160
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 160, reused 0, downloaded 55, added 17
+Progress: resolved 160, reused 0, downloaded 89, added 29
+Progress: resolved 160, reused 0, downloaded 100, added 33
+Progress: resolved 160, reused 0, downloaded 101, added 33
+Progress: resolved 160, reused 0, downloaded 119, added 37
+Progress: resolved 160, reused 0, downloaded 160, added 100
+Progress: resolved 160, reused 0, downloaded 160, added 160, done
+.../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+.../node_modules/better-sqlite3 install$ prebuild-install || node-gyp rebuild --release
+.../esbuild@0.27.3/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.27.3/node_modules/esbuild postinstall: Done
+.../esbuild@0.21.5/node_modules/esbuild postinstall: Done
+.../node_modules/better-sqlite3 install: Done
+ WARN  Failed to create bin at /opt/automaton/packages/cli/node_modules/.bin/automaton. ENOENT: no such file or directory, open '/opt/automaton/dist/index.js'
+ WARN  Failed to create bin at /opt/automaton/packages/cli/node_modules/.bin/conway-automaton. ENOENT: no such file or directory, open '/opt/automaton/dist/index.js'
+
+dependencies:
++ @types/better-sqlite3 7.6.13
++ better-sqlite3 11.10.0
++ chalk 5.6.2
++ cron-parser 4.9.0
++ gray-matter 4.0.3
++ js-tiktoken 1.0.21
++ openai 6.24.0
++ ora 8.2.0
++ simple-git 3.30.0
++ siwe 2.3.2
++ ulid 2.4.0
++ viem 2.45.3
++ yaml 2.8.2
+
+devDependencies:
++ @types/node 20.19.33
++ tsx 4.21.0
++ typescript 5.9.3
++ vitest 2.1.9
+
+ WARN  Failed to create bin at /opt/automaton/packages/cli/node_modules/.bin/automaton. ENOENT: no such file or directory, open '/opt/automaton/packages/cli/node_modules/@conway/automaton/dist/index.js'
+ WARN  Failed to create bin at /opt/automaton/packages/cli/node_modules/.bin/conway-automaton. ENOENT: no such file or directory, open '/opt/automaton/packages/cli/node_modules/@conway/automaton/dist/index.js'
+Done in 1m 1.6s using pnpm v10.28.1
+[INFO]  Building...
+
+> @conway/automaton@0.2.1 build /opt/automaton
+> tsc && pnpm -r build
+
+
+> @conway/automaton-cli@0.2.0 build /opt/automaton/packages/cli
+> tsc
+
+10:17:11 INFO  main         [2026-03-12T10:17:11.983Z] Conway Automaton v0.2.1 starting...
+
+
+   ██████╗ ██████╗ ███╗   ██╗██╗    ██╗ █████╗ ██╗   ██╗
+  ██╔════╝██╔═══██╗████╗  ██║██║    ██║██╔══██╗╚██╗ ██╔╝
+  ██║     ██║   ██║██╔██╗ ██║██║ █╗ ██║███████║ ╚████╔╝
+  ██║     ██║   ██║██║╚██╗██║██║███╗██║██╔══██║  ╚██╔╝
+  ╚██████╗╚██████╔╝██║ ╚████║╚███╔███╔╝██║  ██║   ██║
+   ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝
+
+     █████╗ ██╗   ██╗████████╗ ██████╗ ███╗   ███╗ █████╗ ████████╗ ██████╗ ███╗   ██╗
+    ██╔══██╗██║   ██║╚══██╔══╝██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝██╔═══██╗████╗  ██║
+    ███████║██║   ██║   ██║   ██║   ██║██╔████╔██║███████║   ██║   ██║   ██║██╔██╗ ██║
+    ██╔══██║██║   ██║   ██║   ██║   ██║██║╚██╔╝██║██╔══██║   ██║   ██║   ██║██║╚██╗██║
+    ██║  ██║╚██████╔╝   ██║   ╚██████╔╝██║ ╚═╝ ██║██║  ██║   ██║   ╚██████╔╝██║ ╚████║
+    ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝
+
+  v0.2.0 — To exist, you must pay for your compute.
+
+  First-run setup. Let's bring your automaton to life.
+
+  [1/6] Generating identity (wallet)...
+  Wallet created: 0x96DD84aD3aa21A136dCFc2c2a67e0661bc8A704B
+  Private key stored at: /root/.automaton/wallet.json
+
+  [2/6] Provisioning Conway API key (SIWE)...
+  API key provisioned: cnwy_k_pP-pc...
+
+  [3/6] Setup questions
+
+  → What do you want to name your automaton?: 

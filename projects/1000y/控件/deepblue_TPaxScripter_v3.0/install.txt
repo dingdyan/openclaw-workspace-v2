@@ -1,0 +1,46 @@
+DELPHI 5:
+
+1. Run Delphi 5.
+2. Select the Delphi 5 File->Open menu option and open 
+   the file PaxScripter_D5.dpk
+3. Click Install.
+
+DELPHI 6:
+
+1. Run Delphi 6.
+2. Select the Delphi 6 File->Open menu option and open 
+   the file PaxScripter_D6.dpk
+3. Click Install.
+
+DELPHI 7:
+
+1. Run Delphi 7.
+2. Select the Delphi 7 File->Open menu option and open 
+   the file PaxScripter_D7.dpk
+3. Click Install.
+
+C++ BUILDER 5:
+
+1. Run Borland C++ Builder 5.
+2. Select the C++ Builder File->Open menu option and open 
+   the file PaxScripter_BCB5.bpk
+3. Click Install.
+
+C++ BUILDER 6:
+
+1. Run Borland C++ Builder 6.
+2. Select the C++ Builder File->Open menu option and open 
+   the file PaxScripter_BCB6.bpk
+3. Click Install.
+
+KYLIX 3:
+
+1. Run Kylix 3.
+2. Select the Kylix File->Open menu option and open 
+   the file PaxScripter_K3.dpk
+3. Click Install.
+
+PaxIDE
+-----------------------------------------------------------------
+
+Install a TPAXScript component and TSynEdit component. Then compile PaxIDE.dpr. 

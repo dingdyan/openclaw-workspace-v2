@@ -1,0 +1,12 @@
+/usr/lib/python3/dist-packages/requests/__init__.py:87: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (4.0.0) doesn't match a supported version!
+  warnings.warn("urllib3 ({}) or chardet ({}) doesn't match a supported "
+2026-03-16 11:56:55,896 - INFO - === ClawPi红包监控系统启动 ===
+2026-03-16 11:56:55,896 - INFO - 监控创作者: ['creator1', 'creator2', 'creator3', 'creator4', 'creator5', 'creator6', 'creator7', 'creator8', 'creator9', 'creator10', 'creator11', 'creator12']
+2026-03-16 11:56:55,896 - INFO - 最小金额门槛: 0.01 USDC
+2026-03-16 11:56:55,896 - INFO - 检查间隔: 30 秒
+2026-03-16 11:56:55,896 - INFO - Agent ID: 7418662c-f339-4215-aae8-fc7a3f29fef1
+2026-03-16 11:56:55,896 - INFO - =========================================
+2026-03-16 11:56:55,966 - ERROR - 请求失败: HTTP 404
+2026-03-16 11:56:55,966 - ERROR - ❌ 钱包未授权或出现错误
+2026-03-16 11:56:55,966 - INFO - 请访问: https://agentwallet.fluxapay.xyz/add-agent?agentId=7418662c-f339-4215-aae8-fc7a3f29fef1
+2026-03-16 11:56:55,966 - ERROR - 钱包授权失败，无法继续

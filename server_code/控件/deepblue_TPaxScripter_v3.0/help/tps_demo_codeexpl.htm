@@ -1,0 +1,262 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TpaxScripter Demo. Code Explorer.
+</h3>
+<hr>
+
+<PRE>
+<B>unit</B> CodeExplorer;   
+<P></P>
+<B>interface</B>   
+<P></P>
+<B>uses</B>   
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,   
+  StdCtrls, ComCtrls, ExtCtrls,   
+<P></P>
+  contnrs,   
+  PaxScripter, PaxPascal;   
+<B>type</B>   
+  TForm1 = <B>class</B>(TForm)   
+    Panel1: TPanel;   
+    Memo1: TMemo;   
+    TreeView1: TTreeView;   
+    Button1: TButton;   
+    Button2: TButton;   
+    OpenDialog1: TOpenDialog;   
+    PaxScripter1: TPaxScripter;   
+    PaxPascal1: TPaxPascal;   
+    <B>procedure</B> Button1Click(Sender: TObject);   
+    <B>procedure</B> FormCreate(Sender: TObject);   
+    <B>procedure</B> TreeView1DblClick(Sender: TObject);   
+    <B>procedure</B> FormDestroy(Sender: TObject);   
+    <B>procedure</B> Button2Click(Sender: TObject);   
+    <B>procedure</B> TreeView1Click(Sender: TObject);   
+  <B>private</B>   
+    { <B>private</B> declarations }   
+    Module: Integer;   
+    PosList: TObjectList;   
+    <B>procedure</B> EnumProc(<B>const</B> Name: <B>string</B>;   
+                       ID: Integer;   
+                       Kind: TPAXMemberKind;   
+                       ml: TPAXModifierList;   
+                       Data: Pointer);   
+     <B>procedure</B> SetupClassNode(N: TTreeNode; ID: Integer);   
+     <B>procedure</B> SetupFuncNode(N: TTreeNode; ID: Integer);   
+  <B>public</B>   
+    { <B>public</B> declarations }   
+  <B>end</B>;   
+<P></P>
+<B>var</B>   
+  Form1: TForm1;   
+<P></P>
+<B>implementation</B>   
+<P></P>
+{$R *.DFM}   
+<P></P>
+<B>type</B>   
+  PNodeRec = ^TNodeRec;   
+  TNodeRec = <B>record</B>   
+    NParams, NFields, NConsts, NMethods, NProperties, NClasses: TTreeNode;   
+  <B>end</B>;   
+<P></P>
+  TPosObject = <B>class</B>   
+    Module, Position, Length: Integer;   
+    <B>constructor</B> Create(Module, Position, Length: Integer);   
+  <B>end</B>;   
+<P></P>
+<B>constructor</B> TPosObject.Create(Module, Position, Length: Integer);   
+<B>begin</B>   
+  Self.Module := Module;   
+  Self.Position := Position;   
+  Self.Length := Length;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.SetupClassNode(N: TTreeNode; ID: Integer);   
+<B>var</B>   
+  R: TNodeRec;   
+<B>begin</B>   
+  <B>with</B> TreeView1.Items <B>do</B>   
+  <B>begin</B>   
+    <B>with</B> R <B>do</B>   
+    <B>begin</B>   
+      NConsts := AddChild(N, <font color="red">'Constants'</font>);   
+      NFields := AddChild(N, <font color="red">'Fields'</font>);   
+      NMethods := AddChild(N, <font color="red">'Methods'</font>);   
+      NProperties := AddChild(N, <font color="red">'Properties'</font>);   
+      NClasses := AddChild(N, <font color="red">'Nested classes'</font>);   
+    <B>end</B>;   
+<P></P>
+    PaxScripter1.EnumMembers(ID, Module, EnumProc, @R);   
+<P></P>
+    <B>with</B> R <B>do</B>   
+    <B>begin</B>   
+      <B>if</B> NConsts.Count = 0 <B>then</B>   
+        NConsts.Delete;   
+      <B>if</B> NFields.Count = 0 <B>then</B>   
+        NFields.Delete;   
+      <B>if</B> NMethods.Count = 0 <B>then</B>   
+        NMethods.Delete;   
+      <B>if</B> NProperties.Count = 0 <B>then</B>   
+        NProperties.Delete;   
+      <B>if</B> NClasses.Count = 0 <B>then</B>   
+        NClasses.Delete;   
+    <B>end</B>;   
+  <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.SetupFuncNode(N: TTreeNode; ID: Integer);   
+<B>var</B>   
+  R: TNodeRec;   
+<B>begin</B>   
+  <B>with</B> TreeView1.Items <B>do</B>   
+  <B>begin</B>   
+    <B>with</B> R <B>do</B>   
+    <B>begin</B>   
+      NParams := AddChild(N, <font color="red">'Parameters'</font>);   
+      NConsts := AddChild(N, <font color="red">'Constants'</font>);   
+      NFields := AddChild(N, <font color="red">'Local variables'</font>);   
+      NMethods := AddChild(N, <font color="red">'Nested routines'</font>);   
+      NClasses := AddChild(N, <font color="red">'Nested classes'</font>);   
+    <B>end</B>;   
+<P></P>
+    PaxScripter1.EnumMembers(ID, Module, EnumProc, @R);   
+<P></P>
+    <B>with</B> R <B>do</B>   
+    <B>begin</B>   
+      <B>if</B> NParams.Count = 0 <B>then</B>   
+        NParams.Delete;   
+      <B>if</B> NConsts.Count = 0 <B>then</B>   
+        NConsts.Delete;   
+      <B>if</B> NFields.Count = 0 <B>then</B>   
+        NFields.Delete;   
+      <B>if</B> NMethods.Count = 0 <B>then</B>   
+        NMethods.Delete;   
+      <B>if</B> NClasses.Count = 0 <B>then</B>   
+        NClasses.Delete;   
+    <B>end</B>;   
+  <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.EnumProc(<B>const</B> Name: <B>string</B>;   
+                          ID: Integer;   
+                          Kind: TPAXMemberKind;   
+                          ml: TPAXModifierList;   
+                          Data: Pointer);   
+<B>var</B>   
+  P: PNodeRec;   
+  TypeName: <B>string</B>;   
+  PosObject: TPosObject;   
+<B>begin</B>   
+  <B>with</B> PaxScripter1 <B>do</B>   
+    PosObject := TPosObject.Create(GetModule(ID),   
+                                   GetPosition(ID),   
+                                   Length(GetName(ID)));   
+  PosList.Add(PosObject);   
+<P></P>
+  P := PNodeRec(Data);   
+<P></P>
+  <B>with</B> PaxScripter1 <B>do</B>   
+    TypeName := GetName(GetTypeID(ID));   
+<P></P>
+  <B>with</B> TreeView1.Items <B>do</B>   
+  case Kind of   
+    mkParam: AddChildObject(P^.NParams, Name + <font color="red">': '</font> + TypeName, PosObject);   
+    mkField: AddChildObject(P^.NFields, Name + <font color="red">': '</font> + TypeName, PosObject);   
+    mkMethod: SetupFuncNode(AddChildObject(P^.NMethods, Name, PosObject), ID);   
+    mkConst: AddChildObject(P^.NConsts, Name + <font color="red">': '</font> + TypeName, PosObject);   
+    mkClass: SetupClassNode(AddChildObject(P^.NClasses, Name, PosObject), ID);   
+    mkProp: AddChildObject(P^.NProperties, Name  + <font color="red">': '</font> + TypeName, PosObject);   
+  <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.Button1Click(Sender: TObject);   
+<B>begin</B>   
+  <B>with</B> OpenDialog1 <B>do</B>   
+  <B>begin</B>   
+    Filter := <font color="red">'paxPascal (*'</font> + <font color="red">'.pp'</font> + <font color="red">'|*'</font> + <font color="red">'.pp'</font>;   
+    <B>if</B> Execute <B>then</B>   
+    <B>begin</B>   
+      <B>if</B> Pos(<font color="red">'.'</font>, FileName) = 0 <B>then</B>   
+        FileName := FileName + <font color="red">'.pp'</font>;   
+      Memo1.Lines.LoadFromFile(FileName);   
+    <B>end</B>;   
+  <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.Button2Click(Sender: TObject);   
+<B>begin</B>   
+  PaxScripter1.ResetScripter;   
+  Module := PaxScripter1.AddModule(<font color="red">'Main'</font>, <font color="red">'paxPascal'</font>);   
+  PaxScripter1.AddCode(<font color="red">'Main'</font>, Memo1.Lines.Text);   
+  PaxScripter1.Compile;   
+  <B>with</B> TreeView1.Items <B>do</B>   
+  <B>begin</B>   
+    Clear;   
+    SetupClassNode(Add(nil, <font color="red">'Noname namespace'</font>), PaxScripter1.GetRootID);   
+  <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.FormCreate(Sender: TObject);   
+<B>var</B>   
+  S: <B>string</B>;   
+<B>begin</B>   
+  S := ExtractFileDir(Application.ExeName);   
+  SetCurrentDir(S);   
+  OpenDialog1.InitialDir := S;   
+<P></P>
+  PosList := TObjectList.Create;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.FormDestroy(Sender: TObject);   
+<B>begin</B>   
+  PosList.Free;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.TreeView1DblClick(Sender: TObject);   
+<B>var</B>   
+  N: TTreeNode;   
+  PosObject: TPosObject;   
+<B>begin</B>   
+  N := TTreeView(Sender).Selected;   
+<P></P>
+  <B>if</B> N = nil <B>then</B>   
+    Exit;   
+<P></P>
+  PosObject := TPosObject(N.Data);   
+<P></P>
+  <B>if</B> PosObject &lt&gt nil <B>then</B>   
+    <B>if</B> PosObject.Module = Module <B>then</B>   
+      <B>if</B> PosObject.Position &gt= 0 <B>then</B>   
+    <B>with</B> Memo1 <B>do</B>   
+    <B>begin</B>   
+      SetFocus;   
+      SelStart := PosObject.Position;   
+      SelLength := PosObject.Length;   
+    <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.TreeView1Click(Sender: TObject);   
+<B>begin</B>   
+  TreeView1DblClick(Sender);   
+<B>end</B>;   
+<P></P>
+<B>end</B>.   
+</PRE>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
+

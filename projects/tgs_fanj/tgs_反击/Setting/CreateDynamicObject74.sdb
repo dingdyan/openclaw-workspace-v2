@@ -1,0 +1,5 @@
+No,Name,NeedAge,NeedSkill,NeedItem,GiveItem,DropItem,DropMop,CallNpc,X,Y,DropX,DropY,Script,Width,boDelay,
+1,密室3花,,,,,金元:1:5,,,20,59,,,,,,
+2,瓷器3,,,,,王陵瓷器:1:100:瓷器:1:5,,,8,63,,,,,,
+3,瓷器4,,,,,王陵瓷器:1:100:瓷器:1:5,,,12,46,,,,,,
+4,瓷器4,,,,,王陵瓷器:1:100:瓷器:1:5,,,32,63,,,,,,

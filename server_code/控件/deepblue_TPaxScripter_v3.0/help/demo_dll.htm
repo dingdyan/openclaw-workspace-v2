@@ -1,0 +1,117 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Call routines defined in a dll.
+</h3>
+<hr>
+
+<h4>
+paxBasic
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> DllName = <font color="Red">"TestDll.dll"</font>
+<font color="blue"><b>Declare</b></font> <font color="blue"><b>Function</b></font> Min <font color="blue"><b>Lib</b></font> DllName <font color="blue"><b>Alias</b></font> <font color="Red">"Min"</font> (X <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, Y <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+<font color="blue"><b>Declare</b></font> <font color="blue"><b>Function</b></font> Max <font color="blue"><b>Lib</b></font> DllName (X <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, Y <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+<font color="blue"><b>Declare</b></font> <font color="blue"><b>Register</b></font> <font color="blue"><b>Function</b></font> AddStrings <font color="blue"><b>Lib</b></font> DllName (X <font color="blue"><b>As</b></font> <font color="blue"><b>String</b></font>, Y <font color="blue"><b>As</b></font> <font color="blue"><b>String</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>String</b></font>
+<font color="blue"><b>print</b></font> Min(66, 70)
+<font color="blue"><b>print</b></font> Max(66, 70)
+<font color="blue"><b>print</b></font> AddStrings(<font color="Red">"abc"</font>, <font color="Red">"pq"</font>)
+</pre>
+</blockquote>
+
+<p>
+Default paxBasic calling convention is <b>stdcall</b>.
+
+<h4>
+paxC
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>extern</b></font> <font color="Red">"TestDll"</font> <font color="blue"><b>int</b></font> <font color="blue"><b>stdcall</b></font> Min(<font color="blue"><b>int</b></font> x, <font color="blue"><b>int</b></font> y);
+<font color="blue"><b>extern</b></font> <font color="Red">"TestDll"</font> <font color="blue"><b>int</b></font> <font color="blue"><b>stdcall</b></font> Max(<font color="blue"><b>int</b></font> x, <font color="blue"><b>int</b></font> y);
+<font color="blue"><b>extern</b></font> <font color="Red">"TestDll"</font> <font color="blue"><b>string</b></font> <font color="blue"><b>register</b></font> AddStrings(<font color="blue"><b>string</b></font> x, <font color="blue"><b>string</b></font> y);
+<font color="blue"><b>println</b></font> Min(60, 50);
+<font color="blue"><b>println</b></font> Max(2, 3);
+<font color="blue"><b>println</b></font> AddStrings(<font color="Red">"abc"</font>, <font color="Red">"pq"</font>);
+</pre>
+</blockquote>
+
+<p>
+Default paxC calling convention is <b>cdecl</b>.
+
+<h4>
+paxPascal
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>const</b></font>
+  DllName = <font color="Red">'TestDll.dll'</font>;
+<font color="blue"><b>function</b></font> Min(X, Y: Integer): Integer; <font color="blue"><b>stdcall</b></font>; <font color="blue"><b>external</b></font> DllName name Min;
+<font color="blue"><b>function</b></font> Max(X, Y: Integer): Integer; <font color="blue"><b>stdcall</b></font>; <font color="blue"><b>external</b></font> DllName;
+<font color="blue"><b>function</b></font> AddStrings(<font color="blue"><b>const</b></font> S1, S2: <font color="blue"><b>String</b></font>): <font color="blue"><b>String</b></font>; <font color="blue"><b>external</b></font> DllName;
+<font color="blue"><b>println</b></font> Min(66, 70);
+<font color="blue"><b>println</b></font> Max(2, 3);
+<font color="blue"><b>println</b></font> AddStrings(<font color="Red">'abc'</font>, <font color="Red">'pq'</font>);
+</pre>
+</blockquote>
+
+<p>
+Default paxPascal calling convention is <b>register</b>.
+
+
+<h4>
+Source code of TestDll
+</h4>
+
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>library</b></font> TestDll; //<i>Do not forget to add ShareMem unit to the USES clause of your application!</i>
+
+<font color="blue"><b>uses</b></font> ShareMem;
+
+<font color="blue"><b>function</b></font> Min(X, Y: Integer): Integer; <font color="blue"><b>stdcall</b></font>;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> X < Y <font color="blue"><b>then</b></font> result := X <font color="blue"><b>else</b></font> result := Y;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Max(X, Y: Integer): Integer; <font color="blue"><b>stdcall</b></font>;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> X > Y <font color="blue"><b>then</b></font> result := X <font color="blue"><b>else</b></font> result := Y;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> AddStrings(<font color="blue"><b>const</b></font> S1, S2: <font color="blue"><b>String</b></font>): <font color="blue"><b>String</b></font>;
+<font color="blue"><b>begin</b></font>
+  result := S1 + S2;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>exports</b></font>
+
+  Min,
+  Max,
+  AddStrings;
+
+<font color="blue"><b>begin</b></font>
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+Let's consider a simple Delphi form (Form2) which contains button "Button1".
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> TestDfm2;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Classes, Graphics,   Controls, Forms, Dialogs,
+  StdCtrls;
+
+<font color="blue"><b>type</b></font>
+  TForm2 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form2: TForm2;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.DFM}
+
+<font color="blue"><b>procedure</b></font> TForm2.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  ShowMessage(<font color="Red">'Hello from Delphi!'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<p>
+Open new project, then drop TPaxScripter, TPaxPascal, TPaxDfmConverter, 2 TButton 
+and TMemo components on the main form and inlcude Form2 in your project.
+
+<p>
+Button1 will generate script by dfm-file which represents Form2. 
+Memo1 will show the generated script. Button2 will show Form2 "as is":
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> TestDfm1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  PaxDfm, StdCtrls, BASE_PARSER, PaxScripter, PaxPascal;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    PaxDfmConverter1: TPaxDfmConverter;
+    Button1: TButton;
+    PaxScripter1: TPaxScripter;
+    PaxPascal1: TPaxPascal;
+    Memo1: TMemo;
+    Button2: TButton;
+    Label1: TLabel;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+    <font color="blue"><b>procedure</b></font> PaxScripter1AssignScript(Sender: TPaxScripter);
+    <font color="blue"><b>procedure</b></font> Button2Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.DFM}
+
+<font color="blue"><b>uses</b></font>
+  TestDfm2,
+  IMP_Controls, IMP_Graphics, IMP_StdCtrls, IMP_Forms;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.Run;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1AssignScript(Sender: TPaxScripter);
+<font color="blue"><b>var</b></font>
+  L: TStringList;
+<font color="blue"><b>begin</b></font>
+
+<i>// Create script from a dfm file</i>
+
+  L := TStringList.Create;
+  <font color="blue"><b>try</b></font>
+    <font color="blue"><b>with</b></font> PaxDfmConverter1.UsedUnits <font color="blue"><b>do</b></font>
+    <font color="blue"><b>begin</b></font>
+      Add(<font color="Red">'Controls'</font>);
+      Add(<font color="Red">'StdCtrls'</font>);
+      Add(<font color="Red">'Graphics'</font>);
+      Add(<font color="Red">'Forms'</font>);
+    <font color="blue"><b>end</b></font>;
+
+    PaxDfmConverter1.Parse(<font color="Red">'TestDfm2.dfm'</font>, L);
+    PaxScripter1.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+    PaxScripter1.AddCode(<font color="Red">'1'</font>, L.Text);
+  <font color="blue"><b>finally</b></font>
+    L.Free;
+  <font color="blue"><b>end</b></font>;
+
+<i>// Create script-defined instance and assign event handler</i>
+
+  <font color="blue"><b>with</b></font> PaxScripter1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    AddCode(<font color="Red">'1'</font>, <font color="Red">'Form2 := TForm2.Create(nil);'</font>);
+    AddCode(<font color="Red">'1'</font>, <font color="Red">'Form2.Caption := <font color="Red">"Generated form"</font>;'</font>);
+    AddCode(<font color="Red">'1'</font>, <font color="Red">'Form2.Button1.OnClick := Handler;'</font>);
+    AddCode(<font color="Red">'1'</font>, <font color="Red">'Form2.Show();'</font>);
+
+    AddCode(<font color="Red">'1'</font>, <font color="Red">'procedure Handler(Sender);'</font>);
+    AddCode(<font color="Red">'1'</font>, <font color="Red">'begin'</font>);
+    AddCode(<font color="Red">'1'</font>, <font color="Red">'  print <font color="Red">"Hello from paxScript!"</font>;'</font>);
+    AddCode(<font color="Red">'1'</font>, <font color="Red">'end;'</font>);
+  <font color="blue"><b>end</b></font>;
+
+<i>// Show generated script</i>
+
+  Memo1.Lines.Text := PaxScripter1.SourceCode[<font color="Red">'1'</font>];
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button2Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  Form2.Caption := <font color="Red">'Delphi form'</font>;
+  Form2.Show;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+The generated script is:
+
+<blockquote>
+<pre>
+<font color="blue"><b>uses</b></font>
+  Controls,
+  StdCtrls,
+  Graphics,
+  Forms;
+<font color="blue"><b>type</b></font>
+  TForm2 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    <font color="blue"><b>constructor</b></font> Create(AOwner: TComponent);
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form2: TForm2;
+
+<font color="blue"><b>constructor</b></font> TForm2.Create(AOwner: TComponent);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font>;
+  Button1 := TButton.Create(Self);
+  Button1.Name := <font color="Red">'Button1'</font>;
+  Button1.Parent := Self;
+  Button1.Caption := <font color="Red">''</font>;
+  <font color="blue"><b>with</b></font> Button1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    Left := 64;
+    Top := 48;
+    Width := 75;
+    Height := 25;
+    Caption := <font color="Red">'Button1'</font>;
+    TabOrder := 0;
+  <font color="blue"><b>end</b></font>;
+  Left := 329;
+  Top := 281;
+  Width := 327;
+  Height := 171;
+  Caption := <font color="Red">'Form2'</font>;
+  Color := clBtnFace;
+  Font.Charset := DEFAULT_CHARSET;
+  Font.Color := clWindowText;
+  Font.Height := -11;
+  Font.Name := <font color="Red">'MS Sans Serif'</font>;
+  Font.Style := [];
+  OldCreateOrder := False;
+  PixelsPerInch := 96;
+<font color="blue"><b>end</b></font>;
+Form2 := TForm2.Create(nil);
+Form2.Caption := <font color="Red">"Generated form"</font>;
+Form2.Button1.OnClick := Handler;
+Form2.Show();
+<font color="blue"><b>procedure</b></font> Handler(Sender);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>print</b></font> <font color="Red">"Hello from paxScript!"</font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

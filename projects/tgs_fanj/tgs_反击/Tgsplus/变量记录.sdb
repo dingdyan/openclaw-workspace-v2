@@ -1,0 +1,12 @@
+return {
+-- Table: {1}
+{
+   ["XYMJ"]=0,
+   ["PGXG"]=0,
+   ["BYPY"]=0,
+   ["RRWC"]=1,
+   ["JZGG"]=0,
+   ["XKZC"]=0,
+   ["MPZZ"]=1,
+},
+}

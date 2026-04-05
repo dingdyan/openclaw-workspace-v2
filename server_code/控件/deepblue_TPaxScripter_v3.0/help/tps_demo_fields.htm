@@ -1,0 +1,100 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter Demo. Importing fields.
+</h3>
+<hr>
+
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> DemoRegField1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, BASE_PARSER, PaxScripter, PaxPascal;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    PaxScripter1: TPaxScripter;
+    PaxPascal1: TPaxPascal;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+    <font color="blue"><b>procedure</b></font> PaxScripter1AssignScript(Sender: TPaxScripter);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.dfm}
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.Run;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1AssignScript(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'var X: TMyClass;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'X := TMyClass.Create;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print X.F1;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print X.F2;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'X.F1 := 200;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'X.F2 := <font color="Red">"pqr"</font>;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print X.F1;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print X.F2;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print X.P1;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'X.P1 := 300;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'print X.P1;'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>type</b></font>
+  TMyClass = <font color="blue"><b>class</b></font>
+  <font color="blue"><b>private</b></font>
+    F1: Integer;
+    F2: <font color="blue"><b>String</b></font>;
+  <font color="blue"><b>public</b></font>
+    <font color="blue"><b>constructor</b></font> Create;
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>constructor</b></font> TMyClass.Create;
+<font color="blue"><b>begin</b></font>
+  F1 := 100;
+  F2 := <font color="Red">'abc'</font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>initialization</font></b>
+  RegisterClassType(TMyClass);
+  RegisterMethod(TMyClass, <font color="Red">'constructor Create;'</font>, @TMyClass.Create);
+  RegisterField(TMyClass, <font color="Red">'F1'</font>, <font color="Red">'Integer'</font>, Integer(@TMyClass(nil).F1));
+  RegisterField(TMyClass, <font color="Red">'F2'</font>, <font color="Red">'String'</font>, Integer(@TMyClass(nil).F2));
+  RegisterProperty(TMyClass, <font color="Red">'property P1: Integer read F1 write F1;'</font>); 
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

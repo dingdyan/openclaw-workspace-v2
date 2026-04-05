@@ -1,0 +1,14 @@
+namespace MyTask {
+
+  class A {
+    var
+       x = 100, y = [500, 800];
+
+    void A(){} // Constructor
+
+    static void Create(){ // To create instances in paxPascal
+      return (new A());
+    }
+  }
+}
+

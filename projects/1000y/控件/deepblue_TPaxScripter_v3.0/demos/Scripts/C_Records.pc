@@ -1,0 +1,10 @@
+structure RandomPoint {
+  int X = random(0, 100);
+  int y = random(0, 100);
+}
+structure RandomCircle: RandomPoint {
+  int R = random (0, 100);
+}
+
+RandomCircle C;
+println C;

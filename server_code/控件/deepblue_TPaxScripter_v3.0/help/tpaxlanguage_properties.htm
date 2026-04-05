@@ -1,0 +1,126 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+<H3>
+TPaxLanguage Properties
+</H3>
+<hr>
+<ul>
+<li><a href="#TPaxLanguage.CallConvention">CallConvention</a></li>
+<li><a href="#TPaxLanguage.CompilerDirectives">CompilerDirectives</a></li>
+<li><a href="#TPaxLanguage.DeclareVariables">DeclareVariables</a></li>
+<li><a href="#TPaxLanguage.FileExt">FileExt</a></li>
+<li><a href="#TPaxLanguage.IncludeFileExt">IncludeFileExt</a></li>
+<li><a href="#TPaxLanguage.LanguageName">LanguageName</a></li>
+<li><a href="#TPaxLanguage.LongStrLiterals">LongStrLiterals</a></li>
+<li><a href="#TPaxLanguage.NamespaceAsModule">NamespaceAsModule</a></li>
+<li><a href="#TPaxLanguage.JavaScriptOperators">JavaScriptOperators</a></li>
+</ul>
+<a name="TPaxLanguage.CallConvention"><h3>TPaxLanguage.CallConvention</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Defines default call convention.
+<pre>
+CallConvention: TPAXCallConv
+
+TPAXCallConv = (ccRegister, ccPascal, ccCDecl, ccStdCall, ccSafeCall);
+</pre>
+<p>
+The value of CallConvention is ccRegister for paxPascal, ccStdCall for paxBasic, ccCDecl for paxC, ccStdCall for paxJavaScript.
+</p>
+</blockquote>
+<a name="TPaxLanguage.CompilerDirectives"><h3>TPaxLanguage.CompilerDirectives</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+List of compiler directives.
+<pre>
+CompilerDirectives: TStrings
+</pre>
+<p>
+It contains 'WIN32' directive as default value.
+</p>
+</blockquote>
+<a name="TPaxLanguage.DeclareVariables"><h3>TPaxLanguage.DeclareVariables</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+If the property value is true, paxScript will require declaration of variables.
+<pre>
+DeclareVariables: Boolean
+</pre>
+</blockquote>
+<a name="TPaxLanguage.FileExt"><h3>TPaxLanguage.FileExt</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+File extension of file which contains a paxScript script.
+<pre>
+FileExt: <font color="blue"><b>String</b></font>
+</pre>
+<p>
+Default values: '.pp' - paxPaxcal, '.pb' - paxBasic, '.pc' - paxC, '.js' - paxJavaScript
+</p>
+</blockquote>
+<a name="TPaxLanguage.IncludeFileExt"><h3>TPaxLanguage.IncludeFileExt</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Determines default file extension for included files.
+<pre>
+IncludeFileExt: Strings
+</pre>
+</blockquote>
+<a name="TPaxLanguage.LanguageName"><h3>TPaxLanguage.LanguageName</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Name of scripting language.
+<pre>
+LanguageName: <font color="blue"><b>String</b></font>
+</pre>
+</blockquote>
+<a name="TPaxLanguage.LongStrLiterals"><h3>TPaxLanguage.LongStrLiterals</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns 'true', if long string literals ''' ........ ''' are allowed.
+<pre>
+LongStrLiterals: Boolean
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+print <font color="Red">''</font><font color="Red">'
+
+Hello,
+
+World!
+
+'</font><font color="Red">''</font>;
+</pre>
+</p>
+</blockquote>
+<a name="TPaxLanguage.NamespaceAsModule"><h3>TPaxLanguage.NamespaceAsModule</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+If the property has value 'true', paxScript will interpret the uses statement of  paxPascal, the using statement of paxC and paxJavaScript, the imports statement of paxBasic like Object Pascal (Delphi) interprets the uses clause, i.e. as a list of units used by the program. If the value of the property is 'false', these statements are interpreted like C# interprets the using directive, i.e. as a list of namespaces used by the program.
+<pre>
+NamespaceAsModule: Boolean
+</pre>
+</blockquote>
+<a name="TPaxLanguage.JavaScriptOperators"><h3>TPaxLanguage.JavaScriptOperators</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+If the proprerty value is 'true', paxScript will interpret arithmetical operators according to JavaScript semantics.
+<pre>
+JavaScriptOperators: Boolean
+</pre>
+</blockquote>
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
+

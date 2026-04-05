@@ -1,0 +1,106 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Classes and Inheritance. Namespace "Shapes".
+</h3>
+<hr>
+
+<h4>
+paxBasic
+</h4>
+
+<pre>
+<font color="blue"><b>Namespace</b></font> Shapes
+  <font color="blue"><b>Class</b></font> Point
+    <font color="blue"><b>Dim</b></font> X, Y
+    <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font> (X, Y)
+      <font color="blue"><b>Me</b></font>.X = X
+      <font color="blue"><b>Me</b></font>.Y = Y
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+  <font color="blue"><b>Class</b></font> Circle
+    <font color="blue"><b>Inherits</b></font> Point
+    <font color="blue"><b>Dim</b></font> R
+    <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(X, Y, R)
+      <font color="blue"><b>MyBase</b></font>.<font color="blue"><b>New</b></font>(X, Y)
+      <font color="blue"><b>Me</b></font>.R = R
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Namespace</b></font>
+
+<font color="blue"><b>Dim</b></font> P = <font color="blue"><b>New</b></font> Shapes.Point(3, 5), C = <font color="blue"><b>New</b></font> Shapes.Circle(3, 5, 7)
+<font color="blue"><b>print</b></font> P, C
+</pre>
+
+<h4>
+paxC
+</h4>
+
+<pre>
+<font color="blue"><b>namespace</b></font> Shapes {
+  <font color="blue"><b>class</b></font> Point {
+    <font color="blue"><b>var</b></font> x, y;
+    <font color="blue"><b>function</b></font> Point(x, y){
+      <font color="blue"><b>this</b></font>.x = x;
+      <font color="blue"><b>this</b></font>.y = y;
+    }
+  }
+
+  <font color="blue"><b>class</b></font> Circle: Point {
+    <font color="blue"><b>var</b></font>
+      r;
+    <font color="blue"><b>function</b></font> Circle(x, y, r): <font color="blue"><b>base</b></font>(x, y) {
+      <font color="blue"><b>this</b></font>.r = r;
+    }
+  }
+} // <i>namespace</i>
+
+<font color="blue"><b>var</b></font>
+  P = <font color="blue"><b>new</b></font> Shapes.Point(2, 3), C = <font color="blue"><b>new</b></font> Shapes.Circle(3, 5, 7);
+<font color="blue"><b>print</b></font> P, C;
+</pre>
+
+<h4>
+paxPascal
+</h4>
+
+<pre>
+<font color="blue"><b>namespace</b></font> Shapes
+  <font color="blue"><b>class</b></font> TPoint
+    <font color="blue"><b>var</b></font> X, Y;
+    <font color="blue"><b>constructor</b></font> Create(X, Y);
+    <font color="blue"><b>begin</b></font>
+      Self.X := X;
+      Self.Y := Y;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+
+  <font color="blue"><b>class</b></font> TCircle(TPoint)
+    <font color="blue"><b>var</b></font> R;
+    <font color="blue"><b>constructor</b></font> Create(X, Y, R);
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>inherited</b></font> Create(X, Y);
+      Self.R := R;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Point = Shapes.TPoint.Create(3, 5), Circle = Shapes.TCircle.Create(3, 5, 7);
+<font color="blue"><b>print</b></font> Point, Circle;
+</pre>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

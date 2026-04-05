@@ -1,0 +1,113 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter Demo. Registering overloaded routines and routines which have default parameters.
+</h3>
+<hr>
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> Unit1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, PaxScripter, PaxPascal, BASE_PARSER;
+
+<font color="blue"><b>type</b></font>
+
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Memo1: TMemo;
+    PaxScripter1: TPaxScripter;
+    PaxPascal1: TPaxPascal;
+    Button1: TButton;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+    <font color="blue"><b>procedure</b></font> TestOverload(lVal: Boolean); overload;
+    <font color="blue"><b>procedure</b></font> TestOverload(<font color="blue"><b>const</b></font> cVal: <font color="blue"><b>String</b></font>); overload;
+    <font color="blue"><b>procedure</b></font> TestDefParam(<font color="blue"><b>const</b></font> cVal: <font color="blue"><b>String</b></font> = <font color="Red">'abc'</font>);
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.dfm}
+
+<font color="blue"><b>uses</b></font> Imp_Classes, Imp_Dialogs;
+
+<font color="blue"><b>procedure</b></font> TForm1_TestOverload1(lVal: Boolean);
+<font color="blue"><b>begin</b></font>
+  TForm1(_Self).TestOverload(lVal);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1_TestOverload2(<font color="blue"><b>const</b></font> cVal: <font color="blue"><b>String</b></font>);
+<font color="blue"><b>begin</b></font>
+  TForm1(_Self).TestOverload(cVal);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+   RegisterClassType(TForm1, -1);
+   RegisterMethod(TForm1,
+       <font color="Red">'procedure TestOverload(lVal: Boolean);'</font>,
+       @TForm1_TestOverload1, fake);
+   RegisterMethod(TForm1,
+       <font color="Red">'procedure TestOverload(const cVal: String);'</font>,
+       @TForm1_TestOverload2, fake);
+   RegisterMethod(TForm1,
+       <font color="Red">'procedure TestDefParam(cVal: String = '</font><font color="Red">'abc'</font><font color="Red">');'</font>,
+       @TForm1.TestDefParam);
+
+   PaxScripter1.ResetScripter;
+   PaxScripter1.RegisterObject(<font color="Red">'Form1'</font>,Self);
+   PaxScripter1.AddModule(<font color="Red">'main'</font>,<font color="Red">'paxPascal'</font>);
+   PaxScripter1.AddCode(<font color="Red">'main'</font>,Memo1.Lines.Text);
+   PaxScripter1.Run;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.TestOverload(lVal: Boolean);
+<font color="blue"><b>begin</b></font>
+   <font color="blue"><b>If</b></font> lVal <font color="blue"><b>Then</b></font> <font color="blue"><b>begin</b></font>
+      ShowMessage(<font color="Red">'True'</font>);
+   <font color="blue"><b>end</b></font> <font color="blue"><b>else</b></font> <font color="blue"><b>begin</b></font>
+      ShowMessage(<font color="Red">'False'</font>);
+   <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.TestDefParam(<font color="blue"><b>const</b></font> cVal: <font color="blue"><b>String</b></font> = <font color="Red">'abc'</font>);
+<font color="blue"><b>begin</b></font>
+   ShowMessage(cVal);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.TestOverload(<font color="blue"><b>const</b></font> cVal: <font color="blue"><b>String</b></font>);
+<font color="blue"><b>begin</b></font>
+   ShowMessage(cVal);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

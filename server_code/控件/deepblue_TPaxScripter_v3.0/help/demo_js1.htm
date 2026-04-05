@@ -1,0 +1,47 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Cross-language Programming. Using JavaScript Objects.
+</h3>
+<hr>
+
+<h4>
+paxPascal
+</h4>
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> Demo;
+<font color="blue"><b>var</b></font>
+  A, B: Variant;
+<font color="blue"><b>begin</b></font>
+  A := paxJavaScriptNamespace.<font color="blue"><b>Array</b></font>.Create(10, 20, 30);
+  <font color="blue"><b>print</b></font> A;
+  <font color="blue"><b>print</b></font> A.length;
+  A[10] := 100;
+  A.push(110);
+  <font color="blue"><b>print</b></font> A;
+  <font color="blue"><b>print</b></font> A.length;
+  
+  B := paxJavaScriptNamespace.Object.Create();
+  B.NewProp := 'abc';
+  <font color="blue"><b>print</b></font> B.NewProp;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

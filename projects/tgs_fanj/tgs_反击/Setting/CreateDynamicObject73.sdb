@@ -1,0 +1,4 @@
+No,Name,NeedAge,NeedSkill,NeedItem,GiveItem,DropItem,DropMop,CallNpc,X,Y,DropX,DropY,Script,Width,boDelay,
+1,密室2石馆,,,,,金元:1:5,,,28,36,,,,,,
+2,瓷器1,,,,,王陵瓷器:1:100:瓷器:1:5,,,44,35,,,,,,
+3,瓷器1,,,,,王陵瓷器:1:100:瓷器:1:5,,,32,40,,,,,,

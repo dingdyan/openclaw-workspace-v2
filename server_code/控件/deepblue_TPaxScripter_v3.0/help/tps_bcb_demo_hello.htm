@@ -1,0 +1,54 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TpaxScripter Demo. Hello.
+</h3>
+<hr>
+
+<pre>
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma link "PaxScripter"
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+  PaxScripter1->Run(rmRun, "", 0);
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PaxScripter1AssignScript(TPaxScripter *Sender)
+{
+  Sender->RegisterObject("Form1", Form1, -1);
+  Sender->AddModule("main", paxBasic);
+  Sender->AddCode("main", "print Form1.Caption");
+}
+//---------------------------------------------------------------------------
+</pre>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,1673 @@
+date/time          : 2024-11-15, 19:28:17, 385ms
+computer name      : 10_0_24_5
+wts client name    : MS-FIWNXBYEVKWN
+user name          : administratoa <admin>
+registered owner   : QCloud / Tencent
+operating system   : Windows 2012 R2 x64 build 9600
+system language    : Chinese (Simplified)
+system up time     : 2 days 6 hours
+program up time    : 1 minute 43 seconds
+processors         : 4x AMD EPYC 7K62 48-Core Processor
+physical memory    : 14583/16383 MB (free/total)
+free disk space    : (C:) 55.95 GB (E:) 99.80 GB
+display mode       : 1920x1080, 32 bit
+process id         : $1a30
+allocated memory   : 170.72 MB
+largest free block : 131029.94 GB
+executable         : tgs2024.exe
+exec. date/time    : 2024-07-13 15:54
+version            : 1.0.0.0
+compiled with      : Delphi 10.4 Sydney
+madExcept version  : 5.1.4
+callstack crc      : $887595f5, $c6cd008d, $a275b956
+count              : 8
+exception number   : 1
+exception class    : EAccessViolation
+exception message  : Access violation at address 00007FFF68A9D99E in module 'ntdll.dll'. Write of address 0000000000000024.
+
+main thread ($1b48):
+7fff68a9 +0b6 ntdll.dll
+7fff68a9 +0df ntdll.dll                               RtlEnterCriticalSection
+0063c3d4 +014 tgs2024.exe  System.SyncObjs            TCriticalSection.Acquire
+00ac590f +00f tgs2024.exe  uGConnect         345   +1 TGateConnectorList.Lock
+00ac5d45 +025 tgs2024.exe  uGConnect         496   +1 TGateConnectorList.AddSendData
+00b1c2f3 +033 tgs2024.exe  uConnect          748   +3 TConnector.AddSendData
+00b27d35 +095 tgs2024.exe  uSendCls         1987  +17 TSendClass.SendHide
+00c1adbe +c2e tgs2024.exe  UUser           19860 +235 TUser.FieldProc
+00aa2822 +262 tgs2024.exe  fieldmsg          422  +69 TFieldPhone.SendMessage
+00aae093 +6a3 tgs2024.exe  BasicObj         1862  +86 TBasicObject.FieldProc
+00bf04fb +10b tgs2024.exe  UUser            6828   +4 TUserObject.FieldProc
+00c1a2df +14f tgs2024.exe  UUser           19629   +4 TUser.FieldProc
+00aa27c4 +204 tgs2024.exe  fieldmsg          412  +59 TFieldPhone.SendMessage
+00a62964 +0c4 tgs2024.exe  uMonster         1026  +18 TMonster.EndProcess
+00a66a2a +04a tgs2024.exe  uMonster         2707   +4 TMonsterList.Clear
+00a669aa +01a tgs2024.exe  uMonster         2681   +1 TMonsterList.Destroy
+0040dc05 +015 tgs2024.exe  System                     TObject.Free
+00a9b964 +054 tgs2024.exe  uManager          217   +6 TManager.Destroy
+0040dc05 +015 tgs2024.exe  System                     TObject.Free
+00a9c789 +039 tgs2024.exe  uManager          479   +7 TManagerList.Clear
+00a9c47a +01a tgs2024.exe  uManager          439   +2 TManagerList.Destroy
+0040dc05 +015 tgs2024.exe  System                     TObject.Free
+00c6a1c0 +110 tgs2024.exe  SVMain           1003  +37 TFrmMain.FormDestroy
+007726f3 +033 tgs2024.exe  Vcl.Forms                  TCustomForm.DoDestroy
+0077242c +08c tgs2024.exe  Vcl.Forms                  TCustomForm.Destroy
+0040dc05 +015 tgs2024.exe  System                     TObject.Free
+00557bca +09a tgs2024.exe  System.Classes             TComponent.DestroyComponents
+0076eff4 +044 tgs2024.exe  Vcl.Forms                  DoneApplication
+004766b0 +030 tgs2024.exe  System.SysUtils            DoExitProc
+00410809 +079 tgs2024.exe  System                     @Halt0
+00c6ddde +0fe tgs2024.exe  tgs2023           108  +23 initialization
+7fff67e9 +020 KERNEL32.DLL                            BaseThreadInitThunk
+7fff68a7 +032 ntdll.dll                               RtlUserThreadStart
+
+thread $1b6c:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $1608:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $f14:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $19e8:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $23b4:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $2a14:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $24dc:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $94c:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $2b2c:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2570:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1584:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $3a18:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1278:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $13f4:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $38a4:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2870:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1e04:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $eac:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2f00:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $22a4:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1818:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $3c3c:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $9b0:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $3d94:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $f78:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $1a00: <priority:15>
+004f50a9 +49 tgs2024.exe  madExcept ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL           BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll              RtlUserThreadStart
+
+thread $2cec:
+7fff65f9 +e7 KERNELBASE.dll                          WaitForMultipleObjectsEx
+0063c02f +7f tgs2024.exe    System.SyncObjs          THandleObject.WaitFor
+00c423d9 +59 tgs2024.exe    QLog            1556 +12 TQLogCastor.WaitForLog
+00c42150 +20 tgs2024.exe    QLog            1385  +3 TQLogCastor.Execute
+004f51d4 +24 tgs2024.exe    madExcept                HookedTThreadExecute
+005562b0 +40 tgs2024.exe    System.Classes           ThreadProc
+00410a2a +3a tgs2024.exe    System                   ThreadWrapper
+004f50a9 +49 tgs2024.exe    madExcept                ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL                            BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll                               RtlUserThreadStart
+
+thread $1d84: <priority:1>
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+thread $2194:
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+thread $287c:
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+modules:
+00400000 tgs2024.exe          1.0.0.0             E:\武侠传2层_反击1\tgs_反击
+7fff5632 libmysql.dll                             E:\武侠传2层_反击1\tgs_反击
+7fff5d96 wsock32.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5dbf WINMMBASE.dll        6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5e3c winmm.dll            6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5ec8 IdnDL.dll            6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5ed1 rasadhlp.dll         6.3.9600.17415      C:\Windows\System32
+7fff5ee8 lua5.4.6.dll                             E:\武侠传2层_反击1\tgs_反击
+7fff5ef4 FaultRep.dll         6.3.9600.21561      C:\Windows\SYSTEM32
+7fff5f0c winrnr.dll           6.3.9600.17415      C:\Windows\System32
+7fff5f0d napinsp.dll          6.3.9600.17415      C:\Windows\system32
+7fff5f80 dbghelp.dll          6.3.9600.20369      C:\Windows\SYSTEM32
+7fff6088 version.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6164 propsys.dll          7.0.9600.17415      C:\Windows\system32
+7fff61a5 ntmarta.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff61e7 dhcpcsvc.DLL         6.3.9600.21561      C:\Windows\SYSTEM32
+7fff6208 wtsapi32.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6214 Fwpuclnt.dll         6.3.9600.21615      C:\Windows\SYSTEM32
+7fff623c WINNSI.DLL           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6243 Iphlpapi.dll         6.3.9600.21619      C:\Windows\SYSTEM32
+7fff62ca SHFolder.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff633c comctl32.dll         6.10.9600.19393     C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9600.19394_none_62486577ecb635cf
+7fff6365 NLAapi.dll           6.3.9600.18895      C:\Windows\system32
+7fff638d wkscli.dll           6.3.9600.20327      C:\Windows\SYSTEM32
+7fff638f netapi32.dll         6.3.9600.20327      C:\Windows\SYSTEM32
+7fff6394 netutils.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff63d5 dwmapi.dll           6.3.9600.17415      C:\Windows\system32
+7fff6410 SHCORE.DLL           6.3.9600.20328      C:\Windows\SYSTEM32
+7fff6480 kernel.appcore.dll   6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6481 uxtheme.dll          6.3.9600.19597      C:\Windows\system32
+7fff649b DEVOBJ.dll           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6514 DNSAPI.dll           6.3.9600.21613      C:\Windows\SYSTEM32
+7fff6534 mswsock.dll          6.3.9600.18340      C:\Windows\System32
+7fff655e bcrypt.dll           6.3.9600.21617      C:\Windows\SYSTEM32
+7fff6571 srvcli.dll           6.3.9600.20327      C:\Windows\SYSTEM32
+7fff6590 bcryptPrimitives.dll 6.3.9600.21617      C:\Windows\SYSTEM32
+7fff6597 CRYPTBASE.dll        6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65a2 WINSTA.dll           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65b0 profapi.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65c8 cfgmgr32.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65f9 KERNELBASE.dll       6.3.9600.21615      C:\Windows\system32
+7fff660b SspiCli.dll          6.3.9600.20616      C:\Windows\system32
+7fff660e comdlg32.dll         6.3.9600.17415      C:\Windows\system32
+7fff661a SHELL32.dll          6.3.9600.20617      C:\Windows\system32
+7fff676d IMM32.DLL            6.3.9600.17415      C:\Windows\system32
+7fff6771 NSI.dll              6.3.9600.17415      C:\Windows\system32
+7fff6779 oleaut32.dll         6.3.9600.21065      C:\Windows\system32
+7fff6786 RPCRT4.dll           6.3.9600.21620      C:\Windows\system32
+7fff679b MSCTF.dll            6.3.9600.19724      C:\Windows\system32
+7fff67b1 ole32.dll            6.3.9600.21615      C:\Windows\system32
+7fff67cb SETUPAPI.dll         6.3.9600.17415      C:\Windows\system32
+7fff67e9 KERNEL32.DLL         6.3.9600.21620      C:\Windows\system32
+7fff67fd clbcatq.dll          2001.12.10530.17415 C:\Windows\SYSTEM32
+7fff6811 SHLWAPI.dll          6.3.9600.20616      C:\Windows\system32
+7fff6817 GDI32.dll            6.3.9600.21111      C:\Windows\system32
+7fff682c sechost.dll          6.3.9600.20913      C:\Windows\SYSTEM32
+7fff6832 USER32.dll           6.3.9600.21111      C:\Windows\system32
+7fff684a msvcrt.dll           7.0.9600.17415      C:\Windows\system32
+7fff6871 ws2_32.dll           6.3.9600.18340      C:\Windows\system32
+7fff6878 combase.dll          6.3.9600.21615      C:\Windows\SYSTEM32
+7fff689a Normaliz.dll         6.3.9600.17415      C:\Windows\system32
+7fff689b ADVAPI32.dll         6.3.9600.21617      C:\Windows\system32
+7fff68a6 ntdll.dll            6.3.9600.21620      C:\Windows\SYSTEM32
+
+processes:
+0000 Idle                     0 0    0
+0004 System                   0 0    0
+00e4 smss.exe                 0 0    0
+0154 csrss.exe                0 0    0
+0194 csrss.exe                1 0    0
+019c wininit.exe              0 0    0
+01c8 winlogon.exe             1 0    0
+01f4 services.exe             0 0    0
+01fc lsass.exe                0 0    0
+0240 svchost.exe              0 0    0
+0260 svchost.exe              0 0    0
+02b8 LogonUI.exe              1 0    0
+02c4 dwm.exe                  1 0    0
+02d4 svchost.exe              0 0    0
+02f8 svchost.exe              0 0    0
+0328 svchost.exe              0 0    0
+037c svchost.exe              0 0    0
+0134 svchost.exe              0 0    0
+0148 ChsIME.exe               1 0    0
+03d8 BaradAgent.exe           0 0    0
+0404 pythonservice.exe        0 0    0
+0434 pythonservice.exe        0 0    0
+0448 svchost.exe              0 0    0
+0470 mysqld.exe               0 0    0
+04c4 svchost.exe              0 0    0
+04fc sgagent.exe              0 0    0
+0510 tat_agent.exe            0 0    0
+0594 svchost.exe              0 0    0
+03dc python.exe               0 0    0
+07dc python.exe               0 0    0
+07f0 conhost.exe              0 0    0
+07a4 conhost.exe              0 0    0
+07e8 svchost.exe              0 0    0
+0674 csrss.exe                2 0    0
+09b4 winlogon.exe             2 0    0
+0b60 dwm.exe                  2 0    0
+0a68 taskhostex.exe           2 9    11  normal C:\Windows\system32
+0ae4 rdpclip.exe              2 11   27  normal C:\Windows\System32
+0bfc Explorer.EXE             2 473  441 normal C:\Windows
+093c ChsIME.exe               2 9    15  normal C:\Windows\System32\InputMethod\CHS
+0858 GoogleCrashHandler.exe   0 0    0
+06d8 GoogleCrashHandler64.exe 0 0    0
+06c4 Balance.exe              2 57   43  normal E:\武侠传2层_反击1\ba
+0a70 gate.exe                 2 59   81  normal E:\武侠传2层_反击1\gate
+054c login.exe                2 48   60  normal E:\武侠传2层_反击1\login
+0e48 msdtc.exe                0 0    0
+0dac YDLive.exe               0 0    0
+0cd0 YDService.exe            0 0    0
+0aa0 redis-server.exe         0 0    0   normal
+1a30 tgs2024.exe              2 63   119 normal E:\武侠传2层_反击1\tgs_反击
+2a30 navicat.exe              2 2356 152 normal F:\Program Files (x86)\PremiumSoft\Navicat 15 for MySQL
+26e4 WmiPrvSE.exe             0 0    0
+0e44 NOTEPAD.EXE              2 42   42  normal C:\Windows\system32
+
+hardware:
++ {36fc9e60-c465-11cf-8056-444553540000}
+  - Intel(R) 82371SB PCI to USB Universal Host Controller
+  - USB Root Hub
++ {4d36e965-e325-11ce-bfc1-08002be10318}
+  - QEMU QEMU DVD-ROM ATA Device
++ {4d36e966-e325-11ce-bfc1-08002be10318}
+  - 基于 ACPI x64 的电脑
++ {4d36e967-e325-11ce-bfc1-08002be10318}
+  - Red Hat VirtIO SCSI Disk Device
++ {4d36e968-e325-11ce-bfc1-08002be10318}
+  - Microsoft 基本显示适配器
++ {4d36e969-e325-11ce-bfc1-08002be10318}
+  - 标准软盘控制器
++ {4d36e96a-e325-11ce-bfc1-08002be10318}
+  - ATA Channel 0
+  - ATA Channel 1
+  - Intel(R) 82371SB PCI Bus Master IDE Controller
++ {4d36e96b-e325-11ce-bfc1-08002be10318}
+  - PS/2 标准键盘
+  - 远程桌面键盘设备
++ {4d36e96e-e325-11ce-bfc1-08002be10318}
+  - 通用非即插即用监视器
++ {4d36e96f-e325-11ce-bfc1-08002be10318}
+  - HID-compliant mouse
+  - PS/2 兼容鼠标
+  - 远程桌面鼠标设备
++ {4d36e972-e325-11ce-bfc1-08002be10318}
+  - Microsoft ISATAP Adapter
+  - Microsoft 内核调试网络适配器
+  - Tencent VirtIO Ethernet Adapter (driver 63.6.101.58006)
+  - WAN Miniport (IKEv2)
+  - WAN 微型端口(IP)
+  - WAN 微型端口(IPv6)
+  - WAN 微型端口(L2TP)
+  - WAN 微型端口(PPPOE)
+  - WAN 微型端口(PPTP)
+  - WAN 微型端口(SSTP)
+  - WAN 微型端口(网络监视器)
++ {4d36e978-e325-11ce-bfc1-08002be10318}
+  - 通信端口 (COM1)
++ {4d36e97b-e325-11ce-bfc1-08002be10318}
+  - Microsoft 存储空间控制器
+  - Tencent VirtIO SCSI controller (driver 62.6.101.58005)
++ {4d36e97d-e325-11ce-bfc1-08002be10318}
+  - ACPI Fixed Feature Button
+  - Extended IO Bus
+  - Extended IO Bus
+  - Extended IO Bus
+  - Generic Bus
+  - Intel 82371SB PCI to ISA bridge
+  - Intel 82441FX Pentium(R) Pro Processor to PCI bridge
+  - Microsoft ACPI-Compliant System
+  - Microsoft System Management BIOS Driver
+  - Microsoft 基本呈现驱动程序
+  - Microsoft 基本显示驱动程序
+  - Microsoft 虚拟驱动器枚举器
+  - NDIS 虚拟网络适配器枚举器
+  - PCI bus
+  - System CMOS/real time clock
+  - UMBus Enumerator
+  - UMBus Root Bus Enumerator
+  - VirtIO Balloon Driver (driver 62.10001.1.0)
+  - 即插即用软件设备枚举器
+  - 卷管理器
+  - 复合总线枚举器
+  - 远程桌面设备重定向程序总线
++ {50127dc3-0f36-415e-a6cc-4cb3be910b65}
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
++ {62f9c741-b25a-46ce-b54c-9bccce08b6f2}
+  - Microsoft IPv4 IPv6 转换适配器总线
+  - Smart Card Device Enumeration Bus
++ {745a17a0-74d3-11d0-b6fe-00a0c90f57da}
+  - USB 输入设备
+
+cpu registers:
+rax = 0000000000000000
+rbx = 000000000780fd48
+rcx = 00000000fffffffc
+rdx = 00000000000005b4
+rsi = 00000000000005b4
+rdi = 0000000000000000
+rip = 00007fff68a9d99e
+rsp = 0000000000121ad0
+rbp = 00007ff5ffffc000
+r8  = ffffffffffffffff
+r9  = 00007ff5ffffc000
+r10 = 0000000000000000
+r11 = 0000000000200246
+r12 = 0000000000000000
+r13 = 0000000000000000
+r14 = 0000000000000000
+r15 = 0000000000000000
+
+stack dump:
+00121ad0  b4 05 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121ae0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121af0  78 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  x...............
+00121b00  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121b10  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121b20  90 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121b30  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121b40  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121b50  af 47 f9 15 2b 89 00 00 - 00 00 00 00 00 00 00 00  .G..+...........
+00121b60  04 00 00 00 00 00 00 00 - 01 00 00 00 00 00 00 00  ................
+00121b70  01 00 00 00 00 00 00 00 - 72 03 fe 7f 00 00 00 00  ........r.......
+00121b80  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121b90  00 c0 ff ff f5 7f 00 00 - 74 b3 a9 68 ff 7f 00 00  ........t..h....
+00121ba0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00121bb0  48 fd 80 07 00 00 00 00 - 00 00 00 00 00 00 00 00  H...............
+00121bc0  00 00 00 00 00 00 00 00 - 01 1d 12 00 00 00 00 00  ................
+00121bd0  e0 1b 12 00 00 00 00 00 - d9 c3 63 00 00 00 00 00  ..........c.....
+00121be0  fc e2 af 09 00 00 00 00 - a0 28 a6 00 00 00 00 00  .........(......
+00121bf0  00 00 00 00 00 00 00 00 - 58 b4 63 00 00 00 00 00  ........X.c.....
+00121c00  00 00 00 00 00 00 00 00 - 48 fd 80 07 00 00 00 00  ........H.......
+
+disassembling:
+[...]
+00ac5900 344   push    rbx
+00ac5901       sub     rsp, $20
+00ac5905 345   mov     rax, [rcx+8]
+00ac5909       mov     rcx, rax
+00ac590c       mov     rbx, [rax]
+00ac590f     > call    qword ptr [rbx]
+00ac5911 346   add     rsp, $20
+00ac5915       pop     rbx
+00ac5916       ret
+
+date/time          : 2024-11-15, 19:30:36, 716ms
+computer name      : 10_0_24_5
+wts client name    : MS-FIWNXBYEVKWN
+user name          : administratoa <admin>
+registered owner   : QCloud / Tencent
+operating system   : Windows 2012 R2 x64 build 9600
+system language    : Chinese (Simplified)
+system up time     : 2 days 6 hours
+program up time    : 2 minutes 15 seconds
+processors         : 4x AMD EPYC 7K62 48-Core Processor
+physical memory    : 14649/16383 MB (free/total)
+free disk space    : (C:) 55.95 GB (E:) 99.80 GB
+display mode       : 1920x1080, 32 bit
+process id         : $3098
+allocated memory   : 169.84 MB
+largest free block : 131029.94 GB
+executable         : tgs2024.exe
+exec. date/time    : 2024-07-13 15:54
+version            : 1.0.0.0
+compiled with      : Delphi 10.4 Sydney
+madExcept version  : 5.1.4
+callstack crc      : $4d9f360c, $857a46c7, $669ad828
+exception number   : 1
+exception class    : EAccessViolation
+exception message  : Access violation at address 0000000000539769 in module 'tgs2024.exe'. Read of address FFFFFFFFFFFFFFFF.
+
+main thread ($3040):
+00539769 +029 tgs2024.exe  System.Classes            TList.Get
+00aadd0c +31c tgs2024.exe  BasicObj         1813 +37 TBasicObject.FieldProc
+00bf04fb +10b tgs2024.exe  UUser            6828  +4 TUserObject.FieldProc
+00c1a2df +14f tgs2024.exe  UUser           19629  +4 TUser.FieldProc
+00aa2822 +262 tgs2024.exe  fieldmsg          422 +69 TFieldPhone.SendMessage
+00aae093 +6a3 tgs2024.exe  BasicObj         1862 +86 TBasicObject.FieldProc
+00bf04fb +10b tgs2024.exe  UUser            6828  +4 TUserObject.FieldProc
+00c1a2df +14f tgs2024.exe  UUser           19629  +4 TUser.FieldProc
+00aa27c4 +204 tgs2024.exe  fieldmsg          412 +59 TFieldPhone.SendMessage
+00a62964 +0c4 tgs2024.exe  uMonster         1026 +18 TMonster.EndProcess
+00a66a2a +04a tgs2024.exe  uMonster         2707  +4 TMonsterList.Clear
+00a669aa +01a tgs2024.exe  uMonster         2681  +1 TMonsterList.Destroy
+0040dc05 +015 tgs2024.exe  System                    TObject.Free
+00a9b964 +054 tgs2024.exe  uManager          217  +6 TManager.Destroy
+0040dc05 +015 tgs2024.exe  System                    TObject.Free
+00a9c789 +039 tgs2024.exe  uManager          479  +7 TManagerList.Clear
+00a9c47a +01a tgs2024.exe  uManager          439  +2 TManagerList.Destroy
+0040dc05 +015 tgs2024.exe  System                    TObject.Free
+00c6a1c0 +110 tgs2024.exe  SVMain           1003 +37 TFrmMain.FormDestroy
+007726f3 +033 tgs2024.exe  Vcl.Forms                 TCustomForm.DoDestroy
+0077242c +08c tgs2024.exe  Vcl.Forms                 TCustomForm.Destroy
+0040dc05 +015 tgs2024.exe  System                    TObject.Free
+00557bca +09a tgs2024.exe  System.Classes            TComponent.DestroyComponents
+0076eff4 +044 tgs2024.exe  Vcl.Forms                 DoneApplication
+004766b0 +030 tgs2024.exe  System.SysUtils           DoExitProc
+00410809 +079 tgs2024.exe  System                    @Halt0
+00c6ddde +0fe tgs2024.exe  tgs2023           108 +23 initialization
+7fff67e9 +020 KERNEL32.DLL                           BaseThreadInitThunk
+7fff68a7 +032 ntdll.dll                              RtlUserThreadStart
+
+thread $39b4:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $18bc:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $e1c:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $340:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $3414:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $245c:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $37f4:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $c74:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $1220:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $30fc:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2988:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $34b4:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2348:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $34b8:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $18ac:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2e60:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2ee8:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $3b98:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1e38:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $774:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2b74:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $3374:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $a64:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1158:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $36e4:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $b98: <priority:15>
+004f50a9 +49 tgs2024.exe  madExcept ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL           BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll              RtlUserThreadStart
+
+thread $31c8:
+7fff65f9 +e7 KERNELBASE.dll                          WaitForMultipleObjectsEx
+0063c02f +7f tgs2024.exe    System.SyncObjs          THandleObject.WaitFor
+00c423d9 +59 tgs2024.exe    QLog            1556 +12 TQLogCastor.WaitForLog
+00c42150 +20 tgs2024.exe    QLog            1385  +3 TQLogCastor.Execute
+004f51d4 +24 tgs2024.exe    madExcept                HookedTThreadExecute
+005562b0 +40 tgs2024.exe    System.Classes           ThreadProc
+00410a2a +3a tgs2024.exe    System                   ThreadWrapper
+004f50a9 +49 tgs2024.exe    madExcept                ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL                            BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll                               RtlUserThreadStart
+
+thread $2ef8: <priority:1>
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+thread $fd8:
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+thread $f10:
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+modules:
+00400000 tgs2024.exe          1.0.0.0             E:\武侠传2层_反击1\tgs_反击
+7fff5632 libmysql.dll                             E:\武侠传2层_反击1\tgs_反击
+7fff5d96 wsock32.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5dbf WINMMBASE.dll        6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5e3c winmm.dll            6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5ec8 IdnDL.dll            6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5ed1 rasadhlp.dll         6.3.9600.17415      C:\Windows\System32
+7fff5ee8 lua5.4.6.dll                             E:\武侠传2层_反击1\tgs_反击
+7fff5ef4 FaultRep.dll         6.3.9600.21561      C:\Windows\SYSTEM32
+7fff5f0c winrnr.dll           6.3.9600.17415      C:\Windows\System32
+7fff5f0d napinsp.dll          6.3.9600.17415      C:\Windows\system32
+7fff5f80 dbghelp.dll          6.3.9600.20369      C:\Windows\SYSTEM32
+7fff6088 version.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6164 propsys.dll          7.0.9600.17415      C:\Windows\system32
+7fff61a5 ntmarta.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff61e7 dhcpcsvc.DLL         6.3.9600.21561      C:\Windows\SYSTEM32
+7fff6208 wtsapi32.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6214 Fwpuclnt.dll         6.3.9600.21615      C:\Windows\SYSTEM32
+7fff623c WINNSI.DLL           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6243 Iphlpapi.dll         6.3.9600.21619      C:\Windows\SYSTEM32
+7fff62ca SHFolder.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff633c comctl32.dll         6.10.9600.19393     C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9600.19394_none_62486577ecb635cf
+7fff6365 NLAapi.dll           6.3.9600.18895      C:\Windows\system32
+7fff638d wkscli.dll           6.3.9600.20327      C:\Windows\SYSTEM32
+7fff638f netapi32.dll         6.3.9600.20327      C:\Windows\SYSTEM32
+7fff6394 netutils.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff63d5 dwmapi.dll           6.3.9600.17415      C:\Windows\system32
+7fff6410 SHCORE.DLL           6.3.9600.20328      C:\Windows\SYSTEM32
+7fff6480 kernel.appcore.dll   6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6481 uxtheme.dll          6.3.9600.19597      C:\Windows\system32
+7fff649b DEVOBJ.dll           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6514 DNSAPI.dll           6.3.9600.21613      C:\Windows\SYSTEM32
+7fff6534 mswsock.dll          6.3.9600.18340      C:\Windows\System32
+7fff655e bcrypt.dll           6.3.9600.21617      C:\Windows\SYSTEM32
+7fff6571 srvcli.dll           6.3.9600.20327      C:\Windows\SYSTEM32
+7fff6590 bcryptPrimitives.dll 6.3.9600.21617      C:\Windows\SYSTEM32
+7fff6597 CRYPTBASE.dll        6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65a2 WINSTA.dll           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65b0 profapi.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65c8 cfgmgr32.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65f9 KERNELBASE.dll       6.3.9600.21615      C:\Windows\system32
+7fff660b SspiCli.dll          6.3.9600.20616      C:\Windows\system32
+7fff660e comdlg32.dll         6.3.9600.17415      C:\Windows\system32
+7fff661a SHELL32.dll          6.3.9600.20617      C:\Windows\system32
+7fff676d IMM32.DLL            6.3.9600.17415      C:\Windows\system32
+7fff6771 NSI.dll              6.3.9600.17415      C:\Windows\system32
+7fff6779 oleaut32.dll         6.3.9600.21065      C:\Windows\system32
+7fff6786 RPCRT4.dll           6.3.9600.21620      C:\Windows\system32
+7fff679b MSCTF.dll            6.3.9600.19724      C:\Windows\system32
+7fff67b1 ole32.dll            6.3.9600.21615      C:\Windows\system32
+7fff67cb SETUPAPI.dll         6.3.9600.17415      C:\Windows\system32
+7fff67e9 KERNEL32.DLL         6.3.9600.21620      C:\Windows\system32
+7fff67fd clbcatq.dll          2001.12.10530.17415 C:\Windows\SYSTEM32
+7fff6811 SHLWAPI.dll          6.3.9600.20616      C:\Windows\system32
+7fff6817 GDI32.dll            6.3.9600.21111      C:\Windows\system32
+7fff682c sechost.dll          6.3.9600.20913      C:\Windows\SYSTEM32
+7fff6832 USER32.dll           6.3.9600.21111      C:\Windows\system32
+7fff684a msvcrt.dll           7.0.9600.17415      C:\Windows\system32
+7fff6871 ws2_32.dll           6.3.9600.18340      C:\Windows\system32
+7fff6878 combase.dll          6.3.9600.21615      C:\Windows\SYSTEM32
+7fff689a Normaliz.dll         6.3.9600.17415      C:\Windows\system32
+7fff689b ADVAPI32.dll         6.3.9600.21617      C:\Windows\system32
+7fff68a6 ntdll.dll            6.3.9600.21620      C:\Windows\SYSTEM32
+
+processes:
+0000 Idle                     0 0   0
+0004 System                   0 0   0
+00e4 smss.exe                 0 0   0
+0154 csrss.exe                0 0   0
+0194 csrss.exe                1 0   0
+019c wininit.exe              0 0   0
+01c8 winlogon.exe             1 0   0
+01f4 services.exe             0 0   0
+01fc lsass.exe                0 0   0
+0240 svchost.exe              0 0   0
+0260 svchost.exe              0 0   0
+02b8 LogonUI.exe              1 0   0
+02c4 dwm.exe                  1 0   0
+02d4 svchost.exe              0 0   0
+02f8 svchost.exe              0 0   0
+0328 svchost.exe              0 0   0
+037c svchost.exe              0 0   0
+0134 svchost.exe              0 0   0
+0148 ChsIME.exe               1 0   0
+03d8 BaradAgent.exe           0 0   0
+0404 pythonservice.exe        0 0   0
+0434 pythonservice.exe        0 0   0
+0448 svchost.exe              0 0   0
+0470 mysqld.exe               0 0   0
+04c4 svchost.exe              0 0   0
+04fc sgagent.exe              0 0   0
+0510 tat_agent.exe            0 0   0
+0594 svchost.exe              0 0   0
+03dc python.exe               0 0   0
+07dc python.exe               0 0   0
+07f0 conhost.exe              0 0   0
+07a4 conhost.exe              0 0   0
+07e8 svchost.exe              0 0   0
+0674 csrss.exe                2 0   0
+09b4 winlogon.exe             2 0   0
+0b60 dwm.exe                  2 0   0
+0a68 taskhostex.exe           2 9   11  normal C:\Windows\system32
+0ae4 rdpclip.exe              2 11  28  normal C:\Windows\System32
+0bfc Explorer.EXE             2 473 426 normal C:\Windows
+093c ChsIME.exe               2 9   14  normal C:\Windows\System32\InputMethod\CHS
+0858 GoogleCrashHandler.exe   0 0   0
+06d8 GoogleCrashHandler64.exe 0 0   0
+06c4 Balance.exe              2 57  43  normal E:\武侠传2层_反击1\ba
+0a70 gate.exe                 2 59  81  normal E:\武侠传2层_反击1\gate
+054c login.exe                2 48  60  normal E:\武侠传2层_反击1\login
+0e48 msdtc.exe                0 0   0
+0dac YDLive.exe               0 0   0
+0cd0 YDService.exe            0 0   0
+0aa0 redis-server.exe         0 0   0   normal
+3098 tgs2024.exe              2 64  119 normal E:\武侠传2层_反击1\tgs_反击
+1134 WmiPrvSE.exe             0 0   0
+
+hardware:
++ {36fc9e60-c465-11cf-8056-444553540000}
+  - Intel(R) 82371SB PCI to USB Universal Host Controller
+  - USB Root Hub
++ {4d36e965-e325-11ce-bfc1-08002be10318}
+  - QEMU QEMU DVD-ROM ATA Device
++ {4d36e966-e325-11ce-bfc1-08002be10318}
+  - 基于 ACPI x64 的电脑
++ {4d36e967-e325-11ce-bfc1-08002be10318}
+  - Red Hat VirtIO SCSI Disk Device
++ {4d36e968-e325-11ce-bfc1-08002be10318}
+  - Microsoft 基本显示适配器
++ {4d36e969-e325-11ce-bfc1-08002be10318}
+  - 标准软盘控制器
++ {4d36e96a-e325-11ce-bfc1-08002be10318}
+  - ATA Channel 0
+  - ATA Channel 1
+  - Intel(R) 82371SB PCI Bus Master IDE Controller
++ {4d36e96b-e325-11ce-bfc1-08002be10318}
+  - PS/2 标准键盘
+  - 远程桌面键盘设备
++ {4d36e96e-e325-11ce-bfc1-08002be10318}
+  - 通用非即插即用监视器
++ {4d36e96f-e325-11ce-bfc1-08002be10318}
+  - HID-compliant mouse
+  - PS/2 兼容鼠标
+  - 远程桌面鼠标设备
++ {4d36e972-e325-11ce-bfc1-08002be10318}
+  - Microsoft ISATAP Adapter
+  - Microsoft 内核调试网络适配器
+  - Tencent VirtIO Ethernet Adapter (driver 63.6.101.58006)
+  - WAN Miniport (IKEv2)
+  - WAN 微型端口(IP)
+  - WAN 微型端口(IPv6)
+  - WAN 微型端口(L2TP)
+  - WAN 微型端口(PPPOE)
+  - WAN 微型端口(PPTP)
+  - WAN 微型端口(SSTP)
+  - WAN 微型端口(网络监视器)
++ {4d36e978-e325-11ce-bfc1-08002be10318}
+  - 通信端口 (COM1)
++ {4d36e97b-e325-11ce-bfc1-08002be10318}
+  - Microsoft 存储空间控制器
+  - Tencent VirtIO SCSI controller (driver 62.6.101.58005)
++ {4d36e97d-e325-11ce-bfc1-08002be10318}
+  - ACPI Fixed Feature Button
+  - Extended IO Bus
+  - Extended IO Bus
+  - Extended IO Bus
+  - Generic Bus
+  - Intel 82371SB PCI to ISA bridge
+  - Intel 82441FX Pentium(R) Pro Processor to PCI bridge
+  - Microsoft ACPI-Compliant System
+  - Microsoft System Management BIOS Driver
+  - Microsoft 基本呈现驱动程序
+  - Microsoft 基本显示驱动程序
+  - Microsoft 虚拟驱动器枚举器
+  - NDIS 虚拟网络适配器枚举器
+  - PCI bus
+  - System CMOS/real time clock
+  - UMBus Enumerator
+  - UMBus Root Bus Enumerator
+  - VirtIO Balloon Driver (driver 62.10001.1.0)
+  - 即插即用软件设备枚举器
+  - 卷管理器
+  - 复合总线枚举器
+  - 远程桌面设备重定向程序总线
++ {50127dc3-0f36-415e-a6cc-4cb3be910b65}
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
++ {62f9c741-b25a-46ce-b54c-9bccce08b6f2}
+  - Microsoft IPv4 IPv6 转换适配器总线
+  - Smart Card Device Enumeration Bus
++ {745a17a0-74d3-11d0-b6fe-00a0c90f57da}
+  - USB 输入设备
+
+cpu registers:
+rax = 0020002c00390030
+rbx = 0000000007809410
+rcx = 0000000007809410
+rdx = 0000000000000000
+rsi = 0000000000000000
+rdi = 0000000008cb9690
+rip = 0000000000539769
+rsp = 0000000000129c70
+rbp = 0000000000129cb0
+r8  = 0000000000000004
+r9  = 0000000009b6c77c
+r10 = 000000000013e3f1
+r11 = 00000000000005cd
+r12 = 0000000000000000
+r13 = 0000000000000001
+r14 = 0000000000a628a0
+r15 = 0000000000000000
+
+stack dump:
+00129c70  20 c7 b6 09 00 00 00 00 - 00 00 00 00 00 00 00 00   ...............
+00129c80  19 00 00 00 00 00 00 00 - cc 36 7a 07 00 00 00 00  .........6z.....
+00129c90  91 25 13 00 00 00 00 00 - 47 00 75 00 00 00 00 00  .%......G.u.....
+00129ca0  01 00 00 00 00 00 00 00 - 11 dd aa 00 00 00 00 00  ................
+00129cb0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00129cc0  b8 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00129cd0  00 00 00 00 00 00 00 00 - 80 9d 12 00 00 00 00 00  ................
+00129ce0  d0 00 00 00 00 00 00 00 - 0c 00 00 00 00 00 00 00  ................
+00129cf0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00129d00  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00129d10  b8 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00129d20  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00129d30  d0 00 00 00 00 00 00 00 - 00 66 c8 00 00 00 00 00  .........f......
+00129d40  01 00 00 00 00 00 00 00 - 87 0d 41 00 00 00 00 00  ..........A.....
+00129d50  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00129d60  00 00 00 00 00 00 00 00 - 70 9c 12 00 00 00 00 00  ........p.......
+00129d70  00 00 00 00 00 00 00 00 - 70 36 7a 07 00 00 00 00  ........p6z.....
+00129d80  01 00 00 00 00 00 00 00 - 57 0d 41 00 00 00 00 00  ........W.A.....
+00129d90  2c 00 00 00 ff ff ff ff - 00 00 00 00 00 00 00 00  ,...............
+00129da0  01 00 00 00 00 00 00 00 - 87 0d 41 00 00 00 00 00  ..........A.....
+
+disassembling:
+[...]
+00aadcf3        sub     ebx, eax
+00aadcf5        add     ebx, 1
+00aadcf8 1813   mov     rax, [rbp+$18b0]
+00aadcff        mov     rcx, [rax+$158]
+00aadd06        mov     edx, [rbp+$1860]
+00aadd0c      > call    -$5745d1 ($539740)     ; System.Classes.TList.Get
+00aadd11        mov     rcx, [rbp+$18c8]
+00aadd18        cmp     rax, [rcx]
+00aadd1b        jnz     loc_aadd38
+00aadd1d 1815   mov     rax, [rbp+$18b0]
+00aadd24        mov     rcx, [rax+$158]
+[...]
+
+date/time          : 2024-11-16, 19:10:16, 906ms
+computer name      : 10_0_24_5
+wts client name    : MS-FIWNXBYEVKWN
+user name          : administratoa <admin>
+registered owner   : QCloud / Tencent
+operating system   : Windows 2012 R2 x64 build 9600
+system language    : Chinese (Simplified)
+system up time     : 3 days 6 hours
+program up time    : 10 minutes 23 seconds
+processors         : 4x AMD EPYC 7K62 48-Core Processor
+physical memory    : 14623/16383 MB (free/total)
+free disk space    : (C:) 55.95 GB (E:) 99.80 GB
+display mode       : 1920x1080, 32 bit
+process id         : $108c
+allocated memory   : 188.47 MB
+largest free block : 131029.94 GB
+executable         : tgs2024.exe
+exec. date/time    : 2024-07-13 15:54
+version            : 1.0.0.0
+compiled with      : Delphi 10.4 Sydney
+madExcept version  : 5.1.4
+callstack crc      : $cb3ddac3, $a2209ab3, $e30a2302
+exception number   : 1
+exception class    : EAccessViolation
+exception message  : Access violation at address 0000000000AA212A in module 'tgs2024.exe'. Read of address 0000000000000081.
+
+main thread ($2638):
+00aa212a +00a tgs2024.exe  fieldmsg          131  +2 TFieldPhone.GetDataListByXy
+00aa2266 +036 tgs2024.exe  fieldmsg          206  +5 TFieldPhone.GetFieldUser
+00aa271a +15a tgs2024.exe  fieldmsg          390 +37 TFieldPhone.SendMessage
+00aae093 +6a3 tgs2024.exe  BasicObj         1862 +86 TBasicObject.FieldProc
+00bf04fb +10b tgs2024.exe  UUser            6828  +4 TUserObject.FieldProc
+00c1a2df +14f tgs2024.exe  UUser           19629  +4 TUser.FieldProc
+00aa27c4 +204 tgs2024.exe  fieldmsg          412 +59 TFieldPhone.SendMessage
+00a62964 +0c4 tgs2024.exe  uMonster         1026 +18 TMonster.EndProcess
+00a66a2a +04a tgs2024.exe  uMonster         2707  +4 TMonsterList.Clear
+00a669aa +01a tgs2024.exe  uMonster         2681  +1 TMonsterList.Destroy
+0040dc05 +015 tgs2024.exe  System                    TObject.Free
+00a9b964 +054 tgs2024.exe  uManager          217  +6 TManager.Destroy
+0040dc05 +015 tgs2024.exe  System                    TObject.Free
+00a9c789 +039 tgs2024.exe  uManager          479  +7 TManagerList.Clear
+00a9c47a +01a tgs2024.exe  uManager          439  +2 TManagerList.Destroy
+0040dc05 +015 tgs2024.exe  System                    TObject.Free
+00c6a1c0 +110 tgs2024.exe  SVMain           1003 +37 TFrmMain.FormDestroy
+007726f3 +033 tgs2024.exe  Vcl.Forms                 TCustomForm.DoDestroy
+0077242c +08c tgs2024.exe  Vcl.Forms                 TCustomForm.Destroy
+0040dc05 +015 tgs2024.exe  System                    TObject.Free
+00557bca +09a tgs2024.exe  System.Classes            TComponent.DestroyComponents
+0076eff4 +044 tgs2024.exe  Vcl.Forms                 DoneApplication
+004766b0 +030 tgs2024.exe  System.SysUtils           DoExitProc
+00410809 +079 tgs2024.exe  System                    @Halt0
+00c6ddde +0fe tgs2024.exe  tgs2023           108 +23 initialization
+7fff67e9 +020 KERNEL32.DLL                           BaseThreadInitThunk
+7fff68a7 +032 ntdll.dll                              RtlUserThreadStart
+
+thread $3d6c:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $2214:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $c14:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $2eac:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $3d78:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $3ce0:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $774:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $2fec:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $31c0:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2954:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $115c:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2b8c:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1668:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2f04:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $3ed8:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $b7c:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $3e30:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1dd4:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $182c:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $27d8:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $1930:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $3d88:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $75c:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $2720:
+7fff65f9 +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $35bc:
+7fff65f9 +a4 KERNELBASE.dll  SleepEx
+
+thread $2458: <priority:15>
+004f50a9 +49 tgs2024.exe  madExcept ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL           BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll              RtlUserThreadStart
+
+thread $29ec:
+7fff65f9 +e7 KERNELBASE.dll                          WaitForMultipleObjectsEx
+0063c02f +7f tgs2024.exe    System.SyncObjs          THandleObject.WaitFor
+00c423d9 +59 tgs2024.exe    QLog            1556 +12 TQLogCastor.WaitForLog
+00c42150 +20 tgs2024.exe    QLog            1385  +3 TQLogCastor.Execute
+004f51d4 +24 tgs2024.exe    madExcept                HookedTThreadExecute
+005562b0 +40 tgs2024.exe    System.Classes           ThreadProc
+00410a2a +3a tgs2024.exe    System                   ThreadWrapper
+004f50a9 +49 tgs2024.exe    madExcept                ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL                            BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll                               RtlUserThreadStart
+
+thread $1484: <priority:1>
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+thread $1134:
+7fff65f9 +e7 KERNELBASE.dll  WaitForMultipleObjectsEx
+7fff68af +1f ntdll.dll       KiUserCallbackDispatcher
+7fff6832 +20 USER32.dll      GetMessageW
+7fff6406 +29 DUI70.dll       StartMessagePump
+7fff67e9 +20 KERNEL32.DLL    BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll       RtlUserThreadStart
+
+thread $1808:
+7fff65f9 +e7 KERNELBASE.dll           WaitForMultipleObjectsEx
+7fff6832 +00 USER32.dll               MsgWaitForMultipleObjectsEx
+7fff631e +66 DUser.dll                GetMessageExA
+004f50a9 +49 tgs2024.exe    madExcept ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL             BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll                RtlUserThreadStart
+
+thread $a4:
+7fff65f9 +e7 KERNELBASE.dll           WaitForMultipleObjectsEx
+004f50a9 +49 tgs2024.exe    madExcept ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL             BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll                RtlUserThreadStart
+
+thread $1fbc:
+7fff65f9 +e7 KERNELBASE.dll  WaitForMultipleObjectsEx
+7fff6832 +00 USER32.dll      MsgWaitForMultipleObjectsEx
+7fff67e9 +20 KERNEL32.DLL    BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll       RtlUserThreadStart
+
+thread $18fc:
+7fff65f9 +e7 KERNELBASE.dll           WaitForMultipleObjectsEx
+7fff6832 +00 USER32.dll               MsgWaitForMultipleObjectsEx
+004f50a9 +49 tgs2024.exe    madExcept ThreadExceptFrame
+7fff67e9 +20 KERNEL32.DLL             BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll                RtlUserThreadStart
+
+thread $548:
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+thread $3f80:
+7fff67e9 +20 KERNEL32.DLL  BaseThreadInitThunk
+7fff68a7 +32 ntdll.dll     RtlUserThreadStart
+
+modules:
+00400000 tgs2024.exe          1.0.0.0             E:\武侠传2层_反击1\tgs_反击
+7fff5511 libmysql.dll                             E:\武侠传2层_反击1\tgs_反击
+7fff570c msctfuimanager.dll   6.3.9600.17415      C:\Windows\system32
+7fff5dbf WINMMBASE.dll        6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5e3c winmm.dll            6.3.9600.17415      C:\Windows\SYSTEM32
+7fff5ed1 rasadhlp.dll         6.3.9600.17415      C:\Windows\System32
+7fff5edd lua5.4.6.dll                             E:\武侠传2层_反击1\tgs_反击
+7fff5ee6 FaultRep.dll         6.3.9600.21561      C:\Windows\SYSTEM32
+7fff5f0c winrnr.dll           6.3.9600.17415      C:\Windows\System32
+7fff5f0d napinsp.dll          6.3.9600.17415      C:\Windows\system32
+7fff5f80 dbghelp.dll          6.3.9600.20369      C:\Windows\SYSTEM32
+7fff606d IdnDL.dll            6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6088 version.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff612c UIAutomationCore.dll 7.2.9600.17795      C:\Windows\SYSTEM32
+7fff6164 propsys.dll          7.0.9600.17415      C:\Windows\system32
+7fff61a5 ntmarta.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff61e7 dhcpcsvc.DLL         6.3.9600.21561      C:\Windows\SYSTEM32
+7fff6208 wtsapi32.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6214 Fwpuclnt.dll         6.3.9600.21615      C:\Windows\SYSTEM32
+7fff621b dwrite.dll           6.3.9600.20139      C:\Windows\system32
+7fff623c WINNSI.DLL           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6243 Iphlpapi.dll         6.3.9600.21619      C:\Windows\SYSTEM32
+7fff62bc SHFolder.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff62ca wsock32.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff62e2 UIAnimation.dll      6.3.9600.18512      C:\Windows\System32
+7fff631c DUser.dll            6.3.9600.17415      C:\Windows\system32
+7fff633c comctl32.dll         6.10.9600.19393     C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9600.19394_none_62486577ecb635cf
+7fff6365 NLAapi.dll           6.3.9600.18895      C:\Windows\system32
+7fff638d wkscli.dll           6.3.9600.20327      C:\Windows\SYSTEM32
+7fff638f netapi32.dll         6.3.9600.20327      C:\Windows\SYSTEM32
+7fff6394 netutils.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff63d5 dwmapi.dll           6.3.9600.17415      C:\Windows\system32
+7fff63f3 DUI70.dll            6.3.9600.17415      C:\Windows\system32
+7fff6410 SHCORE.DLL           6.3.9600.20328      C:\Windows\SYSTEM32
+7fff6480 kernel.appcore.dll   6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6481 uxtheme.dll          6.3.9600.19597      C:\Windows\system32
+7fff649b DEVOBJ.dll           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff64fe rsaenh.dll           6.3.9600.20031      C:\Windows\system32
+7fff6514 DNSAPI.dll           6.3.9600.21613      C:\Windows\SYSTEM32
+7fff6534 mswsock.dll          6.3.9600.18340      C:\Windows\System32
+7fff653a CRYPTSP.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff655e bcrypt.dll           6.3.9600.21617      C:\Windows\SYSTEM32
+7fff6571 srvcli.dll           6.3.9600.20327      C:\Windows\SYSTEM32
+7fff6590 bcryptPrimitives.dll 6.3.9600.21617      C:\Windows\SYSTEM32
+7fff6597 CRYPTBASE.dll        6.3.9600.17415      C:\Windows\SYSTEM32
+7fff6598 sxs.dll              6.3.9600.20876      C:\Windows\SYSTEM32
+7fff65a2 WINSTA.dll           6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65b0 profapi.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65c8 cfgmgr32.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7fff65f9 KERNELBASE.dll       6.3.9600.21615      C:\Windows\system32
+7fff660b SspiCli.dll          6.3.9600.20616      C:\Windows\system32
+7fff660e comdlg32.dll         6.3.9600.17415      C:\Windows\system32
+7fff661a SHELL32.dll          6.3.9600.20617      C:\Windows\system32
+7fff676d IMM32.DLL            6.3.9600.17415      C:\Windows\system32
+7fff6771 NSI.dll              6.3.9600.17415      C:\Windows\system32
+7fff6779 oleaut32.dll         6.3.9600.21065      C:\Windows\system32
+7fff6786 RPCRT4.dll           6.3.9600.21620      C:\Windows\system32
+7fff679b MSCTF.dll            6.3.9600.19724      C:\Windows\system32
+7fff67b1 ole32.dll            6.3.9600.21615      C:\Windows\system32
+7fff67cb SETUPAPI.dll         6.3.9600.17415      C:\Windows\system32
+7fff67e9 KERNEL32.DLL         6.3.9600.21620      C:\Windows\system32
+7fff67fd clbcatq.dll          2001.12.10530.17415 C:\Windows\SYSTEM32
+7fff6811 SHLWAPI.dll          6.3.9600.20616      C:\Windows\system32
+7fff6817 GDI32.dll            6.3.9600.21111      C:\Windows\system32
+7fff682c sechost.dll          6.3.9600.20913      C:\Windows\SYSTEM32
+7fff6832 USER32.dll           6.3.9600.21111      C:\Windows\system32
+7fff684a msvcrt.dll           7.0.9600.17415      C:\Windows\system32
+7fff6871 ws2_32.dll           6.3.9600.18340      C:\Windows\system32
+7fff6878 combase.dll          6.3.9600.21615      C:\Windows\SYSTEM32
+7fff689a Normaliz.dll         6.3.9600.17415      C:\Windows\system32
+7fff689b ADVAPI32.dll         6.3.9600.21617      C:\Windows\system32
+7fff68a6 ntdll.dll            6.3.9600.21620      C:\Windows\SYSTEM32
+
+processes:
+0000 Idle                     0 0   0
+0004 System                   0 0   0
+00e4 smss.exe                 0 0   0
+0154 csrss.exe                0 0   0
+0194 csrss.exe                1 0   0
+019c wininit.exe              0 0   0
+01c8 winlogon.exe             1 0   0
+01f4 services.exe             0 0   0
+01fc lsass.exe                0 0   0
+0240 svchost.exe              0 0   0
+0260 svchost.exe              0 0   0
+02b8 LogonUI.exe              1 0   0
+02c4 dwm.exe                  1 0   0
+02d4 svchost.exe              0 0   0
+02f8 svchost.exe              0 0   0
+0328 svchost.exe              0 0   0
+037c svchost.exe              0 0   0
+0134 svchost.exe              0 0   0
+0148 ChsIME.exe               1 0   0
+03d8 BaradAgent.exe           0 0   0
+0404 pythonservice.exe        0 0   0
+0434 pythonservice.exe        0 0   0
+0448 svchost.exe              0 0   0
+0470 mysqld.exe               0 0   0
+04c4 svchost.exe              0 0   0
+04fc sgagent.exe              0 0   0
+0510 tat_agent.exe            0 0   0
+0594 svchost.exe              0 0   0
+03dc python.exe               0 0   0
+07dc python.exe               0 0   0
+07f0 conhost.exe              0 0   0
+07a4 conhost.exe              0 0   0
+07e8 svchost.exe              0 0   0
+0674 csrss.exe                2 0   0
+09b4 winlogon.exe             2 0   0
+0b60 dwm.exe                  2 0   0
+0a68 taskhostex.exe           2 9   11  normal C:\Windows\system32
+0ae4 rdpclip.exe              2 11  27  normal C:\Windows\System32
+0bfc Explorer.EXE             2 471 412 normal C:\Windows
+093c ChsIME.exe               2 9   20  normal C:\Windows\System32\InputMethod\CHS
+0858 GoogleCrashHandler.exe   0 0   0
+06d8 GoogleCrashHandler64.exe 0 0   0
+0e48 msdtc.exe                0 0   0
+0dac YDLive.exe               0 0   0
+0cd0 YDService.exe            0 0   0
+0aa0 redis-server.exe         0 0   0   normal
+15ec Balance.exe              2 62  67  normal E:\武侠传2层_反击1\ba
+3144 gate.exe                 2 59  85  normal E:\武侠传2层_反击1\gate
+206c login.exe                2 47  60  normal E:\武侠传2层_反击1\login
+3128 notice.exe               2 52  60  normal E:\武侠传2层_反击1\notice
+108c tgs2024.exe              2 83  137 normal E:\武侠传2层_反击1\tgs_反击
+
+hardware:
++ {36fc9e60-c465-11cf-8056-444553540000}
+  - Intel(R) 82371SB PCI to USB Universal Host Controller
+  - USB Root Hub
++ {4d36e965-e325-11ce-bfc1-08002be10318}
+  - QEMU QEMU DVD-ROM ATA Device
++ {4d36e966-e325-11ce-bfc1-08002be10318}
+  - 基于 ACPI x64 的电脑
++ {4d36e967-e325-11ce-bfc1-08002be10318}
+  - Red Hat VirtIO SCSI Disk Device
++ {4d36e968-e325-11ce-bfc1-08002be10318}
+  - Microsoft 基本显示适配器
++ {4d36e969-e325-11ce-bfc1-08002be10318}
+  - 标准软盘控制器
++ {4d36e96a-e325-11ce-bfc1-08002be10318}
+  - ATA Channel 0
+  - ATA Channel 1
+  - Intel(R) 82371SB PCI Bus Master IDE Controller
++ {4d36e96b-e325-11ce-bfc1-08002be10318}
+  - PS/2 标准键盘
+  - 远程桌面键盘设备
++ {4d36e96e-e325-11ce-bfc1-08002be10318}
+  - 通用非即插即用监视器
++ {4d36e96f-e325-11ce-bfc1-08002be10318}
+  - HID-compliant mouse
+  - PS/2 兼容鼠标
+  - 远程桌面鼠标设备
++ {4d36e972-e325-11ce-bfc1-08002be10318}
+  - Microsoft ISATAP Adapter
+  - Microsoft 内核调试网络适配器
+  - Tencent VirtIO Ethernet Adapter (driver 63.6.101.58006)
+  - WAN Miniport (IKEv2)
+  - WAN 微型端口(IP)
+  - WAN 微型端口(IPv6)
+  - WAN 微型端口(L2TP)
+  - WAN 微型端口(PPPOE)
+  - WAN 微型端口(PPTP)
+  - WAN 微型端口(SSTP)
+  - WAN 微型端口(网络监视器)
++ {4d36e978-e325-11ce-bfc1-08002be10318}
+  - 通信端口 (COM1)
++ {4d36e97b-e325-11ce-bfc1-08002be10318}
+  - Microsoft 存储空间控制器
+  - Tencent VirtIO SCSI controller (driver 62.6.101.58005)
++ {4d36e97d-e325-11ce-bfc1-08002be10318}
+  - ACPI Fixed Feature Button
+  - Extended IO Bus
+  - Extended IO Bus
+  - Extended IO Bus
+  - Generic Bus
+  - Intel 82371SB PCI to ISA bridge
+  - Intel 82441FX Pentium(R) Pro Processor to PCI bridge
+  - Microsoft ACPI-Compliant System
+  - Microsoft System Management BIOS Driver
+  - Microsoft 基本呈现驱动程序
+  - Microsoft 基本显示驱动程序
+  - Microsoft 虚拟驱动器枚举器
+  - NDIS 虚拟网络适配器枚举器
+  - PCI bus
+  - System CMOS/real time clock
+  - UMBus Enumerator
+  - UMBus Root Bus Enumerator
+  - VirtIO Balloon Driver (driver 62.10001.1.0)
+  - 即插即用软件设备枚举器
+  - 卷管理器
+  - 复合总线枚举器
+  - 远程桌面设备重定向程序总线
++ {50127dc3-0f36-415e-a6cc-4cb3be910b65}
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
++ {62f9c741-b25a-46ce-b54c-9bccce08b6f2}
+  - Microsoft IPv4 IPv6 转换适配器总线
+  - Smart Card Device Enumeration Bus
++ {745a17a0-74d3-11d0-b6fe-00a0c90f57da}
+  - USB 输入设备
+
+cpu registers:
+rax = 00000000000000c0
+rbx = 0000000000000000
+rcx = 0000000000000059
+rdx = 00000000000000c0
+rsi = 0000000000000000
+rdi = 0000000000000004
+rip = 0000000000aa212a
+rsp = 0000000000133ef0
+rbp = 0000000000133f90
+r8  = 00000000000000eb
+r9  = 0000000000000004
+r10 = 0000000000000000
+r11 = 0000000000000099
+r12 = 0000000000000000
+r13 = 0000000000000008
+r14 = 0000000000a628a0
+r15 = 0000000000000000
+
+stack dump:
+00133ef0  30 00 30 00 30 00 30 00 - 30 00 30 00 30 00 30 00  0.0.0.0.0.0.0.0.
+00133f00  30 00 30 00 30 00 34 00 - 45 00 38 00 00 00 00 00  0.0.0.4.E.8.....
+00133f10  00 00 00 00 00 00 00 00 - 6b 22 aa 00 00 00 00 00  ........k"......
+00133f20  11 c8 13 00 00 00 00 00 - 1c 40 13 00 00 00 00 00  .........@......
+00133f30  01 00 00 00 00 00 00 00 - cb 1c bf 00 00 00 00 00  ................
+00133f40  40 a8 74 0f 00 00 00 00 - 59 00 00 00 00 00 00 00  @.t.....Y.......
+00133f50  05 00 55 07 11 27 00 00 - c0 00 00 00 eb 00 00 00  ..U..'..........
+00133f60  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00133f70  d0 36 bc 08 00 00 00 00 - 08 00 00 00 00 00 00 00  .6..............
+00133f80  a0 28 a6 00 00 00 00 00 - 1f 27 aa 00 00 00 00 00  .(.......'......
+00133f90  01 00 00 00 00 00 00 00 - 57 0d 41 00 00 00 00 00  ........W.A.....
+00133fa0  00 00 00 00 00 00 00 00 - bb 4e f9 65 ff 7f 00 00  .........N.e....
+00133fb0  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00133fc0  59 00 00 00 00 00 00 00 - b0 98 c7 09 00 00 04 00  Y...............
+00133fd0  1c 29 1f 07 00 00 00 00 - e5 e6 aa 00 00 00 00 00  .)..............
+00133fe0  01 00 00 00 00 00 00 00 - 57 0d 41 00 00 00 00 00  ........W.A.....
+00133ff0  00 00 00 00 00 00 00 00 - 44 2b 91 0e 00 00 00 00  ........D+......
+00134000  08 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+00134010  d0 36 bc 08 00 00 00 00 - 08 00 00 00 00 00 00 00  .6..............
+00134020  30 40 13 00 00 00 00 00 - 98 e0 aa 00 00 00 00 00  0@..............
+
+disassembling:
+00aa2120     public fieldmsg.TFieldPhone.GetDataListByXy:  ; function entry point
+00aa2120 129   push    rbx
+00aa2121       sub     rsp, $20
+00aa2125       mov     eax, edx
+00aa2127 130   xor     r10, r10
+00aa212a 131 > mov     rdx, [rcx+$28]
+00aa212e       cmp     dword ptr [rdx+$10], 0
+00aa2132       jz      loc_aa221d
+00aa2138 134   mov     r11, [$d295c0]
+00aa213f       cdq
+00aa2140       idiv    dword ptr [r11]
+[...]
+
+date/time          : 2025-01-01, 15:50:59, 210ms
+computer name      : 10_0_24_5
+wts client name    : PC-20220731WFSB
+user name          : Administrator <admin>
+registered owner   : QCloud / Tencent
+operating system   : Windows 2012 R2 x64 build 9600
+system language    : Chinese (Simplified)
+system up time     : 5 minutes 34 seconds
+program up time    : 10 seconds
+processors         : 4x AMD EPYC 7K62 48-Core Processor
+physical memory    : 14727/16383 MB (free/total)
+free disk space    : (C:) 50.93 GB (E:) 98.23 GB
+display mode       : 1920x1080, 32 bit
+process id         : $aac
+allocated memory   : 32.64 MB
+largest free block : 131029.99 GB
+executable         : tgs2024.exe
+exec. date/time    : 2024-07-13 15:54
+version            : 1.0.0.0
+compiled with      : Delphi 10.4 Sydney
+madExcept version  : 5.1.4
+callstack crc      : $fe7a2335, $cfa6f683, $cfa6f683
+count              : 2
+exception number   : 1
+exception class    : EFOpenError
+exception message  : Cannot open file "E:\武侠传2层_反击1\tgs_反击\itemid.dat". 另一个程序正在使用此文件，进程无法访问。.
+
+main thread ($46c):
+00541f05 +1f5 tgs2024.exe  System.Classes          TFileStream.Create
+00541cad +04d tgs2024.exe  System.Classes          TFileStream.Create
+00b78980 +0b0 tgs2024.exe  svClass         8901 +9 TsaveID.loadfile
+00b78a47 +067 tgs2024.exe  svClass         8911 +4 TsaveID.Create
+00b91687 +087 tgs2024.exe  svClass        14887 +9 initialization
+00410196 +066 tgs2024.exe  System                  InitUnits
+00410225 +055 tgs2024.exe  System                  @StartExe
+0041ae3c +06c tgs2024.exe  SysInit                 @InitExe
+00c6dcf0 +010 tgs2024.exe  tgs2023           85 +0 initialization
+7ff9afe3 +020 KERNEL32.DLL                         BaseThreadInitThunk
+7ff9b0f6 +032 ntdll.dll                            RtlUserThreadStart
+
+thread $a60:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $3dc:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $43c:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $db4:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $b74:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $29c:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $de0:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $390:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $874:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $e0c:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $fa0:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $e6c:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $da4:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $dcc:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $b04:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $598:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $c24:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $488:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $c04:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $e14:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $da8:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $dc4:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $a74:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $e84:
+7ff9ae4b +92 KERNELBASE.dll  WaitForSingleObjectEx
+
+thread $6d4:
+7ff9ae4b +a4 KERNELBASE.dll  SleepEx
+
+thread $be0: <priority:15>
+004f50a9 +49 tgs2024.exe  madExcept ThreadExceptFrame
+7ff9afe3 +20 KERNEL32.DLL           BaseThreadInitThunk
+7ff9b0f6 +32 ntdll.dll              RtlUserThreadStart
+
+thread $714:
+7ff9afe3 +20 KERNEL32.DLL  BaseThreadInitThunk
+7ff9b0f6 +32 ntdll.dll     RtlUserThreadStart
+
+thread $3a8:
+7ff9afe3 +20 KERNEL32.DLL  BaseThreadInitThunk
+7ff9b0f6 +32 ntdll.dll     RtlUserThreadStart
+
+modules:
+00400000 tgs2024.exe          1.0.0.0             E:\武侠传2层_反击1\tgs_反击
+7ff99761 libmysql.dll                             E:\武侠传2层_反击1\tgs_反击
+7ff9a48e dbghelp.dll          6.3.9600.20369      C:\Windows\SYSTEM32
+7ff9a5d4 FaultRep.dll         6.3.9600.21561      C:\Windows\SYSTEM32
+7ff9a63a rasadhlp.dll         6.3.9600.17415      C:\Windows\System32
+7ff9a671 winrnr.dll           6.3.9600.17415      C:\Windows\System32
+7ff9a675 napinsp.dll          6.3.9600.17415      C:\Windows\system32
+7ff9a725 SHFolder.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9a82f WINMMBASE.dll        6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9a837 winmm.dll            6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9a84f wsock32.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9a937 version.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9a9b8 propsys.dll          7.0.9600.17415      C:\Windows\system32
+7ff9a9f4 ntmarta.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9aa2a dhcpcsvc.DLL         6.3.9600.21561      C:\Windows\SYSTEM32
+7ff9aa51 wtsapi32.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9aa88 WINNSI.DLL           6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9aaff Iphlpapi.dll         6.3.9600.21619      C:\Windows\SYSTEM32
+7ff9ab54 wkscli.dll           6.3.9600.20327      C:\Windows\SYSTEM32
+7ff9ab56 netutils.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9ab80 comctl32.dll         6.10.9600.19393     C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.9600.19394_none_62486577ecb635cf
+7ff9abbd NLAapi.dll           6.3.9600.18895      C:\Windows\system32
+7ff9abe4 netapi32.dll         6.3.9600.20327      C:\Windows\SYSTEM32
+7ff9ac3f dwmapi.dll           6.3.9600.17415      C:\Windows\system32
+7ff9ac5f SHCORE.DLL           6.3.9600.20328      C:\Windows\SYSTEM32
+7ff9accf kernel.appcore.dll   6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9acd0 uxtheme.dll          6.3.9600.19597      C:\Windows\system32
+7ff9acea DEVOBJ.dll           6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9ad63 DNSAPI.dll           6.3.9600.21613      C:\Windows\SYSTEM32
+7ff9ad83 mswsock.dll          6.3.9600.18340      C:\Windows\System32
+7ff9adad bcrypt.dll           6.3.9600.21617      C:\Windows\SYSTEM32
+7ff9adc0 srvcli.dll           6.3.9600.20327      C:\Windows\SYSTEM32
+7ff9addf bcryptPrimitives.dll 6.3.9600.21617      C:\Windows\SYSTEM32
+7ff9ade6 CRYPTBASE.dll        6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9adf1 WINSTA.dll           6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9adff profapi.dll          6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9ae0c cfgmgr32.dll         6.3.9600.17415      C:\Windows\SYSTEM32
+7ff9ae11 SspiCli.dll          6.3.9600.20616      C:\Windows\system32
+7ff9ae4b KERNELBASE.dll       6.3.9600.21615      C:\Windows\system32
+7ff9ae5f SETUPAPI.dll         6.3.9600.17415      C:\Windows\system32
+7ff9ae7d sechost.dll          6.3.9600.20913      C:\Windows\SYSTEM32
+7ff9ae83 SHELL32.dll          6.3.9600.20617      C:\Windows\system32
+7ff9afd6 oleaut32.dll         6.3.9600.21065      C:\Windows\system32
+7ff9afe3 KERNEL32.DLL         6.3.9600.21620      C:\Windows\system32
+7ff9aff7 ws2_32.dll           6.3.9600.18340      C:\Windows\system32
+7ff9affd USER32.dll           6.3.9600.21111      C:\Windows\system32
+7ff9b015 SHLWAPI.dll          6.3.9600.20616      C:\Windows\system32
+7ff9b01b clbcatq.dll          2001.12.10530.17415 C:\Windows\SYSTEM32
+7ff9b027 IMM32.DLL            6.3.9600.17415      C:\Windows\system32
+7ff9b031 msvcrt.dll           7.0.9600.17415      C:\Windows\system32
+7ff9b03c MSCTF.dll            6.3.9600.19724      C:\Windows\system32
+7ff9b052 RPCRT4.dll           6.3.9600.21620      C:\Windows\system32
+7ff9b070 NSI.dll              6.3.9600.17415      C:\Windows\system32
+7ff9b071 comdlg32.dll         6.3.9600.17415      C:\Windows\system32
+7ff9b07d combase.dll          6.3.9600.21615      C:\Windows\SYSTEM32
+7ff9b0bb GDI32.dll            6.3.9600.21111      C:\Windows\system32
+7ff9b0d0 ADVAPI32.dll         6.3.9600.21617      C:\Windows\system32
+7ff9b0db ole32.dll            6.3.9600.21615      C:\Windows\system32
+7ff9b0f5 ntdll.dll            6.3.9600.21620      C:\Windows\SYSTEM32
+
+processes:
+000 Idle                     0 0   0
+004 System                   0 0   0
+0e4 smss.exe                 0 0   0
+15c csrss.exe                0 0   0
+194 csrss.exe                1 0   0
+19c wininit.exe              0 0   0
+1c8 winlogon.exe             1 0   0
+1f0 services.exe             0 0   0
+1f8 lsass.exe                0 0   0
+23c svchost.exe              0 0   0
+25c svchost.exe              0 0   0
+2b8 LogonUI.exe              1 0   0
+2c0 dwm.exe                  1 0   0
+2d4 svchost.exe              0 0   0
+2f8 svchost.exe              0 0   0
+324 svchost.exe              0 0   0
+384 svchost.exe              0 0   0
+150 svchost.exe              0 0   0
+24c ChsIME.exe               1 0   0
+408 svchost.exe              0 0   0
+418 BaradAgent.exe           0 0   0
+4a8 svchost.exe              0 0   0
+4d0 inetinfo.exe             0 0   0
+4ec sqlservr.exe             0 0   0
+614 sqlbrowser.exe           0 0   0
+650 sqlwriter.exe            0 0   0
+664 sgagent.exe              0 0   0
+694 tat_agent.exe            0 0   0
+6fc svchost.exe              0 0   0
+70c svchost.exe              0 0   0
+b6c svchost.exe              0 0   0
+bcc svchost.exe              0 0   0
+b18 csrss.exe                2 0   0
+a28 winlogon.exe             2 0   0
+a8c dwm.exe                  2 0   0
+bc8 taskhostex.exe           2 9   11  normal       C:\Windows\system32
+934 rdpclip.exe              2 11  27  normal       C:\Windows\System32
+a3c ChsIME.exe               2 9   4   normal       C:\Windows\System32\InputMethod\CHS
+958 Explorer.EXE             2 361 400 normal       C:\Windows
+c74 GoogleUpdate.exe         0 0   0
+c7c GoogleCrashHandler.exe   0 0   0
+c88 GoogleCrashHandler64.exe 0 0   0
+ce4 BtTools.exe              2 51  61  normal       F:\BtSoft\panel\script
+bb0 pythonservice.exe        0 0   0
+be8 python.exe               0 0   0
+71c conhost.exe              0 0   0
+bd8 pythonservice.exe        0 0   0
+750 python.exe               0 0   0
+ee4 conhost.exe              0 0   0
+f8c chrome.exe               2 22  48  normal       C:\Program Files (x86)\Google\Chrome\Application
+f9c chrome.exe               2 9   3   normal       C:\Program Files (x86)\Google\Chrome\Application
+9f0 chrome.exe               2 13  2   above normal C:\Program Files (x86)\Google\Chrome\Application
+fcc chrome.exe               2 4   1   normal       C:\Program Files (x86)\Google\Chrome\Application
+fdc chrome.exe               2 0   0   normal       C:\Program Files (x86)\Google\Chrome\Application
+5e0 chrome.exe               2 0   0   idle         C:\Program Files (x86)\Google\Chrome\Application
+dd8 RuntimeBroker.exe        2 4   2   normal       C:\Windows\System32
+eec msdtc.exe                0 0   0
+b88 YDLive.exe               0 0   0
+274 YDService.exe            0 0   0
+3e4 WmiPrvSE.exe             0 0   0
+fe8 chrome.exe               2 0   0   idle         C:\Program Files (x86)\Google\Chrome\Application
+e40 chrome.exe               2 0   0   idle         C:\Program Files (x86)\Google\Chrome\Application
+238 tgs2024.exe              2 92  41  normal       E:\武侠传2层_反击1\tgs_反击
+aac tgs2024.exe              2 32  22  normal       E:\武侠传2层_反击1\tgs_反击
+
+hardware:
++ {36fc9e60-c465-11cf-8056-444553540000}
+  - Intel(R) 82371SB PCI to USB Universal Host Controller
+  - USB Root Hub
++ {4d36e965-e325-11ce-bfc1-08002be10318}
+  - QEMU QEMU DVD-ROM ATA Device
++ {4d36e966-e325-11ce-bfc1-08002be10318}
+  - 基于 ACPI x64 的电脑
++ {4d36e967-e325-11ce-bfc1-08002be10318}
+  - Red Hat VirtIO SCSI Disk Device
++ {4d36e968-e325-11ce-bfc1-08002be10318}
+  - Microsoft 基本显示适配器
++ {4d36e969-e325-11ce-bfc1-08002be10318}
+  - 标准软盘控制器
++ {4d36e96a-e325-11ce-bfc1-08002be10318}
+  - ATA Channel 0
+  - ATA Channel 1
+  - Intel(R) 82371SB PCI Bus Master IDE Controller
++ {4d36e96b-e325-11ce-bfc1-08002be10318}
+  - PS/2 标准键盘
+  - 远程桌面键盘设备
++ {4d36e96e-e325-11ce-bfc1-08002be10318}
+  - 通用非即插即用监视器
++ {4d36e96f-e325-11ce-bfc1-08002be10318}
+  - HID-compliant mouse
+  - PS/2 兼容鼠标
+  - 远程桌面鼠标设备
++ {4d36e972-e325-11ce-bfc1-08002be10318}
+  - Microsoft ISATAP Adapter
+  - Microsoft 内核调试网络适配器
+  - Tencent VirtIO Ethernet Adapter (driver 63.6.101.58006)
+  - WAN Miniport (IKEv2)
+  - WAN 微型端口(IP)
+  - WAN 微型端口(IPv6)
+  - WAN 微型端口(L2TP)
+  - WAN 微型端口(PPPOE)
+  - WAN 微型端口(PPTP)
+  - WAN 微型端口(SSTP)
+  - WAN 微型端口(网络监视器)
++ {4d36e978-e325-11ce-bfc1-08002be10318}
+  - 通信端口 (COM1)
++ {4d36e97b-e325-11ce-bfc1-08002be10318}
+  - Microsoft 存储空间控制器
+  - Tencent VirtIO SCSI controller (driver 62.6.101.58005)
++ {4d36e97d-e325-11ce-bfc1-08002be10318}
+  - ACPI Fixed Feature Button
+  - Extended IO Bus
+  - Extended IO Bus
+  - Extended IO Bus
+  - Generic Bus
+  - Intel 82371SB PCI to ISA bridge
+  - Intel 82441FX Pentium(R) Pro Processor to PCI bridge
+  - Microsoft ACPI-Compliant System
+  - Microsoft System Management BIOS Driver
+  - Microsoft 基本呈现驱动程序
+  - Microsoft 基本显示驱动程序
+  - Microsoft 虚拟驱动器枚举器
+  - NDIS 虚拟网络适配器枚举器
+  - PCI bus
+  - System CMOS/real time clock
+  - UMBus Enumerator
+  - UMBus Root Bus Enumerator
+  - VirtIO Balloon Driver (driver 62.10001.1.0)
+  - 即插即用软件设备枚举器
+  - 卷管理器
+  - 复合总线枚举器
+  - 远程桌面设备重定向程序总线
++ {50127dc3-0f36-415e-a6cc-4cb3be910b65}
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
+  - AMD EPYC 7K62 48-Core Processor
++ {62f9c741-b25a-46ce-b54c-9bccce08b6f2}
+  - Microsoft IPv4 IPv6 转换适配器总线
+  - Smart Card Device Enumeration Bus
++ {745a17a0-74d3-11d0-b6fe-00a0c90f57da}
+  - USB 输入设备
+
+cpu registers:
+rax = 0000000000410ce9
+rbx = 0000000004fee6f0
+rcx = 005c51fb53cd005f
+rdx = 00007ff9b0f8fadc
+rsi = 0000000000541f0a
+rdi = 0000000000400208
+rip = 00007ff9ae4c804c
+rsp = 000000000013fa60
+rbp = 000000000013fb40
+r8  = 00000000066400b8
+r9  = 0000000000000000
+r10 = 00000000066400b8
+r11 = 0000000000000100
+r12 = 0000000000000000
+r13 = 0000000000000000
+r14 = 0000000000000000
+r15 = 0000000000000000
+
+stack dump:
+0013fa60  cc 02 02 00 00 00 00 00 - 1f 03 00 00 00 00 00 00  ................
+0013fa70  01 00 00 00 00 00 00 00 - 01 00 00 00 00 00 00 00  ................
+0013fa80  1f 03 00 00 00 00 00 00 - e0 11 d0 ac f9 7f 00 00  ................
+0013fa90  a0 fa 13 00 00 00 00 00 - 26 af 55 00 00 00 00 00  ........&.U.....
+0013faa0  c0 4a f8 04 00 00 00 00 - 00 00 00 00 00 00 00 00  .J..............
+0013fab0  32 d1 08 34 27 fd 00 00 - 00 00 00 00 00 00 00 00  2..4'...........
+0013fac0  c3 0f 09 05 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0013fad0  00 00 00 00 00 00 00 00 - 01 00 00 00 00 00 00 00  ................
+0013fae0  40 fc 13 00 00 00 00 00 - 22 25 fd af f9 7f 00 00  @......."%......
+0013faf0  01 00 00 00 00 00 00 00 - 01 00 00 00 00 00 00 00  ................
+0013fb00  1f 03 00 00 00 00 00 00 - cc 02 02 00 00 00 00 00  ................
+0013fb10  20 fb 13 00 00 00 00 00 - 30 fb 13 00 00 00 00 00   .......0.......
+0013fb20  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0013fb30  00 00 00 00 00 00 00 00 - 80 00 00 00 f9 7f 00 00  ................
+0013fb40  48 00 00 00 00 00 00 00 - 01 00 00 00 00 00 00 00  H...............
+0013fb50  00 00 00 00 00 00 00 00 - 00 00 00 00 00 00 00 00  ................
+0013fb60  70 00 00 00 00 00 00 00 - ff ff ff ff ff ff ff ff  p...............
+0013fb70  ff ff ff ff ff ff ff ff - 63 24 fd af f9 7f 00 00  ........c$......
+0013fb80  22 25 fd af f9 7f 00 00 - 00 80 6b 01 00 00 00 00  "%........k.....
+0013fb90  00 00 00 00 00 00 00 00 - 18 11 4b ae f9 7f 00 00  ..........K.....
+
+disassembling:
+[...]
+00b78969        call    -$765e7e ($412af0)     ; System.@UStrFromLStr
+00b7896e        mov     rcx, [$50a978]
+00b78975        mov     dl, 1
+00b78977        mov     r8, [rbp+$28]
+00b7897b        mov     r9w, 2
+00b78980      > call    -$636d25 ($541c60)     ; System.Classes.TFileStream.Create
+00b78985        mov     rcx, [rbp+$20]
+00b78989        mov     [rcx+$18], rax
+00b7898d 8902   mov     rcx, rax
+00b78990        mov     rax, [rbp+$20]
+00b78994        lea     rdx, [rax+$20]
+[...]
+

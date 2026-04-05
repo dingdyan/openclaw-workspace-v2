@@ -1,0 +1,258 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+<H3>
+TPAXScripter Properties
+</H3>
+<hr>
+<ul>
+<a href="#TPAXScripter.CallStack"><li>CallStack</li></a>
+<a href="#TPAXScripter.CurrentModuleName"><li>CurrentModuleName</li></a>
+<a href="#TPAXScripter.CurrentSourceLine"><li>CurrentSourceLine</li></a>
+<a href="#TPAXScripter.ErrorDescription"><li>ErrorDescription</li></a>
+<a href="#TPAXScripter.ErrorLine"><li>ErrorLine</li></a>
+<a href="#TPAXScripter.ErrorModuleName"><li>ErrorModuleName</li></a>
+<a href="#TPAXScripter.ErrorPos"><li>ErrorPos</li></a>
+<a href="#TPAXScripter.ErrorTextPos"><li>ErrorTextPos</li></a>
+<a href="#TPAXScripter.Languages"><li>Languages</li></a>
+<a href="#TPAXScripter.Modules"><li>Modules</li></a>
+<a href="#TPAXScripter.ScripterState"><li>ScripterState</li></a>
+<a href="#TPAXScripter.StackSize"><li>StackSize</li></a>
+<a href="#TPAXScripter.Params"><li>Params</li></a>
+<a href="#TPAXScripter.SourceCode"><li>SourceCode</li></a>
+<a href="#TPAXScripter.TotalLineCount"><li>TotalLineCount</li></a>
+<a href="#TPAXScripter.Values"><li>Values</li></a>
+</ul>
+<a name="TPAXScripter.CallStack"><h3>TPAXScripter.CallStack</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns the call stack of the scripter.
+<pre>
+<font color="blue"><b>property</b></font> CallStack: TCallStack;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+</blockquote>
+<a name="TPAXScripter.CurrentModuleName"><h3>TPAXScripter.CurrentModuleName</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns current module name of a script at compile-time or run-time.
+<pre>
+<font color="blue"><b>property</b></font> CurrentModuleName: <font color="blue"><b>String</b></font>;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+</blockquote>
+<a name="TPAXScripter.CurrentSourceLine"><h3>TPAXScripter.CurrentSourceLine</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns current line number of a script at compile-time or run-time.
+<pre>
+<font color="blue"><b>property</b></font> CurrentSourceLine: Integer;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+</blockquote>
+<a name="TPAXScripter.ErrorDescription"><h3>TPAXScripter.ErrorDescription</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns description of a error.
+<pre>
+<font color="blue"><b>property</b></font> ErrorDescription: <font color="blue"><b>String</b></font>;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+</blockquote>
+<a name="TPAXScripter.ErrorLine"><h3>TPAXScripter.ErrorLine</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Specifies the position of the error in the script.
+<pre>
+<font color="blue"><b>property</b></font> ErrorLine: Integer;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+<p>
+If an error occurs at compile-time or run-time, ErrorLine indicates the line number in the script.
+</p>
+</blockquote>
+<a name="TPAXScripter.ErrorModuleName"><h3>TPAXScripter.ErrorModuleName</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns name of module which contains error.
+<pre>
+<font color="blue"><b>property</b></font> ErrorModuleName: <font color="blue"><b>String</b></font>;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+</blockquote>
+<a name="TPAXScripter.ErrorPos"><h3>TPAXScripter.ErrorPos</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Specifies the position of the error in the script.
+<pre>
+<font color="blue"><b>property</b></font> ErrorPos: Integer;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+<p>
+If an error occurs at compile-time or run-time, ErrorPos indicates the position of the error in the script line ErrorLine.
+</p>
+</blockquote>
+<a name="TPAXScripter.ErrorTextPos"><h3>TPAXScripter.ErrorTextPos</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Specifies the position of the error in the script.
+<pre>
+<font color="blue"><b>property</b></font> ErrorTextPos: Integer;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+<p>
+If an error occurs at compile-time or run-time, TextErrorPos indicates the position of the error in the script. TextErrorPos determines the position of the error in terms of characters.
+</p>
+</blockquote>
+<a name="TPAXScripter.Languages"><h3>TPAXScripter.Languages</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Enumerates all registered pax-language components.
+<pre>
+<font color="blue"><b>property</b></font> Languages[I: Integer]: TPaxLanguage
+</pre>
+<p>
+<b>Read-Only</b>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>for</b></font> I:=0 <font color="blue"><b>to</b></font> PaxScripter1.LanguageCount - 1 <font color="blue"><b>do</b></font>
+  ShowMessage(PaxScripter1.Languages[I].LanguageName);
+</pre>
+</p>
+</blockquote>
+<a name="TPAXScripter.Modules"><h3>TPAXScripter.Modules</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+The list of modules of a script.
+<pre>
+<font color="blue"><b>property</b></font> Modules: TStringList;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+</blockquote>
+<a name="TPAXScripter.ScripterState"><h3>TPAXScripter.ScripterState</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns state of the scripter.
+<pre>
+<font color="blue"><b>property</b></font> ScripterState: TScripterState;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+<p>
+The scripter state can be one of the following:
+<ul>
+<li>ssInit. There is no code assigned to scripter.</li>
+<li>ssReadyToCompile. Scripter is assigned by a script and ready to compile it.</li>
+<li>ssCompiling. Scripter compiles a script.</li>
+<li>ssCompiled. Script, assigned to scripter, has been compiled.</li>
+<li>ssLinking. Scripter links compiled modules.</li>
+<li>ssReadyToRun. Scripter is ready to run a compiled script.</li>
+<li>ssRunning. Scripter runs a script. </li>
+<li>ssPaused. Running script was paused. (For example, after call Run(rmTraceInto)).
+<li>ssTerminated. The script running was finished.  
+</ul>
+</p>
+</blockquote>
+<a name="TPAXScripter.StackSize"><h3>TPAXScripter.StackSize</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Determines size of stack.
+<pre>
+StackSize: Integer
+</pre>
+<p>
+Default value of the property is 16000 bytes.
+</p>
+</blockquote>
+<a name="TPAXScripter.Params"><h3>TPAXScripter.Params</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows to pass parameters into a script (paxPascal language only).
+<pre>
+<font color="blue"><b>property</b></font> Params[<font color="blue"><b>const</b></font> ParamName: <font color="blue"><b>String</b></font>]: Variant <font color="blue"><b>read</b></font> GetParam <font color="blue"><b>write</b></font> SetParam;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>ParamName</i>
+<blockquote>
+Name of parameter
+</blockquote>
+</blockquote>
+<p>
+Parameters are passed into the script by reference.
+<H4>
+Example
+</H4>
+<pre>
+program Demo(A, B);
+<font color="blue"><b>begin</b></font>
+  print A;
+  print B;
+  B := <font color="Red">'result value'</font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</p>
+</blockquote>
+<a name="TPAXScripter.SourceCode"><h3>TPAXScripter.SourceCode</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Represents source code of a script.
+<pre>
+<font color="blue"><b>property</b></font> SourceCode[<font color="blue"><b>const</b></font> ModuleName: <font color="blue"><b>String</b></font>]: <font color="blue"><b>String</b></font>;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+</blockquote>
+<a name="TPAXScripter.TotalLineCount"><h3>TPAXScripter.TotalLineCount</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns total number of lines of a script.
+<pre>
+<font color="blue"><b>property</b></font> TotalLineCount: Integer;
+</pre>
+<p>
+<b>Read-Only</b>
+</p>
+</blockquote>
+<a name="TPAXScripter.Values"><h3>TPAXScripter.Values</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Provides access to script-defined variables
+<pre>
+<font color="blue"><b>property</b></font> Values[<font color="blue"><b>const</b></font> VarName: <font color="blue"><b>String</b></font>]: Variant <font color="blue"><b>read</b></font> GetValue <font color="blue"><b>write</b></font> SetValue;
+</pre>
+</blockquote>
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

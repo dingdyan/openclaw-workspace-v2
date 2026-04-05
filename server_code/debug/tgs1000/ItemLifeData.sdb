@@ -1,0 +1,2 @@
+Name,ViewName,AttackSpeed,Recovery,LongAvoid,Avoid,LongAccuracy,Accuracy,KeepRecovery,DamageBody,DamageHead,DamageArm,DamageLeg,ArmorBody,ArmorHead,ArmorArm,ArmorLeg,Shape,Life,InPower,HitDec,HitAdd,text,NeedItem,Zdl,BowBodyArmor,
+X结婚,夫妻同心,1,0,0,0,0,5,0,50,0,0,0,50,0,0,0,1193,0,0,0,0,当夫妻处于同一屏幕内时^提供速度1 命中5 攻击50 防御50 属性,,0,0,,

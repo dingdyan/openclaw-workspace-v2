@@ -1,0 +1,16 @@
+{
+  "name": "google-custom-search-skill",
+  "version": "1.0.0",
+  "description": "Skill for performing Google Custom Search via CLI",
+  "main": "search.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "google",
+    "search",
+    "api"
+  ],
+  "author": "OpenClaw Subagent",
+  "license": "ISC"
+}

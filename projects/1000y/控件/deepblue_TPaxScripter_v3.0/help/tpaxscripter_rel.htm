@@ -1,0 +1,120 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TpaxScripter Related Types
+</h3>
+<hr>
+
+<h4>
+TPaxDfmConverter
+</h4>
+
+Allows you to convert a dfm file into a script. 
+
+<pre>
+TPaxDfmConverter = <font color="blue"><b>class</b></font>(TComponent)
+  <font color="blue"><b>private</b></font>
+    fUsedUnits: TStrings;
+  <font color="blue"><b>public</b></font>
+    <font color="blue"><b>constructor</b></font> Create(AOwner: TComponent); <font color="blue"><b>override</b></font>;
+    <font color="blue"><b>destructor</b></font> Destroy; <font color="blue"><b>override</b></font>;
+    <font color="blue"><b>procedure</b></font> Parse(<font color="blue"><b>const</b></font> DfmFileName: <font color="blue"><b>String</b></font>; Output: TStrings; AsUnit: Boolean = true); <font color="blue"><b>overload</b></font>;
+    <font color="blue"><b>procedure</b></font> Parse(<font color="blue"><b>const</b></font> DfmFileName: <font color="blue"><b>String</b></font>; Output: TStrings; <font color="blue"><b>const</b></font> PaxLanguage: <font color="blue"><b>String</b></font>;
+                    AsUnit: Boolean = true); <font color="blue"><b>overload</b></font>;
+    <font color="blue"><b>procedure</b></font> ParseText(<font color="blue"><b>const</b></font> Text: <font color="blue"><b>String</b></font>; Output: TStrings;
+                        <font color="blue"><b>const</b></font> UnitName: <font color="blue"><b>String</b></font> = <font color="Red">''</font>; <font color="blue"><b>const</b></font> PaxLanguage: <font color="blue"><b>String</b></font> = <font color="Red">'paxPascal'</font>);
+    <font color="blue"><b>property</b></font> UsedUnits: TStrings <font color="blue"><b>read</b></font> fUsedUnits <font color="blue"><b>write</b></font> fUsedUnits;
+              // list of units which should be included into the uses clause of resulted script.
+  <font color="blue"><b>end</b></font>;
+</pre>
+
+
+<h4>
+TCallStackRecord
+</h4>
+
+Defines the call stack record.
+
+<pre>
+TCallStackRecord = <font color="blue"><b>class</b></font>
+<font color="blue"><b>public</b></font>
+  ModuleName: <font color="blue"><b>String</b></font>; <i>// Name of module</i>
+  LineNumber: Integer; <i>// Source code number</i>
+  ProcName: <font color="blue"><b>String</b></font>; <i>// Name of procedure</i>
+  Parameters: TStringList; <i>// Actual parameter list</i>
+  <font color="blue"><b>constructor</b></font> Create;
+  <font color="blue"><b>destructor</b></font> Destroy; <font color="blue"><b>override</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+
+<h4>
+TCallStack
+</h4>
+
+Defines the call stack.
+
+<pre>
+TCallStack = <font color="blue"><b>class</b></font>
+  <font color="blue"><b>private</b></font>
+    fScripter: TBaseScripter;
+    fRecords: TList;
+    <font color="blue"><b>function</b></font> GetCount: Integer;
+    <font color="blue"><b>function</b></font> GetRecord(Index: Integer): TCallStackRecord;
+    <font color="blue"><b>constructor</b></font> Create(PaxScripter: TPaxScripter);
+    <font color="blue"><b>destructor</b></font> Destroy; <font color="blue"><b>override</b></font>;
+    <font color="blue"><b>procedure</b></font> Clear;
+    <font color="blue"><b>procedure</b></font> Add(R: TCallStackRecord);
+  <font color="blue"><b>public</b></font>
+    <font color="blue"><b>property</b></font> Count: Integer read GetCount; <i>// Number of records </i>
+    <font color="blue"><b>property</b></font> Records[I: Integer]: TCallStackRecord read GetRecord; <i>// Call stack records </i>
+  <font color="blue"><b>end</b></font>;
+</pre>
+
+<h4>
+<a href="tpaxlanguage_properties.htm">TPaxLanguage</A>
+</h4>
+
+Defines a pax-language properties (abstract ancestor class). 
+
+<h4>
+TPaxPascal, TPaxC, TPaxBasic, TPaxJavaScript
+</h4>
+
+Derived classes which represent properties of paxPascal, paxC, paxBasic and paxJavaScript languages. 
+See <a href="tpaxlanguage_properties.htm">TPaxLanguage description</a>. 
+
+
+<h4>
+TPaxScripterEvent
+</h4>
+TPaxScripterEvent is used for events that do not require parameters. 
+
+<pre>
+TPaxScripterEvent = <font color="blue"><b>procedure</b></font> (Sender: TPaxScripter) <font color="blue"><b>of</b></font> object;
+</pre>
+
+<h4>
+TPaxScripterPrintEvent
+</h4>
+TPaxScripterEvent is used to define a custom Print statement. 
+
+<pre>
+TPaxScripterPrintEvent = <font color="blue"><b>procedure</b></font> (Sender: TPaxScripter; const S: String) <font color="blue"><b>of</b></font> object;
+</pre>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "viral-post-generator",
+  "version": "1.0.0",
+  "description": "- Phase 1: Core prompt and CLI prototype. - Phase 2: Simple Web UI (React/Vite). - Phase 3: Monetization (Stripe/Alipay integration).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "openai": "^6.27.0"
+  }
+}

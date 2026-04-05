@@ -1,0 +1,73 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TpaxScripter Demo. COM Support.
+</h3>
+<hr>
+
+<pre>
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma link "PaxScripter"
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+        : TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+  PaxScripter1->Run(rmRun, "", 0);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::PaxScripter1AssignScript(TPaxScripter *Sender)
+{
+  Sender->AddModule("main", paxC);
+  Sender->AddCodeFromFile("main", "script.txt");
+}
+//---------------------------------------------------------------------------
+
+</pre>
+
+<h4>
+script.txt
+</h4>
+
+<pre>
+<font color="blue"><b>var</b></font> WordApp = <font color="blue"><b>new</b></font> ActiveXObject("Word.Application");
+WordApp.Visible = <font color="blue"><b>true</b></font>;
+<font color="blue"><b>print</b></font> WordApp.Visible;
+WordApp.Documents.Add();
+<font color="blue"><b>var</b></font> Range = WordApp.Documents.Item(1).Range;
+Range.Text = "This is a column from a spreadsheet: ";
+<font color="blue"><b>for</b></font> (<font color="blue"><b>var</b></font> I = 0; I < 3; I++)
+  WordApp.Documents.Item(1).Paragraphs.Add();
+Range = WordApp.Documents.Item(1).Range(WordApp.Documents.Item(1).Paragraphs.Item(3).Range.Start);
+Range.Paste();
+</pre>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

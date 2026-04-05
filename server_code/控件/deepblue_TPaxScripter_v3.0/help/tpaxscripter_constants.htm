@@ -1,0 +1,246 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TpaxScripter Constants
+</h3>
+<hr>
+
+<!----------------------------------------------------------------------->
+
+
+<h4>
+Tracing Modes
+</h4>
+
+<table border="1">
+
+<tr>
+<th>
+Name
+</th>
+<th>
+Value
+</th>
+<th>
+Description
+</th>
+</tr>
+
+
+<tr>
+<td>
+rmRun
+</td>
+<td>
+0
+</td>
+<td>
+Executes a script
+</td>
+</tr>
+
+<tr>
+<td>
+rmStepOver
+</td>
+<td>
+1
+</td>
+<td>
+Executes a script one line at a time, stepping over procedures while executing them as a single unit
+</td>
+</tr>
+
+
+<tr>
+<td>
+rmTraceInto
+</td>
+<td>
+2
+</td>
+<td>
+Executes a script one line at a time, tracing into procedures and following the execution of each line
+</td>
+</tr>
+
+<tr>
+<td>
+rmRunToCursor
+</td>
+<td>
+3
+</td>
+<td>
+Executes a script up to the location of the cursor which is specified by ModuleName and LineNumber
+</td>
+</tr>
+
+<tr>
+<td>
+rmTraceToNextSourceLine
+</td>
+<td>
+4
+</td>
+<td>
+Stops on the next source line in your application, regardless of the control flow</td>
+</tr>
+
+
+<!----------------------------------------------------------------------->
+
+</table>
+
+<h4>
+Scripter States
+</h4>
+
+<table border="1">
+
+<tr>
+<th>
+Name
+</th>
+<th>
+Value
+</th>
+<th>
+Description
+</th>
+</tr>
+
+
+<tr>
+<td>
+ssInit
+</td>
+<td>
+0
+</td>
+<td>
+There is no code assigned to scripter
+</td>
+</tr>
+
+<tr>
+<td>
+ssReadyToCompile
+</td>
+<td>
+1
+</td>
+<td>
+Scripter is assigned by a script and ready to compile it
+</td>
+</tr>
+
+<tr>
+<td>
+ssCompiling
+</td>
+<td>
+2
+</td>
+<td>
+Scripter compiles a script
+</td>
+</tr>
+
+
+<tr>
+<td>
+ssCompiled
+</td>
+<td>
+3
+</td>
+<td>
+Script has been compiled
+</td>
+</tr>
+
+
+<tr>
+<td>
+ssLinking
+</td>
+<td>
+4
+</td>
+<td>
+Scripter links compiled modules
+</td>
+</tr>
+
+
+<tr>
+<td>
+ssReadyToRun
+</td>
+<td>
+5
+</td>
+<td>
+Scripter is ready to run a compiled script
+</td>
+</tr>
+
+
+<tr>
+<td>
+ssRunning
+</td>
+<td>
+6
+</td>
+<td>
+Scripter runs a script
+</td>
+</tr>
+
+
+<tr>
+<td>
+ssPaused
+</td>
+<td>
+7
+</td>
+<td>
+Running script was paused. (For example, after Run(rmTraceInto) call
+</td>
+</tr>
+
+
+<tr>
+<td>
+ssTerminated
+</td>
+<td>
+8
+</td>
+<td>
+The script running has been finished
+</td>
+</tr>
+
+
+</table>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

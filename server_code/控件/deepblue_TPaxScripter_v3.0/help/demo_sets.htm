@@ -1,0 +1,77 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Sets.
+</h3>
+<hr>
+
+<h4>
+paxBasic
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> S <font color="blue"><b>As</b></font> <font color="blue"><b>Set</b></font> <font color="Red">' declare a set</font>
+S = [10, 20, 30]
+<font color="blue"><b>Println</b></font> 20 <font color="blue"><b>In</b></font> S
+S += [30, 40]   <font color="Red">' union</font>
+<font color="blue"><b>Println</b></font> S
+S -= [10] <font color="Red">' difference'</font>
+<font color="blue"><b>Println</b></font> S
+S *= [20, 30, 50] <font color="Red">' intersection</font>
+<font color="blue"><b>Println</b></font> S
+<font color="blue"><b>Println</b></font> [20, 30] <= S <font color="Red">'subset</font>
+</pre>
+</blockquote>
+
+<h4>
+paxC
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>set</b></font> S; <font color="Red">// declare a set</font>
+S = [10, 20, 30];
+<font color="blue"><b>println</b></font> 20 <font color="blue"><b>in</b></font> S;
+S += [30, 40];   <font color="Red">// union</font>
+<font color="blue"><b>println</b></font> S;
+S -= [10]; <font color="Red">// difference</font>
+<font color="blue"><b>println</b></font> S;
+S *= [20, 30, 50]; <font color="Red">// intersection</font>
+<font color="blue"><b>println</b></font> S;
+<font color="blue"><b>println</b></font> [20, 30] <= S; <font color="Red">// subset</font>
+</pre>
+</blockquote>
+
+<h4>
+paxPascal
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> S: <font color="blue"><b>set</b></font> <font color="blue"><b>of</b></font> Integer; <font color="Red">// declare a set</font>
+S := [10, 20, 30];
+writeln(20 <font color="blue"><b>in</b></font> S);
+S := S + [30, 40];   <font color="Red">// union</font>
+writeln(S);
+S := S - [10]; <font color="Red">// difference</font>
+writeln(S);
+S := S * [20, 30, 50]; <font color="Red">// intersection</font>
+writeln(S);
+writeln([20, 30] <= S); <font color="Red">// subset</font>
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

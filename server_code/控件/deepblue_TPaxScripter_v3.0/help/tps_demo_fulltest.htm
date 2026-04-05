@@ -1,0 +1,366 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TpaxScripter Demo. Full Test.
+</h3>
+<hr>
+
+<font color="blue">
+<PRE>
+<B>unit</B> fulltest1;   
+<P></P>
+<B>interface</B>   
+<P></P>
+<B>uses</B>   
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,   
+  StdCtrls, PaxScripter, PaxPascal   
+{$IFDEF VER150}   
+  ,variants,varutils,   
+  {$ENDIF};   
+<P></P>
+<B>type</B>   
+<P></P>
+{$M+}   
+  tnewobj=class   
+  <B>private</B>   
+   fname:string;   
+  published   
+   <B>property</B> name:string read fname write fname;   
+  <B>end</B>;   
+{$M-}   
+<P></P>
+  TForm1 = <B>class</B>(TForm)   
+    Button1: TButton;   
+    Memo2: TMemo;   
+    cbShowOk: TCheckBox;   
+    cbAuto: TCheckBox;   
+    PaxScripter1: TPaxScripter;   
+    PaxPascal1: TPaxPascal;   
+    <B>procedure</B> Button1Click(Sender: TObject);   
+    <B>procedure</B> FormCreate(Sender: TObject);   
+  <B>private</B>   
+    fvar,v,r: Variant;   
+    failcount:integer;   
+    Fobj1:tnewobj;   
+    <B>procedure</B> doOnPrint(Sender: TPaxScripter; <B>const</B> S: String);   
+    <B>procedure</B> doOnError(Sender: TPaxScripter);   
+    <B>procedure</B> say(a: variant);   
+    <B>procedure</B> testglobals;   
+    <B>procedure</B> simpleparam;   
+    <B>procedure</B> check(cond: boolean; msg: String);   
+    <B>procedure</B> arrayParam;   
+    <B>procedure</B> hostAccess;   
+    <B>function</B> myfunc(a:string):string;   
+    <B>function</B> myfunc2(a:variant):variant;   
+    <B>function</B> myfunc3(a:variant):variant;   
+    <B>procedure</B> myException;   
+    <B>function</B> _test(script: <B>string</B>; <B>const</B> params: array of const): variant;   
+    <B>function</B>  test(script:string;   
+                   <B>const</B> params:array of const):variant;   
+    <B>procedure</B> exceptions;   
+  <B>public</B>   
+    <B>procedure</B> automation;   
+  published   
+    <B>property</B> var1: variant read fvar write fvar;   
+    <B>property</B> obj1:TnewObj read Fobj1;   
+  <B>end</B>;   
+<P></P>
+<B>var</B>   
+  Form1: TForm1;   
+<P></P>
+<B>implementation</B>   
+<P></P>
+<B>uses</B>   
+  ComObj,   
+  ActiveX,   
+  IMP_ActiveX,   
+  imp_pascal;   
+<P></P>
+{$R *.DFM}   
+<P></P>
+<B>procedure</B> TForm1.FormCreate(Sender: TObject);   
+<B>begin</B>   
+ registerclasstype(tnewobj,-1);   
+ registerclassType(tform1,-1);   
+ registerMethod(tform1,<font color="red">'function myfunc(a:string):string;'</font>,@tform1.myfunc);   
+ registerMethod(tform1,<font color="red">'function myfunc2(a: variant): variant;'</font>,@tform1.myfunc2);   
+ registerMethod(tform1,<font color="red">'function myfunc3(a: variant): variant;'</font>,@tform1.myfunc3);   
+ registerMethod(tform1,<font color="red">'procedure MyException;'</font>,@tform1.myException);   
+ fobj1:=tnewobj.create;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.doOnPrint(Sender: TPaxScripter; <B>const</B> S: String);   
+<B>begin</B>   
+ memo2.lines.Add(S);   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> tform1.say(a:variant);   
+<B>begin</B>   
+ memo2.lines.add(<B>string</B>(a));   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> tform1.check(cond:boolean; msg:String);   
+<B>begin</B>   
+ <B>if</B> cond <B>then</B> <B>if</B> cbshowok.checked <B>then</B> say(msg+<font color="red">' ok'</font>) <B>else</B>   
+ <B>else</B>   
+  <B>begin</B>   
+   say(msg+<font color="red">' failed'</font>);   
+   inc(failCount)   
+  <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>function</B> TForm1._test(script: <B>string</B>; <B>const</B> params: array of const): variant;   
+<B>begin</B>   
+ PaxScripter1.ResetScripter;   
+ PaxScripter1.AddModule(<font color="red">'1'</font>, <font color="red">'paxPascal'</font>);   
+ PaxScripter1.AddCode(<font color="red">'1'</font>,script);   
+ PaxScripter1.Run;   
+ result := PaxScripter1.CallFunction(<font color="red">'f'</font>,params);   
+<B>end</B>;   
+<P></P>
+<B>function</B> TForm1.test(script: <B>string</B>;   
+  <B>const</B> params: array of const): variant;   
+<B>begin</B>   
+ <B>try</B>   
+  result:=_test(script,params);   
+ <B>except</B>   
+  say(exception(exceptObject).Message);   
+  result:=unassigned;   
+ <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> tform1.testglobals;   
+<B>begin</B>   
+ test(<font color="red">'var a; function f; begin a:="global"; end;'</font>,[]);   
+ v := PaxScripter1.Values[<font color="red">'a'</font>];   
+ check(v=<font color="red">'global'</font>,<font color="red">'read global'</font>);   
+ PaxScripter1.Values[<font color="red">'a'</font>]:=<font color="red">'global changed'</font>;   
+ check(PaxScripter1.Values[<font color="red">'a'</font>]=<font color="red">'global changed'</font>,<font color="red">'write global'</font>);   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> tform1.simpleparam;   
+<P></P>
+ <B>procedure</B> test1(msg:string; v1:variant);   
+ <B>begin</B>   
+  r:=test(<font color="red">'function f(a); begin print(a); result:=a; end;'</font>,   
+          [v1]);   
+  check(r=v1,msg);   
+ <B>end</B>;   
+<P></P>
+ <B>function</B> getParam(fname:string; index:integer):variant;   
+  <B>var</B> subid,paramid:integer;   
+ <B>begin</B>   
+  SubID := PaxScripter1.GetMemberID(fname);   
+  <B>if</B> SubID = 0 <B>then</B> <B>raise</B> Exception.Create(<font color="red">'Function not found'</font>);   
+  ParamID := PaxScripter1.GetParamID(SubID, index);   
+  result := PaxScripter1.GetValueByID(ParamID);   
+ <B>end</B>;   
+<P></P>
+<B>begin</B>   
+ test1(<font color="red">'integer'</font>,1000);   
+ test1(<font color="red">'string'</font>,<font color="red">'mike'</font>);   
+ test1(<font color="red">'Date'</font>,now());   
+ test1(<font color="red">'byte'</font>,1);   
+ test1(<font color="red">'boolean'</font>,true);   
+ test1(<font color="red">'double'</font>,1.23);   
+ v:=100;   
+ r:=test(<font color="red">'function f(var a); begin a:=a+10; end;'</font>,[v]);   
+ check(getParam(<font color="red">'f'</font>,1)=110,<font color="red">'param by ref'</font>);   
+<P></P>
+ r:=test(<font color="red">'function f(a); begin result:=a.caption; end;'</font>,[self]);   
+ check(r=caption,<font color="red">'Delphi Object parameter'</font>);   
+<P></P>
+<B>end</B>;   
+<P></P>
+<B>procedure</B> tform1.arrayParam;   
+<B>begin</B>   
+ v:=varArrayof([1,2,3]);   
+ r:=test(<font color="red">'function f(a); begin result:=a; end;'</font>,   
+         [v]);   
+ check(r[1]=2,<font color="red">'array invariance'</font>);   
+ r:=test(<font color="red">'function f(a); begin result:=a[1]; end;'</font>,   
+         [v]);   
+ check(r=2,<font color="red">'array access'</font>);   
+<P></P>
+ v:=vararrayof([VarArrayof([1,2,3]),4,5]);   
+ r:=test(<font color="red">'function f(a); var a1; begin a1:=a[0]; result:=a1[1]; end;'</font>,   
+         [v]);   
+ check(r=2,<font color="red">'nested array access'</font>);   
+ r:=test(<font color="red">'function f(a); begin  result:=a[0][1]; end;'</font>,   
+         [v]);   
+ check(r=2,<font color="red">'nested array access2'</font>);   
+<P></P>
+ r:=test(<font color="red">'function f(a); begin result:=toInteger(a[0])+toInteger(a[1]); end;'</font>,   
+         [varArrayOf([<font color="red">'1'</font>,<font color="red">'2'</font>])]);   
+ check(r=3,<font color="red">'conversion of string parameters'</font>);   
+<P></P>
+<B>end</B>;   
+<P></P>
+<B>procedure</B> tform1.hostAccess;   
+<B>begin</B>   
+ fvar := VarArrayOf([1, 2, 3]);   
+ r:=test(<font color="red">'function f; begin print(form1.var1); result:=form1.var1; end;'</font>,   
+         []);   
+ check(r[1]=2,<font color="red">'host access 1'</font>);   
+ r:=test(<font color="red">'function f; begin print(form1.var1[1]); result:=form1.var1[1]; end;'</font>,   
+         []);   
+ check(r=2,<font color="red">'host access 2'</font>);   
+<P></P>
+ fobj1.name:=<font color="red">'mike'</font>;   
+ r:=test(<font color="red">'function f; begin result:=form1.obj1.name; end;'</font>,[]);   
+ check(r=<font color="red">'mike'</font>,<font color="red">'class property'</font>);   
+<P></P>
+ r:=test(<font color="red">'function f; begin result:=form1.myfunc("pa"); end;'</font>,[]);   
+ check(r=<font color="red">'papa'</font>,<font color="red">'host function call'</font>);   
+<P></P>
+ r:=test(<font color="red">'function f; begin result:=form1.myfunc2(10); end;'</font>,[]);   
+ check(r=20,<font color="red">'host function call2'</font>);   
+<P></P>
+ r:=test(<font color="red">'function f(a); begin result:=form1.myfunc2(a[1]); end;'</font>,   
+  [vararrayof([1000,2000])]);   
+ check(r=2010,<font color="red">'host function call3'</font>);   
+<P></P>
+ r:=test(   
+ <font color="red">'function f; var a = VarArrayCreate([0,1], varVariant); begin a[0]:=1; a[1]:=2;'</font>#13#10+   
+ <font color="red">'result:=form1.myfunc3(a); end;'</font>,[]);   
+ check(r=3,<font color="red">'array parameter to host'</font>);   
+<P></P>
+<B>end</B>;   
+<P></P>
+<B>procedure</B> tform1.automation;   
+<B>var</B> fword:olevariant;   
+<B>begin</B>   
+ fword:=createoleobject(<font color="red">'word.application'</font>);   
+ r:=test(<font color="red">'function f(a); begin result:=a.path; end;'</font>,   
+         [fword]);   
+ fword.quit;   
+ check(pos(<font color="red">'\'</font>,r)&gt0,<font color="red">'automation parameter'</font>);   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> tform1.exceptions;   
+ <B>var</B> ok:boolean;   
+<B>begin</B>   
+r:=test(   
+<font color="red">' function f;'</font>#13#10+   
+<font color="red">'  begin'</font>#13#10+   
+<font color="red">'   try'</font>#13#10+   
+<font color="red">'    raise 100;'</font>#13#10+   
+<font color="red">'    result:=1;'</font>#13#10+   
+<font color="red">'   except'</font>#13#10+   
+<font color="red">'    result:=2;'</font>#13#10+   
+<font color="red">'   end;'</font>#13#10+   
+<font color="red">'  end;'</font>,[]);   
+check(r=2,<font color="red">'simple exception handling'</font>);   
+<P></P>
+<B>try</B>   
+ r:=_test(   
+ <font color="red">' function f; begin raise 100; end;'</font>,[]);   
+ <B>if</B> PaxScripter1.IsError <B>then</B>   
+   <B>raise</B> Exception.Create(PaxScripter1.ErrorDescription);   
+ ok:=false;   
+<B>except</B>   
+ ok:=true;   
+<B>end</B>;   
+check(ok,<font color="red">'exception in script propagates to host'</font>);   
+<P></P>
+r:=test(   
+<font color="red">' function f;'</font>#13#10+   
+<font color="red">'  begin'</font>#13#10+   
+<font color="red">'   try'</font>#13#10+   
+<font color="red">'    form1.myException;'</font>#13#10+   
+<font color="red">'    result:=1;'</font>#13#10+   
+<font color="red">'   except'</font>#13#10+   
+<font color="red">'    result:=2;'</font>#13#10+   
+<font color="red">'   end;'</font>#13#10+   
+<font color="red">'  end;'</font>,[]);   
+check(r=2, <font color="red">'Exception from host is caught'</font>);   
+<P></P>
+<B>try</B>   
+ r:=_test(   
+ <font color="red">' function f; begin form1.myException; end;'</font>,[]);   
+  <B>if</B> PaxScripter1.IsError <B>then</B>   
+    <B>raise</B> Exception.Create(PaxScripter1.ErrorDescription);   
+ ok:=false;   
+<B>except</B>   
+ ok:=true;   
+<B>end</B>;   
+check(ok,<font color="red">'exception from host callback propagates to host'</font>);   
+<P></P>
+<B>try</B>   
+ r:=_test(   
+ <font color="red">' function f; begin form1.noSuchVariable; end;'</font>,[]);   
+  <B>if</B> PaxScripter1.IsError <B>then</B>   
+    <B>raise</B> Exception.Create(PaxScripter1.ErrorDescription);   
+ ok:=false;   
+<B>except</B>   
+ ok:=true;   
+<B>end</B>;   
+check(ok,<font color="red">'undefined identifier raises exception'</font>);   
+<P></P>
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.Button1Click(Sender: TObject);   
+<B>begin</B>   
+  <B>try</B>   
+   failcount:=0;   
+   PaxScripter1.OnPrint:=DoOnPrint;   
+   PaxScripter1.OnShowError:=doOnError;   
+   PaxScripter1.RegisterObject(<font color="red">'Form1'</font>, self);   
+   memo2.clear;   
+   testglobals;   
+   simpleparam;   
+   ArrayParam;   
+   hostAccess;   
+   <B>if</B> cbauto.checked <B>then</B> automation;   
+   exceptions;   
+  <B>finally</B>   
+   <B>if</B> failcount&gt0 <B>then</B> say(format(<font color="red">'%d failures!'</font>,[failcount]))   
+   <B>else</B> say(<font color="red">'congatulations'</font>);   
+  <B>end</B>;   
+<B>end</B>;   
+<P></P>
+<B>function</B> TForm1.myfunc(a: string): <B>string</B>;   
+<B>begin</B>   
+ result:=a+a;   
+<B>end</B>;   
+<P></P>
+<B>function</B> TForm1.myfunc2(a: variant): variant;   
+<B>begin</B>   
+ result:=integer(a)+10;   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.myException;   
+<B>begin</B>   
+ <B>raise</B> exception.create(<font color="red">'exception from host'</font>);   
+<B>end</B>;   
+<P></P>
+<B>procedure</B> TForm1.doOnError(Sender: TPaxScripter);   
+<B>begin</B>   
+ say(<font color="red">'error from script'</font>);   
+<B>end</B>;   
+<P></P>
+<B>function</B> TForm1.myfunc3(a: variant): variant;   
+<B>begin</B>   
+ result:=a[0]+a[1];   
+<B>end</B>;   
+<P></P>
+<B>end</B>.   
+</PRE>
+</font>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
+

@@ -1,0 +1,8 @@
+Name,boSelfSay,boMain,MainNumber,HearString,SayString,NeedItem,GiveItem,CountLimit,RecoverTime,DelayTime,
+1,TRUE,,,,新手请点击我,,,,,2100,
+2,TRUE,,,,Alt+M可调出微缩地图,,,,,2300,
+3,TRUE,,,,按鼠标右键可以移动。,,,,,2400,
+4,TRUE,,,,按shift+鼠标左键可以攻击NPC或者怪物。,,,,,2500,
+5,TRUE,,,,按ctrl+鼠标左键可以攻击其他玩家。,,,,,2600,
+6,TRUE,,,,@解除团队 不能PK也不受攻击 ,,,,,2700,
+7,TRUE,,,,新手村稻草人只可修炼一层武功 ,,,,,2800,

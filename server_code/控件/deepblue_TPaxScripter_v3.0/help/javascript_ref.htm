@@ -1,0 +1,245 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<H2>
+paxJavaScript Reference
+</H2>
+<hr>
+
+<p>
+paxJavaScript implements ECMA 262 standard and extends it with
+the concept of namespace. The main subject of paxJavaScript is the cross-language integration.
+You can <a href="demo_js1.htm">use native JavaScript objects in your paxPascal, paxBasic, and 
+paxC scripts</a>. Inversely, paxScript engine allows you to <a href="demo_js2.htm">create 
+instances of paxPascal, paxBasic, paxC, and host-defined 
+classes in your JavaScript scripts</a>. 
+
+<p>
+Another important paxJavaScript features are support of the <a href="lisppa.htm">LISPPA technology</a>
+and
+<a href="demo_complex.htm">operator overloading</a>.
+
+<H3>
+Demos
+</H3>
+
+<ul>
+
+<li>LISPPA
+<ul>
+<li><a href="demo_js_lists.htm">Linked lists</a>
+<li><a href="demo_js_2lists.htm">Two way linked lists</a>
+<li><a href="demo_js_trees.htm">Binary trees</a>
+<li><a href="demo_js_polynomials.htm">Polynomials</a>
+<li><a href="demo_js_euler.htm">Euler algorithm</a>
+</ul>
+
+
+<li>
+Prototypes
+</li>
+
+<blockquote>
+<pre>
+x = <font color="blue"><b>new</b></font> Object
+y = <font color="blue"><b>new</b></font> Object
+
+y.p = "abc"
+y.javascript_method = f
+y.pascal_method = Fact
+
+x.prototype = y
+
+<font color="blue"><b>print</b></font> x.prototype.p
+<font color="blue"><b>print</b></font> x.p
+
+x.p = 123
+
+<font color="blue"><b>print</b></font> x.prototype.p
+<font color="blue"><b>print</b></font> y.p
+
+<font color="blue"><b>print</b></font> x.javascript_method(2, 3)
+<font color="blue"><b>print</b></font> y.javascript_method(2, 3)
+
+<font color="blue"><b>print</b></font> y.pascal_method(5)
+<font color="blue"><b>print</b></font> x.pascal_method(5)
+
+<font color="blue"><b>function</b></font> f(u, v){
+  <font color="blue"><b>return</b></font> (u + v)
+}
+</pre>
+
+Fact is a paxPascal-defined function:
+
+<pre>
+<font color="blue"><b>function</b></font> Fact(N: Integer): Integer;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> N = 1 <font color="blue"><b>then</b></font>
+    result := 1
+  <font color="blue"><b>else</b></font>
+    result := N * Fact(N - 1);
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+<li>
+Arguments Object
+</li>
+
+<blockquote>
+<pre>
+G(100, 3.56, 'abc');
+
+<font color="blue"><b>function</b></font> G(x){
+  <font color="blue"><b>print</b></font> x;
+
+  <font color="blue"><b>for</b></font> (I=0; I < arguments.length; I++)
+    <font color="blue"><b>print</b></font> arguments[I];
+}
+</pre>
+</blockquote>
+
+<li>
+Object Literals
+</li>
+
+<blockquote>
+<pre>
+w = 'W'
+x = {'abc': 100, 'pq': 200, 'xyz': 300, 50: 400, w: 500}
+<font color="blue"><b>for</b></font> (I <font color="blue"><b>in</b></font> x)
+  <font color="blue"><b>print</b></font> I, x[I]
+</pre>
+</blockquote>
+
+<li>
+Eval Function
+</li>
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>print</b></font> eval('3 + 2');
+
+x = <font color="blue"><b>new</b></font> <font color="blue"><b>Function</b></font>("x", "return x + x;");
+<font color="blue"><b>print</b></font> x(3);
+y = x;
+<font color="blue"><b>print</b></font> y(4);
+
+z = eval('function f(x, y, z) {return x + y + z;}');
+<font color="blue"><b>print</b></font> f(1, 2, 3);
+<font color="blue"><b>print</b></font> z(4, 5, 6);
+</pre>
+</blockquote>
+
+<li>
+Arrays
+</li>
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> a = <font color="blue"><b>new</b></font> Array(3)
+a[2] = 12;
+<font color="blue"><b>print</b></font> a;
+<font color="blue"><b>print</b></font> a.length;
+a[5] = 36;
+<font color="blue"><b>print</b></font> a;
+<font color="blue"><b>print</b></font> a.length;
+<font color="blue"><b>var</b></font> d = a.concat([1,2,3]);
+<font color="blue"><b>print</b></font> d.length;
+<font color="blue"><b>print</b></font> d;
+<font color="blue"><b>var</b></font> s = d.join('-');
+<font color="blue"><b>print</b></font> s;
+<font color="blue"><b>print</b></font> d.pop;
+<font color="blue"><b>print</b></font> d.length;
+d.push(40, 50);
+<font color="blue"><b>print</b></font> d;
+<font color="blue"><b>print</b></font> d.length;
+d.reverse();
+<font color="blue"><b>print</b></font> d;
+<font color="blue"><b>print</b></font> d.shift();
+<font color="blue"><b>print</b></font> d;
+u = d.slice(2, -1);
+<font color="blue"><b>print</b></font> u;
+d.sort();
+<font color="blue"><b>print</b></font> d;
+d.unshift('abc', 'pq');
+<font color="blue"><b>print</b></font> d;
+</pre>
+</blockquote>
+
+<li>
+Strings and Regular Expressions
+</li>
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> r, re;       
+<font color="blue"><b>var</b></font> s = "The rain in Spain falls mainly in the plain";
+re = /ain/i;    <i>//Create regular expression pattern.</i>
+r = s.match(re);   <i>//Attempt match on search string.</i>
+<font color="blue"><b>print</b></font> r;
+</pre>
+</blockquote>
+
+<li>
+COM Support
+</li>
+
+
+<blockquote>
+<pre>
+WordApp = <font color="blue"><b>new</b></font> ActiveXObject("Word.Application");
+WordApp.Visible = <font color="blue"><b>true</b></font>;
+WordApp.Documents.Add();
+<font color="blue"><b>var</b></font> Range = WordApp.Documents.Item(1).Range();
+Range.Text = "This is a column from a spreadsheet: ";
+<font color="blue"><b>for</b></font> (I = 0; I < 3; I++)
+  WordApp.Documents.Item(1).Paragraphs.Add();
+Range = WordApp.Documents.Item(1).Range(WordApp.Documents.Item(1).Paragraphs.Item(3).Range.Start);
+Range.Paste()
+</pre>
+</blockquote>
+
+<li>
+Imported Delphi Classes And Script-defined Event Handlers
+</li>
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>using</b></font> StdCtrls, Forms;
+
+<font color="blue"><b>var</b></font> F = <font color="blue"><b>new</b></font> TForm(NULL);
+<font color="blue"><b>var</b></font> B = <font color="blue"><b>new</b></font> TButton(F);
+
+F.Show();
+B.Parent = F;
+B.OnMouseDown = MouseHandler;
+B.Caption = 'Click Me';
+
+<font color="blue"><b>function</b></font> MouseHandler(Sender, Button, Shift, X, Y){
+  <font color="blue"><b>print</b></font> Sender.Caption;
+  <font color="blue"><b>print</b></font> Button;
+  <font color="blue"><b>print</b></font> Shift;
+  <font color="blue"><b>print</b></font> X;
+  <font color="blue"><b>print</b></font> Y;
+}
+</pre>
+</blockquote>
+
+
+
+</ul>
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

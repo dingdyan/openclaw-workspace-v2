@@ -1,0 +1,7 @@
+paxScript 3.0 FS
+delphi脚本控件，支持下列四种语言: 
+
+paxBasic 
+paxC 
+paxPascal 
+paxJavaScript 

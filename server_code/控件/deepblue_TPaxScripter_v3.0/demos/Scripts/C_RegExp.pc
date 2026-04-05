@@ -1,0 +1,14 @@
+var r = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+/g;
+var s = 'My e-mails are ab@cable.netlux.org and ppusr154@ints.net';
+
+while (true) {
+  if (r.exec(s).length == 0)
+    break;
+   else {
+     println r[0];
+     println r.matchPos[0];
+     println r.matchLen[0];
+     println r.lastIndex;
+   }
+}
+

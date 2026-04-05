@@ -1,0 +1,72 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Euler algorithm (paxBasic).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Function</b></font> Cycle(InitV, A)
+  <font color="blue"><b>Dim</b></font>  P, Stack, U, V, result
+  result = <font color="blue"><b>NULL</b></font>
+  Stack = [InitV, <font color="blue"><b>NULL</b></font>]
+  <font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> Stack = <font color="blue"><b>NULL</b></font>
+    V = Stack(0)
+    P = <font color="blue"><b>AddressOf</b></font> A(V)
+    <font color="blue"><b>If</b></font> P <> <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+      U = P(0)
+      <font color="blue"><b>Reduced</b></font> P = P(1)
+      Stack = [U, Stack]
+      P = <font color="blue"><b>AddressOf</b></font> A(U)
+      <font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P = <font color="blue"><b>NULL</b></font>
+        <font color="blue"><b>If</b></font> P(0) = V <font color="blue"><b>Then</b></font>
+          <font color="blue"><b>Reduced</b></font> P = P(1)
+          <font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>
+        <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+        P = <font color="blue"><b>AddressOf</b></font> P(1)
+      <font color="blue"><b>Loop</b></font>
+    <font color="blue"><b>Else</b></font>
+      <font color="blue"><b>Reduced</b></font> Stack = Stack(1)
+      result = [V, result]
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>Loop</b></font>
+  <font color="blue"><b>Return</b></font> result
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Dim</b></font> A[10], Path, P
+
+A[1] = [2, [3, <font color="blue"><b>NULL</b></font>]]
+A[2] = [1, [3, [7, [8, <font color="blue"><b>NULL</b></font>]]]]
+A[3] = [1, [2, [4, [5, <font color="blue"><b>NULL</b></font>]]]]
+A[4] = [3, [5, <font color="blue"><b>NULL</b></font>]]
+A[5] = [3, [4, [6, [8, <font color="blue"><b>NULL</b></font>]]]]
+A[6] = [5, [7, [8, [9, <font color="blue"><b>NULL</b></font>]]]]
+A[7] = [2, [6, [8, [9, <font color="blue"><b>NULL</b></font>]]]]
+A[8] = [2, [5, [6, [7, <font color="blue"><b>NULL</b></font>]]]]
+A[9] = [6, [7, <font color="blue"><b>NULL</b></font>]]
+
+Path = Cycle(1, A)
+
+<font color="blue"><b>println</b></font> <font color="Red">"Euler path: "</font>
+P = <font color="blue"><b>AddressOf</b></font> Path
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P = <font color="blue"><b>NULL</b></font>
+  <font color="blue"><b>println</b></font> P(0)
+  P = <font color="blue"><b>AddressOf</b></font> P(1)
+<font color="blue"><b>Loop</b></font>
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

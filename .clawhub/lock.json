@@ -1,0 +1,273 @@
+{
+  "version": 1,
+  "skills": {
+    "sendclaw-email": {
+      "version": "1.3.0",
+      "installedAt": 1772103313986
+    },
+    "tavily-search": {
+      "version": "1.0.0",
+      "installedAt": 1772121344953
+    },
+    "reasoning-personas": {
+      "version": "1.0.0",
+      "installedAt": 1772121682823
+    },
+    "agent-browser": {
+      "version": "0.2.0",
+      "installedAt": 1772122014003
+    },
+    "academic-writing-refiner": {
+      "version": "1.0.0",
+      "installedAt": 1772124255185
+    },
+    "learn-cog": {
+      "version": "1.0.2",
+      "installedAt": 1772124320501
+    },
+    "multi-search-engine": {
+      "version": "2.0.1",
+      "installedAt": 1772720858053
+    },
+    "smoothbrowser": {
+      "version": "1.0.0",
+      "installedAt": 1772154083358
+    },
+    "cellcog": {
+      "version": "1.0.21",
+      "installedAt": 1772158876323
+    },
+    "1password": {
+      "version": "1.0.1",
+      "installedAt": 1772348679373
+    },
+    "apple-notes": {
+      "version": "1.0.0",
+      "installedAt": 1772348686095
+    },
+    "apple-reminders": {
+      "version": "1.0.0",
+      "installedAt": 1772348690682
+    },
+    "bear-notes": {
+      "version": "1.0.0",
+      "installedAt": 1772348695190
+    },
+    "blogwatcher": {
+      "version": "1.0.0",
+      "installedAt": 1772348699327
+    },
+    "blucli": {
+      "version": "1.0.0",
+      "installedAt": 1772348703792
+    },
+    "bluebubbles": {
+      "version": "1.0.0",
+      "installedAt": 1772348708321
+    },
+    "camsnap": {
+      "version": "1.0.0",
+      "installedAt": 1772348712288
+    },
+    "discord": {
+      "version": "1.0.1",
+      "installedAt": 1772348720330
+    },
+    "eightctl": {
+      "version": "1.0.0",
+      "installedAt": 1772348724731
+    },
+    "gemini": {
+      "version": "1.0.0",
+      "installedAt": 1772348729383
+    },
+    "gifgrep": {
+      "version": "1.0.1",
+      "installedAt": 1772348737985
+    },
+    "github": {
+      "version": "1.0.0",
+      "installedAt": 1772348742037
+    },
+    "gog": {
+      "version": "1.0.0",
+      "installedAt": 1772348746302
+    },
+    "goplaces": {
+      "version": "1.0.0",
+      "installedAt": 1772348750376
+    },
+    "himalaya": {
+      "version": "1.0.0",
+      "installedAt": 1772348756059
+    },
+    "imsg": {
+      "version": "1.0.0",
+      "installedAt": 1772348761916
+    },
+    "model-usage": {
+      "version": "1.0.0",
+      "installedAt": 1772348766525
+    },
+    "nano-banana-pro": {
+      "version": "1.0.1",
+      "installedAt": 1772348770769
+    },
+    "nano-pdf": {
+      "version": "1.0.0",
+      "installedAt": 1772348774789
+    },
+    "notion": {
+      "version": "1.0.0",
+      "installedAt": 1772348778804
+    },
+    "obsidian": {
+      "version": "1.0.0",
+      "installedAt": 1772348782851
+    },
+    "openai-image-gen": {
+      "version": "1.0.1",
+      "installedAt": 1772348787356
+    },
+    "openai-whisper": {
+      "version": "1.0.0",
+      "installedAt": 1772348791200
+    },
+    "openai-whisper-api": {
+      "version": "1.0.0",
+      "installedAt": 1772348795632
+    },
+    "openhue": {
+      "version": "1.0.0",
+      "installedAt": 1772348799672
+    },
+    "ordercli": {
+      "version": "1.0.0",
+      "installedAt": 1772348803836
+    },
+    "peekaboo": {
+      "version": "1.0.0",
+      "installedAt": 1772348808068
+    },
+    "sag": {
+      "version": "1.0.0",
+      "installedAt": 1772348812443
+    },
+    "session-logs": {
+      "version": "1.0.0",
+      "installedAt": 1772348816775
+    },
+    "slack": {
+      "version": "1.0.0",
+      "installedAt": 1772348824660
+    },
+    "songsee": {
+      "version": "1.0.0",
+      "installedAt": 1772348829574
+    },
+    "sonoscli": {
+      "version": "1.0.0",
+      "installedAt": 1772348833344
+    },
+    "spotify-player": {
+      "version": "1.0.0",
+      "installedAt": 1772348837569
+    },
+    "summarize": {
+      "version": "1.0.0",
+      "installedAt": 1772348841217
+    },
+    "things-mac": {
+      "version": "1.0.0",
+      "installedAt": 1772348845584
+    },
+    "trello": {
+      "version": "1.0.0",
+      "installedAt": 1772348850060
+    },
+    "video-frames": {
+      "version": "1.0.0",
+      "installedAt": 1772348854758
+    },
+    "agent-orchestrator": {
+      "version": "0.1.0",
+      "installedAt": 1772370020051
+    },
+    "elite-longterm-memory": {
+      "version": "1.2.3",
+      "installedAt": 1772437815740
+    },
+    "evolver": {
+      "version": "1.27.2",
+      "installedAt": 1772802097220
+    },
+    "feishu-evolver-wrapper": {
+      "version": "1.7.1",
+      "installedAt": 1772802102655
+    },
+    "memory": {
+      "version": "1.0.2",
+      "installedAt": 1773308725378
+    },
+    "fluxa-agent-wallet": {
+      "version": "1.0.1",
+      "installedAt": 1773503740699
+    },
+    "tilt-protocol": {
+      "version": "1.0.0",
+      "installedAt": 1773547227646
+    },
+    "skill-vetter": {
+      "version": "1.0.0",
+      "installedAt": 1773931578686
+    },
+    "news-summary": {
+      "version": "1.0.1",
+      "installedAt": 1773967285250
+    },
+    "automation-workflows": {
+      "version": "0.1.0",
+      "installedAt": 1774001485833
+    },
+    "n8n-workflow-automation": {
+      "version": "1.0.0",
+      "installedAt": 1774001487345
+    },
+    "article-writer": {
+      "version": "1.0.0",
+      "installedAt": 1774101599740
+    },
+    "windows-desktop-control": {
+      "version": "1.0.3",
+      "installedAt": 1774273384218
+    },
+    "windows-ui-automation": {
+      "version": "1.0.0",
+      "installedAt": 1774273386260
+    },
+    "windows-remote": {
+      "version": "1.0.0",
+      "installedAt": 1774273388605
+    },
+    "calendar": {
+      "version": "1.0.0",
+      "installedAt": 1774487587434
+    },
+    "time-management": {
+      "version": "1.0.0",
+      "installedAt": 1775094767902
+    },
+    "tencent": {
+      "version": "1.0.0",
+      "installedAt": 1775405786198
+    },
+    "agent-memory": {
+      "version": "1.0.0",
+      "installedAt": 1775405936751
+    },
+    "agent-memory-store": {
+      "version": "1.2.0",
+      "installedAt": 1775405990637
+    }
+  }
+}

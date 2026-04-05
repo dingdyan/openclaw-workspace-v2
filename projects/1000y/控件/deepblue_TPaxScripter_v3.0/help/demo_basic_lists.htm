@@ -1,0 +1,104 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Linked lists (paxBasic).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> I, L, P
+
+<font color="blue"><b>println</b></font> <font color="Red">"Create a list"</font>
+L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]]
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Insert new item at the beginning"</font>
+L = [50, L]
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Add new item at the end"</font>
+P = <font color="blue"><b>AddressOf</b></font> L ' Create alias of L
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P = <font color="blue"><b>NULL</b></font> ' Find last item
+ P = <font color="blue"><b>AddressOf</b></font> P(1)
+<font color="blue"><b>Loop</b></font>
+P = [400, <font color="blue"><b>NULL</b></font>] ' Add new item
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Insert new item at the middle"</font>
+P = <font color="blue"><b>AddressOf</b></font> L(1)
+P = <font color="blue"><b>AddressOf</b></font> P(1)  ' insert before 200
+P = [150, P]
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Print list"</font>
+P = <font color="blue"><b>AddressOf</b></font> L ' create alias of L
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P = <font color="blue"><b>NULL</b></font>
+  <font color="blue"><b>println</b></font> P(0)
+  P = <font color="blue"><b>AddressOf</b></font> P(1) ' go to the next item
+<font color="blue"><b>Loop</b></font>
+
+<font color="blue"><b>println</b></font> <font color="Red">"Delete the first item of the list"</font>
+<font color="blue"><b>Reduced</b></font> L = L(1)
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Delete the last item of the list"</font>
+P = <font color="blue"><b>AddressOf</b></font> L ' Create alias of L
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P(1) = <font color="blue"><b>NULL</b></font>
+  P = <font color="blue"><b>AddressOf</b></font> P(1) ' Find last item
+<font color="blue"><b>Loop</b></font>
+<font color="blue"><b>reduced</b></font> P = P(1)
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Delete item at the middle of the list"</font>
+P = <font color="blue"><b>AddressOf</b></font> L
+P = <font color="blue"><b>AddressOf</b></font> P(1)
+<font color="blue"><b>reduced</b></font> P = P(1)
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Delete all items from the list"</font>
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> L = <font color="blue"><b>NULL</b></font>
+  <font color="blue"><b>Reduced</b></font> L = L(1)
+<font color="blue"><b>Loop</b></font>
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Create a cycled list"</font>
+L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]]
+L[1][1][1] = <font color="blue"><b>AddressOf</b></font> L
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>delete</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Another way to create a cycled list"</font>
+L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]]
+P = <font color="blue"><b>AddressOf</b></font> L ' Create alias of L
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P = <font color="blue"><b>NULL</b></font> ' Find last item
+ P = <font color="blue"><b>AddressOf</b></font> P(1)
+<font color="blue"><b>Loop</b></font>
+<font color="blue"><b>TerminalOf</b></font> P = <font color="blue"><b>AddressOf</b></font> L ' join head and tail of the list
+<font color="blue"><b>println</b></font> L
+
+<font color="blue"><b>println</b></font> <font color="Red">"Print the cycled list"</font>
+P = <font color="blue"><b>AddressOf</b></font> L
+I = 0
+<font color="blue"><b>Do</b></font>
+  <font color="blue"><b>println</b></font> P[0]
+  P = <font color="blue"><b>AddressOf</b></font> P[1]
+  I += 1
+<font color="blue"><b>Loop</b></font> <font color="blue"><b>Until</b></font> I = 15
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

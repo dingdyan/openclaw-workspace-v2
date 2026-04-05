@@ -1,0 +1,202 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter Demo. Importing Delphi forms.
+</h3>
+<hr>
+
+Lets's create a Delphi application which contains 2 forms:
+
+<h4>
+Form1:
+</h4>
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> Unit1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, PaxScripter, PaxPascal, StdCtrls;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    PaxScripter1: TPaxScripter;
+    PaxPascal1: TPaxPascal;
+    Button1: TButton;
+    Memo1: TMemo;
+    Label1: TLabel;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+<font color="blue"><b>uses</b></font>
+  IMP_Classes, IMP_Controls, IMP_StdCtrls, IMP_Graphics, IMP_Forms;
+
+{$R *.dfm}
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.ResetScripter;
+  PaxScripter1.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'uses Unit2;'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'Form2 := TForm2.Create(nil);'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, <font color="Red">'Form2.ShowModal();'</font>);
+  PaxScripter1.Run();
+
+  Memo1.Lines.Text := PaxScripter1.SourceCode[<font color="Red">'Unit2'</font>]; // show generated script
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<h4>
+Form2 (will be converted in a script module):
+</h4>
+
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> Unit2;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+<font color="blue"><b>type</b></font>
+  TForm2 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    Memo1: TMemo;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form2: TForm2;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.dfm}
+
+<font color="blue"><b>procedure</b></font> TForm2.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  Memo1.Lines.Add(<font color="Red">'Hello!'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<h4>
+Generated script (will be included into the script project at the scripter compile-time):
+</h4>
+
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> Unit2;
+<font color="blue"><b>interface</b></font>
+<font color="blue"><b>uses</b></font>
+  Classes,
+  Graphics,
+  Controls,
+  Forms,
+  StdCtrls;
+<font color="blue"><b>type</b></font>
+  TForm2 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    Memo1: TMemo;
+    <font color="blue"><b>constructor</b></font> Create(AOwner: TComponent);
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form2: TForm2;
+<font color="blue"><b>implementation</b></font>
+
+<font color="blue"><b>constructor</b></font> TForm2.Create(AOwner: TComponent);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font>;
+  Button1 := TButton.Create(Self);
+  Button1.Name := <font color="Red">'Button1'</font>;
+  Button1.Parent := Self;
+  Button1.Caption := <font color="Red">''</font>;
+  <font color="blue"><b>with</b></font> Button1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    Left := 24;
+    Top := 224;
+    Width := 75;
+    Height := 25;
+    Caption := <font color="Red">'Say <font color="Red">"Hello"</font>'</font>;
+    TabOrder := 0;
+    OnClick := Button1Click;
+  <font color="blue"><b>end</b></font>;
+  Memo1 := TMemo.Create(Self);
+  Memo1.Name := <font color="Red">'Memo1'</font>;
+  Memo1.Parent := Self;
+  Memo1.Lines.Text := <font color="Red">''</font>;
+  <font color="blue"><b>with</b></font> Memo1 <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    Left := 8;
+    Top := 8;
+    Width := 465;
+    Height := 201;
+    TabOrder := 1;
+  <font color="blue"><b>end</b></font>;
+  Left := 197;
+  Top := 191;
+  Width := 521;
+  Height := 296;
+  Caption := <font color="Red">'Form2'</font>;
+  Color := clBtnFace;
+  Font.Charset := DEFAULT_CHARSET;
+  Font.Color := clWindowText;
+  Font.Height := -11;
+  Font.Name := <font color="Red">'MS Sans Serif'</font>;
+  Font.Style := [];
+  OldCreateOrder := False;
+  PixelsPerInch := 96;
+<font color="blue"><b>end</b></font>;
+<font color="blue"><b>procedure</b></font> TForm2.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  Memo1.Lines.Add(<font color="Red">'Hello!'</font>);
+<font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

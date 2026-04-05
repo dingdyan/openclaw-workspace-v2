@@ -1,0 +1,103 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter.GetClassInfo method demo.
+</h3>
+<hr>
+
+<img src="tps_demo_getclassinfo.jpg" alt ="tps_demo_getclassinfo.jpg" ></img>
+
+<blockquote>
+<pre>
+<font color="blue"><b>unit</b></font> Unit1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, BASE_PARSER, PaxScripter, PaxPascal, StdCtrls;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    PaxScripter1: TPaxScripter;
+    PaxPascal1: TPaxPascal;
+    Label1: TLabel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    MemoScript: TMemo;
+    ListBoxMethods: TListBox;
+    ListBoxFields: TListBox;
+    ListBoxProperties: TListBox;
+    Label3: TLabel;
+    ListBoxEvents: TListBox;
+    Label4: TLabel;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+{$R *.dfm}
+
+<font color="blue"><b>uses</b></font>
+  IMP_StdCtrls, IMP_Controls, IMP_Forms;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>var</b></font>
+  S: <font color="blue"><b>String</b></font>;
+  L: TStrings;
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.ResetScripter;
+  PaxScripter1.AddModule(<font color="Red">'1'</font>, <font color="Red">'paxPascal'</font>);
+  PaxScripter1.AddCode(<font color="Red">'1'</font>, MemoScript.Lines.Text);
+  PaxScripter1.Compile();
+
+  S := Edit1.Text;
+
+  L := ListBoxMethods.Items;
+  L.Clear;
+  PaxScripter1.GetClassInfo(S, mkMethod, L);
+  ListBoxMethods.Invalidate;
+
+  L := ListBoxFields.Items;
+  L.Clear;
+  PaxScripter1.GetClassInfo(S, mkField, L);
+  ListBoxFields.Invalidate;
+
+  L := ListBoxProperties.Items;
+  L.Clear;
+  PaxScripter1.GetClassInfo(S, mkProp, L);
+  ListBoxProperties.Invalidate;
+
+  L := ListBoxEvents.Items;
+  L.Clear;
+  PaxScripter1.GetClassInfo(S, mkEvent, L);
+  ListBoxProperties.Invalidate;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

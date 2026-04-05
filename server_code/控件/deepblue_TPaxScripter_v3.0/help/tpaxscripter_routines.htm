@@ -1,0 +1,609 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+<H3>
+TPAXScripter Registration Routines
+</H3>
+<hr>
+<ul>
+<li><a href="#FreeImportLibarary">FreeImportLibarary</a></li>
+<li><a href="#LoadImportLibrary">LoadImportLibrary</a></li>
+<li><a href="#RegisterClassType">RegisterClassType</a></li>
+<li><a href="#RegisterConstant">RegisterConstant</a></li>
+<li><a href="#RegisterField">RegisterField</a></li>
+<li><a href="#TPaxScripter.RegisterInterfaceType">RegisterInterfaceType</a></li>
+<li><a href="#TPaxScripter.RegisterInterfaceMethod">RegisterInterfaceMethod</a></li>
+<li><a href="#RegisterMethod">RegisterMethod</a></li>
+<li><a href="#RegisterBCBMethod">RegisterBCBMethod</a></li>
+<li><a href="#RegisterNamespace">RegisterNamespace</a></li>
+<li><a href="#RegisterProperty">RegisterProperty</a></li>
+<li><a href="#RegisterRecordType">RegisterRecordType</a></li>
+<li><a href="#RegisterRecordField">RegisterRecordField</a></li>
+<li><a href="#RegisterRoutine">RegisterRoutine</a></li>
+</ul>
+<a name="FreeImportLibarary"><h3>FreeImportLibarary</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Unloads import library.
+<pre>
+<font color="blue"><b>function</b></font> FreeImportLibrary(H: Cardinal): LongBool;
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#LoadImportLibrary">LoadImportLibrary</a></li>
+</ul>
+</blockquote>
+</blockquote>
+<a name="LoadImportLibrary"><h3>LoadImportLibrary</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Loads a dll which contains imported Delphi classes.
+<pre>
+<font color="blue"><b>function</b></font> LoadImportLibrary(<font color="blue"><b>const</b></font> DllName: <font color="blue"><b>String</b></font>): Cardinal;
+</pre>
+<p>
+LoadImportLibrary allows you to import Delphi classes from a dll. You can generate source code of the dll by means of paxScript importer (paximp.exe).
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#FreeImportLibarary">FreeImportLibarary</a></li>
+</ul>
+</blockquote>
+</blockquote>
+<a name="RegisterClassType"><h3>RegisterClassType</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Registeres a Delphi class.
+<pre>
+<font color="blue"><b>function</b></font> RegisterClassType(PClass: TClass; Owner: Integer): Integer;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>PClass</i>
+<blockquote>
+A Delphi class.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Owner</i>
+<blockquote>
+Determines handle of namespace which contains the class.
+</blockquote>
+</blockquote>
+<p>
+Returns handle of the namespace.
+<H4>
+Example
+</H4>
+<pre>
+Delphi:
+
+initialization
+.....................
+
+H := RegisterNamespace(<font color="Red">'MyNamespace'</font>);
+H := RegisterClassType(TMyClass, H);
+
+C++ Builder:
+
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+ int h = RegisterNamespace(<font color="Red">"MyNamespace"</font>, - 1);
+ RegisterClassType(__classid(TMyClass), h);
+}
+</pre>
+</p>
+<p>
+The class becomes available for all TPaxScripter instances.
+</p>
+</blockquote>
+<a name="RegisterConstant"><h3>RegisterConstant</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Registeres a constant.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterConstant(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Value: Variant; Owner: Integer = -1);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Name</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of constant.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Value</i>
+<blockquote>
+<font color="black"><i>Value</i></font> of constant.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Owner</i>
+<blockquote>
+Determines handle of namespace which contains constant.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+initialization
+................
+
+H := RegisterNamespace(<font color="Red">'MyNamespace'</font>);
+RegisterConstant(<font color="Red">'MyConst'</font>, 90, H);
+</pre>
+</p>
+<p>
+The constant becomes available for all TPaxScripter instances.
+</p>
+</blockquote>
+<a name="RegisterField"><h3>RegisterField</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows you to register a private, protected or public field of a Delphi class.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterField(PClass: TClass; <font color="blue"><b>const</b></font> FieldName, FieldType: <font color="blue"><b>String</b></font>;
+                        Offset: Integer);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>PClass</i>
+<blockquote>
+A Delphi class.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>FieldName</i>
+<blockquote>
+Name of field.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>FieldType</i>
+<blockquote>
+Type of field.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Offset</i>
+<blockquote>
+<font color="black"><i>Offset</i></font> of field.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<A HREF="tps_demo_fields.htm">Click here</A>.
+</pre>
+</p>
+</blockquote>
+
+
+<a name="TPaxScripter.RegisterInterfaceType"><h3>TPaxScripter.RegisterInterfaceType</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows you to register an interface type.
+<pre>
+<font color="blue"><b>function</b></font> RegisterInterfaceType(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; <font color="blue"><b>const</b></font> Guid: TGuid; <font color="blue"><b>const</b></font> ParentName: <font color="blue"><b>String</b></font>; <font color="blue"><b>const</b></font> ParentGuid: TGUID; OwnerIndex: Integer = -1): Integer;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Name</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of interface type
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Guid</i>
+<blockquote>
+<font color="black"><i>GUID</i></font> of the interface type.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ParentName</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of parent type
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ParentGuid</i>
+<blockquote>
+<font color="black"><i>GUID</i></font> of parent type.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>OwnerIndex</i>
+<blockquote>
+Index of namespace.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+H := RegisterNamespace(<font color="Red">'MyUnit'</font>, -1);
+RegisterInterfaceType(<font color="Red">'ITest'</font>,ITest,<font color="Red">'IUnknown'</font>,IUnknown,H);
+RegisterInterfaceMethod(ITest, <font color="Red">'procedure Proc(A: Integer); overload;'</font>);
+</pre>
+</p>
+</blockquote>
+
+
+
+<a name="TPaxScripter.RegisterInterfaceMethod"><h3>TPaxScripter.RegisterInterfaceMethod</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows you to register a method of interface type.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterInterfaceMethod(<font color="blue"><b>const</b></font> Guid: TGUID; <font color="blue"><b>const</b></font> Header: <font color="blue"><b>String</b></font>;MethodIndex: Integer = -1);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Guid</i>
+<blockquote>
+<font color="black"><i>Guid</i></font> of the interface
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Header</i>
+<blockquote>
+<font color="black"><i>Header</i></font> of method
+</blockquote>
+</blockquote>
+<blockquote>
+<i>MethodIndex</i>
+<blockquote>
+Index of method. QueryInterface has index 1, _AddRef has index 1, _Release has index 3 and go on. If <font color="black"><i>MethodIndex</i></font> is -1, it will be determined automatically.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+H := RegisterNamespace(<font color="Red">'MyUnit'</font>, -1);
+RegisterInterfaceType(<font color="Red">'ITest'</font>,ITest,<font color="Red">'IUnknown'</font>,IUnknown,H);
+RegisterInterfaceMethod(ITest, <font color="Red">'procedure Proc(A: Integer); overload;'</font>);
+</pre>
+</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="RegisterMethod"><h3>RegisterMethod</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Registeres a method of Delphi class.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterMethod(PClass: TClass; <font color="blue"><b>const</b></font> Header: <font color="blue"><b>String</b></font>; Address: Pointer);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>PClass</i>
+<blockquote>
+A Delphi class.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Header</i>
+<blockquote>
+<font color="black"><i>Header</i></font> of method.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Address</i>
+<blockquote>
+<font color="black"><i>Address</i></font> of method.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+initialization
+..........................
+RegisterMethod(TStringList, <font color="Red">'procedure Clear; override;'</font>, @TStringList.Clear);
+</pre>
+</p>
+<p>
+The method becomes available for all TPaxScripter instances.
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#RegisterBCBMethod">RegisterBCBMethod</a></li>
+</ul>
+</blockquote>
+</blockquote>
+<a name="RegisterBCBMethod"><h3>RegisterBCBMethod</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Registeres method of a C++ Builder defined class.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterBCBMethod(PClass: TClass; <font color="blue"><b>const</b></font> Header: <font color="blue"><b>String</b></font>; Address: Pointer);
+</pre>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+void __fastcall TForm1::Foo()
+{
+ShowMessage(<font color="Red">"Foo"</font>);
+}
+
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+ void ( __closure __fastcall *pp)();
+ pp = Foo;
+
+ RegisterClassType(__classid(TForm1), -1);
+ RegisterBCBMethod(__classid(TForm1), <font color="Red">"procedure Foo;"</font>, &pp);
+}
+</pre>
+</p>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#RegisterMethod">RegisterMethod</a></li>
+</ul>
+</blockquote>
+</blockquote>
+<a name="RegisterNamespace"><h3>RegisterNamespace</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Registeres namespace.
+<pre>
+<font color="blue"><b>function</b></font> RegisterNamespace(<font color="blue"><b>const</b></font> Name: <font color="blue"><b>String</b></font>; Owner: Integer = -1): Integer;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Name</i>
+<blockquote>
+<font color="black"><i>Name</i></font> of the namespace.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Owner</i>
+<blockquote>
+Determines handle of namespace which contains given namespace.
+</blockquote>
+</blockquote>
+<p>
+Returns handle of the namespace.
+<H4>
+Example
+</H4>
+<pre>
+initialization
+................................
+
+H := RegisterNamespace(<font color="Red">'MyNamespace'</font>);
+H := RegisterNamespace(<font color="Red">'MyNestedNamespace'</font>, H);
+</pre>
+</p>
+<p>
+The namespace becomes available for all TPaxScripter instances.
+</p>
+</blockquote>
+<a name="RegisterProperty"><h3>RegisterProperty</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Registeres a property of Delphi class.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterProperty(PClass: TClass; <font color="blue"><b>const</b></font> PropDef: <font color="blue"><b>String</b></font>);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>PClass</i>
+<blockquote>
+A Delphi class.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>PropDef</i>
+<blockquote>
+A property definition.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+initialization
+..........................................
+
+RegisterMethod(TList, <font color="Red">'function Get(Index: Integer): Pointer;'</font>, @TList_Get, Fake);
+RegisterMethod(TList, <font color="Red">'procedure Put(Index: Integer; Item: Pointer);'</font>, @TList_Put, Fake);
+RegisterProperty(TList, <font color="Red">'property Items[Index: Integer]: Pointer read Get write Put; default;'</font>);
+</pre>
+</p>
+<p>
+The property becomes available for all TPaxScripter instances.
+</p>
+</blockquote>
+<a name="RegisterRecordType"><h3>RegisterRecordType</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows you to register a record type defined in your Delphi application.
+<pre>
+<font color="blue"><b>function</b></font> RegisterRecordType(<font color="blue"><b>const</b></font> TypeName: <font color="blue"><b>String</b></font>;
+                            Size: Integer;
+                            OwnerIndex: Integer = -1): Integer;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>TypeName</i>
+<blockquote>
+Name of the type
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Size</i>
+<blockquote>
+<font color="black"><i>Size</i></font> of the type
+</blockquote>
+</blockquote>
+<blockquote>
+<i>OwnerIndex</i>
+<blockquote>
+Index of namespace which contains the record type.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<A HREF="tps_demo_records.htm">Click here</A>
+</pre>
+</p>
+</blockquote>
+<a name="RegisterRecordField"><h3>RegisterRecordField</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Allows you to register a field of the record type.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterRecordField(OwnerIndex: Integer; <font color="blue"><b>const</b></font> FieldName, FieldType: <font color="blue"><b>String</b></font>;
+                              Offset: Integer): Integer;
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>OwnerIndex</i>
+<blockquote>
+Index of the record type.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>FieldName</i>
+<blockquote>
+Name of field
+</blockquote>
+</blockquote>
+<blockquote>
+<i>FieldType</i>
+<blockquote>
+Type of field
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Offset</i>
+<blockquote>
+<font color="black"><i>Offset</i></font> of field.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+<A HREF="tps_demo_records.htm">Click here</A>.
+</pre>
+</p>
+</blockquote>
+<a name="RegisterRoutine"><h3>RegisterRoutine</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Registeres a global procedure or function.
+<pre>
+<font color="blue"><b>procedure</b></font> RegisterRoutine(<font color="blue"><b>const</b></font> Header: <font color="blue"><b>String</b></font>; Address: Pointer; Owner: Integer = -1);
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Header</i>
+<blockquote>
+<font color="black"><i>Header</i></font> of the procedure or function.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Owner</i>
+<blockquote>
+Determines handle of namespace which contains given procedure or function.
+</blockquote>
+</blockquote>
+<p>
+<H4>
+Example
+</H4>
+<pre>
+Delphi:
+
+RegisterRoutine(<font color="Red">'function GetStrTime: String;'</font>, @GetStrTime, -1);
+
+C++ Builder:
+
+AnsiString GetStrTime() {
+  return DateTimeToStr(Now());
+}
+
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+  RegisterRoutine(<font color="Red">"function GetStrTime: String; cdecl;"</font>, GetStrTime, -1);
+}
+</pre>
+</p>
+<p>
+The function becomes available for all TPaxScripter instances.
+</p>
+</blockquote>
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

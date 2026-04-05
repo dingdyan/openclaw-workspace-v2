@@ -1,0 +1,104 @@
+structure Complex {
+  double re, im;
+  static Complex i = (0.0, 1.0);
+  // "+"
+  Complex operator + (Complex x, Complex y) {
+    Complex result = (x.re + y.re, x.im + y.im);
+    return result;
+  }
+  Complex operator + (Complex x, double y) {
+    Complex result = (x.re + y, x.im);
+    return result;
+  }
+  Complex operator + (double x, Complex y) {
+    Complex result = (x + y.re, y.im);
+    return result;
+  }
+  // "-"
+  Complex operator - (Complex x, Complex y) {
+    Complex result = (x.re - y.re, x.im - y.im);
+    return result;
+  }
+  Complex operator - (Complex x, double y) {
+    Complex result = (x.re - y, x.im);
+    return result;
+  }
+  Complex operator - (double x, Complex y) {
+    Complex result = (x - y.re, - y.im);
+    return result;
+  }
+  // unary "-"
+  Complex operator - (Complex x) {
+    Complex result = (-x.re, -x.im);
+    return result;
+  }
+  // "*"
+  Complex operator * (Complex x, Complex y) {
+    Complex result = (x.re * y.re - x.im * y.im, x.re * y.im + y.re * x.im);
+    return result;
+  }
+  Complex operator * (Complex x, double y) {
+    Complex result = (x.re * y, x.im * y);
+    return result;
+  }
+  Complex operator * (double x, Complex y) {
+    Complex result = (y.re * x, y.im * x);
+    return result;
+  }
+  // "/"
+  Complex operator / (Complex x, Complex y) {
+    Complex result;
+    double d;
+    d = y.re * y.re + y.im * y.im;
+    result.re = (x.re * y.re + x.im * y.im) / d;
+    result.im = (x.im * y.re - x.re * y.im) / d;
+    return result;
+  }
+  Complex operator / (Complex x, double y) {
+    Complex result;
+    result.re = x.re / y;
+    result.im = x.im / y;
+    return result;
+  }
+  Complex operator / (double x, Complex y) {
+    Complex result;
+    double d;
+    d = y.re * y.re + y.im * y.im;
+    result.re = x * y.re / d;
+    result.im = - x * y.im / d;
+    return result;
+  }
+  // "=="
+  bool operator == (Complex x, Complex y) {
+    return (x.re == y.re) && (x.im == y.im);
+  }
+  bool operator == (Complex x, double y) {
+    return (x.re == y) && (x.im == 0.0);
+  }
+  bool operator == (double x, Complex y) {
+    return (x == y.re) && (0.0 == y.im);
+  }
+  // "!="
+  bool operator != (Complex x, Complex y) {
+    return (x.re != y.re) || (x.im != y.im);
+  }
+  bool operator != (Complex x, double y) {
+    return (x.re != y) || (x.im != 0.0);
+  }
+  bool operator != (double x, Complex y) {
+    return (x != y.re) || (0.0 != y.im);
+  }
+}
+
+Complex x, y, z;
+
+println Complex.i.re;
+
+x.re = 16.3;
+x.im = 7.5;
+y.re = 106.7;
+y.im = 13.4;
+z = x + y;
+println z.re;
+println z.im;
+println x == y;

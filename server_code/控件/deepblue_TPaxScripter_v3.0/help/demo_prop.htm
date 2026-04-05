@@ -1,0 +1,107 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Arrays and Indexed Properties.
+</h3>
+<hr>
+
+<h4>
+paxBasic
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Class</b></font> AClass
+
+   <font color="blue"><b>Dim</b></font> fZ = [10, 20, 30, 40, 50]
+   
+   <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>()
+   <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+   
+   <font color="blue"><b>Default</b></font> <font color="blue"><b>Property</b></font> Z(I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+     <font color="blue"><b>Get</b></font>
+       <font color="blue"><b>return</b></font> fZ(I)
+     <font color="blue"><b>End</b></font> <font color="blue"><b>Get</b></font>
+     <font color="blue"><b>Set</b></font>
+       fZ(I) = Value
+     <font color="blue"><b>End</b></font> <font color="blue"><b>Set</b></font>
+   <font color="blue"><b>End</b></font> <font color="blue"><b>Property</b></font>
+   
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+<font color="blue"><b>Dim</b></font> X = <font color="blue"><b>new</b></font> AClass()
+X(1) = 90
+<font color="blue"><b>print</b></font> X
+</pre>
+</blockquote>
+
+<h4>
+paxC
+</h4>
+
+<pre>
+<font color="blue"><b>class</b></font> MyClass {
+  <font color="blue"><b>var</b></font>
+    fZ = [10, 20, 30, 40, 50];
+  
+  <font color="blue"><b>function</b></font> MyClass(){}
+ 
+  <font color="blue"><b>property</b></font> <font color="blue"><b>this</b></font>[I] {
+    <font color="blue"><b>get</b></font> { <font color="blue"><b>return</b></font> fZ[I]; }
+    <font color="blue"><b>set</b></font> { fZ[I] = Value; }
+  }
+}
+
+<font color="blue"><b>var</b></font> X = <font color="blue"><b>new</b></font> MyClass();
+X[1] = 90;
+<font color="blue"><b>print</b></font> x;
+</pre>
+
+<h4>
+paxPascal
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> Demo;
+<font color="blue"><b>type</b></font>
+  TMyClass = <font color="blue"><b>class</b></font>(TObject)
+     fZ = [10, 20, 30, 40, 50];
+     <font color="blue"><b>function</b></font> GetZ(I: Integer): Integer;
+     <font color="blue"><b>begin</b></font>
+       result := fZ[I];
+     <font color="blue"><b>end</b></font>;
+     <font color="blue"><b>procedure</b></font> SetZ(I, Value: Integer);
+     <font color="blue"><b>begin</b></font>
+       fZ[I] := Value;
+     <font color="blue"><b>end</b></font>;
+     <font color="blue"><b>property</b></font> Z[I: Integer]: Integer read GetZ write SetZ; <font color="blue"><b>default</b></font>;
+  <font color="blue"><b>end</b></font>;
+  
+  TMyArray = <font color="blue"><b>array</b></font>[1..Random(10) + 2] <font color="blue"><b>of</b></font> Integer;
+
+<font color="blue"><b>var</b></font>
+  X: TMyClass;
+  A: TMyArray;
+<font color="blue"><b>begin</b></font>
+  X := TMyClass.Create;
+  X[1] := 90;
+  <font color="blue"><b>print</b></font> X;
+  <font color="blue"><b>print</b></font> A;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

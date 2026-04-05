@@ -1,0 +1,137 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Two Way Linked lists (paxPascal).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> Demo;
+
+<font color="blue"><b>function</b></font> Insert(Value, P: Variant): Variant;
+<font color="blue"><b>begin</b></font>
+  result := [Value, P];
+  <font color="blue"><b>if</b></font> P <> <font color="blue"><b>null</b></font> <font color="blue"><b>then</b></font>
+    P.Owner := result;
+  P := result;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Add(Value, P: Variant): Variant;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> P = <font color="blue"><b>null</b></font> <font color="blue"><b>then</b></font>
+    result := Insert(Value, P)
+  <font color="blue"><b>else</b></font>
+  <font color="blue"><b>begin</b></font>
+    result := Insert(Value, @ P[1]);
+    result.Owner := P;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Remove(Value, L: Variant): Variant;
+<font color="blue"><b>var</b></font>
+  temp: Variant;
+<font color="blue"><b>begin</b></font>
+  result := @ Find(Value, L);
+  <font color="blue"><b>if</b></font> result <> <font color="blue"><b>null</b></font> <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    temp := result.Owner;
+    <font color="blue"><b>reduced</b></font> result := result[1];
+    <font color="blue"><b>if</b></font> result <> <font color="blue"><b>null</b></font> <font color="blue"><b>then</b></font>
+      result.Owner := temp;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Find(Key, P: Variant): Variant;
+<font color="blue"><b>begin</b></font>
+  result := @ P;
+  <font color="blue"><b>while</b></font> result <> <font color="blue"><b>null</b></font> <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    <font color="blue"><b>if</b></font> result[0] = Key <font color="blue"><b>then</b></font>
+      <font color="blue"><b>Exit</b></font>;
+    result := @ result[1];
+  <font color="blue"><b>end</b></font>;
+  result := <font color="blue"><b>null</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> StraightOrder(A: Variant);
+<font color="blue"><b>var</b></font>
+  P: Variant;
+<font color="blue"><b>begin</b></font>
+  P := A;
+  <font color="blue"><b>while</b></font> P <> <font color="blue"><b>null</b></font> <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    writeln(P[0]);
+    P := P[1];
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> BackOrder(A: Variant);
+<font color="blue"><b>var</b></font>
+  P: Variant;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> A = <font color="blue"><b>null</b></font> <font color="blue"><b>then</b></font>
+    writeln(A)
+  <font color="blue"><b>else</b></font>
+  <font color="blue"><b>begin</b></font>
+    P := A;
+    <font color="blue"><b>while</b></font> P[1] <> <font color="blue"><b>null</b></font> <font color="blue"><b>do</b></font> P := P[1];
+    <font color="blue"><b>while</b></font> P <> <font color="blue"><b>null</b></font> <font color="blue"><b>do</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>println</b></font> P[0];
+      P := P.Owner;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  A, P: Variant;
+<font color="blue"><b>begin</b></font>
+  A := <font color="blue"><b>null</b></font>;
+
+  Add(300, @ A);
+
+  Insert(100, @ A);
+  Insert(50, @ A);
+  writeln(A);
+  BackOrder(A);
+
+  P := Find(300, A);
+  Add(400, @ P);
+  writeln(A);
+  BackOrder(A);
+
+  P := Find(300, A);
+  Add(350, @ P);
+  writeln(A);
+  BackOrder(A);
+
+  P := Find(100, A);
+  Add(150, @ P);
+  writeln(A);
+  BackOrder(A);
+
+  Remove(100, A);
+  writeln(A);
+  BackOrder(A);
+
+  writeln(A);
+  StraightOrder(A);
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
+

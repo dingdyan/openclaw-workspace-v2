@@ -1,0 +1,84 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TpaxScripter Demo. COM Support.
+</h3>
+<hr>
+
+<pre>
+<font color="blue"><b>unit</b></font> Unit1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  PaxScripter, StdCtrls;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    PaxScripter1: TPaxScripter;
+    <font color="blue"><b>procedure</b></font> PaxScripter1AssignScript(Sender: TPaxScripter);
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+<font color="blue"><b>uses</b></font>
+  IMP_ActiveX;
+
+{$R *.DFM}
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1AssignScript(Sender: TPaxScripter);
+<font color="blue"><b>begin</b></font>
+  Sender.AddModule('main', paxC);
+  Sender.AddCodeFromFile('main', 'script.txt');
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  PaxScripter1.Run;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+
+<h4>
+script.txt
+</h4>
+
+<pre>
+<font color="blue"><b>var</b></font> WordApp = <font color="blue"><b>new</b></font> ActiveXObject("Word.Application");
+WordApp.Visible = <font color="blue"><b>true</b></font>;
+<font color="blue"><b>print</b></font> WordApp.Visible;
+WordApp.Documents.Add();
+<font color="blue"><b>var</b></font> Range = WordApp.Documents.Item(1).Range;
+Range.Text = "This is a column from a spreadsheet: ";
+<font color="blue"><b>for</b></font> (<font color="blue"><b>var</b></font> I = 0; I < 3; I++)
+  WordApp.Documents.Item(1).Paragraphs.Add();
+Range = WordApp.Documents.Item(1).Range(WordApp.Documents.Item(1).Paragraphs.Item(3).Range.Start);
+Range.Paste();
+</pre>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

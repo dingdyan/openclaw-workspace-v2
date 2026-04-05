@@ -1,0 +1,140 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Embedding scripts into html pages.
+</h3>
+<hr>
+
+<h4>
+paxBasic
+</h4>
+
+<pre>
+&lt?pax 
+<font color="blue"><b>Dim</b></font> num_tries, num_to_guess = 40, Message = <font color="Red">""</font>
+
+<font color="blue"><b>If</b></font> HasProperty(<font color="Red">"number_tries"</font>) <font color="blue"><b>Then</b></font>
+  num_tries = number_tries + 1
+<font color="blue"><b>Else</b></font>
+  num_tries = 0
+<font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+
+<font color="blue"><b>If</b></font> <font color="blue"><b>Not</b></font> HasProperty(<font color="Red">"guess"</font>) <font color="blue"><b>Then</b></font>
+  Message = <font color="Red">"Welcome to the guessing machine !"</font>
+<font color="blue"><b>ElseIf</b></font> toInteger(guess) > num_to_guess <font color="blue"><b>Then</b></font>
+  Message = guess + <font color="Red">" is to big. Try a smaller number"</font>
+<font color="blue"><b>ElseIf</b></font> toInteger(guess) < num_to_guess <font color="blue"><b>Then</b></font>
+  Message = guess + <font color="Red">" is too small. Try a large number"</font>
+<font color="blue"><b>Else</b></font>
+  Message = <font color="Red">"Well done!"</font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+?>
+<P></P>
+&lthtml&gt   
+&lthead&gt&lttitle&gtGuessing machine&lt/title&gt&lt/head&gt   
+&ltbody&gt   
+\%s=Message   
+&ltbr&gt   
+Guess number: &lt?pax <font color="blue"><b>print</font></b> num_tries : ?&gt    
+<P></P>
+&ltform action="&lt?pax <font color="blue"><b>print</font></b> PAX_SELF : ?&gt" method="POST"&gt   
+type your guess here: &ltinput type="text" name="guess"&gt   
+&ltinput type="hidden" name="number_tries" value="&lt?pax print num_tries; ?&gt"&gt   
+&lt/form&gt   
+&lt/body&gt   
+&lt/html&gt   
+</pre>
+
+
+
+<h4>
+paxC
+</h4>
+
+<pre>
+&lt?pax
+<font color="blue"><b>var</b></font>
+  num_tries, num_to_guess = 40, Message = <font color="Red">""</font>;
+
+<font color="blue"><b>if</b></font> (HasProperty(<font color="Red">"number_tries"</font>))
+  num_tries = number_tries + 1;
+<font color="blue"><b>else</b></font>
+  num_tries = 0;
+
+<font color="blue"><b>if</b></font> (!HasProperty(<font color="Red">"guess"</font>))
+  Message = <font color="Red">"Welcome to the guessing machine !"</font>;
+<font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> (toInteger(guess) > num_to_guess)
+  Message = guess + <font color="Red">" is to big. Try a smaller number"</font>;
+<font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> (toInteger(guess) < num_to_guess)
+  Message = guess + <font color="Red">" is too small. Try a large number"</font>;
+<font color="blue"><b>else</b></font>
+  Message = <font color="Red">"Well done!"</font>;
+?>
+<P></P>
+&lthtml&gt   
+&lthead&gt&lttitle&gtGuessing machine&lt/title&gt&lt/head&gt   
+&ltbody&gt   
+\%s=Message   
+&ltbr&gt   
+Guess number: &lt?pax <font color="blue"><b>print</font></b> num_tries; ?&gt    
+<P></P>
+&ltform action="&lt?pax <font color="blue"><b>print</font></b> PAX_SELF; ?&gt" method="POST"&gt   
+type your guess here: &ltinput type="text" name="guess"&gt   
+&ltinput type="hidden" name="number_tries" value="&lt?pax print num_tries; ?&gt"&gt   
+&lt/form&gt   
+&lt/body&gt   
+&lt/html&gt   
+</PRE>
+
+<h4>
+paxPascal
+</h4>
+
+<PRE>
+&lt?pax   
+<font color="blue"><b>var</b></font>
+  num_tries, num_to_guess = 40, Message = <font color="Red">''</font>;
+
+<font color="blue"><b>if</b></font> HasProperty(<font color="Red">'number_tries'</font>) <font color="blue"><b>then</b></font>
+  num_tries := number_tries + 1
+<font color="blue"><b>else</b></font>
+  num_tries := 0;
+
+<font color="blue"><b>if</b></font> <font color="blue"><b>not</b></font> HasProperty(<font color="Red">'guess'</font>) <font color="blue"><b>then</b></font>
+  Message := <font color="Red">'Welcome to the guessing machine !'</font>
+<font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> toInteger(guess) > num_to_guess <font color="blue"><b>then</b></font>
+  Message := guess + <font color="Red">' is to big. Try a smaller number'</font>
+<font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> toInteger(guess) < num_to_guess <font color="blue"><b>then</b></font>
+  Message := guess + <font color="Red">' is too small. Try a large number'</font>
+<font color="blue"><b>else</b></font>
+  Message := <font color="Red">'Well done!'</font>;
+?>
+<P></P>
+&lthtml&gt   
+&lthead&gt&lttitle&gtGuessing machine&lt/title&gt&lt/head&gt   
+&ltbody&gt   
+\%s=Message   
+&ltbr&gt   
+Guess number: &lt?pax <font color="blue"><b>print</font></b> num_tries; ?&gt    
+<P></P>
+&ltform action="&lt?pax <font color="blue"><b>print</font></b> PAX_SELF; ?&gt" method="POST"&gt   
+type your guess here: &ltinput type="text" name="guess"&gt   
+&ltinput type="hidden" name="number_tries" value="&lt?pax print num_tries; ?&gt"&gt   
+&lt/form&gt   
+&lt/body&gt   
+&lt/html&gt   
+</PRE>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

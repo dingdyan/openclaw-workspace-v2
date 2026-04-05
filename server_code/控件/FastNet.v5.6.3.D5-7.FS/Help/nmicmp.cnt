@@ -1,0 +1,40 @@
+; This contents file was created with HelpScribble 3.5.6
+; Registered to: NetMasters
+
+:BASE nmicmp.hlp
+:TITLE FastNet ICMP Help
+:INCLUDE DELPHI3.CFG
+1 TNMPing component
+2 TNMPing component Reference=Scribble1010
+2 Properties
+3 Host=Scribble1025
+3 PacketSize=Scribble1030
+3 Pings=Scribble1035
+3 TimeOut=Scribble1040
+2 Methods
+3 Abort=Scribble1045
+3 Ping=Scribble1050
+2 Events
+3 OnAbort=Scribble1055
+3 OnHostUnreachable=Scribble1060
+3 OnInvalidHost=Scribble1065
+3 OnPing=Scribble1070
+3 OnStatus=Scribble1075
+3 OnTimeOut=Scribble1080
+1 TNMTraceRt component
+2 TNMTraceRt component Reference=Scribble1100
+2 Properties
+3 Host=Scribble1115
+3 MaxHops=Scribble1120
+3 PacketSize=Scribble1125
+3 TimeOut=Scribble1130
+2 Methods
+3 Abort=Scribble1135
+3 Trace=Scribble1140
+2 Events
+3 OnAbort=Scribble1145
+3 OnHop=Scribble1150
+3 OnHostUnreachable=Scribble1155
+3 OnInvalidHost=Scribble1160
+3 OnStatus=Scribble1165
+3 OnTraceComplete=Scribble1170

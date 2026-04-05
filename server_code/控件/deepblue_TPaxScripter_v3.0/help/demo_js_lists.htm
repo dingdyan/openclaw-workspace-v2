@@ -1,0 +1,96 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Linked lists (paxJavaScript).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>println</b></font> <font color="Red">'Create a list'</font>;
+L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]];
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Insert new item at the beginning'</font>;
+L = [50, L];
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Add new item at the end'</font>;
+P = & L; // Create alias of L
+<font color="blue"><b>while</b></font> (P != <font color="blue"><b>NULL</b></font>) {P = & P[1]; }; // Find last item
+P = [400, <font color="blue"><b>NULL</b></font>]; // Add <font color="blue"><b>new</b></font> item
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Insert new item at the middle'</font>;
+P = & L[1];
+P = & P[1]; // insert before 200
+P = [150, P];
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Print list'</font>;
+P = & L; // create alias of L
+<font color="blue"><b>while</b></font> (P != <font color="blue"><b>NULL</b></font>) {
+  <font color="blue"><b>println</b></font> P[0];
+  P = & P[1]; // go to the next item
+}
+
+<font color="blue"><b>println</b></font> <font color="Red">'Delete the first item of the list'</font>;
+<font color="blue"><b>reduced</b></font> L = L[1];
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Delete the last item of the list'</font>;
+P = & L; // Create alias of L
+<font color="blue"><b>while</b></font> (P[1] != <font color="blue"><b>NULL</b></font>) { P = & P[1]; }// Find last item
+<font color="blue"><b>reduced</b></font> P = P[1];
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Delete item at the middle of the list'</font>;
+P = & L;
+P = & P[1];
+<font color="blue"><b>reduced</b></font> P = P[1];
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Delete all items from the list'</font>;
+<font color="blue"><b>while</b></font> (L != <font color="blue"><b>NULL</b></font>) { <font color="blue"><b>reduced</b></font> L = L[1]; };
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Create a cycled list'</font>;
+L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]];
+L[1][1][1] = & L; // join head and tail of the list
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>delete</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Another way to create a cycled list'</font>;
+L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]];
+P = & L; // Create alias of L
+<font color="blue"><b>while</b></font> (P != <font color="blue"><b>NULL</b></font>) {P = & P[1]; }; // Find last item
+* P = & L; // join head and tail of the list
+<font color="blue"><b>println</b></font> L;
+
+<font color="blue"><b>println</b></font> <font color="Red">'Print the cycled list'</font>;
+P = & L;
+I = 0;
+<font color="blue"><b>do</b></font> {
+  <font color="blue"><b>println</b></font> P[0];
+  P = & P[1];
+  I++;
+}
+<font color="blue"><b>while</b></font> (I < 15);
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
+

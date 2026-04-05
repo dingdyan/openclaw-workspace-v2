@@ -1,0 +1,58 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+
+<h3>
+paxBasic Base Types
+</h3>
+<hr>
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Boolean</b></font>
+<font color="blue"><b>Byte</b></font>
+<font color="blue"><b>Double</b></font>
+<font color="blue"><b>Integer</b></font>
+<font color="blue"><b>Long</b></font>
+<font color="blue"><b>Sbyte</b></font>
+<font color="blue"><b>Short</b></font>
+<font color="blue"><b>String</b></font>
+<font color="blue"><b>Uint</b></font>
+<font color="blue"><b>UShort</b></font>
+<font color="blue"><b>Variant</b></font>
+</pre>
+</blockquote>
+
+<p>
+
+You can omit declaration of Variant types in your paxBasic scripts. For example the following
+script
+
+<pre>
+<font color="blue"><b>Function</b></font> F(X)
+  <font color="blue"><b>Dim</b></font> Y = rnd(0, 1000)
+  <font color="blue"><b>return</b></font> X + Y + Y
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+
+is equivalent to
+
+
+<pre>
+<font color="blue"><b>Function</b></font> F(X As <font color="blue"><b>Variant</b></font>) As <font color="blue"><b>Variant</b></font>
+  <font color="blue"><b>Dim</b></font> Y As <font color="blue"><b>Variant</b></font> = rnd(0, 1000)
+  <font color="blue"><b>return</b></font> X + Y + Y
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

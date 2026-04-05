@@ -1,0 +1,92 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Delegates and Event Handlers.
+</h3>
+<hr>
+
+<h4>
+paxBasic
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Imports</b></font> StdCtrls, Forms
+
+<font color="blue"><b>Dim</b></font> F <font color="blue"><b>As</b></font> TForm = <font color="blue"><b>new</b></font> TForm(NULL)
+<font color="blue"><b>Dim</b></font> B <font color="blue"><b>As</b></font> TButton = <font color="blue"><b>new</b></font> TButton(F)
+
+F.Show
+B.Parent = F
+B.Caption = "Click Me"
+B.OnMouseDown = <font color="blue"><b>AddressOf</b></font> MouseHandler
+
+<font color="blue"><b>Sub</b></font> MouseHandler(Sender, Button, Shift, X, Y)
+  <font color="blue"><b>print</b></font> Sender.Caption
+  <font color="blue"><b>print</b></font> Button
+  <font color="blue"><b>print</b></font> Shift
+  <font color="blue"><b>print</b></font> X
+  <font color="blue"><b>print</b></font> Y
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+</pre>
+</blockquote>
+
+
+<h4>
+paxC
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>using</b></font> StdCtrls, Forms;
+
+TForm F = <font color="blue"><b>new</b></font> TForm(NULL);
+TButton B = <font color="blue"><b>new</b></font> TButton(F);
+
+F.Show();
+B.Parent = F;
+B.OnMouseDown = & MouseHandler;
+B.Caption = 'Click Me';
+
+<font color="blue"><b>function</b></font> MouseHandler(Sender, Button, Shift, X, Y){
+  <font color="blue"><b>print</b></font> Sender.Caption;
+  <font color="blue"><b>print</b></font> Button;
+  <font color="blue"><b>print</b></font> Shift;
+  <font color="blue"><b>print</b></font> X;
+  <font color="blue"><b>print</b></font> Y;
+}
+</pre>
+</blockquote>
+
+
+<h4>
+paxPascal
+</h4>
+
+<blockquote>
+<pre>
+<font color="blue"><b>uses</b></font> StdCtrls, Forms;
+<font color="blue"><b>var</b></font>
+  F = TForm.Create(nil),
+  B = TButton.Create(F);
+
+F.Show;
+B.Parent := F;
+B.OnMouseDown := @ MouseHandler;
+B.Caption := 'Click Me';
+
+<font color="blue"><b>procedure</b></font> MouseHandler(Sender, Button, Shift, X, Y);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>print</b></font> Sender.Caption;
+  <font color="blue"><b>print</b></font> Button;
+  <font color="blue"><b>print</b></font> Shift;
+  <font color="blue"><b>print</b></font> X;
+  <font color="blue"><b>print</b></font> Y;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>

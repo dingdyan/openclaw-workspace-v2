@@ -1,0 +1,210 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+
+<font face="Arial, Helvetica">
+
+<H2>
+Abstact of paxScript User's Guide
+</H2>
+<hr>
+
+
+<H3>
+paxScript data types
+</H3>
+
+
+All paxScript languages are loosely typed ones. Loosely typed means you do 
+not have to declare the data types of variables explicitly. 
+All pax-languages have the following standard (base) types: Boolean,
+Byte, SmallInt, ShortInt, Word, Integer, Cardinal, Int64, Double, String, Variant. 
+(These types are named as bool, byte, sbyte, short, short, 
+int, uint, long, double, string, variant in paxC).
+
+<H3>
+Variables
+</H3>
+
+<p>
+You have to declare variables explicitly in your scripts using the Dim statement
+(paxBasic) or Var statement (paxC, paxPascal). These statements create 
+variables.
+</p>
+
+<p>
+Variables are initialised to Undefined when created. But you can assign the 
+variable with another value. For example:
+
+
+<p>paxBasic:
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> X As <font color="blue"><b>String</b></font> = "abc" 
+<font color="blue"><b>Dim</b></font> Y = [100, 200]
+<font color="blue"><b>Dim</b></font> Z = <font color="blue"><b>new</b></font> MyNamespace.AClass()
+</pre>
+</blockquote>
+
+
+<p>paxC:
+<blockquote>
+<pre>
+<font color="blue"><b>string</b></font> X = "abc";
+<font color="blue"><b>var</b></font> Y = [100, 200];
+<font color="blue"><b>var</b></font> Z = <font color="blue"><b>new</b></font> MyNamespace.AClass();
+</pre>
+</blockquote>
+
+
+<p>paxPascal:
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> 
+  X: <font color="blue"><b>String</b></font> = 'abc';
+  Y = [100, 200];
+  Z = MyNamespace.AClass.Create();
+</pre>
+</blockquote>
+
+Here Y has been assigned by the zero-based array which contains 2 elements.
+The variable Z above was assigned by object.
+</p>
+
+<p>
+You can create a multi-dimensional zero-based arrays without having to 
+initialise it. For example:
+
+<pre>
+Dim X(10, 4)                    '<i>paxBasic</i>
+</pre>
+
+<pre>
+var 
+  X[10, 4];                     //<i>paxC, paxPascal</i> 
+</pre>
+
+In a two-dimensional array, the first number is always the number of rows; 
+the second number is the number of columns.
+
+
+</p>
+
+<H3>
+Scope of Variables
+</H3>
+
+A variable's scope is determined by where you declare it. 
+
+<p>
+When you declare
+a variable within a procedure, only code within that procedure can access or 
+change the value of that variable. It has local scope and is a procedure-level
+variable. 
+</p>
+
+<p>
+When you declare a variable within a class body, only code within that class
+can access or change the value of that variable. Besides you make it 
+recognizable to all the methods in the class with the following exception: 
+if the variable was declared as non-shared one, it is not recognizable 
+to all shared methods in the class.
+</p>
+
+<p>
+When you declare a variable within a namespace, only code within that 
+namespace can access or change the value of that variable. Besides you make it 
+recognizable to all the classes and their methods in the namespace.
+</p>
+
+<p>
+If you declare a variable outside all procedures, namespaces and classes, you
+make it recognizable to all the procedures and methods in your script. 
+This is a script-level variable, and it has script-level scope.
+</p>
+
+<h4>
+Example (paxBasic)
+</h4>
+<pre>
+<font color="blue"><b>Namespace</b></font> Shapes
+  <font color="blue"><b>Dim</b></font> ShapeCount, ShapeList[100]
+
+  <font color="blue"><b>Sub</b></font> RegisterShape(S)
+    ShapeCount += 1
+    ShapeList[ShapeCount] = S 
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+   
+  <font color="blue"><b>Class</b></font> Point
+    <font color="blue"><b>Dim</b></font> X, Y
+    <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(X, Y)
+      <font color="blue"><b>Me</b></font>.X = X
+      <font color="blue"><b>Me</b></font>.Y = Y
+      RegisterShape(<font color="blue"><b>Me</b></font>)
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+  <font color="blue"><b>Class</b></font> Square
+    <font color="blue"><b>Dim</b></font> X1, Y1, X2, Y2
+    <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(X1, Y1, X2, Y2)
+      <font color="blue"><b>Me</b></font>.X1 = X1
+      <font color="blue"><b>Me</b></font>.Y1 = Y1
+      <font color="blue"><b>Me</b></font>.X2 = X2
+      <font color="blue"><b>Me</b></font>.Y2 = Y2
+      RegisterShape(<font color="blue"><b>Me</b></font>)
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Namespace</b></font>
+
+<font color="blue"><b>Dim</b></font> P = Shapes.Point(3, 5)
+<font color="blue"><b>print</b></font> P
+</pre>
+
+<p>
+Here P is script-level variable, ShapeCount, ShapeList are namespace-level 
+variables, X, Y, X1, Y1, X2, Y2 are class-level non-shared variables (field 
+members), S is procedure-level variable. To distinguish non-shared class
+members and procedure-level variables, the MyBase keyword is used. (Check for
+X, Y usage in the Point.New procedure as an example).
+</p>
+
+
+<H3>
+Life time of Variables
+</H3>
+
+The lifetime of a variable depends on how long it exists. The lifetime 
+of a script-level variable, namespace-level variable, or a variable declared at 
+class-level as shared (static) extends from the time it is declared until 
+the time the script is finished running. At procedure level, a variable 
+exists only as long as you are in the procedure. When the procedure exits, 
+the variable is destroyed.  
+
+<H3>
+Controlling Program Execution 
+</H3>
+
+You can control the flow of your scripts with ordinary set of conditional 
+statements and looping statements which are pesent in such languages as
+VB/VB.NET, C++, C#, JavaScript, Pascal. See 
+<a href="articles.htm">Progammer Reference</a> to get more information.
+
+<H3>
+Working with Classes and Namespaces
+</H3>
+All pax-scripting languages support such concepts of the modern programming 
+as namespaces, nested classes, inheritance, static(shared) members, indexed 
+properties, delegates. If you are already familiar with the family of .NET 
+languages such as VB.NET, C#, JScript.NET, you already know how to apply 
+these concepts in pax-languages.
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

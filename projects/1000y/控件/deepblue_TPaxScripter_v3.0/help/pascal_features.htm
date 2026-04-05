@@ -1,0 +1,823 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+
+<h3>
+paxPascal Features
+</h3>
+<hr>
+
+<ul>
+<li><a href="#Program Structure">Program Structure</a>
+<li><a href="#Declaration of Variables">Declaration of Variables</a>
+<li><a href="#Class Types">Class Types</a>
+<li><a href="#Record Types">Record Types</a>
+<li><a href="#Array Types">Array Types</a>
+<li><a href="#Namespaces">Namespaces</a>
+<li><a href="#Regular Expressions">Regular Expressions</a>
+<li><a href="#Strings">Strings</a>
+<li><a href="#Forward Declarations">Forward Declarations</a>
+<li><a href="#Control Structures">Control Structures</a>
+<li><a href="#Embedding scripts into html pages">Embedding Scripts into Html Pages</a>
+<li><a href="#Operator Overloading">Operator Overloading</a>
+<li><a href="#LISPPA">LISPPA</a>
+<li><a href="#Syntax">Syntax</a>
+</ul>
+
+<p>
+
+
+paxPascal implements a subset of Object Pascal. For example, the following script is admissible:
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> P;
+<font color="blue"><b>type</b></font>
+  TMyClass = <font color="blue"><b>class</b></font>;
+
+  TMyArray = <font color="blue"><b>array</b></font>[1..3] <font color="blue"><b>of</b></font> <font color="blue"><b>String</b></font>;
+
+  TMyClass = <font color="blue"><b>class</b></font>(TObject)
+  <font color="blue"><b>private</b></font>
+    <font color="blue"><b>function</b></font> GetProp: Integer;
+  <font color="blue"><b>public</b></font>
+    <font color="blue"><b>function</b></font> MyFunc(U: Integer; V: Integer): Integer;
+    <font color="blue"><b>procedure</b></font> MyProc;
+    <font color="blue"><b>property</b></font> MyProp: Integer read GetProp;
+  <font color="blue"><b>end</b></font>;
+
+  TMyRec = <font color="blue"><b>record</b></font>
+    X, Y: Integer;
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> GlobalFunc: Integer; forward;
+
+<font color="blue"><b>function</b></font> TMyClass.MyFunc(U: Integer; V: Integer): Integer;
+<font color="blue"><b>begin</b></font>
+  result := U + V + GlobalFunc;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMyClass.MyProc;
+<font color="blue"><b>begin</b></font>
+  writeln('here');
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TMyClass.GetProp: Integer;
+<font color="blue"><b>begin</b></font>
+  result := 11;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> GlobalFunc: Integer;
+<font color="blue"><b>begin</b></font>
+  result := 700;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  X: TMyClass;
+  A: TMyArray;
+  R: TMyRec;
+<font color="blue"><b>begin</b></font>
+  X := TMyClass.Create;
+  A[1] := 'abc';
+  A[2] := 'pqr';
+  A[3] := 'uv';
+  R.X := 100; 
+  writeln(X.MyFunc(4, 5));
+  X.MyProc;
+  writeln(X.MyProp);
+  writeln(R.X);
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+
+<p>From another hand, paxPascal has a few extra features which are absent in the Object Pascal.
+
+
+<a name="Program Structure">
+<h4>
+Program Structure
+</h4>
+
+<p>
+A paxPascal program is the list of statements. In this relation, paxPascal is more similar with 
+VBScript or JavaScript. 
+</p>
+
+<p>
+For example, the following script
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> P;
+<font color="blue"><b>type</b></font>
+  TMyRec = <font color="blue"><b>record</b></font>
+    X, Y: Integer;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>var</b></font>
+  R: TMyRec;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>print</b></font> R;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+contains <b>four</b> executable statements:
+
+<ol>
+
+<li>
+<pre>
+<font color="blue"><b>program</b></font> P;
+</pre>
+Creates namespace P.
+<p>
+</li>
+
+<li>
+<pre>
+<font color="blue"><b>type</b></font>
+  TMyRec = <font color="blue"><b>record</b></font>
+    X, Y: Integer;
+  <font color="blue"><b>end</b></font>;
+</pre>
+Creates record type TMyRec.
+<p>
+</li>
+
+<li>
+<pre>
+<font color="blue"><b>var</b></font>
+  R: TMyRec;
+</pre>
+Creates variable R.
+<p>
+</li>
+
+<li>
+<pre>
+  <font color="blue"><b>print</b></font> R;
+</pre>
+Printes variable R.
+<p>
+</li>
+
+</ol>
+
+
+<a name="Declaration of Variables">
+<h4>
+Declaration of Variables
+</h4>
+
+<ul>
+
+<li>
+You can omit declaration of a variable. In such case, the variable obtains Variant type.
+For example, the following script   
+
+<blockquote>
+<pre>
+<font color="blue"><b>function</b></font> MyFunc(X);
+<font color="blue"><b>var</b></font> Y;
+<font color="blue"><b>begin</b></font>
+  Y := Random(100);
+  result := X + Y + Y;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+is equivalent to
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>function</b></font> MyFunc(X: Variant): Variant;
+<font color="blue"><b>var</b></font> Y: Variant;
+<font color="blue"><b>begin</b></font>
+  Y := Random(100);
+  result := X + Y + Y;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+</li>
+
+<li>
+You can join declaration of a variable with its initialization. Local variables are available for
+initialization too:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>procedure</b></font> MyProc;
+<font color="blue"><b>var</b></font> 
+  X: Integer = Random(100);
+  Y = 54.3;
+<font color="blue"><b>begin</b></font>
+..................
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+</li>
+
+</ul>
+
+
+<a name="Class Types">
+<h4>
+Class Types
+</h4>
+
+<ul>
+
+
+<li>
+paxPascal supports shared(static) fields of classes. The definition of a static member must begin with the 
+reserved word class. For example,
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font> 
+  TFoo = <font color="blue"><b>class</b></font> (TObject)
+    <font color="blue"><b>class</b></font> <font color="blue"><b>var</b></font> X: <font color="blue"><b>String</b></font>;
+    <font color="blue"><b>class</b></font> <font color="blue"><b>function</b></font> F(): Integer;
+    <font color="blue"><b>class</b></font> <font color="blue"><b>procedure</b></font> P();
+  <font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+</li>
+
+<li>
+You can initialize fields of classes:
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font> 
+  TMyClass = <font color="blue"><b>class</b></font>(TObject)
+    X: Integer = 100;
+    S: <font color="blue"><b>String</b></font> = 'abc'; 
+    <font color="blue"><b>constructor</b></font> Create; 
+........................
+   <font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+</li>
+
+<li>
+You can define a method's body directly in the class declaration:
+</li>
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  TMyForm = <font color="blue"><b>class</b></font>(TForm)
+     <font color="blue"><b>constructor</b></font> Create(Owner: TComponent);
+     <font color="blue"><b>begin</b></font>
+       <font color="blue"><b>inherited</b></font>;
+       Top := 100;
+       Left := 200;
+       Caption := 'MyForm';
+     <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+<i>Note, that you cannot use nested routines in such case. If you want to use the nested routines
+inside of the method body, you must define such method outside of the class declaration.</i>
+
+</ul>
+
+<a name="Record Types">
+<h4>
+Record Types
+</h4>
+
+<ul>
+
+<li>
+You can use methods and properties of records:
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  TPoint = <font color="blue"><b>record</b></font>
+  <font color="blue"><b>private</b></font>
+    <font color="blue"><b>function</b></font> GetNorm: Integer;
+    <font color="blue"><b>begin</b></font>
+      result := X*X + Y*Y;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>public</b></font>
+    X, Y: Integer;
+    <font color="blue"><b>property</b></font> Norm: Integer read GetNorm; 
+  <font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+<i>Note, that you cannot use nested routines in such case. If you want to use the nested routines
+inside of the method body, you must define such method outside of the record declaration.</i>
+<p></p>
+
+
+
+</li>
+
+
+<li>
+You can initialize fields of records:
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  TRandomPoint = <font color="blue"><b>record</b></font>
+    X: Integer = Random(100); 
+    Y: Integer = Random(100); 
+  <font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+</li>
+
+<li>
+
+
+Method Initialize gives you one more way to initialize the record fields:
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  TRandomPoint = <font color="blue"><b>record</b></font>
+    X, Y: Integer;
+    <font color="blue"><b>procedure</b></font> Initialize;
+    <font color="blue"><b>begin</b></font>
+      X := Random(100);
+      Y := Random(100);
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+</li>
+
+<li>
+You can inherit the record types:
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  TRandomCircle = <font color="blue"><b>record</b></font> (TRandomPoint)
+    R: Integer = Random(100);
+  <font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+</li>
+
+
+</ul>
+
+
+<a name="Array Types">
+<h4>
+Array Types
+</h4>
+
+
+<ul>
+<li>
+paxPascal supports 2 kinds of arrays:
+
+<ol>
+<li>
+Native arrays:
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> A[10, 2];
+</pre>
+</blockquote>
+
+The native array is multi-dimensional zero-based array with elements of Variant type.
+<p></p>
+
+</li>
+
+<li>
+Object Pascal arrays:
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  TMyArray[1..2, 3..5] <font color="blue"><b>of</b></font> TPoint;
+</pre>
+</blockquote>
+
+This kind of arrays is derived from native arrays at compile-time. For example, declaration 
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  TMyArray = <font color="blue"><b>array</b></font> [3..5] <font color="blue"><b>of</b></font> Integer;
+</pre>
+</blockquote>
+
+is equivalent to
+
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font> TMyArray = <font color="blue"><b>record</b></font>
+  <font color="blue"><b>var</b></font> L = 3;
+  <font color="blue"><b>var</b></font> H = 5;
+  <font color="blue"><b>var</b></font> fItems[H - L];
+  <font color="blue"><b>procedure</b></font> Initialize;
+  <font color="blue"><b>var</b></font>
+    I: Integer;
+  <font color="blue"><b>begin</b></font>
+    <font color="blue"><b>for</b></font> I:=L <font color="blue"><b>to</b></font> H <font color="blue"><b>do</b></font>
+     fItems[I - L] := 0;
+  <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>function</b></font> GetItem(I: Integer): Integer;
+  <font color="blue"><b>begin</b></font>
+    result := @ fItems[I - L];
+  <font color="blue"><b>end</b></font>; 
+  <font color="blue"><b>procedure</b></font> SetItem(I: Integer; Value: Integer);
+  <font color="blue"><b>begin</b></font>
+    fItems[I - L] := Value;
+  <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>property</b></font> Items[I: Integer]: Integer; read GetItem write SetItem; <font color="blue"><b>default</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+
+</li>
+
+<ol>
+</li>
+
+</ul>
+
+<li>
+You can allocate your arrays dynamically:
+
+<blockquote>
+<pre>
+<font color="blue"><b>procedure</b></font> P(N: Integer);
+<font color="blue"><b>var</b></font> 
+  A: <font color="blue"><b>array</b></font>[3..N] <font color="blue"><b>of</b></font> Double;
+<font color="blue"><b>begin</b></font>
+...............
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+</li>
+
+
+</ul>
+
+
+<a name="Namespaces">
+<h4>
+Namespaces
+</h4>
+
+paxPascal supports namespaces. For example:
+
+<blockquote>
+<pre>
+<font color="blue"><b>namespace</b></font> Shapes
+  <font color="blue"><b>type</b></font>
+    TPoint = <font color="blue"><b>class</b></font>(TObject)
+       X, Y: Integer;
+       <font color="blue"><b>constructor</b></font> Create(X, Y: Integer);
+       <font color="blue"><b>begin</b></font>
+         <font color="blue"><b>inherited</b></font> Create;
+         Self.X := X;
+         Self.Y := Y;
+       <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>end</b></font>;
+
+    TCircle = <font color="blue"><b>class</b></font>(TPoint)
+      R: Integer;
+      <font color="blue"><b>constructor</b></font> Create(X, Y, R);
+    <font color="blue"><b>end</b></font>;
+    
+  <font color="blue"><b>constructor</b></font> TCircle.Create(X, Y, R);
+  <font color="blue"><b>begin</b></font>
+    <font color="blue"><b>inherited</b></font> Create(X, Y);
+    Self.R := R;
+  <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Point = Shapes.TPoint.Create(3, 5);
+  Circle = Shapes.TCircle.Create(3, 5, 7);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>print</b></font> Point, Circle;
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<a name="Regular Expressions">
+<h4>
+Regular Expressions
+</h4>
+
+paxPascal supports the regular expression literals. For example:
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> r = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+/g;
+    s = <font color="Red">'My e-mails are ab@virtlabor.donbass.com and ppusr154@ints.net'</font>;
+<font color="blue"><b>repeat</b></font>
+ <font color="blue"><b>if</b></font> r.exec(s).length = 0 <font color="blue"><b>then</b></font>
+   <font color="blue"><b>Break</b></font>
+ <font color="blue"><b>else</b></font>
+ <font color="blue"><b>begin</b></font>
+   writeln(r[0]);
+   writeln(r.MatchPos[0]);
+   writeln(r.MatchLen[0]);
+   writeln(r.LastIndex);
+ <font color="blue"><b>end</b></font>;
+<font color="blue"><b>until</b></font> false;
+</pre>
+</blockquote>
+
+Output:
+
+<blockquote>
+<pre>
+ab@cable.netlux.org
+16
+24
+41
+ppusr154@ints.net
+45
+17
+63
+</blockquote>
+</pre>
+
+
+<a name="Strings">
+<h4>
+Strings
+</h4>
+
+Double quoted string constants are allowed.
+
+<blockquote>
+<pre>
+<font color="blue"><b>const</b></font> s: <font color="blue"><b>String</b></font> = "My name is 's'  ";
+</pre>
+</blockquote>
+
+You can use backslasges to represent special characters:
+
+<blockquote>
+<pre>
+<font color="blue"><b>const</b></font> z: <font color="blue"><b>String</b></font> = 'Two \n lines';
+</pre>
+</blockquote>
+
+Long string literals are allowed:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>const</b></font> s: <font color="blue"><b>String</b></font> = """This 
+is a long
+string literal""";
+</pre>
+</blockquote>
+
+You can use string literals with parameters. For example:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>print</b></font> '''
+
+First Name: %s
+Last Name: %s
+
+''' <font color="blue"><b>with</b></font> ['Ivan', 'Sidorov'];
+</pre>
+</blockquote>
+
+
+It is equivalent to:
+
+<blockquote>
+<pre>
+<font color="blue"><b>print</b></font> Format ('''
+
+First Name: %s
+Last Name: %s
+
+''', ['Ivan', 'Sidorov'] );
+</pre>
+</blockquote>
+
+
+<a name="Forward Declarations">
+<h4>
+Forward Declarations
+</h4>
+
+ 
+You need no to use forward declarations in paxPascal. In another words, you can use a function 
+call before declaration of the function. For example:
+
+<blockquote>
+<pre>
+Fact(5);
+<font color="blue"><b>function</b></font> Fact(N: Integer): Integer;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> N = 1 <font color="blue"><b>then</b></font>
+    result := 1
+  <font color="blue"><b>else</b></font>
+    result := N * Fact(N - 1); 
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+<a name="Control Structures">
+<h4>
+Control Structures
+</h4>
+
+The Break statement permits optional label that causes the flow of control to 
+exit an outer for, while, or repeat statement and continue at the next statement.
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font>
+  I, J: Integer;
+<font color="blue"><b>label</b></font>
+  Outer;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>print</b></font> 'Start';
+  Outer:
+  <font color="blue"><b>for</b></font> I:=1 <font color="blue"><b>to</b></font> 3 <font color="blue"><b>do</b></font>
+    <font color="blue"><b>for</b></font> J:=1 <font color="blue"><b>to</b></font> 4 <font color="blue"><b>do</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>if</b></font> (I = 2) <font color="blue"><b>and</b></font> (J = 3) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>Break</b></font> Outer;
+      <font color="blue"><b>print</b></font> I, J;
+    <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+
+Output:
+
+<blockquote>
+<pre>
+11
+12
+13
+14
+21
+22
+</pre>
+</blockquote>
+
+
+The Continue statement permits optional label that causes
+the flow of control to proceed to the next iteration of the outer for, while, or repeat statement.
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font>
+  I, J: Integer;
+<font color="blue"><b>label</b></font>
+  Outer;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>print</b></font> 'Start';
+  Outer:
+  <font color="blue"><b>for</b></font> I:=1 <font color="blue"><b>to</b></font> 3 <font color="blue"><b>do</b></font>
+    <font color="blue"><b>for</b></font> J:=1 <font color="blue"><b>to</b></font> 4 <font color="blue"><b>do</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>if</b></font> (I = 2) <font color="blue"><b>and</b></font> (J = 3) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>Continue</b></font> Outer;
+      <font color="blue"><b>print</b></font> I, J;
+    <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+
+Output:
+
+<blockquote>
+<pre>
+11
+12
+13
+14
+21
+22
+31
+32
+33
+34
+</pre>
+</blockquote>
+
+<a name="Embedding scripts into html pages">
+<h4>
+Embedding Scripts into Html Pages
+</h4>
+
+      
+paxScript is consecutively developing in the direction of the internet programming. You can embed your
+paxPascal scripts into html pages as easy as PHP scripts. Click <a href="demo_html.htm">here</a> to see a demo.
+
+
+<a name="Operator Overloading">
+<h4>
+Operator Overloading
+</h4>
+
+paxPascal allows you to overload operators "+", "-", "*", "/", "mod", "shl", "shr", "=", "<>", ">", "<",
+">=", "<=". Click <a href="demo_complex.htm">here</a>, to see an example.
+
+
+<a name="LISPPA">
+<h4>
+LISPPA
+</h4>
+
+Like other paxScript languages, paxPascal supports <a href="lisppa.htm">LISPPA</a> technology (List 
+Processing based on the Polymorphic Arrays), a new technology of the processing dynamic data structures 
+without using pointers.
+
+
+<a name="Syntax">
+<h4>
+Syntax
+</h4>
+
+Remember, that paxPascal program is list of statements. Therefore you can disregard Object Pascal
+synax rules to make your scripts more laconic. For example, the following scripts are admissible:
+
+<ul>
+
+<li>
+<blockquote>
+<pre>
+<font color="blue"><b>print</b></font> "Hello, world!";
+</pre>
+</blockquote>
+</li>
+
+
+<li>
+<blockquote>
+<pre>
+<font color="blue"><b>type</b></font>
+  TMyRec = <font color="blue"><b>record</b></font>
+    X, Y: Integer;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>var</b></font>
+  R: TMyRec;
+<font color="blue"><b>begin</b></font>
+  R.X := 10;
+  Y.Y := 12;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+</li>
+
+<li>
+<blockquote>
+<pre>
+<font color="blue"><b>record</b></font> TMyRec 
+  X, Y: Integer;
+<font color="blue"><b>end</b></font>;
+<font color="blue"><b>var</b></font>
+  R: TMyRec;
+R.X := 10;
+Y.Y := 12;
+</pre>
+</blockquote>
+(this is equivalent of the script above).
+</li>
+
+</ul>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

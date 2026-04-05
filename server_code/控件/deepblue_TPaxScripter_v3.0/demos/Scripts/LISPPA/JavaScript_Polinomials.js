@@ -1,0 +1,56 @@
+// Addition of polynomials (a cyclic linked list application).
+
+function Add(InitP, InitQ) {
+  var P, Q;
+  P = & InitP;
+  Q = & InitQ;
+  while (true) {
+    while (P[0][1] < Q[0][1]) Q = & Q[1];
+
+    if (P[0][1] > Q[0][1])
+      Q = [ + P[0], Q];
+    else {
+      Q[0][0] += P[0][0];
+      if (Q[0][0] == 0)
+        reduced Q = Q[1];
+      else
+        Q = & Q[1];
+    }
+    P = & P[1];
+    if (P[0][1] < 0) break;
+  }
+}
+
+function Show(P) {
+  println '';
+  while (true) {
+    print P[0][0], 'X^', P[0][1];
+    P = & P[1];
+    if (P[0][1] < 0) break;
+    if (P[0][0] >= 0) print '+';
+  }
+}
+
+var P, Q;
+P = [[0, -1], null];
+P[1] = & P;
+P = [[600, 1], P];
+P = [[10, 2], P];
+P = [[70, 5], P];
+P = [[150, 6], P];
+P = [[80, 7], P];
+
+Q = [[0, -1], null];
+Q[1] = & Q;
+Q = [[600, 1], Q];
+Q = [[170, 3], Q];
+Q = [[60, 5], Q];
+Q = [[-150, 6], Q];
+
+println 'Source polynomials:';
+Show(P);
+Show(Q);
+Add(P, & Q);
+println 'Sum:';
+Show(Q);
+

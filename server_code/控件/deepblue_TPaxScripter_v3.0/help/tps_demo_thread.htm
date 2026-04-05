@@ -1,0 +1,175 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TpaxScripter Demo. Test threads.
+</h3>
+<hr>
+
+<blockquote>
+
+<pre>
+<font color="blue"><b>unit</b></font> TestThread1;
+
+<font color="blue"><b>interface</b></font>
+
+<font color="blue"><b>uses</b></font>
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls, PaxScripter, PaxPascal;
+
+<font color="blue"><b>type</b></font>
+  TForm1 = <font color="blue"><b>class</b></font>(TForm)
+    Button1: TButton;
+    Memo1: TMemo;
+    cbStop: TCheckBox;
+    <font color="blue"><b>procedure</b></font> Button1Click(Sender: TObject);
+    <font color="blue"><b>procedure</b></font> FormCreate(Sender: TObject);
+  <font color="blue"><b>private</b></font>
+    { <font color="blue"><b>Private</b></font> declarations }
+    fThreadCount: Integer;
+  <font color="blue"><b>public</b></font>
+    { <font color="blue"><b>Public</b></font> declarations }
+  <font color="blue"><b>end</b></font>;
+
+ TMyThread = <font color="blue"><b>class</b></font>(TThread)
+ <font color="blue"><b>private</b></font>
+   Scripter: TPaxScripter;
+   Language: TPaxPascal;
+   UnsafeInstructions: array[1..100] <font color="blue"><b>of</b></font> Boolean;
+   <font color="blue"><b>procedure</b></font> MarkInstructions;
+   <font color="blue"><b>procedure</b></font> InvokeInstruction;
+   <font color="blue"><b>procedure</b></font> InstructionHandler(Sender: TPaxScripter; N: Integer;
+                                <font color="blue"><b>var</b></font> Handled: Boolean);
+ <font color="blue"><b>public</b></font>
+   <font color="blue"><b>constructor</b></font> Create;
+   <font color="blue"><b>destructor</b></font> Destroy; <font color="blue"><b>override</b></font>;
+   <font color="blue"><b>procedure</b></font> Execute; <font color="blue"><b>override</b></font>;
+ <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  Form1: TForm1;
+
+<font color="blue"><b>implementation</b></font>
+
+<font color="blue"><b>uses</b></font>
+  IMP_SysUtils, IMP_Classes, IMP_StdCtrls, IMP_Controls, IMP_Forms, IMP_Graphics;
+
+{$R *.DFM}
+
+<font color="blue"><b>constructor</b></font> TMyThread.Create;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font> create(True);
+  FreeOnTerminate := true;
+  InterlockedIncrement(Form1.fThreadCount);
+  resume;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>destructor</b></font> TMyThread.Destroy;
+<font color="blue"><b>begin</b></font>
+  InterlockedDecrement(Form1.fThreadCount);
+  <font color="blue"><b>inherited</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMyThread.MarkInstructions;
+<font color="blue"><b>var</b></font>
+  N: Integer;
+  S: <font color="blue"><b>String</b></font>;
+  Instruction: TPaxInstruction;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>for</b></font> N:=1 <font color="blue"><b>to</b></font> Scripter.InstructionCount <font color="blue"><b>do</b></font>
+  <font color="blue"><b>begin</b></font>
+    UnsafeInstructions[N] := false;
+    Instruction := Scripter.GetInstruction(N);
+    <font color="blue"><b>if</b></font> Instruction.Op = _OP_CALL <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      S := Scripter.GetName(Instruction.Arg1);
+      <font color="blue"><b>if</b></font> S = <font color="Red">'TextOut'</font> <font color="blue"><b>then</b></font>
+        UnsafeInstructions[N] := true;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMyThread.InvokeInstruction;
+<font color="blue"><b>begin</b></font>
+  Scripter.RunInstruction;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMyThread.InstructionHandler(Sender: TPaxScripter; N: Integer;
+                                       <font color="blue"><b>var</b></font> Handled: Boolean);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> UnsafeInstructions[N] <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    Synchronize(InvokeInstruction);
+    Handled := true;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TMythread.Execute;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>while</b></font> <font color="blue"><b>not</b></font> form1.cbStop.Checked <font color="blue"><b>do</b></font>
+  <font color="blue"><b>try</b></font>
+    Scripter := TPaxScripter.Create(nil);
+    Language := TPaxPascal.Create(nil);
+    <font color="blue"><b>try</b></font>
+      Scripter.RegisterLanguage(Language);
+      Scripter.RegisterObject(<font color="Red">'Form1'</font>, Form1);
+      Scripter.RegisterVariable(<font color="Red">'ThreadCount'</font>, <font color="Red">'Integer'</font>, @Form1.fThreadCount);
+
+      Scripter.AddModule(<font color="Red">'1'</font>, Language.LanguageName);
+      Scripter.AddCode(<font color="Red">'1'</font>, <font color="Red">'uses SysUtils, Classes, StdCtrls, Controls, Forms, Graphics;'</font>);
+      Scripter.AddCode(<font color="Red">'1'</font>,<font color="Red">'Form1.Memo1.Lines.Add(IntToStr(ThreadCount));'</font>);
+      Scripter.AddCode(<font color="Red">'1'</font>,<font color="Red">'Form1.Canvas.TextOut(0, 0, IntToStr(ThreadCount));'</font>);
+
+      Scripter.Compile;
+      MarkInstructions;
+
+      Scripter.OnRunning := InstructionHandler;
+      Scripter.Run;
+      <font color="blue"><b>if</b></font> Scripter.IsError <font color="blue"><b>then</b></font>
+        <font color="blue"><b>raise</b></font> Exception.create(Scripter.ErrorDescription);
+    <font color="blue"><b>finally</b></font>
+      FreeAndNil(Language);
+      FreeAndNil(Scripter);
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>except</b></font>
+    Application.HandleException(self);
+    terminate;
+    break;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.Button1Click(Sender: TObject);
+<font color="blue"><b>var</b></font>
+  I: Integer;
+<font color="blue"><b>begin</b></font>
+  cbStop.Checked := false;
+  <font color="blue"><b>for</b></font> I:=1 <font color="blue"><b>to</b></font> 100 <font color="blue"><b>do</b></font>
+    TMyThread.Create;
+  <font color="blue"><b>while</b></font> fThreadCount > 0 <font color="blue"><b>do</b></font>
+    Application.ProcessMessages;
+  Memo1.Lines.Add(<font color="Red">'Finished'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.FormCreate(Sender: TObject);
+<font color="blue"><b>begin</b></font>
+  RegisterClassType(TForm1, -1);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

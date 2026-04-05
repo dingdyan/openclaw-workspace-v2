@@ -1,0 +1,86 @@
+variant Insert(int Value, variant P){
+  variant result = [Value, P];
+  if (P != NULL) P.Owner = result;
+  P = result;
+  return result;
+}
+
+variant Add(int Value, variant P){
+  if (P == NULL)
+    return Insert(Value, P);
+  else {
+    variant result = Insert(Value, & P[1]);
+    result.Owner = P;
+    return result;
+  }
+}
+
+variant Remove(int Value, variant L){
+  variant result = & Find(Value, L);
+  if (result != NULL) {
+    variant temp = result.Owner;
+    reduced result = result[1];
+    if (result != NULL) result.Owner = temp;
+  }
+  return result;
+}
+
+variant Find(int Key, variant P){
+  variant result = & P;
+  while (result != NULL) {
+    if (result[0] == Key) return result;
+    result = & result[1];
+  }
+  return NULL;
+}
+
+void StraightOrder(variant A){
+  variant P = A;
+  while (P != NULL) {
+    println P[0];
+    P = P[1];
+  }
+}
+
+void BackOrder(variant A){
+  if (A == NULL) println A;
+  else {
+    variant P = A;
+    while (P[1] != NULL) P = P[1];
+    while (P != NULL) {
+      println P[0];
+      P = P.Owner;
+    }
+  }
+}
+
+variant A = NULL, P;
+Add(300, & A);
+
+Insert(100, & A);
+Insert(50, & A);
+println A;
+BackOrder(A);
+
+P = Find(300, A);
+Add(400, & P);
+println A;
+BackOrder(A);
+
+P = Find(300, A);
+Add(350, & P);
+println A;
+BackOrder(A);
+
+P = Find(100, A);
+Add(150, & P);
+println A;
+BackOrder(A);
+
+Remove(100, A);
+println A;
+BackOrder(A);
+
+println A;
+StraightOrder(A);
+

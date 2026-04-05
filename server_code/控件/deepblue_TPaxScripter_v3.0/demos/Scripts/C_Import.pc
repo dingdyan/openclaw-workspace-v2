@@ -1,0 +1,19 @@
+using StdCtrls, Forms
+
+class MyForm: TForm {
+  private TMemo Memo;
+  void MyForm(Owner) {
+    this = base.Create(Owner);
+    Top = 100;
+    Left = 200;
+    Caption = "MyForm";
+    
+    Memo = new TMemo(this);
+    Memo.Parent = this;
+    Memo.Width = 100;
+    Memo.Align = "alClient";
+  }
+}
+
+MyForm F = new MyForm(NULL);
+F.Show();

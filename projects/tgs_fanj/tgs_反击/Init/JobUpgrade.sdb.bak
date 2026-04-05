@@ -1,0 +1,5 @@
+Upgrade,SuccessRate,DungeonRate,RandomRate,Cost,Items,DamageBody,DamageHead,DamageArm,DamageLeg,ArmorBody,ArmorHead,ArmorArm,ArmorLeg,AttackSpeed,Avoid,Recovery,Accuracy,KeepRecovery,bodec,decRate,bodel,delRate,powerlevel,bomsg,luck,LevelEff,Zdl,
+1,90,95,0,0,ÈÜ»ªËØ:1,20,20,20,20,20,20,20,20,0,20,0,20,20,FALSE,0,TRUE,100,0,FALSE,0,1,,
+2,60,65,0,0,ÖðÁúµ¤:1,50,50,50,50,50,50,50,50,0,50,0,50,50,FALSE,0,TRUE,100,0,FALSE,0,2,,
+3,12,15,0,0,Ì«¼«Òº:1,100,100,100,100,100,100,100,100,0,100,0,100,100,FALSE,0,TRUE,100,0,FALSE,0,3,,
+4,3,5,0,0,¹ðÔ²µ¤:1,150,150,150,150,150,150,150,150,0,150,0,150,150,FALSE,0,TRUE,100,0,FALSE,0,4,,

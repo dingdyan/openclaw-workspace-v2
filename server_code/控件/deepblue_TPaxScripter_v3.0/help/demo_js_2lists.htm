@@ -1,0 +1,112 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Two Way Linked lists (paxJavaScript).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>function</b></font> Insert(Value, P){
+  result = [Value, P];
+  <font color="blue"><b>if</b></font> (P != <font color="blue"><b>null</b></font>) P.Owner = result;
+  P = result;
+  <font color="blue"><b>return</b></font> result;
+}
+
+<font color="blue"><b>function</b></font> Add(Value, P){
+  <font color="blue"><b>if</b></font> (P == <font color="blue"><b>null</b></font>)
+    <font color="blue"><b>return</b></font> Insert(Value, P);
+  <font color="blue"><b>else</b></font> {
+    result = Insert(Value, & P[1]);
+    result.Owner = P;
+    <font color="blue"><b>return</b></font> result;
+  }
+}
+
+<font color="blue"><b>function</b></font> Remove(Value, L){
+  result = & Find(Value, L);
+  <font color="blue"><b>if</b></font> (result != <font color="blue"><b>null</b></font>) {
+    temp = result.Owner;
+    <font color="blue"><b>reduced</b></font> result = result[1];
+    <font color="blue"><b>if</b></font> (result != <font color="blue"><b>null</b></font>) result.Owner = temp;
+  }
+  <font color="blue"><b>return</b></font> result;
+}
+
+<font color="blue"><b>function</b></font> Find(Key, P){
+  result = & P;
+  <font color="blue"><b>while</b></font> (result != <font color="blue"><b>null</b></font>) {
+    <font color="blue"><b>if</b></font> (result[0] == Key) <font color="blue"><b>return</b></font> result;
+    result = & result[1];
+  }
+  <font color="blue"><b>return</b></font> <font color="blue"><b>null</b></font>;
+}
+
+<font color="blue"><b>function</b></font> StraightOrder(A){
+  P = A;
+  <font color="blue"><b>while</b></font> (P != <font color="blue"><b>null</b></font>) {
+    <font color="blue"><b>println</b></font> P[0];
+    P = P[1];
+  }
+}
+
+<font color="blue"><b>function</b></font> BackOrder(A){
+  <font color="blue"><b>if</b></font> (A == <font color="blue"><b>null</b></font>) <font color="blue"><b>println</b></font> A;
+  <font color="blue"><b>else</b></font> {
+    P = A;
+    <font color="blue"><b>while</b></font> (P[1] != <font color="blue"><b>null</b></font>)
+      P = P[1];
+    <font color="blue"><b>while</b></font> (P != <font color="blue"><b>null</b></font>) {
+      <font color="blue"><b>println</b></font> P[0];
+      P = P.Owner;
+    }
+  }
+}
+
+<font color="blue"><b>var</b></font> A = <font color="blue"><b>null</b></font>, P;
+Add(300, & A);
+
+Insert(100, & A);
+Insert(50, & A);
+<font color="blue"><b>println</b></font> A;
+BackOrder(A);
+
+P = Find(300, A);
+Add(400, & P);
+<font color="blue"><b>println</b></font> A;
+BackOrder(A);
+
+P = Find(300, A);
+Add(350, & P);
+<font color="blue"><b>println</b></font> A;
+BackOrder(A);
+
+P = Find(100, A);
+Add(150, & P);
+<font color="blue"><b>println</b></font> A;
+BackOrder(A);
+
+Remove(100, A);
+<font color="blue"><b>println</b></font> A;
+BackOrder(A);
+
+<font color="blue"><b>println</b></font> A;
+StraightOrder(A);
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
+

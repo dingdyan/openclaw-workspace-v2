@@ -1,0 +1,105 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Binary trees (paxJavaScript).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>var</b></font> Key = 0, Left = 1, Right = 2;
+
+<font color="blue"><b>function</b></font> AddNode(Root, X){
+  <font color="blue"><b>if</b></font> (Root == <font color="blue"><b>NULL</b></font>)
+    Root = [X, <font color="blue"><b>NULL</b></font>, <font color="blue"><b>NULL</b></font>];
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> (X < Root[Key])
+    AddNode(& Root[Left], X);
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> (X > Root[Key])
+    AddNode(& Root[Right], X);
+}
+
+<font color="blue"><b>function</b></font> Search(Root, X){
+  <font color="blue"><b>if</b></font> (Root == <font color="blue"><b>NULL</b></font>)
+    <font color="blue"><b>return</b></font> <font color="blue"><b>NULL</b></font>;
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> (X == Root[Key])
+    <font color="blue"><b>return</b></font> Root;
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> (X < Root[Key])
+    <font color="blue"><b>return</b></font> Search(Root[Left], X);
+  <font color="blue"><b>else</b></font>
+    <font color="blue"><b>return</b></font> Search(Root[Right], X);
+}
+
+<font color="blue"><b>function</b></font> DeleteNode(Root, X){
+  <font color="blue"><b>var</b></font> P, R;
+  R = Search(Root, X);
+
+  <font color="blue"><b>if</b></font> (R == <font color="blue"><b>NULL</b></font>) <font color="blue"><b>return</b></font>;
+
+  <font color="blue"><b>if</b></font> ((R[Left] == <font color="blue"><b>NULL</b></font>) && (R[Right] == <font color="blue"><b>NULL</b></font>))
+    <font color="blue"><b>reduced</b></font> R = <font color="blue"><b>NULL</b></font>;
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> (R[Left] == <font color="blue"><b>NULL</b></font>)
+    <font color="blue"><b>reduced</b></font> R = R[Right];
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> (R[Right] == <font color="blue"><b>NULL</b></font>)
+    <font color="blue"><b>reduced</b></font> R = R[Left];
+  <font color="blue"><b>else</b></font> {
+    P = & R[Left];
+    <font color="blue"><b>while</b></font> (P[Right] != <font color="blue"><b>NULL</b></font>) { P = & P[Right]; };
+    R[Key] = P[Key];
+    <font color="blue"><b>reduced</b></font> P = P[Left];
+  }
+}
+
+<font color="blue"><b>function</b></font> PreOrder(Root){
+  <font color="blue"><b>if</b></font> (Root == <font color="blue"><b>NULL</b></font>) <font color="blue"><b>return</b></font>;
+  <font color="blue"><b>println</b></font> Root[Key];
+  PreOrder(Root[Left]);
+  PreOrder(Root[Right]);
+}
+
+<font color="blue"><b>function</b></font> InOrder(Root){
+  <font color="blue"><b>if</b></font> (Root == <font color="blue"><b>NULL</b></font>) <font color="blue"><b>return</b></font>;
+  InOrder(Root[Left]);
+  <font color="blue"><b>println</b></font> Root[Key];
+  InOrder(Root[Right]);
+}
+
+<font color="blue"><b>function</b></font> PostOrder(Root){
+  <font color="blue"><b>if</b></font> (Root == <font color="blue"><b>NULL</b></font>) <font color="blue"><b>return</b></font>;
+  PostOrder(Root[Right]);
+  PostOrder(Root[Left]);
+  <font color="blue"><b>println</b></font> Root[Key];
+}
+
+<font color="blue"><b>var</b></font> Tree, X;
+
+AddNode(&Tree, 10);
+AddNode(&Tree, 5);
+AddNode(&Tree, 15);
+AddNode(&Tree, 3);
+AddNode(&Tree, 8);
+AddNode(&Tree, 13);
+AddNode(&Tree, 18);
+<font color="blue"><b>println</b></font> Tree;
+InOrder(Tree);
+
+X = Search(Tree, 5);
+<font color="blue"><b>println</b></font> X;
+
+DeleteNode(&Tree, 10);
+<font color="blue"><b>println</b></font> Tree;
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,27 @@
+Imports SysUtils, ExtCtrls, Forms
+Imports PaxPascalNamespace
+
+Dim Form = New TForm(NULL)
+Form.Top = Random(100)
+Form.Caption = "PAX Time"
+Form.Canvas.Font.Height = 50
+Form.Height = 100
+Form.Width = 400
+Form.Canvas.Font.Color = clBlue
+
+Dim Timer = New TTimer(Form)
+Timer.Interval = 500
+Timer.OnTimer = AddressOf ShowTime
+
+Form.Show
+
+Do
+Loop Until Not Form.Visible
+
+Sub ShowTime(Sender)
+  If Form.Canvas.TryLock() Then
+    Form.Canvas.TextOut 10, 10, DateTimeToStr(Now()) 
+    Form.Canvas.Unlock
+  End If
+End Sub
+

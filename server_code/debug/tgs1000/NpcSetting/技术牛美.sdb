@@ -1,0 +1,5 @@
+Name,boSelfSay,boMain,MainNumber,HearString,SayString,NeedItem,GiveItem,CountLimit,RecoverTime,DelayTime,
+1,TRUE,,,,想学习技能吗?铸造师如何?,,,,,3000,
+2,TRUE,,,,拿30000钱币就可入门学习了,,,,,3000,
+3,TRUE,,,,出售与收购铸造师制造出的物品,,,,,3000,
+4,TRUE,,,,尽快向神工迈进,,,,,3000,

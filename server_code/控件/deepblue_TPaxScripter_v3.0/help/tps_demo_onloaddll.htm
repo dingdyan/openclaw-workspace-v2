@@ -1,0 +1,71 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h3>
+TPaxScripter.OnLoadDll event demo.
+</h3>
+<hr>
+
+Delphi code:
+
+<blockquote>
+<pre>
+<font color="blue"><b>procedure</b></font> MyVirtualProc;
+<font color="blue"><b>begin</b></font>
+  ShowMessage(<font color="Red">'MyVirtualProc has been called'</font>);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> MyVirtualFunc: ShortString;
+<font color="blue"><b>begin</b></font>
+  result := <font color="Red">'MyVirtualFunc'</font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> TForm1.PaxScripter1LoadDll(Sender: TObject; <font color="blue"><b>const</b></font> DllName,
+  ProcName: <font color="blue"><b>String</b></font>; <font color="blue"><b>var</b></font> Address: Pointer);
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> DllName = <font color="Red">'MyVirtualDll.dll'</font> <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    <font color="blue"><b>if</b></font> ProcName = <font color="Red">'MyVirtualProc'</font> <font color="blue"><b>then</b></font>
+      Address := @ MyVirtualProc
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> ProcName = <font color="Red">'MyVirtualFunc'</font> <font color="blue"><b>then</b></font>
+      Address := @ MyVirtualFunc;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+</pre>
+</blockquote>
+
+Script:
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> Demo;
+<font color="blue"><b>Function</b></font> GetTickCount : Integer;  <font color="blue"><b>stdcall</b></font>; <font color="blue"><b>external</b></font> <font color="Red">'kernel32.dll'</font>; // "real" dll
+
+<font color="blue"><b>procedure</b></font> MyVirtualProc; <font color="blue"><b>external</b></font> <font color="Red">'MyVirtualDll.dll'</font>; // "virtual" dll
+<font color="blue"><b>function</b></font> MyVirtualFunc: ShortString; <font color="blue"><b>external</b></font> <font color="Red">'MyVirtualDll.dll'</font>;
+// "virtual" dll
+
+<font color="blue"><b>begin</b></font>
+
+MyVirtualProc();
+<font color="blue"><b>print</b></font> MyVirtualFunc();
+<font color="blue"><b>print</b></font> GetTickCount();
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

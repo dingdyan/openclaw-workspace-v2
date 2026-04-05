@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爆款文案洗稿神器 - 一键获取自媒体百万粉网感</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        body { background-color: #f9fafb; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .gradient-text { background: linear-gradient(to right, #ec4899, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen">
+    <div id="app" class="max-w-4xl mx-auto p-4 py-10 relative">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold mb-3">🔥 爆款文案<span class="gradient-text">洗稿神器</span></h1>
+            <p class="text-gray-500 text-lg">扔个别人爆火的文案给我，AI立马还你3篇原创爆款！</p>
+            <p class="mt-2 text-sm font-bold text-pink-600 bg-pink-100 inline-block px-3 py-1 rounded-full">当前剩余免费体验次数: {{ 3 - usageCount > 0 ? 3 - usageCount : 0 }} 次</p>
+        </header>
+
+        <main class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 relative">
+            <div class="mb-5">
+                <label class="block font-semibold mb-2 text-gray-700"><i class="ri-link-m mr-1 text-pink-500"></i> 参考爆款内容</label>
+                <textarea v-model="sourceText" rows="4" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition" placeholder="粘贴一段别人点赞破万的文案..."></textarea>
+            </div>
+            
+            <div class="mb-5 flex gap-4">
+                <div class="w-1/2">
+                    <label class="block font-semibold mb-2 text-gray-700"><i class="ri-rocket-2-line mr-1 text-pink-500"></i> 我的新主题/产品</label>
+                    <input v-model="targetTopic" type="text" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-pink-300 focus:border-pink-500 outline-none transition" placeholder="例如：一款好用的蓝牙耳机">
+                </div>
+                <div class="w-1/2">
+                    <label class="block font-semibold mb-2 text-gray-700"><i class="ri-global-line mr-1 text-pink-500"></i> 目标平台</label>
+                    <select v-model="targetPlatform" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-pink-300 outline-none">
+                        <option value="小红书">📕 小红书 (图文)</option>
+                        <option value="抖音/视频号">🎵 抖音/视频号 (短视频脚本)</option>
+                        <option value="微信公众号">📝 微信公众号 (深度长文)</option>
+                        <option value="知乎/头条">💡 知乎/头条 (高赞回答)</option>
+                        <option value="微博/推特">🐦 微博/推特 (短推文)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button @click="generatePosts" :disabled="isLoading" class="w-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold py-4 rounded-xl shadow-md transition transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed text-lg flex justify-center items-center">
+                <i v-if="isLoading" class="ri-loader-4-line animate-spin mr-2"></i>
+                <i v-else class="ri-magic-line mr-2"></i>
+                {{ isLoading ? 'AI正在疯狂燃烧算力拆解中...' : '✨ 一键生成 3 篇原创爆文' }}
+            </button>
+        </main>
+
+        <section v-if="posts.length > 0" class="space-y-6">
+            <h2 class="text-2xl font-bold mb-4 flex items-center text-gray-800"><i class="ri-fire-fill text-red-500 mr-2"></i> 生成结果</h2>
+            <div v-for="(post, index) in posts" :key="index" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3 border-b flex justify-between items-center">
+                    <span class="font-bold text-gray-700">爆款文案版本 {{ index + 1 }}</span>
+                    <button @click="copyText(post)" class="text-pink-500 hover:text-pink-700 text-sm font-semibold flex items-center bg-pink-50 px-3 py-1 rounded-full transition">
+                        <i class="ri-file-copy-line mr-1"></i> 一键复制
+                    </button>
+                </div>
+                <div class="p-5 text-gray-700 leading-relaxed whitespace-pre-wrap">{{ post }}</div>
+            </div>
+        </section>
+
+        <!-- Payment Modal -->
+        <div v-if="showPayModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform transition-all">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="ri-lock-unlock-fill text-3xl text-red-500"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">试用次数已用尽</h3>
+                <p class="text-gray-600 mb-6 text-sm">您的 3 次免费体验已结束。这款神器的 API 燃烧着高昂的大模型算力费！</p>
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-6">
+                    <p class="font-bold text-pink-600 text-xl mb-2">仅需 9.9 元 / 终身解锁</p>
+                    <p class="text-xs text-gray-500 mb-4">长按识别下方老板支付宝收款码，付款后添加老板微信/支付宝领取【无限次数激活码】。</p>
+                    <!-- Placeholder for QR Code -->
+                    <img id="qr-image" src="/images/qrcode.jpg" alt="老板微信/支付宝" class="mx-auto rounded-lg shadow-sm border">
+                </div>
+                <button @click="showPayModal = false" class="text-gray-400 hover:text-gray-600 text-sm font-semibold">
+                    暂时不用了，我再想想
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    sourceText: '',
+                    targetTopic: '',
+                    targetPlatform: '小红书',
+                    isLoading: false,
+                    posts: [],
+                    usageCount: parseInt(localStorage.getItem("baokuan_usage") || "0"),
+                    showPayModal: false
+                }
+            },
+            methods: {
+                async generatePosts() {
+                    if (this.usageCount >= 3) {
+                        this.showPayModal = true;
+                        return;
+                    }
+
+                    if (!this.sourceText.trim() || !this.targetTopic.trim()) {
+                        alert('宝子，要把【参考爆款内容】和【你的新主题】都填上哦！');
+                        return;
+                    }
+                    
+                    this.isLoading = true;
+                    this.posts = [];
+
+                    try {
+                        const response = await fetch('/api/generate', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                sourceText: this.sourceText,
+                                targetTopic: this.targetTopic,
+                                targetPlatform: this.targetPlatform
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            this.posts = data.posts;
+                            this.usageCount++;
+                            localStorage.setItem("baokuan_usage", this.usageCount.toString());
+                        }
+                    } catch (error) {
+                        alert('网络好像开小差了，请稍后再试！');
+                        console.error(error);
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                copyText(text) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('✅ 爆款文案已复制到剪贴板，快去发吧！');
+                    });
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

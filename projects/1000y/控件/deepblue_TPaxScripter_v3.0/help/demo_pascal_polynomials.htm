@@ -1,0 +1,92 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Polynomials (paxPascal).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> Polynomials;
+
+<font color="blue"><b>procedure</b></font> Add(InitP, InitQ: Variant);
+<font color="blue"><b>var</b></font>
+  P, Q: Variant;
+<font color="blue"><b>begin</b></font>
+  P := @ InitP;
+  Q := @ InitQ;
+  <font color="blue"><b>repeat</b></font>
+    <font color="blue"><b>while</b></font> P[0][1] < Q[0][1] <font color="blue"><b>do</b></font>
+      Q := @ Q[1];
+
+    <font color="blue"><b>if</b></font> P[0][1] > Q[0][1] <font color="blue"><b>then</b></font>
+      Q := [ + P[0], Q]
+    <font color="blue"><b>else</b></font>
+    <font color="blue"><b>begin</b></font>
+      Q[0][0] := Q[0][0] + P[0][0];
+      <font color="blue"><b>if</b></font> Q[0][0] = 0 <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> Q := Q[1]
+      <font color="blue"><b>else</b></font>
+        Q := @ Q[1];
+    <font color="blue"><b>end</b></font>;
+    P := @ P[1];
+  <font color="blue"><b>until</b></font> P[0][1] < 0;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> Show(P: Variant);
+<font color="blue"><b>begin</b></font>
+  writeln(<font color="Red">''</font>);
+  <font color="blue"><b>repeat</b></font>
+    write(P[0][0], <font color="Red">'X^'</font>, P[0][1]);
+    
+    P := @ P[1];
+
+    <font color="blue"><b>if</b></font> P[0][1] < 0 <font color="blue"><b>then</b></font>
+      <font color="blue"><b>Exit</b></font>;
+
+    <font color="blue"><b>if</b></font> P[0][0] >= 0 <font color="blue"><b>then</b></font>
+      write(<font color="Red">'+'</font>);
+  <font color="blue"><b>until</b></font> false;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  P, Q: Variant;
+<font color="blue"><b>begin</b></font>
+  P := [[0, -1], <font color="blue"><b>nil</b></font>];
+  P[1] := @ P;
+  P := [[600, 1], P];
+  P := [[10, 2], P];
+  P := [[70, 5], P];
+  P := [[150, 6], P];
+  P := [[80, 7], P];
+
+  Q := [[0, -1], <font color="blue"><b>nil</b></font>];
+  Q[1] := @ Q;
+  Q := [[600, 1], Q];
+  Q := [[170, 3], Q];
+  Q := [[60, 5], Q];
+  Q := [[-150, 6], Q];
+
+  writeln(<font color="Red">'Source polynomials:'</font>);
+  Show(P);
+  Show(Q);
+  Add(P, @ Q);
+  writeln(<font color="Red">'Sum:'</font>);
+  Show(Q);
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

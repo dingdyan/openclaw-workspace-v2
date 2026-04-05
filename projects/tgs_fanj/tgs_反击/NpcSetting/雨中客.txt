@@ -1,0 +1,3 @@
+BUYTITLE:雨中客
+BUYCAPTION:收购部份王陵武器与防具.
+BUYIMAGE:136

@@ -1,0 +1,184 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+
+<h3>
+paxBasic Miscellaneous Operators
+</h3>
+
+<table border="1">
+<tr>
+<th>Language Element</th>
+<th>Short Description</th>
+</tr>
+
+<tr>
+<td><a href="#AddressOf Operator"><b>AddressOf Operator</b></a></td>
+<td>Returns delegate of function or alias of variable.</td>
+</tr>
+
+<tr>
+<td><a href="#TerminalOf Operator"><b>TerminalOf Operator</b></a></td>
+<td>Returns terminal of variable.</td>
+</tr>
+
+
+<tr>
+<td><a href="#New Operator"><b>New Operator</b></a></td>
+<td>Creates a new object.</td>
+</tr>
+
+<tr>
+<td><a href="#Concatenation Operator (&)"><b>Concatenation Operator (&)</b></a></td>
+<td>Forces string concatenation of two expressions.</td>
+</tr>
+
+<tr>
+<td><a href="#+ Operator (unary)"><b>+ Operator (unary)</b></a></td>
+<td>Returns copy of array.</td>
+</tr>
+
+</table>
+
+<a name="AddressOf Operator"><h3>AddressOf Operator</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns delegate of function or alias of variable (see <a href="lisppa.htm">LISPPA </a>).
+<pre>
+result = AddressOf Expr
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>result</i>
+<blockquote>
+Any variable.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Expr</i>
+<blockquote>
+Any expression.
+</blockquote>
+</blockquote>
+</blockquote>
+
+
+
+<a name="TerminalOf Operator"><h3>TerminalOf Operator</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns terminal of variable (see <a href="lisppa.htm">LISPPA </a>).
+<pre>
+result = AddressOf Expr
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>result</i>
+<blockquote>
+Any variable.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Expr</i>
+<blockquote>
+Any expression.
+</blockquote>
+</blockquote>
+</blockquote>
+
+
+<a name="New Operator"><h3>New Operator</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Creates a new object.
+<pre>
+result = <font color="blue"><b>New</b></font> constructor'(' [arguments] ')'
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>result</i>
+<blockquote>
+Any variable
+</blockquote>
+</blockquote>
+<blockquote>
+<i>constructor</i>
+<blockquote>
+A class name
+</blockquote>
+</blockquote>
+<blockquote>
+<i>arguments</i>
+<blockquote>
+Optional. Any <font color="black"><i>arguments</i></font> to be passed to the new object's constructor.
+</blockquote>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+X = <font color="blue"><b>New</b></font> Point(3, 5)
+</pre>
+</blockquote>
+
+<a name="Concatenation Operator (&)"><h3>Concatenation Operator (&)</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Forces string concatenation of two expressions.
+<pre>
+result = expression1 & expression2
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>result</i>
+<blockquote>
+Any variable
+</blockquote>
+</blockquote>
+<blockquote>
+<i>expression1, expression2</i>
+<blockquote>
+Any expression
+</blockquote>
+</blockquote>
+If one or both expressions are Null expressions, <font color="black"><i>result</i></font> is Null.
+</blockquote>
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
+
+
+<a name="+ Operator (unary)"><h3>+ Operator (unary)</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Returns copy of array.
+<pre>
+result = + expr
+</pre>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>expr</i>
+<blockquote>
+Any expression
+</blockquote>
+</blockquote>
+</blockquote>
+</body>
+

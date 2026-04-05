@@ -1,0 +1,375 @@
+{******************************************************************************
+创建人:田莉
+创建时间:2009.07
+修改时间:2009.08.06
+实现功能:
+//通过此NPC对门派进行管理
+   //已验证
+
+     ID 99被虚似任务占用(门派管理员：领取福利)，不能再使用
+       98被虚似任务占用(奖励发放员：门票任务)，不能再使用
+      全局变量：1、2、3已被使用（奖励发放员），不能再使用
+      个人变量：1已被使用（上线时修复元气），不能再使用
+******************************************************************************}
+
+procedure OnMenu(uSource, uDest: integer);
+begin
+  Menusay(uSource, '结天下英雄豪杰，创门派威名远扬。^^'
+    + '    <〖收购物品〗/@buy>^^'
+    + '    <〖出售物品〗/@sell>^^'
+    + '    <〖门派管理〗/@mpgl>^^'
+    + '    <〖 任 务 〗/@Quest>^^');
+end;
+
+procedure Quest(uSOurce, uDest: integer);
+var
+  ComQuestId, CurQuestId, CurQuestStep: integer;
+begin
+  ComQuestId := GetQuestNo(uSOurce);
+  if ComQuestId > 4900 then
+  begin
+    Menusay(uSOurce, '别来烦我，没看见我正忙着吗？^^'
+      + '<〖返回〗/@OnMenu>^^'
+      + '<〖退出〗/@exit>');
+    exit;
+  end;
+  CurQuestId := GetQuestCurrentNo(uSource);
+  case CurQuestId of
+    4950:
+      begin
+        CurQuestStep := GetQuestStep(uSource);
+        if CurQuestStep = 8 then
+        begin
+          Menusay(uSource, '很高兴认识你啊，我这儿可以帮你更好的管理^'
+            + '你的门派，需要的话随时可以找我！既然你来^'
+            + '拜访我，那我就送你点小礼物吧.^^'
+            + '<〖谢谢〗/@q4950_j9>^^'
+            + '<〖返回〗/@OnMenu>^^'
+            + '<〖退出〗/@exit>');
+        end else
+        begin
+          Menusay(uSOurce, '你都拜访了吗？^^'
+            + '<〖返回〗/@OnMenu>^^'
+            + '<〖退出〗/@exit>');
+        end;
+
+      end;
+  else
+    begin
+      Menusay(uSOurce, '别来烦我，没看见我正忙着吗？^^'
+        + '<〖返回〗/@OnMenu>^^'
+        + '<〖退出〗/@exit>');
+    end;
+  end;
+
+end;
+
+procedure q4950_j9(uSource, uDest: integer);
+var
+  aname, notice: string;
+  acount: integer;
+begin
+  if getItemSpace(uSource) < 2 then
+  begin
+    Menusay(uSource, '背包空位不足，请留出2个位置！^^'
+      + '<〖返回〗/@OnMenu>^^'
+      + '<〖退出〗/@exit>');
+    exit;
+  end;
+
+  setQuestStep(uSOurce, 9);
+  notice := getQuestSubRequest(4950, 9);
+  saysystem(uSource, '任务提示：' + notice);
+  if getQuestSubItem(4950, 8, 0, aname, acount) = false then exit;
+  additem(uSource, aname, acount);
+
+  if getQuestSubItem(4950, 8, 1, aname, acount) = false then exit;
+  additem(uSource, aname, acount);
+  saysystem(uSource, '获得任务奖励：钱币:1000,天桃:20');
+  Menusay(uSOurce, '快去' + notice + '^^'
+    + '<〖返回〗/@OnMenu>^^'
+    + '<〖退出〗/@exit>');
+
+end;
+
+//门派管理
+
+procedure mpgl(uSource, uDest: integer);
+var
+  guildname: string;
+begin
+  guildname := GuildGetName(uSource);   //获取门派名称
+  if guildname = '' then
+  begin
+    Menusay(uSource, '你没有此权限。^^'
+      + '<〖退出〗/@exit>');
+    exit;
+  end;
+
+  Menusay(uSource, '欢迎回来，请问有什么可以效劳的？^^'
+    + '    <〖领取福利〗/@lqfl>^^'
+    + '    <〖门派建设〗/@mpjs>^^'
+    + '    <〖开启门派增益属性〗/@kqmpsx>');
+end;
+//门派建设
+
+procedure mpjs(uSource, uDest: integer);
+var
+  level, level1, Enegy, Enegy_max: integer;
+begin
+  level := GuildGetLevel(uSource);      //获取门派等级
+  if (level > 5) or (level <= 0) then exit;
+  Enegy := GuildGetEnegy(uSource);      //获取门派元气
+  if enegy < 0 then exit;
+
+  case level of
+    1: Enegy_max := 1000;
+    2: Enegy_max := 2000;
+    3: Enegy_max := 4000;
+    4: Enegy_max := 8000;
+    5: Enegy_max := 16000;
+  else exit;
+  end;
+  level1 := level + 1;
+  if level >= 5 then
+  begin
+    Menusay(uSource, '当前门派等级为' + inttostr(level) + '级，建设值为：' + inttostr(Enegy) + '，该等级建^设值上限可达到：' + inttostr(Enegy_max) + '。可以通过捐献金币来提^高门派建设值。^^'
+      + '    <〖捐献100金币〗/@juanxian>^^'
+      + '    <〖升级门派〗/@sjmp>^^'
+      + '    <〖返回门派管理〗/@mpgl>^^');
+    exit;
+  end;
+  Menusay(uSource, '当前门派等级为' + inttostr(level) + '级，建设值为：' + inttostr(Enegy) + '，若要升^级到' + inttostr(level1) + '级门派，建设值应达到：' + inttostr(Enegy_max) + '。可以通过^捐献金币来提高门派建设值。^^'
+    + '    <〖捐献100金币〗/@juanxian>^^'
+    + '    <〖升级门派〗/@sjmp>^^'
+    + '    <〖返回门派管理〗/@mpgl>^^');
+end;
+
+//捐献金币
+
+procedure juanxian(uSource, uDest: integer);
+var
+  level, Enegy, Enegy_max: integer;
+begin
+  level := GuildGetLevel(uSource);      //获取门派等级
+  if (level > 5) or (level <= 0) then exit;
+  Enegy := GuildGetEnegy(uSource);      //获取门派元气
+  if enegy < 0 then exit;
+
+  case level of
+    1: Enegy_max := 1000;
+    2: Enegy_max := 2000;
+    3: Enegy_max := 4000;
+    4: Enegy_max := 8000;
+    5: Enegy_max := 16000;
+  else exit;
+  end;
+  if Enegy >= Enegy_max then
+  begin
+    Menusay(uSource, '当前门派建设值已达到上限，不能再增加。^^'
+      + '    <〖升级门派〗/@sjmp>^^'
+      + '    <〖返回门派管理〗/@mpgl>^^');
+    exit;
+  end;
+
+  if getitemcount(uSource, '金币') < 100 then //获取物品数量
+  begin
+    say(uDest, '金币不足。');
+    exit;
+  end;
+
+  if GuildEnegyAdd(uSource, 100) = false then //增加门派元气
+  begin
+    Menusay(uSource, '增加门派建设值失败。^^');
+    exit;
+
+  end;
+  if deleteitem(uSource, '金币', 100) = false then
+  begin
+    Menusay(uSource, '回收物品失败');
+    exit;
+  end;
+  Menusay(uSource, '成功增加门派建设值100，门派当前建设值:' + inttostr(Enegy) + '^^'
+    + '    <〖再捐献100金币〗/@juanxian>^^'
+    + '    <〖返回门派管理〗/@mpgl>^^');
+end;
+//升级门派
+
+procedure sjmp(uSource, uDest: integer);
+var
+  level, Enegy, Enegy_max: integer;
+begin
+  if GuildIsGuildSysop(uSource) = false then //是否 是门主
+  begin
+    Menusay(uSource, '你不是门主，没有此权限。^^');
+    exit;
+  end;
+  level := GuildGetLevel(uSource);      //获得门派等级
+  if level >= 5 then
+  begin
+    Menusay(uSource, '你的门派等级已经达到最高，不能再升级了。^^');
+    exit;
+  end;
+
+  Enegy := GuildGetEnegy(uSource);      //获得门派元气
+  if enegy < 0 then exit;
+
+  case level of
+    1: Enegy_max := 1000;
+    2: Enegy_max := 2000;
+    3: Enegy_max := 4000;
+    4: Enegy_max := 8000;
+    5: Enegy_max := 16000;
+  else exit;
+  end;
+
+  if Enegy < Enegy_max then
+  begin
+    Menusay(uSource, '门派建设值不足，不可升级。^^');
+    exit;
+  end;
+
+  if GuildLevelAdd(uSource, 1) = false then //增加门派等级
+  begin
+    Menusay(uSource, '门派升级失败。^^');
+    exit;
+  end;
+  level := GuildGetLevel(uSource);
+  Menusay(uSource, '恭喜！门派成功升级为：' + inttostr(level) + '级。^^'
+    + '    <〖返回门派管理〗/@mpgl>^^'
+    + '    <〖离开〗/@exit>');
+end;
+//领取福利
+
+procedure lqfl(uSource, uDest: integer);
+var
+  level, temp: integer;
+  botemp: integer;
+begin
+  level := GuildGetLevel(uSource);
+  if (level > 5) or (level <= 0) then exit;
+    //QID 任务 状态   TRUE 24内做过  FALSE 24内没做过
+  botemp := getRegSubQuestIdCount(uSource, 99);
+  if botemp > 1 then
+  begin
+    Menusay(uSource, '你每天只能领取一次福利。^^');
+    exit;
+  end;
+
+  if getitemspace(uSource) < 1 then
+  begin
+    Menusay(uSource, '背包已满，请留出1个空位。');
+    exit;
+  end;
+
+  if additem(uSource, '福利精炼石', level) = false then
+  begin
+    Menusay(uSource, '发放物品失败');
+    exit;
+  end;
+  saysystem(uSource, '获得门派福利奖励：福利精炼石' + inttostr(level) + '个');
+  setRegSubQuest(uSource, 99, 1440);    //注册分支任务 qID任务ID， atime过期小时
+end;
+//开启门派增益属性
+
+procedure kqmpsx(uSource, uDest: integer);
+var
+  level: integer;
+  boGuildSysop: boolean;
+  aitemname: string;
+begin
+  boGuildSysop := GuildIsGuildSysop(uSource);
+ //不是门主
+  if boGuildSysop = false then
+  begin
+    Menusay(uSource, '你不是门主，没有此权限。^^'
+      + '<〖退出〗/@exit>');
+    exit;
+  end;
+
+  level := GuildGetLevel(uSource);      //获得门派等级
+  if (level > 5) or (level <= 0) then exit;
+  case level of
+    1: aitemname := '祝福石';
+    2: aitemname := '灵魂石';
+    3: aitemname := '翎雨石';
+    4: aitemname := '蛟月石';
+    5: aitemname := '蟠龙珠';
+  end;
+
+  Menusay(uSource, '你现在的门派等级是' + inttostr(level) + '级，可以开启门派增益^'
+    + '属性，需要' + aitemname + '一个，金币50。^^'
+    + '           <〖确定开启〗/@kaiqi>'
+    + '           <〖放弃〗/exit>');
+end;
+//确定开启
+
+procedure kaiqi(uSource, uDest: integer);
+var
+  boAdd: boolean;
+  level: integer;
+  aitemname, aadditemname, guildname: string;
+begin
+  level := GuildGetLevel(uSource);
+  case level of
+    1:
+      begin
+        aitemname := '祝福石';
+        aadditemname := '一级门派加属性';
+      end;
+    2:
+      begin
+        aitemname := '灵魂石';
+        aadditemname := '二级门派加属性';
+      end;
+    3:
+      begin
+        aitemname := '翎雨石';
+        aadditemname := '三级门派加属性';
+      end;
+    4:
+      begin
+        aitemname := '蛟月石';
+        aadditemname := '四级门派加属性';
+      end;
+    5:
+      begin
+        aitemname := '蟠龙珠';
+        aadditemname := '五级门派加属性';
+      end;
+  else exit;
+  end;
+    //物品没有
+  if getitemcount(uSource, aitemname) < 1 then
+  begin
+    say(uDest, '使用该功能需要消耗1个' + aitemname + '。');
+    exit;
+  end;
+    //金币不够
+  if getitemcount(uSource, '金币') < 50 then
+  begin
+    say(uDest, '使用该功能需要消耗50个金币。');
+    exit;
+  end;
+
+  boAdd := GuildLifeDataAdditem(uSource, aadditemname); //开启 门派 辅助属性
+  if boAdd = false then
+  begin
+    Menusay(uSource, '增益属性开启失败。');
+    exit;
+  end;
+  if deleteitem(uSource, '金币', 50) = false then
+  begin
+    Menusay(uSource, '回收物品失败');
+    exit;
+  end;
+  if deleteitem(uSource, aitemname, 1) = false then
+  begin
+    Menusay(uSource, '回收物品失败');
+    exit;
+  end;
+  guildname := GuildGetName(uSource);   //获取门派名称
+  Menusay(uSource, '恭喜！增益属性开启成功，时间为30分钟。');
+  topmsg('『' + guildname + '』门派，战斗力已增强。', $000000FF);
+end;
+

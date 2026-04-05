@@ -1,0 +1,1140 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<font face="Arial, Helvetica">
+
+<h2>
+LISPPA Technology
+</h2>
+<hr>
+
+<p>
+LISPPA (List Processing based on the Polymorphic Arrays) technology is a way to process dynamic 
+data structures (lists, trees and more) without using pointers. LISPPA uses polymorphic arrays as 
+a base of the data representation. 
+
+<p>
+What is the polymorphic array? The elements of a polymorphic array can be of any type allowed in the
+given programming language, besides the array elements can hold another arrays.
+
+<p>
+A very important example of polymorphic arrays is <i>variant arrays</i> in such languages as Visual Basic,
+Object Pascal (Delphi) and other. The current implementation of LISPPA is based on an extension of the Variant
+type. All languages of the <a href="http://www.paxscript.com">paxScript scripting engine</a>: paxPascal, 
+paxBasic, paxC, paxJavaScript support LISPPA.
+
+<h3>
+Contents
+</h3>
+
+<ul>
+<li><a href="#Representation of Lists">Representation of Lists</a>
+<li><a href="#List Processing">List Processing</a>
+<li><a href="#Working with Binary Trees">Working with Binary Trees</a>
+<li><a href="#Stacks and queues">Stacks and Queues</a>
+<li><a href="#Two Way Linked Lists">Two Way Linked Lists</a>
+<li><a href="#More Detailed Description of the LISPPA Concepts">More Detailed Description of the LISPPA Concepts</a>
+<li><a href="#LISPPA and Symbolic Computation">LISPPA and Symbolic Computation</a>
+<li><a href="#LISPPA and COM Technology">LISPPA and COM Technology</a>
+<li><a href="#Demos">Demos</a>
+<ul>
+<li><a href="#paxBasic">paxBasic</a>
+<li><a href="#paxC">paxC</a>
+<li><a href="#paxJavaScript">paxJavaScript</a>
+<li><a href="#paxPascal">paxPascal</a>
+</ul>
+<li><a href="#Conclusions">Conclusions</a>
+<li><a href="#References">References</a>
+</ul>
+
+<a name="Representation of Lists">
+<h3>
+Representation of Lists
+</h3>
+
+In terms of polymorphic arrays one can formulate the following recursive definition of the linked list:
+
+<ol>
+
+<li> NULL is a list.
+<li> If L is a list, the one-dimensional array A with two elements A(0) and A(1) = L is a list too.  
+</ol>
+
+A(0) contains a value of the list item.
+
+<p>
+How we might create a list by means of the variant arrays? Let's assume we want to create list 
+(100, 200, 300). We can implement it in Basic by the following statements:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> L, A1(1), A2(1), A3(1)
+A3(0) = 300
+
+A2(0) = 200
+A2(1) = A3
+
+A1(0) = 100
+A1(1) = A2
+
+L = A1
+</pre>
+</blockquote>
+
+paxBasic provides more easy solution to implement the same operation by the variant array constructor:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]]
+</pre>
+</blockquote>
+
+This possibility to create arrays by the variant array constructor is the first important extension of 
+the variant data type. We will see, the variant array constructors is widely used in the LISPPA.
+
+
+
+
+
+
+
+
+
+
+<a name="List Processing">
+<h3>
+List Processing
+</h3>
+
+Now let's consider the problem of insertion of new item 50 at the head of list L. The variant array
+constructor concept suggests a solution:
+
+<blockquote>
+<pre>
+L = [50, L]
+</pre>
+</blockquote>
+
+Let's note that this operation is processed effectively and without memory leak as L variable 
+is a reference. To see it, consider semantics of the statement above:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> temp = Array(2)
+temp(0) = 50
+temp(1) = L
+L = temp
+</pre>
+</blockquote>
+
+L and temp variables are references. You assign references, not actual arrays in the third and 
+fourth statements.
+
+
+<p>
+To insert new item 400 at the tail of the L list, we have to introduce the concept of delegate of 
+variable. It will be the second extension of the variant type concept.
+
+<p>
+Delegate P of variable V substitutes the variable V in the program. In another words, we can think about
+P as an alias of V. Therefore we will use both names "delegate of variable" and "alias" to denote the 
+same concept. This concept will be detail discussed below. For now, let's note that using aliases 
+gives us a way to effectively solve the problem of insertion new item at the tail of list L. Indeed:
+
+<blockquote>
+<pre>
+P = <font color="blue"><b>AddressOf</b></font> L 'Create alias of L
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P = <font color="blue"><b>NULL</b></font> 'Find tail of L
+ P = <font color="blue"><b>AddressOf</b></font> P(1)
+<font color="blue"><b>Loop</b></font>
+P = [400, P] 'Add new item at the tail of L
+</pre>
+</blockquote>
+
+
+At this point we have L list (50, 100, 200, 300, 400). Is there a way to insert a new item, for 
+example 150, at the middle of L? We can guess, the using aliases allows us to solve this problem as well
+with the same success. 
+
+<p>
+Let's assume we want to insert 150 between 100 and 200. The following statement sequence allows us to do it:
+
+<blockquote>
+<pre>
+P = <font color="blue"><b>AddressOf</b></font> L(1)
+P = <font color="blue"><b>AddressOf</b></font> P(1)   'insert before 200
+P = [150, P]
+</pre>
+</blockquote>
+
+Note, 3 operations of insertion (at the head, at the middle, at the tail) are implemented by 
+uniform way. A single statement is enough to insert new item in all cases.
+
+<p>
+Now let's consider the problem of removing items from the list. At first, let's consider the removing at the
+head of list L.
+
+<p>
+The first possible solution
+
+<blockquote>
+<pre>
+L = L(1)
+</pre>
+</blockquote>
+
+is not quite correct because it will produce a memory leak. The LISPPA extends the ordinary assignment 
+statement with the <b>reduced</b> modifier. The reduced assignment statement
+
+<blockquote>
+<pre>
+<font color="blue"><b>reduced</b></font> L = L(1)
+</pre>
+</blockquote>
+
+allows us to assign L(1) to L without the memory leak. This statement has the following semantics:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> temp = L(1)
+L(1) = <font color="blue"><b>NULL</b></font>
+<font color="blue"><b>delete</b></font> L
+L = temp
+</pre>
+</blockquote>
+
+We can see, the reduced assignment statement is processed effectively.
+
+<p>
+Let's consider the removing items at the tail of the L list. We can use aliases to find 
+last item of L, then we delete it:
+
+<blockquote>
+<pre>
+P = <font color="blue"><b>AddressOf</b></font> L 
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P(1) = <font color="blue"><b>NULL</b></font>
+  P = <font color="blue"><b>AddressOf</b></font> P(1) 
+<font color="blue"><b>Loop</b></font>
+<font color="blue"><b>reduced</b></font> P = P(1)
+</pre>
+</blockquote>
+
+The operation of removing items at the middle of the L list has the same unified form and concise notation:
+
+<blockquote>
+<pre>
+P = <font color="blue"><b>AddressOf</b></font> L
+P = <font color="blue"><b>AddressOf</b></font> P(1)
+<font color="blue"><b>reduced</b></font> P = P(1)
+</pre>
+</blockquote>
+
+Finally, let's consider how to remove all items from the L list:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> L = <font color="blue"><b>NULL</b></font>
+  <font color="blue"><b>Reduced</b></font> L = L(1)
+<font color="blue"><b>Loop</b></font>
+</pre>
+</blockquote>
+
+Ok. At this point we have considered LISPPA concepts (polymorphic arrays, array constructors, reduced 
+assignments and aliases) which provide a way to process the linked lists. We have to introduce one more 
+(the last) concept to ensure the full applicability of the LISPPA for the representation and processing of 
+dynamic data structures.
+
+<p>
+Let's consider a problem of representation of cycled list (100, 200, 300). We have to find a possibility to 
+join the head and tail of the list. The first solution
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]]
+L[1][1][1] = <font color="blue"><b>AddressOf</b></font> L
+</pre>
+</blockquote>
+
+is trivial one, but it is not suitable for a "long" list. We have to find a way to do the same for arbitrary
+lists. 
+
+<p>
+
+At first, let's note, if P is an alias of V variable, the new assignment of alias of another variable W 
+will discard the old value of P. Therefore, if we want to make V as alias of W by means of P, we should use 
+the TerminalOf operator: 
+
+<blockquote>
+<pre>
+<font color="blue"><b>TerminalOf</b></font> P = <font color="blue"><b>AddressOf</b></font> W
+</pre>
+</blockquote>
+
+Here is the LISPPA solution of the cycled list problem:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> L = [100, [200, [300, <font color="blue"><b>NULL</b></font>]]]
+P = <font color="blue"><b>AddressOf</b></font> L
+<font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P = <font color="blue"><b>NULL</b></font> 
+ P = <font color="blue"><b>AddressOf</b></font> P(1)
+<font color="blue"><b>Loop</b></font>
+<font color="blue"><b>TerminalOf</b></font> P = <font color="blue"><b>AddressOf</b></font> L
+</pre>
+</blockquote>
+
+The following statement sequence will print list items:
+
+<blockquote>
+<pre>
+P = <font color="blue"><b>AddressOf</b></font> L
+I = 0
+<font color="blue"><b>Do</b></font>
+  <font color="blue"><b>println</b></font> P[0]
+  P = <font color="blue"><b>AddressOf</b></font> P[1]
+  I += 1
+<font color="blue"><b>Loop</b></font> <font color="blue"><b>Until</b></font> I = 15
+</pre>
+</blockquote>
+
+
+<font size ="2">
+It is necessary to note, the using of aliases can be considerably eliminated. Often we can use ordinary 
+references instead of aliases. 
+
+<p>
+For example, I can insert new item anItem into L list after the first item of L by means of
+
+<blockquote>
+<pre>
+L[1] := [anItem, L[1]];
+</blockquote>
+</pre>
+
+Furthermore, I might use the statement sequence
+
+<blockquote>
+<pre>
+P := L[1];
+P[1] := [anItem, P[1]];
+</blockquote>
+</pre>
+
+to insert new item after the second item of L list.
+
+<p>
+However, I prefer to use aliases as they keep the structure of the statement of insertion:
+
+
+<blockquote>
+<pre>
+P := [anItem, P];
+</blockquote>
+</pre>
+
+which is uniform one, i.e. <b>it does not depend from the position of insertion</b> 
+(at the top, at the middle, at the tail of list). You are moving alias, not changing structure of the 
+statement. 
+</font>
+
+
+<a name ="Working with Binary Trees">
+<h3>
+Working with Binary Trees
+</h3>
+
+In terms of polymorphic arrays one can formulate the following recursive definition of the binary tree: 
+
+<ol>
+<li>NULL is a binary tree 
+<li>If L and R are binary trees, the one-dimensional array A with 3 elements A(0), A(1) = L and
+A(2) = R is a binary tree too.
+</ol>
+
+A(0) contains a key of a node. 
+
+<p>
+Lets's consider a simple program in paxBasic:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> Key = 0, Left = 1, Right = 2
+
+<font color="blue"><b>Sub</b></font> AddNode(Root, X)
+  <font color="blue"><b>If</b></font> Root = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    Root = [X, <font color="blue"><b>NULL</b></font>, <font color="blue"><b>NULL</b></font>]
+  <font color="blue"><b>ElseIf</b></font> X < Root(Key) <font color="blue"><b>Then</b></font>
+    AddNode(<font color="blue"><b>AddressOf</b></font> Root(Left), X)
+  <font color="blue"><b>ElseIf</b></font> X > Root(Key) <font color="blue"><b>Then</b></font>
+    AddNode(<font color="blue"><b>AddressOf</b></font> Root(Right), X)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Function</b></font> Search(Root, X)
+  <font color="blue"><b>If</b></font> Root = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Return</b></font> <font color="blue"><b>NULL</b></font>
+  <font color="blue"><b>ElseIf</b></font> X = Root(Key) <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Return</b></font> Root
+  <font color="blue"><b>ElseIf</b></font> X < Root(Key) <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Return</b></font> Search(Root(Left), X)
+  <font color="blue"><b>Else</b></font>
+    <font color="blue"><b>Return</b></font> Search(Root(Right), X)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Sub</b></font> DeleteNode(Root, X)
+  <font color="blue"><b>Dim</b></font>  P, R
+  
+  R = Search(Root, X)
+
+  <font color="blue"><b>If</b></font> R = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Exit</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>ElseIf</b></font> (R(Left) = <font color="blue"><b>NULL</b></font>) <font color="blue"><b>And</b></font> (R(Right) = <font color="blue"><b>NULL</b></font>) <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Reduced</b></font> R = <font color="blue"><b>NULL</b></font>
+  <font color="blue"><b>ElseIf</b></font> R(Left) = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Reduced</b></font> R = R(Right)
+  <font color="blue"><b>ElseIF</b></font> R(Right) = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Reduced</b></font> R = R[Left]
+  <font color="blue"><b>Else</b></font>
+    P = <font color="blue"><b>AddressOf</b></font> R(Left)
+    <font color="blue"><b>Do</b></font> <font color="blue"><b>Until</b></font> P(Right) = <font color="blue"><b>NULL</b></font>
+      P = <font color="blue"><b>AddressOf</b></font> P(Right)
+    <font color="blue"><b>Loop</b></font>
+    R(Key) = P(Key)
+    <font color="blue"><b>Reduced</b></font> P = P(Left)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Sub</b></font> InOrder(Root)
+  <font color="blue"><b>If</b></font> Root <> <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+    InOrder(Root(Left))
+    <font color="blue"><b>println</b></font> Root(Key)
+    InOrder(Root(Right))
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Dim</b></font> Tree, X
+
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 10)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 5)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 15)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 3)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 8)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 13)
+AddNode(<font color="blue"><b>AddressOf</b></font> Tree, 18)
+<font color="blue"><b>println</b></font> Tree
+PreOrder(Tree)
+
+X = Search(Tree, 5)
+<font color="blue"><b>println</b></font> X
+
+DeleteNode(<font color="blue"><b>AddressOf</b></font> Tree, 10)
+<font color="blue"><b>println</b></font> Tree
+</pre>
+</blockquote>
+
+
+You can see, the representation of algorithmes is very concise. Note, we prefer 
+
+
+<blockquote>
+<pre>
+    <font color="blue"><b>Reduced</b></font> R = <font color="blue"><b>NULL</b></font>
+</pre>
+</blockquote>
+
+instead of
+
+<blockquote>
+<pre>
+    <font color="blue"><b>Delete</b></font> R
+</pre>
+</blockquote>
+
+to avoid explicit use of a deallocation operator.
+
+
+<a name ="Stacks and queues">
+<h3>
+Stacks and Queues
+</h3>
+
+Empty linked stack is represented by unassigned variable Stack:
+
+<blockquote>
+<pre>
+    <font color="blue"><b>Dim</b></font> Stack
+</pre>
+</blockquote>
+
+To push new item anItem into the stack, we use
+
+<blockquote>
+<pre>
+    Stack = [anItem, Stack]
+</pre>
+</blockquote>
+
+
+The top item of the stack is available as Stack(0).
+
+
+<p>
+We can delete the top item with the statement
+
+
+<blockquote>
+<pre>
+    <font color="blue"><b>Reduced</b></font> Stack = Stack(1)
+</pre>
+</blockquote>
+
+
+The linked queue can be represented by 2 variables Head and Tail. We add new items at the tail of the 
+queue with the statement sequence:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>If</b></font> Head = <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+  Tail = [anItem, <font color="blue"><b>NULL</b></font>]
+  Head = Tail
+<font color="blue"><b>Else</b></font>
+  Tail(1) = [anItem, <font color="blue"><b>NULL</b></font>]
+  Tail = Tail(1)
+<font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+</pre>
+</blockquote>
+
+The first item of the queue is available as Head(0), Tail(0) returns the last item. The statement
+
+<blockquote>
+<pre>
+   <font color="blue"><b>Reduced</b></font> Head = Head(1)
+</pre>
+</blockquote>
+
+allows to delete items at the head of the queue.
+
+
+
+<a name ="Two Way Linked Lists">
+<h3>
+Two Way Linked Lists
+</h3>
+
+
+The most easy way to introduce the two way linked lists is to extend the polymorphic array with the 
+Owner property. The Owner property returns reference on array which contains given array.
+
+<p>
+To insert new item before the position specified by the P alias, we can use function:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Function</b></font> Insert(Value, P)
+  <font color="blue"><b>Dim</b></font> result = [Value, P]
+  <font color="blue"><b>If</b></font> P <> <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+    P.Owner = result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  P = result
+  <font color="blue"><b>return</b></font> P
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+</blockquote>
+
+
+The Add function, which allows to add new item after the position specified by the P alias, can be
+expressed via Insert function:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Function</b></font> Add(Value, P)
+  <font color="blue"><b>Dim</b></font> result
+  <font color="blue"><b>If</b></font> P = <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+    result = Insert(Value, P)
+  <font color="blue"><b>Else</b></font>
+    result = Insert(Value, <font color="blue"><b>AddressOf</b></font> P(1))
+    result.Owner = P
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>return</b></font> result
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+</blockquote>
+
+
+The Find function returns alias of item which contains the Key value or <b>null</b> if such item is 
+absent:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Function</b></font> Find(Key, P)
+  <font color="blue"><b>Dim</b></font> result = <font color="blue"><b>AddressOf</b></font> P
+  <font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> result <> <font color="blue"><b>null</b></font>
+    <font color="blue"><b>If</b></font> result(0) = Key <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>Return</b></font> result
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    result = <font color="blue"><b>AddressOf</b></font> result(1)
+  <font color="blue"><b>Loop</b></font>
+  <font color="blue"><b>Return</b></font> <font color="blue"><b>null</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+</blockquote>
+
+
+We can remove an item at the position given by the Value parameter with the Remove function:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Function</b></font> Remove(Value, L)
+  <font color="blue"><b>Dim</b></font> temp, result
+  result = <font color="blue"><b>AddressOf</b></font> Find(Value, L)
+  <font color="blue"><b>If</b></font> result <> <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+    temp = result.Owner
+    <font color="blue"><b>Reduced</b></font> result = result(1)
+    <font color="blue"><b>If</b></font> result <> <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+      result.Owner = temp
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+</blockquote>
+
+
+The BackwardOrder function allows to print list items in the backward order:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Sub</b></font> BackwardOrder(A)
+  <font color="blue"><b>Dim</b></font> P
+  <font color="blue"><b>If</b></font> A = <font color="blue"><b>null</b></font> <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>println</b></font> A
+  <font color="blue"><b>Else</b></font>
+    P = A
+    <font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> P(1) <> <font color="blue"><b>null</b></font> ' Find last item
+      P = P(1)
+    <font color="blue"><b>Loop</b></font>
+    <font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> P <> <font color="blue"><b>null</b></font>
+      <font color="blue"><b>Println</b></font> P(0)
+      P = P.Owner
+    <font color="blue"><b>Loop</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+</pre>
+</blockquote>
+
+<a name ="More Detailed Description of the LISPPA Concepts">
+<h3>
+More Detailed Description of the LISPPA Concepts
+</h3>
+
+
+As was stated above, the LISPPA technology use the following concepts:
+
+<ul>
+<li><b>Polymorphic arrays</b>. At present time, a lot programming languages use it.
+<li><b>Array constructors</b>. Nothing new, again. The constructors allow to
+create new arrays by means of enumeration of the array elements.
+<li><b>Reduced assignment statements</b>. The semantics of the statement can be expressed via already known 
+concepts: assignment statement and delete operator. Let's consider it in detail.
+<p>
+The reduced assignment 
+
+<blockquote>
+<pre>
+<font color="blue"><b>reduced</b></font> A = E
+</pre>
+</blockquote>
+
+means
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> temp = E
+E = <font color="blue"><b>NULL</b></font>
+<font color="blue"><b>delete</b></font> A
+A = temp
+</pre>
+</blockquote>
+
+
+if A is an array and E is an element of A. Otherwise it means:
+
+<blockquote>
+<pre>
+<font color="blue"><b>delete</b></font> A
+A = E
+</pre>
+</blockquote>
+
+<li><b>Aliases and terminals</b>. paxBasic uses statement
+
+<blockquote>
+<pre>
+P = <font color="blue"><b>AddressOf</b></font> A
+</pre>
+</blockquote>
+
+to assign P as alias of A. Another paxScript languages use different synax rules. So, paxPascal uses 
+statement 
+
+<blockquote>
+<pre>
+P := @ A; 
+</pre>
+</blockquote>
+
+paxC and paxJavaScript use 
+
+<blockquote>
+<pre>
+P = & A; 
+</pre>
+</blockquote>
+
+Alias P of A variable substitutes the A variable in expressions. Most often aliases are used to operate 
+with array elements. For example: 
+
+<blockquote>
+<pre>
+<font color="blue"><b>Function</b></font> CopyTerm(A)
+  <font color="blue"><b>Dim</b></font> I, AI, Result
+  Result = PaxArray(A.Length)
+  <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> A.Length - 1 
+    AI = <font color="blue"><b>AddressOf</b></font> A(I)
+    <font color="blue"><b>If</b></font> IsCompound(AI) <font color="blue"><b>Then</b></font>
+      Result(I) = CopyTerm(AI)
+    <font color="blue"><b>Else</b></font>
+      Result(I) = AI
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>Return</b></font> Result
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+</blockquote>
+
+The very important feature of aliases is the transitivity. 
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> A, P, Q
+A = 100
+P = <font color="blue"><b>AddressOf</b></font> A
+Q = <font color="blue"><b>AddressOf</b></font> P
+MsgBox Q
+</pre>
+</blockquote>
+
+
+It produces 100. In this case we are speaking that P and Q have common <i>terminal</i> A.
+Operator TerminalOf returns terminal of variable. All non-aliases are fixed points of TerminalOf
+operator. So, the TerminalOf(A) is A in the example above.
+
+
+<p>
+New assignment of alias to P variable discards old value of P. Therefore you can think about statement 
+
+<blockquote>
+<pre>
+P = <font color="blue"><b>AddressOf</b></font> L
+</pre>
+</blockquote>
+
+as 2 statements
+
+<blockquote>
+<pre>
+<font color="blue"><b>delete P</b></font>
+P = <font color="blue"><b>AddressOf</b></font> L
+</pre>
+</blockquote>
+
+
+The first statement is implied, you have no a need to use it explicitly. Note, the delete statement 
+destroys P variable, not terminal of P. So, the statement sequence
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> A, P
+A = 100
+P = <font color="blue"><b>AddressOf</b></font> A
+MsgBox A
+MsgBox P
+<font color="blue"><b>delete</b></font> P
+MsgBox A
+MsgBox P
+</pre>
+</blockquote>
+
+produces
+
+<blockquote>
+<pre>
+100
+100
+100
+NULL
+</pre>
+</blockquote>
+
+
+To destroy A by means of P, you have to use TerminalOf operator: 
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> A, P
+A = 100
+P = <font color="blue"><b>AddressOf</b></font> A
+MsgBox A
+MsgBox P
+<font color="blue"><b>delete TerminalOf</b></font> P
+MsgBox A
+MsgBox P
+</pre>
+</blockquote>
+
+These statements produce
+
+<blockquote>
+<pre>
+100
+100
+NULL
+NULL
+</pre>
+</blockquote>
+
+Let's note there are only 2 places where you might use the TerminalOf operator. 
+
+<p>
+The first place is the delete statement. You can delete either P or terminal of P. 
+
+<p>
+The second place is the assignment statement. The assignment statement has the following grammar:
+
+<blockquote>
+<pre>
+[<font color="blue"><b>Reduced</b></font>][<font color="blue"><b>TerminalOf</b></font>] Expr1 = [<font color="blue"><b>AddressOf</b></font> [<font color="blue"><b>TerminalOf</b></font>]] Expr2
+</pre>
+</blockquote>
+
+The reduced modifier is used to avoid a memory leak. It has been considered above.
+
+<p>
+The TerminalOf at the left part of the assignment statement should be used only when Expr1 is alias and 
+AddressOf is presented at the right part of the statement.  
+(Because <font color="blue"><b>TerminalOf</b></font> Expr1 = Expr2 
+produces the same assignment as Expr1 = Expr2 in all another cases). When AddressOf is presented at the right 
+part, the use of TerminalOf in the left part allows you to assign alias of Expr2 to terminal of Expr1. For 
+example:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> A[10], B, C, P
+B = 300
+C = 500
+P = <font color="blue"><b>AddressOf</b></font> A(5)
+<font color="blue"><b>TerminalOf</b></font> P = <font color="blue"><b>AddressOf</b></font> B
+MsgBox P
+MsgBox A[5] 
+P = <font color="blue"><b>AddressOf</b></font> C
+MsgBox A[5] 
+MsgBox P
+</pre>
+</blockquote>
+
+It produces
+
+<blockquote>
+<pre>
+300
+300
+300
+500
+</pre>
+</blockquote>
+
+The TerminalOf at the left part of the assignment statement should be used only when Expr2 is an alias.
+In this case, the use of TerminalOf allows you to assign Expr1 as alias of terminal of Expr2. For example
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> P1 = <font color="Red">"X"</font>
+<font color="blue"><b>Dim</b></font> P2 = <font color="Red">"Y"</font>
+<font color="blue"><b>Dim</b></font> T1 = [<font color="Red">"R"</font>, [<font color="Red">"F"</font>, <font color="blue"><b>AddressOf</b></font> P1]]
+<font color="blue"><b>Dim</b></font> T2 = [<font color="Red">"R"</font>, <font color="blue"><b>AddressOf</b></font> P2]
+<font color="blue"><b>Dim</b></font> Q1 = <font color="blue"><b>AddressOf</b></font> T1[1]
+<font color="blue"><b>Dim</b></font> Q2 = <font color="blue"><b>AddressOf</b></font> T2[1]
+<font color="blue"><b>TerminalOf</b></font> Q2 = <font color="blue"><b>AddressOf</b></font> <font color="blue"><b>TerminalOf</b></font> Q1
+</pre>
+</blockquote>
+
+
+This example illustrates how the search of most general unifier works (mechanical theorem proving). 
+T1 and T2 represent terms, P1 and P2 are parameters of T1 and T2 accordingly. The last statement 
+
+<blockquote>
+<pre>
+<font color="blue"><b>TerminalOf</b></font> Q2 = <font color="blue"><b>AddressOf</b></font> <font color="blue"><b>TerminalOf</b></font> Q1
+</pre>
+</blockquote>
+
+changes parameters, not source terms. 
+</ul>
+
+
+<a name ="LISPPA and Symbolic Computation">
+<h3>
+LISPPA and Symbolic Computation
+</h3>
+
+The use of LISPPA considerably simplify the programming of symbolic computation in the imperative languages.
+Indeed, how one can characterize a language which is well-suited for the symbolic computations? Such language
+should provide a simple way for representation of terms and flexible control structures allowing to process
+terms. LISPPA-extension of such imperative languages as Pascal or Basic can ensure both conditions: array
+constructors provide a suitable way for the term representation, aliases allows to process terms effectively.
+
+<p>
+Let's consider an example written in paxBasic. This is the most general unifier algorithm, the heart of the
+theorem proving and logic programming:
+
+<blockquote>
+<pre>
+<font color="blue"><b>Function</b></font> Unify(N <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, T1 <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>, T2 <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>Dim</b></font> I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Dim</b></font> P1, P2 <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>
+  <font color="blue"><b>For</b></font> I=N <font color="blue"><b>to</b></font> T1.length - 1
+    P1 = <font color="blue"><b>AddressOf</b></font> T1(I)
+    P2 = <font color="blue"><b>AddressOf</b></font> T2(I)
+    <font color="blue"><b>If</b></font> IsCompound(P1) <font color="blue"><b>And</b></font> IsCompound(P2) <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>If</b></font> <font color="blue"><b>Not</b></font> Unify(0, P1, P2) <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>Return</b></font> false
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>ElseIf</b></font> IsVar(P1) <font color="blue"><b>And</b></font> (<font color="blue"><b>Not</b></font> Inside(P1, P2)) <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>TerminalOf</b></font> P1 = <font color="blue"><b>AddressOf</b></font> <font color="blue"><b>TerminalOf</b></font> P2
+    <font color="blue"><b>ElseIf</b></font> IsVar(P2) <font color="blue"><b>And</b></font> (<font color="blue"><b>Not</b></font> Inside(P2, P1)) <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>TerminalOf</b></font> P2 = <font color="blue"><b>AddressOf</b></font> <font color="blue"><b>TerminalOf</b></font> P1
+    <font color="blue"><b>ElseIf</b></font> P1 <> P2 <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>Return</b></font> false
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>Return</b></font> true
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+</blockquote>
+
+The most general unifier algorithm is the "litmus paper" of applicability of a programming language for
+symbolic computations. While functional languages offer simple solutions, the imperative languages based on
+using pointers will increase the complexity of the implementation of the algorithm. The example above shows
+a simple solution in the imperative style of the programming.
+
+
+
+<a name ="LISPPA and COM Technology">
+<h3>
+LISPPA and COM Technology
+</h3>
+
+A possibility to represent and to process complex data structures in LISPPA on the base of Variant data 
+types can important for the COM technology. There are a few data types which are admissible in COM:
+selected scalar data types and variants. Let's suppose both the server and client of Automation supports 
+LISPPA (as was stated above, LISPPA can be implemented as a simple extension of Variant type concept). 
+For example, our server can contain an expert system and we pass set of facts to the expert system
+as a parameter. The set of facts can be easily represented as a variant array which contains
+terms as elements.  Server will send to client a value represented as a term as well. 
+
+<p>
+The LISPPA allows you to transfer complex data structures between server and 
+client without having to encode/decode the data. It can considerably increase the total speed of data 
+processing at both sides. LISPPA provides an uniform way for the data representation.
+ 
+
+<a name ="Demos">
+<h3>
+Demos
+</h3>
+
+<ul>
+
+<a name ="paxBasic">
+<li>paxBasic
+<ul>
+<li><a href="demo_basic_lists.htm">Linked lists</a>
+<li><a href="demo_basic_2lists.htm">Two way linked lists</a>
+<li><a href="demo_basic_trees.htm">Binary trees</a>
+<li><a href="demo_basic_polynomials.htm">Polynomials</a>
+<li><a href="demo_basic_euler.htm">Euler algorithm</a>
+<li><a href="demo_basic_diff.htm">Symbolic differentiation</a>
+<li><a href="demo_basic_theorem.htm">Mechanical theorem proving</a>
+</ul>
+
+<a name ="paxC">
+<li>paxC
+<ul>
+<li><a href="demo_c_lists.htm">Linked lists</a>
+<li><a href="demo_c_2lists.htm">Two way linked lists</a>
+<li><a href="demo_c_trees.htm">Binary trees</a>
+<li><a href="demo_c_polynomials.htm">Polynomials</a>
+<li><a href="demo_c_euler.htm">Euler algorithm</a>
+</ul>
+
+<a name ="paxJavaScript">
+<li>paxJavaScript
+<ul>
+<li><a href="demo_js_lists.htm">Linked lists</a>
+<li><a href="demo_js_2lists.htm">Two way linked lists</a>
+<li><a href="demo_js_trees.htm">Binary trees</a>
+<li><a href="demo_js_polynomials.htm">Polynomials</a>
+<li><a href="demo_js_euler.htm">Euler algorithm</a>
+</ul>
+
+<a name ="paxPascal">
+<li>paxPascal
+<ul>
+<li><a href="demo_pascal_lists.htm">Linked lists</a>
+<li><a href="demo_pascal_2lists.htm">Two way linked lists</a>
+<li><a href="demo_pascal_trees.htm">Binary trees</a>
+<li><a href="demo_pascal_polynomials.htm">Polynomials</a>
+<li><a href="demo_pascal_euler.htm">Euler algorithm</a>
+<li><a href="demo_pascal_diff.htm">Symbolic differentiation</a>
+<li><a href="demo_pascal_theorem.htm">Mechanical theorem proving</a>
+</ul>
+
+</ul>
+
+
+You can try these demos with the paxScript IDE. (See Download 
+section at<a href="http://www.paxscript.com"> www.paxscript.com</a>).
+
+
+<a name ="Conclusions">
+<h3>
+Conclusions
+</h3>
+
+<ol>
+
+<li>
+LISPPA technology is based on 4 main concepts:
+
+<ol>
+<li>Polymorphic arrays.
+<li>Array constructors.
+<li>Reduced assignments.
+<li>Aliases or delegates of variable. Terminals.
+</ol>
+
+The first 2 concepts are not new, they are presented in many programming languages. Just let's remind: 
+a variable of a polymorphic array type is actually a reference. Hence more than one variable 
+can refer to the same polymorphic array. The assignment statement executes copying references, not actual 
+arrays. The copy of A array can be created by the unary plus operator (+ A). 
+                                                                                     
+<p>
+The third concept is optional as it can be expressed via already known concepts. 
+
+<p>
+Aliases and terminals are not new concepts too, I have adjusted their semantics for the processing
+of polymorphic arrays.
+
+<li>
+LISPPA technology considerably simplify the processing of dynamic data structures in comparison with 
+the technology based on the use of pointers. For example, the structure of statement which expresses 
+operation of the insertion of item into the list 
+
+<blockquote>
+<pre>
+P = [NewItem, P]
+</pre>
+</blockquote>
+
+and structure of statement which expresses operation of the removing item from the list 
+
+<blockquote>
+<pre>
+<font color="blue"><b>reduced</b></font> P = P(1)
+</pre>
+</blockquote>
+
+are uniform. In another words, <b>they are do not depend from the position of insertion or deleting</b> 
+(at the top, at the middle, at the tail of list). You are moving alias, not changing structure of the 
+statement. Both operations are expressed by single statement. You do not use allocation and deallocation of 
+memory explicitly. The programming of the dynamic data structures becomes more safe and free of bugs.
+
+<li>
+Well known variant types can be easy extended to provide LISPPA. paxScript scripting engine implements
+LISPPA on the base of an extension of the Variant type. In particular, the alias type is a Variant 
+sub-type. So LISPPA can be implemented in all programming systems which support the variant types.
+
+<li>
+LISPPA considerably extends the applicability of imperative programming languages in the symbolic 
+computations and AI applications.
+
+<li>
+LISPPA can be important for the COM technology (representation and processing of data in Variants).
+
+<li>
+Java views pointers as something that are too much trouble to deal with, and therefore 
+doesn't expose them to the programmer. .NET paradigm relaxes this strict limitation but does not allow 
+the use of pointers in "normal" code. 
+Therefore LISPPA technology can be important for both directions. (Variant types are absent in Java 
+and .NET Frameworks however the support of LISPPA can be easily implemented).
+
+<li>
+Implementation LISPPA in paxJavaScript can be used as a background of possible development of ECMA 
+standard of the JavaScript language.
+
+<li>
+The Variant types provide the most easy way of the LISPPA implementation. However, this is not 
+a necessary condition. We might introduce new data types such as pa-integer (polymorphic array
+of integers), pa-double (polymorphic array of doubles) etc to privide the strict data typing in the
+processing of dynamic data structures and to increase the performance. More general, if T is a data 
+type, we can consider pa-T, the polymorphic array of elements of T type. 
+
+<li>
+LISPPA has theoretical value as it allows to concisely describe well-known data structures and 
+algorithmes on the base of the concept of the polymorphic array. For example, linked lists, trees and
+graphs can be considered as partial cases of polymorphic array.
+
+</ol>
+
+
+<a name ="References">
+<h3>
+References
+</h3>
+
+For the first time the use polymorphic arrays for the processing of dynamic data structures has been 
+presented in the articles: 
+
+<ol>
+<li>Baranovsky A.I. (1998) The Universal Programming Language VIRT. Kibernetika i
+        sistemny analiz, ISSN 0023-1274, N5, Kiev, p. 130-150. 
+<BR>
+<li>Baranovsky A.I. (1999) Using the VIRT Language for the Symbolic Computations,
+        Artificial Intelligence, ISSN 1561-5359, N1, Donetsk, p. 59-69. 
+<BR>
+<li>Baranovsky A.I. (1999) Using the VIRT Language for the Mechanical Theorem Proving. Kibernetika i
+        sistemny analiz, ISSN 0023-1274, N6, p. 87-99 Kiev. 
+</ol>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
+                                      

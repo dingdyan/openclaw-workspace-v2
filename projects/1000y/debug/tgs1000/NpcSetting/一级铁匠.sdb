@@ -1,0 +1,4 @@
+Name,boSelfSay,boMain,MainNumber,HearString,SayString,NeedItem,GiveItem,CountLimit,RecoverTime,DelayTime,
+1,TRUE,,,,售基本武器和飞刀、箭,,,,,1000,
+2,TRUE,,,,F1是帮助键,,,,,1250,
+5,TRUE,,,,买卖、共享账号导致的一系列问题不作处理。,,,,,2000,

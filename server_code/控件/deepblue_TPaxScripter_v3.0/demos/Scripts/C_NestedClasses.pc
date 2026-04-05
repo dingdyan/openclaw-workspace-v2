@@ -1,0 +1,22 @@
+class Outer: TObject {
+  private int x = 10;
+  static string y = "abc";
+
+  function Outer() {
+    this = base.Create();
+  }
+
+  class Inner: TObject {
+    private int x = 20;
+
+    function PrintData(){ println x, y; }
+
+    function Inner(){
+      this = base.Create();
+    }
+  }
+}
+
+var O = new Outer(), I = new Outer.Inner();
+println O, I;
+I.PrintData();

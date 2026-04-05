@@ -1,0 +1,22 @@
+namespace Shapes {
+  class Point {
+    private int x, y;
+    function Point(int x, int y){
+      this.x = x;
+      this.y = y;
+    }
+  }
+
+  class Circle: Point {
+    private int r;
+    function Circle(int x, int y, int r): base(x, y) {
+      this.r = r;
+    }
+  }
+} // namespace
+
+var
+  P = new Shapes.Point(2, 3), C = new Shapes.Circle(3, 5, 7);
+println P, C;
+
+

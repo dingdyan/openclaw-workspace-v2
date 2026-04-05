@@ -1,0 +1,481 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Symbolic differentiation (paxPascal).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+// Gramma:
+// Expression = Term { ( "+"|"-") Term  }
+// Term =  Multiplier { "*"|"/" ) Multiplier }
+// Multiplier = Factor { "^"  Factor }
+// Factor = Number | "X" | "ln"  "(" Expression ")" | "(" Expression ")" "-" Factor
+// Number = Digit { Digit }
+// Digit = "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
+
+<font color="blue"><b>program</b></font> SymbolicDifferentiation;
+<font color="blue"><b>const</b></font>
+  X       = <font color="Red">'X'</font>;
+  OP_ADD  = <font color="Red">'+'</font>;
+  OP_MULT = <font color="Red">'*'</font>;
+  OP_SUB  = <font color="Red">'-'</font>;
+  OP_DIV  = <font color="Red">'/'</font>;
+  OP_UN   = <font color="Red">'~'</font>;
+  OP_LOG  = <font color="Red">'ln'</font>;
+  OP_POW  = <font color="Red">'^'</font>;
+
+<font color="blue"><b>function</b></font> IsVar(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := isString(Term);
+  <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+    result := Term =<font color="Red">'X'</font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsConstant(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := isNumber(Term);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsZero(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result:= IsConstant(Term);
+  <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+    result := Term = 0;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsUnit(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := IsConstant(Term);
+  <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+    result := Term = 1;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsCompound(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := isPaxArray(Term);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsPow(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := IsCompound(Term);
+  <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+    result := Term[0] = OP_POW;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsMult(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := IsCompound(Term);
+  <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+    result := Term[0] = OP_MULT;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsAdd(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := IsCompound(Term);
+  <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+    result := Term[0] = OP_ADD;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsSub(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := IsCompound(Term);
+  <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+    result := Term[0] = OP_SUB;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> IsNeg(<font color="blue"><b>const</b></font> Term: Variant): boolean;
+<font color="blue"><b>begin</b></font>
+  result := IsCompound(Term);
+  <font color="blue"><b>if</b></font> result <font color="blue"><b>then</b></font>
+    result := Term[0] = OP_UN;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> Diff(<font color="blue"><b>const</b></font> A: Variant): Variant;
+<font color="blue"><b>var</b></font>
+  X1, X2, R1, R2, R3: Variant;
+  Oper: <font color="blue"><b>String</b></font>;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> IsCompound(A) <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    Oper := A[0];
+    X1 := @A[1];
+    <font color="blue"><b>if</b></font> A.length >= 3 <font color="blue"><b>then</b></font>
+      X2 := @A[2];
+
+    <font color="blue"><b>if</b></font> Oper = OP_ADD <font color="blue"><b>then</b></font>
+      result := [Oper, Diff(X1), Diff(X2)]
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_SUB <font color="blue"><b>then</b></font>
+      result := [Oper, Diff(X1), Diff(X2)]
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_UN <font color="blue"><b>then</b></font>
+      result := [Oper, Diff(X1)]
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_MULT <font color="blue"><b>then</b></font>
+      result := [OP_ADD, [OP_MULT, Diff(X1), X2], [OP_MULT, X1, Diff(X2)]]
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_DIV <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      R1 := [OP_DIV, Diff(X1), X2];
+      R2 := [OP_MULT, X1, Diff(X2)];
+      R3 := [OP_MULT, X2, X2];
+      result := [OP_SUB, R1, [OP_DIV, R2, R3]];
+    <font color="blue"><b>end</b></font>
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_LOG <font color="blue"><b>then</b></font>
+      result := [OP_DIV, Diff(X1), X1]
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_POW <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      R1 := [OP_MULT, Diff(X1), [OP_MULT, X2, [OP_POW, X1, [OP_SUB, X2, 1]]]];
+      R2 := [OP_MULT, Diff(X2), [OP_MULT, [OP_LOG, X1], [OP_POW, X1, X2 ]]];
+      result := [OP_ADD, R1, R2];
+    <font color="blue"><b>end</b></font>
+    <font color="blue"><b>else</b></font>
+      <font color="blue"><b>println</b></font> <font color="Red">'Syntax error !'</font>;
+  <font color="blue"><b>end</b></font>
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsVar(A) <font color="blue"><b>then</b></font>
+    result := 1
+  <font color="blue"><b>else</b></font>
+    result := 0;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> InOrder(<font color="blue"><b>const</b></font> A: Variant): <font color="blue"><b>String</b></font>;
+<font color="blue"><b>var</b></font>
+  LL, RR, Oper: <font color="blue"><b>String</b></font>;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> IsCompound(A) <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    <font color="blue"><b>if</b></font> A.length = 2 <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      Oper := A[0];
+      <font color="blue"><b>if</b></font> Oper = OP_UN <font color="blue"><b>then</b></font>
+        Oper := OP_SUB;
+
+      RR := InOrder(A[1]);
+
+      <font color="blue"><b>if</b></font> (Oper = OP_LOG) <font color="blue"><b>and</b></font> (Copy(RR, 1, 1) <> <font color="Red">'('</font>) <font color="blue"><b>then</b></font>
+        result :=  <font color="Red">'ln'</font> + <font color="Red">'('</font> + RR + <font color="Red">')'</font>
+      <font color="blue"><b>else</b></font>
+        result := <font color="Red">'('</font> + Oper + RR + <font color="Red">')'</font>;
+    <font color="blue"><b>end</b></font>
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> A.length = 3 <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      Oper := A[0];
+      LL := InOrder(A[1]);
+      RR := InOrder(A[2]);
+
+      <font color="blue"><b>if</b></font> (Copy(RR, 1, 1) = OP_SUB) <font color="blue"><b>and</b></font> (Oper = OP_ADD) <font color="blue"><b>then</b></font>
+        Oper := <font color="Red">''</font>;
+
+      result := <font color="Red">'('</font> + LL + oper + RR + <font color="Red">')'</font>;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>
+  <font color="blue"><b>else</b></font>
+    result := toString(A);
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>procedure</b></font> Compress(R: Variant);
+<font color="blue"><b>var</b></font>
+  K: Integer;
+  Oper: <font color="blue"><b>String</b></font>;
+  X1, X2, U, V: Variant;
+  Ground: Boolean;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>if</b></font> IsCompound(R) <font color="blue"><b>then</b></font>
+    K := R.length
+  <font color="blue"><b>else</b></font>
+    K := 0;
+    
+  <font color="blue"><b>if</b></font> K = 2 <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    Oper := R[0];
+    <font color="blue"><b>if</b></font> Oper = OP_UN <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      X1 := @ R[1];
+      <font color="blue"><b>if</b></font> IsCompound(X1) <font color="blue"><b>then</b></font>
+        Compress(X1);
+      <font color="blue"><b>if</b></font> IsConstant(X1) <font color="blue"><b>then</b></font>
+        X1 := - X1;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>
+  <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> K = 3 <font color="blue"><b>then</b></font>
+  <font color="blue"><b>begin</b></font>
+    Oper := R[0];
+    X1 := @ R[1];
+    X2 := @ R[2];
+
+    <font color="blue"><b>if</b></font> IsCompound(X1) <font color="blue"><b>then</b></font>
+      Compress(X1);
+    <font color="blue"><b>if</b></font> IsCompound(X2) <font color="blue"><b>then</b></font>
+      Compress(X2);
+
+    Ground := IsConstant(X1) <font color="blue"><b>and</b></font> IsConstant(X2);
+
+    <font color="blue"><b>if</b></font> Oper = OP_ADD <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>if</b></font> Ground <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1 + X2
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X1) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X2
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1 = X2 <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_MULT, 2, X1]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsNeg(X1) <font color="blue"><b>and</b></font> (<font color="blue"><b>not</b></font> IsNeg(X2)) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_SUB, X2, X1[1]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsNeg(X2) <font color="blue"><b>and</b></font> (<font color="blue"><b>not</b></font> IsNeg(X1)) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_SUB, X1, X2[1]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X1) <font color="blue"><b>and</b></font> IsMult(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> X1[1] = X2[1] <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[1], [OP_ADD, X1[2], X2[2]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1[2] = X2[2] <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[2], [OP_ADD, X1[1], X2[1]]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X1) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>  X1[1] = X2 <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2, [OP_ADD, X1[2], 1]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1[2] = X2 <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2, [OP_ADD, X1[1], 1]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>  X2[1] = X1 <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1, [OP_ADD, X2[2], 1]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X2[2] = X1 <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1, [OP_ADD, X2[1], 1]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsAdd(X1) <font color="blue"><b>and</b></font> IsConstant(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> IsConstant(X1[1]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X1[2], X1[1] + X2]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsConstant(X1[2]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X1[1], X1[2] + X2];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsAdd(X2) <font color="blue"><b>and</b></font> IsConstant(X1) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> IsConstant(X2[1]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X2[2], X2[1] + X1]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsConstant(X2[2]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X2[1], X2[2] + X1];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsSub(X1) <font color="blue"><b>and</b></font> IsConstant(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> IsConstant(X1[1]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_SUB, X1[1] + X2, X1[2]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsConstant(X1[2]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X2 - X1[2], X1[1]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsSub(X2) <font color="blue"><b>and</b></font> IsConstant(X1) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> IsConstant(X2[1]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_SUB, X1 + X2[1], X2[2]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsConstant(X2[2]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X1 - X2[2], X2[1]];
+      <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>end</b></font>
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_SUB <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>if</b></font> Ground  <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1 - X2
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X1) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_UN, X2]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1 = X2 <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := 0
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsNeg(X1) <font color="blue"><b>and</b></font> (<font color="blue"><b>not</b></font> IsNeg(X2)) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_ADD, X1[1], X2]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsNeg(X2) <font color="blue"><b>and</b></font> (<font color="blue"><b>not</b></font> IsNeg(X1)) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_ADD, X1, X2[1]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X1) <font color="blue"><b>and</b></font> IsMult(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>      X1[1] = X2[1] <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[1], [OP_SUB, X1[2], X2[2]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1[2] = X2[2] <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[2], [OP_SUB, X1[1], X2[1]]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X1) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>      X1[1] = X2 <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2, [OP_SUB, X1[2], 1]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1[2] = X2 <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2, [OP_SUB, X1[1], 1]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>      X2[1] = X1 <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1, [OP_SUB, X2[2], 1]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X2[2] = X1 <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1, [OP_SUB, X2[1], 1]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsAdd(X1) <font color="blue"><b>and</b></font> IsConstant(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>      IsConstant(X1[1]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X1[2], X1[1] - X2]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsConstant(X1[2]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X1[1], X1[2] - X2];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsAdd(X2) <font color="blue"><b>and</b></font> IsConstant(X1) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>      IsConstant(X2[1]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X2[2], X1 - X2[1]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsConstant( X2[ 3 ] ) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X2[1], X1 - X2[2]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsSub(X1) <font color="blue"><b>and</b></font> IsConstant(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>      IsConstant(X1[1]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_SUB, X1[1] - X2, X1[2]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsConstant(X1[2]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_SUB, X1[1], X2 + X1[2]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsSub(X2) <font color="blue"><b>and</b></font> IsConstant(X1) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font>      IsConstant(X2[1]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_ADD, X1 - X2[1], X2[2]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsConstant(X2[2]) <font color="blue"><b>then</b></font>
+           <font color="blue"><b>reduced</b></font> R := [OP_SUB, X1 - X2[2], X2[1]];
+      <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>end</b></font>
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_MULT <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>if</b></font> Ground  <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1 * X2
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X1) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := 0
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := 0
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsNeg(X1) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_MULT, -1, [OP_MULT, X1[1], X2]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsNeg(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_MULT, -1, [OP_MULT, X2[1], X1]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsUnit(X1) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X2
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsUnit(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1 = X2 <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_POW, X1, 2]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X1) <font color="blue"><b>and</b></font> IsPow(X2) <font color="blue"><b>and</b></font> (X1[1] = X2[1]) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_POW, X1[1], [OP_ADD, X1[2], X2[2]]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X1) <font color="blue"><b>and</b></font> (X1[1] = X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_POW, X1[1], [OP_ADD, X1[2], 1]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X2) <font color="blue"><b>and</b></font> (X2[1] = X1) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_POW, X2[1], [OP_ADD, X2[2], 1]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X1) <font color="blue"><b>and</b></font> IsPow(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        U := @X2[1];                          // ( A*U ) * ( U^V )
+        V := @X2[2];
+        <font color="blue"><b>if</b></font> X1[1] = U <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[2], [OP_POW, U, [OP_ADD, V, 1]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1[2] = U <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[1], [OP_POW, U, [OP_ADD, V, 1]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X1[1]) <font color="blue"><b>and</b></font> (X1[1][1] = U) <font color="blue"><b>then</b></font>
+          // ( U ^ C )*A  *  ( U ^ V ) = A * ( U ^ ( C + V ) )
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[2], [OP_POW, U, [OP_ADD, V, X1[1][2]]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X1[2]) <font color="blue"><b>and</b></font> (X1[2][1] = U) <font color="blue"><b>then</b></font>
+          // A*( U ^ C )  *  ( U ^ V ) = A * ( U ^ ( C + V ) )
+         <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[1], [OP_POW, U, [OP_ADD, V, X1[2][2]]]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X2) <font color="blue"><b>and</b></font> IsPow(X1) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        U := @ X1[1];                           // symmetry
+        V := @ X1[2];
+        <font color="blue"><b>if</b></font> X2[1] = U <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2[2], [OP_POW, U, [OP_ADD, V, 1]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X2[2] = U <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2[1], [OP_POW, U, [OP_ADD, V, 1]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X2[1]) <font color="blue"><b>and</b></font> (X2[1][1] = U) <font color="blue"><b>then</b></font>
+          // ( U ^ C )*A  *  ( U ^ V ) = A * ( U ^ ( C + V ) )
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2[2], [OP_POW, U, [OP_ADD, V, X2[1][2]]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X2[2]) <font color="blue"><b>and</b></font> (X2[2][1] = U) <font color="blue"><b>then</b></font>
+          // A*( U ^ C )  *  ( U ^ V ) = A * ( U ^ ( C + V ) )
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2[1], [OP_POW, U, [OP_ADD, V, X2[2][2]]]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X1) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> X1[1] = X2 <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[2], [OP_POW, X2, 2]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X1[2] = X2 <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[1], [OP_POW, X2, 2 ]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X1[1]) <font color="blue"><b>and</b></font> (X1[1][1] = X2) <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[2], [OP_POW, X2, [OP_ADD, X1[1][2], 1]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X1[2]) <font color="blue"><b>and</b></font> (X1[2][1] = X2) <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1[1], [OP_POW, X2, [OP_ADD, X1[2][2], 1]]];
+      <font color="blue"><b>end</b></font>
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsMult(X2) <font color="blue"><b>then</b></font>
+      <font color="blue"><b>begin</b></font>
+        <font color="blue"><b>if</b></font> X2[1] = X1 <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2[2], [OP_POW, X1, 2]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> X2[2] = X1 <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2[1], [OP_POW, X1, 2]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X2[1]) <font color="blue"><b>and</b></font> (X2[1][1] = X1) <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2[2], [OP_POW, X1, [OP_ADD, X2[1][2], 1]]]
+        <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X2[2]) <font color="blue"><b>and</b></font> (X2[2][1] = X1) <font color="blue"><b>then</b></font>
+          <font color="blue"><b>reduced</b></font> R := [OP_MULT, X2[1], [OP_POW, X1, [OP_ADD, X2[2][2], 1]]];
+      <font color="blue"><b>end</b></font>;
+    <font color="blue"><b>end</b></font>
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_DIV <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>if</b></font> IsUnit(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X1) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsPow(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1, [OP_POW, X2[1], [OP_UN, X2[2]]]]
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>println</b></font> <font color="Red">'Division by zero'</font>
+      <font color="blue"><b>else</b></font>
+        <font color="blue"><b>reduced</b></font> R := [OP_MULT, X1, [OP_POW, X2, -1]];
+    <font color="blue"><b>end</b></font>
+    <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> Oper = OP_POW <font color="blue"><b>then</b></font>
+    <font color="blue"><b>begin</b></font>
+      <font color="blue"><b>if</b></font>      IsUnit(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := X1
+      <font color="blue"><b>else</b></font> <font color="blue"><b>if</b></font> IsZero(X2) <font color="blue"><b>then</b></font>
+        <font color="blue"><b>reduced</b></font> R := 1;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>var</b></font>
+  E, D: Variant;
+<font color="blue"><b>begin</b></font>
+  E := [<font color="Red">'^'</font>,2,X];
+
+  writeln(<font color="Red">'Source expression in prefix notation:'</font>);
+  writeln(E);
+
+  writeln(<font color="Red">'Source expression in infix notation:'</font>);
+  writeln(InOrder(E));
+
+  D := Diff(E);
+
+  writeln(<font color="Red">'Derivative in prefix notation:'</font>);
+  writeln(D);
+
+  writeln(<font color="Red">'Derivative in infix notation:'</font>);
+  writeln(InOrder(D));
+
+  Compress(@ D);
+
+  writeln(<font color="Red">'Final result in prefix notation:'</font>);
+  writeln(D);
+
+  writeln(<font color="Red">'Final result in infix notation:'</font>);
+  writeln(InOrder(D));
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

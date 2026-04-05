@@ -1,0 +1,87 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Polynomials (paxBasic).
+</h3>
+<hr>
+
+<blockquote>
+<pre>
+<font color="blue"><b>Sub</b></font> Add(InitP, InitQ)
+  <font color="blue"><b>Dim</b></font> P, Q
+  P = <font color="blue"><b>AddressOf</b></font> InitP
+  Q = <font color="blue"><b>AddressOf</b></font> InitQ
+  <font color="blue"><b>Do</b></font>
+    <font color="blue"><b>While</b></font> P(0)(1) < Q(0)(1)
+      Q = <font color="blue"><b>AddressOf</b></font> Q(1)
+    <font color="blue"><b>End</b></font> <font color="blue"><b>While</b></font>
+
+    <font color="blue"><b>If</b></font> P(0)(1) > Q(0)(1) <font color="blue"><b>Then</b></font>
+      Q = [ + P[0], Q]
+    <font color="blue"><b>Else</b></font>
+      Q(0)(0) = Q(0)(0) + P(0)(0)
+      <font color="blue"><b>If</b></font> Q(0)(0) = 0 <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>Reduced</b></font> Q = Q(1)
+      <font color="blue"><b>Else</b></font>
+        Q = <font color="blue"><b>AddressOf</b></font> Q(1)
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    P = <font color="blue"><b>AddressOf</b></font> P(1)
+  <font color="blue"><b>Loop</b></font> <font color="blue"><b>Until</b></font> P(0)(1) < 0
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Sub</b></font> Show(P)
+  <font color="blue"><b>Println</b></font> <font color="Red">""</font>
+  <font color="blue"><b>Do</b></font>
+    <font color="blue"><b>Print</b></font> P(0)(0), <font color="Red">"X^"</font>, P(0)(1)
+
+    P = <font color="blue"><b>AddressOf</b></font> P(1)
+
+    <font color="blue"><b>If</b></font> P(0)(1) < 0 <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+
+    <font color="blue"><b>If</b></font> P(0)(0) >= 0 <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>Print</b></font> <font color="Red">"+"</font>
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>Loop</b></font> <font color="blue"><b>Until</b></font> false
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>Dim</b></font> P, Q
+P = [[0, -1], <font color="blue"><b>NULL</b></font>]
+P(1) = <font color="blue"><b>AddressOf</b></font> P
+P = [[600, 1], P]
+P = [[10, 2], P]
+P = [[70, 5], P]
+P = [[150, 6], P]
+P = [[80, 7], P]
+
+Q = [[0, -1], <font color="blue"><b>NULL</b></font>]
+Q(1) = <font color="blue"><b>AddressOf</b></font> Q
+Q = [[600, 1], Q]
+Q = [[170, 3], Q]
+Q = [[ 60, 5], Q]
+Q = [[-150, 6], Q]
+
+<font color="blue"><b>Println</b></font> <font color="Red">"Source polynomials:"</font>
+Show(P)
+Show(Q)
+Add(P, <font color="blue"><b>AddressOf</b></font> Q)
+<font color="blue"><b>println</b></font> <font color="Red">"Sum:"</font>
+Show(Q)
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

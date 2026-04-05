@@ -1,0 +1,4 @@
+Name,boSelfSay,boMain,MainNumber,HearString,SayString,NeedItem,GiveItem,CountLimit,RecoverTime,DelayTime,
+1,TRUE,,,,售攻击/护体类武功密笈,,,,,1000,
+2,TRUE,,,,按shift+鼠标左键可以攻击NPC或者怪物。,,,,,1250,
+3,TRUE,,,,按ctrl+鼠标左键可以攻击其他玩家。,,,,,1500,

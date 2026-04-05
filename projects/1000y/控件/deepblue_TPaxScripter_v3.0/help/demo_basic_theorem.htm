@@ -1,0 +1,550 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+LISPPA: Mechanical theorem proving (paxBasic).
+</h3>
+<hr>
+
+'Compare with Appendix A in "Chang C.L and Lee R.C. Symbolic Logic and Mechanical Theorem Proving", Academic Press, New York, 1973. 
+
+<blockquote>
+<pre>
+<font color="blue"><b>Imports</b></font> SysUtils, Classes, Contnrs
+
+<font color="blue"><b>Dim</b></font> ArrConst = [<font color="Red">"$1"</font>, <font color="Red">"$2"</font>, <font color="Red">"$3"</font>, <font color="Red">"$4"</font>, <font color="Red">"$5"</font>, <font color="Red">"$6"</font>, <font color="Red">"$7"</font>, <font color="Red">"$8"</font>]
+<font color="blue"><b>Dim</b></font> AX       = [<font color="Red">"X1"</font>, <font color="Red">"X2"</font>, <font color="Red">"X3"</font>, <font color="Red">"X4"</font>, <font color="Red">"X5"</font>, <font color="Red">"X6"</font>, <font color="Red">"X7"</font>, <font color="Red">"X8"</font>]
+<font color="blue"><b>Dim</b></font> AY       = [<font color="Red">"Y1"</font>, <font color="Red">"Y2"</font>, <font color="Red">"Y3"</font>, <font color="Red">"Y4"</font>, <font color="Red">"Y5"</font>, <font color="Red">"Y6"</font>, <font color="Red">"Y7"</font>, <font color="Red">"Y8"</font>]
+
+<font color="blue"><b>Dim</b></font> Num <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font> = 0
+
+<font color="blue"><b>Function</b></font> IsCompound(Term <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>return</b></font> isPaxArray(Term)
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> IsVar(P <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>Dim</b></font> result
+  result = isString(P)
+  <font color="blue"><b>If</b></font> <font color="blue"><b>Not</b></font> result <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Return</b></font> false
+  <font color="blue"><b>Else</b></font>
+    <font color="blue"><b>Return</b></font> (Asc(P) >= Asc(<font color="Red">"U"</font>)) <font color="blue"><b>And</b></font> (Asc(P) <= Asc(<font color="Red">"Z"</font>))
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> CopyTerm(A <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>
+  <font color="blue"><b>Dim</b></font> I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Dim</b></font> AI, result <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>
+  result = PaxArray(A.length)
+  <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> A.length - 1
+    AI = <font color="blue"><b>AddressOf</b></font> A(I)
+    <font color="blue"><b>If</b></font> IsCompound(AI) <font color="blue"><b>Then</b></font>
+      result(I) = CopyTerm(AI)
+    <font color="blue"><b>Else</b></font>
+      result[I] = AI
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>Return</b></font> result
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> Inside(Key <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>, Term <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>Dim</b></font> I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>If</b></font> IsCompound(Term) <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>For</b></font> I=1 <font color="blue"><b>to</b></font> Term.length - 1
+      <font color="blue"><b>If</b></font> Inside(Key, Term(I)) <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>Return</b></font> true
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>Next</b></font>
+    <font color="blue"><b>Return</b></font> false
+  <font color="blue"><b>Else</b></font>
+    <font color="blue"><b>Return</b></font> (Key = Term)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> Unify(N <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, T1 <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>, T2 <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>Dim</b></font> I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Dim</b></font> P1, P2 <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>
+  <font color="blue"><b>For</b></font> I=N <font color="blue"><b>to</b></font> T1.length - 1
+    P1 = <font color="blue"><b>AddressOf</b></font> T1(I)
+    P2 = <font color="blue"><b>AddressOf</b></font> T2(I)
+    <font color="blue"><b>If</b></font> IsCompound(P1) <font color="blue"><b>And</b></font> IsCompound(P2) <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>If</b></font> <font color="blue"><b>Not</b></font> Unify(0, P1, P2) <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>Return</b></font> false
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>ElseIf</b></font> IsVar(P1) <font color="blue"><b>And</b></font> (<font color="blue"><b>Not</b></font> Inside(P1, P2)) <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>TerminalOf</b></font> P1 = <font color="blue"><b>AddressOf</b></font> <font color="blue"><b>TerminalOf</b></font> P2
+    <font color="blue"><b>ElseIf</b></font> IsVar(P2) <font color="blue"><b>And</b></font> (<font color="blue"><b>Not</b></font> Inside(P2, P1)) <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>TerminalOf</b></font> P2 = <font color="blue"><b>AddressOf</b></font> <font color="blue"><b>TerminalOf</b></font> P1
+    <font color="blue"><b>ElseIf</b></font> P1 <> P2 <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>Return</b></font> false
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>Return</b></font> true
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Class</b></font> TClause
+  <font color="blue"><b>Inherits</b></font> TObject
+  
+  <font color="blue"><b>Dim</b></font> E, Params <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>
+  <font color="blue"><b>Dim</b></font> Number, NParam, NX, NY, ND <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Dim</b></font> InProof <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  
+  <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(A <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>)
+    <font color="blue"><b>Me</b></font> = <font color="blue"><b>MyBase</b></font>.Create()
+
+    E = A
+    Num = Num + 1
+    Number = Num
+    NX = 1000
+    NY = 0
+    ND = 0
+    NParam = 0
+    Params = PaxArray(10)
+    InProof = false
+
+    <font color="blue"><b>If</b></font> A <> <font color="blue"><b>NULL</b></font> <font color="blue"><b>then</b></font>
+      CreateParams(E)
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  
+  <font color="blue"><b>Sub</b></font> Dispose()
+    <font color="blue"><b>MyBase</b></font>.Free
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+  <font color="blue"><b>Sub</b></font> CreateParams(P <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>)
+    <font color="blue"><b>Dim</b></font> I, J, K <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    <font color="blue"><b>Dim</b></font> PI <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>
+    <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> P.length - 1
+      PI = <font color="blue"><b>AddressOf</b></font> P(I)
+      <font color="blue"><b>If</b></font> IsCompound(PI) <font color="blue"><b>Then</b></font>
+        CreateParams(PI)
+      <font color="blue"><b>ElseIf</b></font> IsVar(PI) <font color="blue"><b>Then</b></font>
+        K = -1
+        <font color="blue"><b>For</b></font> J=0 <font color="blue"><b>To</b></font> NParam - 1
+          <font color="blue"><b>If</b></font> Params(J) = PI <font color="blue"><b>Then</b></font>
+            K = J
+          <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+        <font color="blue"><b>Next</b></font>
+        <font color="blue"><b>If</b></font> K = -1 <font color="blue"><b>Then</b></font>
+          K = NParam
+          Params(K) = PI
+          NParam += 1
+        <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+        P(I) = <font color="blue"><b>AddressOf</b></font> Params(K)
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  
+  <font color="blue"><b>Function</b></font> Length <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    <font color="blue"><b>Return</b></font> E.length
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+  <font color="blue"><b>Function</b></font> Sign(I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>String</b></font>
+    <font color="blue"><b>Return</b></font> E(I)(0)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+  <font color="blue"><b>Function</b></font> Name(I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>String</b></font>
+    <font color="blue"><b>return</b></font> E(I)(1)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+  
+  <font color="blue"><b>Sub</b></font> Rename(L <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>)
+    <font color="blue"><b>Dim</b></font> I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> NParam - 1
+      <font color="blue"><b>Delete</b></font> Params(I)
+      Params(I) = L(I)
+    <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  
+  <font color="blue"><b>Sub</b></font> Dump
+    <font color="blue"><b>println</b></font> Number,<font color="Red">"("</font>,NX,<font color="Red">","</font>,NY,<font color="Red">","</font>,ND,<font color="Red">") E="</font>,E
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+  <font color="blue"><b>Sub</b></font> PutResolvent(A <font color="blue"><b>As</b></font> TClause, B <font color="blue"><b>As</b></font> TClause, LA <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, LB <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>)
+    <font color="blue"><b>Dim</b></font> I, J <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    E = PaxArray(A.E.length + B.E.length - 2)
+
+    J = -1
+    <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> A.length - 1
+      <font color="blue"><b>If</b></font> I <> LA <font color="blue"><b>Then</b></font>
+        J += 1
+        E(J) = CopyTerm(A.E(I))
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>Next</b></font>
+
+    <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> B.length - 1
+      <font color="blue"><b>If</b></font> I <> LB <font color="blue"><b>Then</b></font>
+        J += 1
+        E(J) = CopyTerm(B.E(I))
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>Next</b></font>
+
+    NX = A.Number
+    NY = B.Number
+    ND = LB
+
+    CreateParams(E)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+<font color="blue"><b>Class</b></font> TClauseList
+  <font color="blue"><b>Inherits</b></font> TObject
+  
+  <font color="blue"><b>Dim</b></font> fClauses <font color="blue"><b>As</b></font> TList
+  
+  <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>()
+    <font color="blue"><b>Me</b></font> = <font color="blue"><b>MyBase</b></font>.Create()
+    fClauses = <font color="blue"><b>New</b></font> TList()
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  
+  <font color="blue"><b>Sub</b></font> Dispose()
+    fClauses.Free
+    <font color="blue"><b>MyBase</b></font>.Free
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  
+  <font color="blue"><b>Function</b></font> Add(C <font color="blue"><b>As</b></font> TClause) <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    <font color="blue"><b>Return</b></font> fClauses.Add(C)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+  
+  <font color="blue"><b>Sub</b></font> Clear()
+    fClauses.Clear
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  
+  <font color="blue"><b>Function</b></font> Count() <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    <font color="blue"><b>return</b></font> fClauses.Count
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+  
+  <font color="blue"><b>Sub</b></font> MarkTree(I, N <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>)
+    <font color="blue"><b>Dim</b></font> C <font color="blue"><b>As</b></font> TClause
+    <font color="blue"><b>If</b></font> I > N <font color="blue"><b>Then</b></font>
+      C = Clauses(I - 1)
+      C.InProof = true
+      MarkTree(C.NX, N)
+      MarkTree(C.NY, N)
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  
+  <font color="blue"><b>Sub</b></font> Output(N <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>)
+    <font color="blue"><b>Dim</b></font> I, NX, NY, HC <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, C <font color="blue"><b>As</b></font> TClause
+    HC = Count - 1
+    <font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> (HC > 0)
+      C = Clauses(HC)
+      <font color="blue"><b>If</b></font> C.E.Length = 0 <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+      HC = HC - 1
+    <font color="blue"><b>Loop</b></font>
+
+    <font color="blue"><b>If</b></font> HC = 0 <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>println</b></font> <font color="Red">"Not proved"</font>
+      <font color="blue"><b>Exit</b></font> <font color="blue"><b>Sub</b></font>
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+
+    NX = Clauses(HC).NX
+    NY = Clauses(HC).NY
+    MarkTree(NX, N)
+    MarkTree(NY, N)
+    <font color="blue"><b>println</b></font> <font color="Red">"Proof: "</font>
+    <font color="blue"><b>For</b></font> I = N + 1 <font color="blue"><b>To</b></font> HC
+      C = Clauses(I)
+      <font color="blue"><b>If</b></font> C.InProof <font color="blue"><b>Then</b></font>
+        C.Dump
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>Next</b></font>
+    <font color="blue"><b>println</b></font> <font color="Red">"Contradiction: "</font>, NX, <font color="Red">" "</font>, NY
+    Clauses(HC).Dump
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  
+  <font color="blue"><b>Sub</b></font> AddClauses(L <font color="blue"><b>As</b></font> TClauseList)
+    <font color="blue"><b>Dim</b></font> I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> L.Count - 1
+      fClauses.Add(L(I))
+    <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+  <font color="blue"><b>Sub</b></font> Dump()
+    <font color="blue"><b>Dim</b></font> I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    <font color="blue"><b>For</b></font> I = 0 <font color="blue"><b>To</b></font> Count - 1
+      Clauses[I].Dump
+    <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+  <font color="blue"><b>Default</b></font> <font color="blue"><b>Property</b></font> Clauses(I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+    <font color="blue"><b>Get</b></font>
+      <font color="blue"><b>return</b></font> fClauses(I)
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Get</b></font>
+    <font color="blue"><b>Set</b></font>
+      fClauses(I) = Value
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Set</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Property</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+<font color="blue"><b>Function</b></font> Contradict(A <font color="blue"><b>As</b></font> TClauseList, U <font color="blue"><b>As</b></font> TClauseList, V <font color="blue"><b>As</b></font> TClauseList) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>Dim</b></font> I, J <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Dim</b></font> UI, VJ, R <font color="blue"><b>As</b></font> TClause
+  <font color="blue"><b>Dim</b></font> Name <font color="blue"><b>As</b></font> <font color="blue"><b>String</b></font>
+  
+  <font color="blue"><b>For</b></font> I = 0 <font color="blue"><b>To</b></font> U.Count - 1
+    UI = U(I)
+    Name = UI.Name(0)
+    <font color="blue"><b>For</b></font> J = 0 <font color="blue"><b>To</b></font> V.Count - 1
+      VJ = V(J)
+      <font color="blue"><b>If</b></font> Name = VJ.Name(0) <font color="blue"><b>Then</b></font>
+        UI.Rename(AX)
+        VJ.Rename(AY)
+        <font color="blue"><b>If</b></font> Unify(2, UI.E(0), VJ.E(0)) <font color="blue"><b>Then</b></font>
+          R = <font color="blue"><b>New</b></font> TClause(<font color="blue"><b>NULL</b></font>)
+          R.PutResolvent(UI, VJ, 0, 0)
+          <font color="blue"><b>println</b></font> <font color="Red">"Resolvent:"</font>
+          R.Dump()
+          A.Add(R)
+          
+          <font color="blue"><b>Return</b></font> True
+        <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>Return</b></font> false
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> STest(S <font color="blue"><b>As</b></font> TClauseList, U <font color="blue"><b>As</b></font> TClause) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>Dim</b></font> Name <font color="blue"><b>As</b></font> <font color="blue"><b>String</b></font>
+  <font color="blue"><b>Dim</b></font> I <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Dim</b></font> SI <font color="blue"><b>As</b></font> TClause
+  
+  Name = U.Name(0)
+  <font color="blue"><b>For</b></font> I = 0 <font color="blue"><b>to</b></font> S.Count - 1
+    SI = S(I)
+    <font color="blue"><b>If</b></font> Name = SI.Name(0) <font color="blue"><b>Then</b></font>
+      SI.Rename(ArrConst)
+      U.Rename(AX)
+      <font color="blue"><b>If</b></font> Unify(2, SI.E[0], U.E[0]) <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>Return</b></font> true
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>Return</b></font> false
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> GUnit(A <font color="blue"><b>As</b></font> TClauseList, S1 <font color="blue"><b>As</b></font> TClauseList, S2 <font color="blue"><b>As</b></font> TClauseList, W <font color="blue"><b>As</b></font> TClauseList, C <font color="blue"><b>As</b></font> TClause) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>Dim</b></font> P, S, POS, NEG <font color="blue"><b>As</b></font> TList
+  <font color="blue"><b>Dim</b></font> I, J <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Dim</b></font> U, R <font color="blue"><b>As</b></font> TClause
+  <font color="blue"><b>Dim</b></font> Sign, Name <font color="blue"><b>As</b></font> <font color="blue"><b>String</b></font>
+  <font color="blue"><b>Dim</b></font> Stack <font color="blue"><b>As</b></font> TStack
+  <font color="blue"><b>Dim</b></font> result <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  
+  POS = <font color="blue"><b>new</b></font> TClauseList()
+  NEG = <font color="blue"><b>new</b></font> TClauseList()
+  Stack = <font color="blue"><b>new</b></font> TStack()
+
+  <font color="blue"><b>Try</b></font>
+    Stack.Push(C)
+
+    <font color="blue"><b>Do</b></font>
+      C = Stack.Pop
+
+      <font color="blue"><b>For</b></font> I = 0 <font color="blue"><b>to</b></font> W.Count - 1
+        U = W[I]
+        <font color="blue"><b>If</b></font> U.Number < C.NX <font color="blue"><b>Then</b></font>
+          Sign = U.Sign(0)
+          Name = U.Name(0)
+          <font color="blue"><b>For</b></font> J=0 <font color="blue"><b>to</b></font> C.length - 1
+            <font color="blue"><b>If</b></font> (Sign <> C.Sign(J)) <font color="blue"><b>And</b></font> (Name = C.Name(J)) <font color="blue"><b>Then</b></font>
+              U.Rename(AX)
+              C.Rename(AY)
+
+              <font color="blue"><b>If</b></font> Unify(1, U.E(0), C.E(J)) <font color="blue"><b>Then</b></font>
+                R = <font color="blue"><b>new</b></font> TClause(<font color="blue"><b>NULL</b></font>)
+                R.PutResolvent(U, C, 0, J)
+
+                <font color="blue"><b>println</b></font> <font color="Red">"Resolvent:"</font>
+                R.Dump()
+                
+                A.Add(R)
+
+                <font color="blue"><b>If</b></font> R.length = 1 <font color="blue"><b>Then</b></font>
+                  <font color="blue"><b>If</b></font> R.Sign(0) = <font color="Red">"+"</font> <font color="blue"><b>Then</b></font>
+                    S = S1
+                    P = POS
+                  <font color="blue"><b>Else</b></font>
+                    S = S2
+                    P = NEG
+                  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+                  <font color="blue"><b>If</b></font> (<font color="blue"><b>Not</b></font> STest(S, R)) <font color="blue"><b>And</b></font> (<font color="blue"><b>Not</b></font> STest(P, R)) <font color="blue"><b>Then</b></font>
+                    P.Add(R)
+                  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+                <font color="blue"><b>Else</b></font>
+                  Stack.Push(R)
+                <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+              <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+            <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+          <font color="blue"><b>Next</b></font>
+        <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+      <font color="blue"><b>Next</b></font>
+    <font color="blue"><b>Loop</b></font> <font color="blue"><b>Until</b></font> Stack.Count = 0
+
+    result = Contradict(A, S1, NEG)
+    <font color="blue"><b>If</b></font> <font color="blue"><b>Not</b></font> result <font color="blue"><b>Then</b></font>
+      result = Contradict(A, S2, POS)
+      <font color="blue"><b>If</b></font> <font color="blue"><b>Not</b></font> result <font color="blue"><b>Then</b></font>
+        S1.AddClauses(POS)
+        S2.AddClauses(NEG)
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+  <font color="blue"><b>Finally</b></font>
+    POS.Dispose()
+    NEG.Dispose()
+    Stack.Free()
+    
+    <font color="blue"><b>Return</b></font> result
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Try</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Function</b></font> TRU(A <font color="blue"><b>As</b></font> TClauseList, SupportSet <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>, TryNumber <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>) <font color="blue"><b>As</b></font> <font color="blue"><b>Boolean</b></font>
+  <font color="blue"><b>Dim</b></font> S, S1, S2, S3 <font color="blue"><b>As</b></font> TClauseList
+  <font color="blue"><b>Dim</b></font> I, J, K, L, N <font color="blue"><b>AS</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Dim</b></font> W <font color="blue"><b>As</b></font> TList
+  <font color="blue"><b>Dim</b></font> C <font color="blue"><b>As</b></font> TClause
+  
+  S1 = <font color="blue"><b>New</b></font> TClauseList()
+  S2 = <font color="blue"><b>New</b></font> TClauseList()
+  S3 = <font color="blue"><b>New</b></font> TClauseList()
+  
+  W = <font color="blue"><b>New</b></font> TList()
+
+  <font color="blue"><b>Try</b></font>
+    <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>to</b></font> A.Count - 1
+      C = A(I)
+      <font color="blue"><b>If</b></font> C.length = 1 <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>If</b></font> C.Sign(0) = <font color="Red">"+"</font> <font color="blue"><b>Then</b></font>
+          S1.Add(C)
+        <font color="blue"><b>Else</b></font>
+          S2.Add(C)
+        <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+      <font color="blue"><b>Else</b></font>
+        S3.Add(C)
+        <font color="blue"><b>If</b></font> SupportSet(I) <> <font color="blue"><b>NULL</b></font> <font color="blue"><b>Then</b></font>
+          S = <font color="blue"><b>New</b></font> TClauseList()
+          <font color="blue"><b>For</b></font> J=0 <font color="blue"><b>To</b></font> SupportSet(I).length - 1
+            C = SupportSet(I)(J)
+            S.Add(C)
+          <font color="blue"><b>Next</b></font>
+          W.Add(S)
+        <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>Next</b></font>
+
+    <font color="blue"><b>If</b></font> Contradict(A, S1, S2) <font color="blue"><b>Then</b></font>
+      <font color="blue"><b>Return</b></font> true
+    <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+
+    K = 0
+
+    <font color="blue"><b>For</b></font> I=0 <font color="blue"><b>to</b></font> TryNumber - 1
+      N = A.Count()
+      <font color="blue"><b>If</b></font> GUnit(A, S1, S2, W[K], S3[K]) <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>Return</b></font> true
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+
+      <font color="blue"><b>If</b></font> A.Count > N <font color="blue"><b>Then</b></font>
+        <font color="blue"><b>For</b></font> J=0 <font color="blue"><b>To</b></font> S3.Count - 1
+          <font color="blue"><b>If</b></font> J = K <font color="blue"><b>Then</b></font>
+            W(J).Clear
+          <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+
+          <font color="blue"><b>For</b></font> L=N <font color="blue"><b>To</b></font> A.Count - 1
+            <font color="blue"><b>If</b></font> A(L).length = 1 <font color="blue"><b>Then</b></font>
+              W(J).Add(A(L))
+            <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+          <font color="blue"><b>Next</b></font>
+        <font color="blue"><b>Next</b></font>
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+
+      K = K + 1
+      <font color="blue"><b>If</b></font> K = S3.Count <font color="blue"><b>Then</b></font>
+        K = 0
+      <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+    <font color="blue"><b>Next</b></font>
+  <font color="blue"><b>Finally</b></font>
+    S1.Dispose()
+    S2.Dispose()
+    S3.Dispose()
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Try</b></font>
+  <font color="blue"><b>Return</b></font> false
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+
+<font color="blue"><b>Dim</b></font> A = <font color="Red">"A"</font>
+<font color="blue"><b>Dim</b></font> D = <font color="Red">"D"</font>
+<font color="blue"><b>Dim</b></font> F = <font color="Red">"F"</font>
+<font color="blue"><b>Dim</b></font> H = <font color="Red">"H"</font>
+<font color="blue"><b>Dim</b></font> L = <font color="Red">"L"</font>
+<font color="blue"><b>Dim</b></font> P = <font color="Red">"P"</font>
+<font color="blue"><b>Dim</b></font> X = <font color="Red">"X"</font>
+<font color="blue"><b>Dim</b></font> Y = <font color="Red">"Y"</font>
+
+<font color="blue"><b>Dim</b></font> I, N <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+<font color="blue"><b>Dim</b></font> Clauses <font color="blue"><b>As</b></font> TClauseList
+<font color="blue"><b>Dim</b></font> SupportSet <font color="blue"><b>As</b></font> TList
+
+<font color="blue"><b>Sub</b></font> AddClause(E <font color="blue"><b>As</b></font> <font color="blue"><b>Variant</b></font>)
+  Clauses.Add(<font color="blue"><b>New</b></font> TClause(E))
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+
+Num = 0
+Clauses = <font color="blue"><b>New</b></font> TClauseList()
+SupportSet = <font color="blue"><b>New</b></font> TList()
+
+AddClause([[<font color="Red">"+"</font>,L,X,[F,X]]                      ])
+AddClause([[<font color="Red">"-"</font>,L,X,X]                          ])
+AddClause([[<font color="Red">"-"</font>,L,X,Y],[<font color="Red">"-"</font>,L,Y,X]              ])
+AddClause([[<font color="Red">"-"</font>,D,X,[F,Y]],[<font color="Red">"+"</font>,L,Y,X]          ])
+AddClause([[<font color="Red">"+"</font>,P,X],[<font color="Red">"+"</font>,D,[H,X],X]            ])
+AddClause([[<font color="Red">"+"</font>,P,X],[<font color="Red">"+"</font>,P,[H,X]]              ])
+AddClause([[<font color="Red">"+"</font>,P,X],[<font color="Red">"+"</font>,L,[H,X],X]            ])
+AddClause([[<font color="Red">"-"</font>,P,X],[<font color="Red">"-"</font>,L,A,X],[<font color="Red">"+"</font>,L,[F,A],X]])
+
+<font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> Clauses.Count - 1
+  <font color="blue"><b>If</b></font> I >= 2 <font color="blue"><b>Then</b></font>
+    SupportSet.Add([Clauses(0), Clauses(1)])
+  <font color="blue"><b>Else</b></font>
+    SupportSet.Add(<font color="blue"><b>NULL</b></font>)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>Next</b></font>
+
+<font color="blue"><b>println</b></font> <font color="Red">"Source clauses:"</font>
+Clauses.Dump()
+
+<font color="blue"><b>println</b></font> <font color="Red">"-------------------------------"</font>
+<font color="blue"><b>println</b></font> <font color="Red">"Theorem proving"</font>
+<font color="blue"><b>println</b></font> <font color="Red">"Unit binary resolution"</font>
+<font color="blue"><b>println</b></font> <font color="Red">"-------------------------------"</font>
+
+<font color="blue"><b>println</b></font> <font color="Red">"Theorem :"</font>
+<font color="blue"><b>println</b></font> <font color="Red">"The set of prime numbers is infinite"</font>
+
+N = Clauses.Count()
+TRU(Clauses, SupportSet, 20)
+
+Clauses.Output(N)
+
+<font color="blue"><b>For</b></font> I=0 <font color="blue"><b>To</b></font> Clauses.Count - 1
+  Clauses(I).Free
+<font color="blue"><b>Next</b></font>
+Clauses.Dispose
+SupportSet.Free
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+
+<body>
+
+<h3>
+paxScript Demo. Cross-language Programming. Using paxPascal classes in paxJavaScript scripts.
+</h3>
+<hr>
+
+Let's consider a paxPascal script:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>program</b></font> Demo;
+<font color="blue"><b>type</b></font>
+  TRandomPoint = <font color="blue"><b>record</b></font>
+    X: Integer = Random(100);
+    Y: Integer = Random(100);
+    <font color="blue"><b>function</b></font> TRandomPoint(): TRandomPoint;
+    <font color="blue"><b>begin</b></font>
+      result := Self;
+    <font color="blue"><b>end</b></font>;
+  <font color="blue"><b>end</b></font>;
+
+   TPascalClass = <font color="blue"><b>class</b></font>(TObject)
+   <font color="blue"><b>private</b></font>
+     fProp: Integer = 10;
+    <font color="blue"><b>public</b></font>
+     <font color="blue"><b>constructor</b></font> Create;
+     <font color="blue"><b>function</b></font> TPascalClass: TPascalClass; // <i>to use it in paxJavaScript or paxC</i>
+     <font color="blue"><b>property</b></font> Prop: Integer read fProp;
+   <font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>constructor</b></font> TPascalClass.Create;
+<font color="blue"><b>begin</b></font>
+  <font color="blue"><b>inherited</b></font>;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>function</b></font> TPascalClass.TPascalClass: TPascalClass;
+<font color="blue"><b>begin</b></font>
+  result := Self;
+<font color="blue"><b>end</b></font>;
+
+<font color="blue"><b>begin</b></font>
+<font color="blue"><b>end</b></font>.
+</pre>
+</blockquote>
+
+You can use TRandomPoint, TPascalClass types in paxJavaScript scripts. For example:
+
+<blockquote>
+<pre>
+x = <font color="blue"><b>new</b></font> Demo.TPascalClass();
+<font color="blue"><b>print</b></font> x.Prop;
+p = <font color="blue"><b>new</b></font> Demo.TRandomPoint();
+<font color="blue"><b>print</b></font> p.X;
+<font color="blue"><b>print</b></font> p.Y;
+</pre>
+</blockquote>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

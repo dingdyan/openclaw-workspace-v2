@@ -1,0 +1,65 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+
+<h3>
+paxPascal Base Types
+</h3>
+<hr>
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Boolean</b></font>
+<font color="blue"><b>Byte</b></font>
+<font color="blue"><b>Cardinal</b></font>
+<font color="blue"><b>Double</b></font>
+<font color="blue"><b>Int64</b></font>
+<font color="blue"><b>Integer</b></font>
+<font color="blue"><b>ShortInt</b></font>
+<font color="blue"><b>SmallInt</b></font>
+<font color="blue"><b>String</b></font>
+<font color="blue"><b>Variant</b></font>
+<font color="blue"><b>Word</b></font>
+</pre>
+</blockquote>
+
+
+<p>
+
+You can omit declaration of Variant types in your paxPascal scripts. For example the following
+script
+
+<pre>
+<font color="blue"><b>function</b></font> MyFunc(X);
+<font color="blue"><b>var</b></font> Y;
+<font color="blue"><b>begin</b></font>
+  Y := Random(100);
+  result := X + Y + Y;
+<font color="blue"><b>end</b></font>;
+<font color="blue"><b>print</b></font> MyFunc(3);
+</pre>
+
+is equivalent to
+
+
+<pre>
+<font color="blue"><b>function</b></font> MyFunc(X: Variant): Variant;
+<font color="blue"><b>var</b></font> Y: Variant;
+<font color="blue"><b>begin</b></font>
+  Y := Random(100);
+  result := X + Y + Y;
+<font color="blue"><b>end</b></font>;
+<font color="blue"><b>print</b></font> MyFunc(3);
+</pre>
+
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>

@@ -1,0 +1,1441 @@
+<html>
+<head>
+<link rel=stylesheet type="text/css" href="styles.css">
+</head>
+<body>
+<H3>
+paxBasic Statements
+</H3>
+<hr>
+<ul>
+<li><a href="#Assignment Statements">Assignment Statements</a></li>
+<li><a href="#Class Statements">Class Statements</a></li>
+<li><a href="#Delete Statements">Delete Statements</a></li>
+<li><a href="#Dim Statements">Dim Statements</a></li>
+<li><a href="#Do-loop statements">Do-loop statements</a></li>
+<li><a href="#Enum Statements">Enum Statements</a></li>
+<li><a href="#Exit Statements">Exit Statements</a></li>
+<li><a href="#For-Next Statements">For-Next Statements</a></li>
+<li><a href="#Function Statements">Function Statements</a></li>
+<li><a href="#If Statements">If Statements</a></li>
+<li><a href="#Imports Statements">Imports Statements</a></li>
+<li><a href="#Namespace Statements">Namespace Statements</a></li>
+<li><a href="#Print Statements">Print Statements</a></li>
+<li><a href="#Select-case Statements">Select-case Statements</a></li>
+<li><a href="#Sub Statements">Sub Statements</a></li>
+<li><a href="#Property Statements">Property Statements</a></li>
+<li><a href="#Structure Statements">Structure Statements</a></li>
+<li><a href="#Throw Statements">Throw Statements</a></li>
+<li><a href="#Try-catch Statements">Try-catch Statements</a></li>
+<li><a href="#Try-finally statements">Try-finally statements</a></li>
+<li><a href="#While Statements">While Statements</a></li>
+<li><a href="#With Statements">With Statements</a></li>
+<//ul>
+<a name="Assignment Statements"><h3>Assignment Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+[<font color="blue"><b>Reduced</b></font>][<font color="blue"><b>TerminalOf</b></font>] Expr1 Op [<font color="blue"><b>AddressOf</b></font> [<font color="blue"><b>TerminalOf</b></font>]] Expr2
+</pre>
+</blockquote>
+Op is one of asignment operators: '=', '+=', '-=', '*=', '/=', '&=', '~=', '^='. The reduced modifier is used to avoid a memory leak.
+
+
+The reduced assignment 
+
+<blockquote>
+<pre>
+<font color="blue"><b>reduced</b></font> A = E
+</pre>
+</blockquote>
+
+means
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> temp = E
+E = <font color="blue"><b>NULL</b></font>
+<font color="blue"><b>delete</b></font> A
+A = temp
+</pre>
+</blockquote>
+
+
+if A is array and E is element of A. Otherwise it means:
+
+<blockquote>
+<pre>
+<font color="blue"><b>delete</b></font> A
+A = E
+</pre>
+</blockquote>
+
+<p>
+The TerminalOf at the left part of the assignment statement should be used only when Expr1 is alias and 
+AddressOf is presented at the right part of the statement.  
+(Because <font color="blue"><b>TerminalOf</b></font> Expr1 = Expr2 
+produces the same assignment as Expr1 = Expr2 in all another cases). When AddressOf is presented at the right 
+part, the use of TerminalOf in the left part allows you to assign alias of Expr2 to terminal of Expr1. For 
+example:
+
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> A[10], B, C, P
+B = 300
+C = 500
+P = <font color="blue"><b>AddressOf</b></font> A(5)
+<font color="blue"><b>TerminalOf</b></font> P = <font color="blue"><b>AddressOf</b></font> B
+MsgBox P
+MsgBox A[5] 
+P = <font color="blue"><b>AddressOf</b></font> C
+MsgBox A[5] 
+MsgBox P
+</pre>
+</blockquote>
+
+It produces
+
+<blockquote>
+<pre>
+300
+300
+300
+500
+</pre>
+</blockquote>
+
+The TerminalOf at the left part of the assignment statement should be used only when Expr2 is an alias.
+In this case, the use of TerminalOf allows you to assign Expr1 as alias of terminal of Expr2. For example
+
+<blockquote>
+<pre>
+<font color="blue"><b>Dim</b></font> P1 = <font color="Red">"X"</font>
+<font color="blue"><b>Dim</b></font> P2 = <font color="Red">"Y"</font>
+<font color="blue"><b>Dim</b></font> T1 = [<font color="Red">"R"</font>, [<font color="Red">"F"</font>, <font color="blue"><b>AddressOf</b></font> P1]]
+<font color="blue"><b>Dim</b></font> T2 = [<font color="Red">"R"</font>, <font color="blue"><b>AddressOf</b></font> P2]
+<font color="blue"><b>Dim</b></font> Q1 = <font color="blue"><b>AddressOf</b></font> T1[1]
+<font color="blue"><b>Dim</b></font> Q2 = <font color="blue"><b>AddressOf</b></font> T2[1]
+<font color="blue"><b>TerminalOf</b></font> Q2 = <font color="blue"><b>AddressOf</b></font> <font color="blue"><b>TerminalOf</b></font> Q1
+</pre>
+</blockquote>
+
+
+This example illustrates how the search of most general unifier works (mechanical theorem proving). 
+T1 and T2 represent terms, P1 and P2 are parameters of T1 and T2 accordingly. The last statement 
+
+<blockquote>
+<pre>
+<font color="blue"><b>TerminalOf</b></font> Q2 = <font color="blue"><b>AddressOf</b></font> <font color="blue"><b>TerminalOf</b></font> Q1
+</pre>
+</blockquote>
+
+changes parameters, not source terms. 
+
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Dim Statements">Dim Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+
+
+<a name="Class Statements"><h3>Class Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Declares the name of a class, as well as a definition of the variables, properties, and methods that comprise the class.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+ClassStmt -> <font color="blue"><b>Class</b></font> Ident 
+              [<font color="blue"><b>Inherits</b></font> AncestorClass]
+              MemberStatement /...
+             <font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+		 
+MemberStatement -> DimStmt |
+                   SubStmt |
+                   PropertyStmt |
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Ident</i>
+<blockquote>
+Name of the class
+</blockquote>
+</blockquote>
+<blockquote>
+<i>AncestorClass</i>
+<blockquote>
+Optional. Name of the ancestor class.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>MemberStatement</i>
+<blockquote>
+One or more statements that define the variables, properties, and methods of the class.
+</blockquote>
+</blockquote>
+All constructors must have name New.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>class</b></font> Point
+  <font color="blue"><b>Dim</b></font> X <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, Y <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>
+  <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(X <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, Y <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>)
+    <font color="blue"><b>Me</b></font>.X = X
+    <font color="blue"><b>Me</b></font>.Y = Y
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+<font color="blue"><b>Class</b></font> Circle
+  <font color="blue"><b>Inherits</b></font> Point
+  <font color="blue"><b>Dim</b></font> R
+  <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(X <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, Y <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>, R <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font>)
+    <font color="blue"><b>MyBase</b></font>.<font color="blue"><b>New</b></font>(X, Y)
+    <font color="blue"><b>Me</b></font>.R = R
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font> 
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+<font color="blue"><b>Dim</b></font> P <font color="blue"><b>As</b></font> Point = <font color="blue"><b>new</b></font> Point(3, 5), C <font color="blue"><b>As</b></font> Circle = <font color="blue"><b>new</b></font> Circle(3, 5, 7)
+<font color="blue"><b>print</b></font> P, C
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Function Statements">Function Statements</a></li>
+<li><a href="#Sub Statements">Sub Statements</a></li>
+<li><a href="#Property Statements">Property Statements</a></li>
+<li><a href="#Structure Statements">Structure Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+
+
+
+
+<a name="Delete Statements"><h3>Delete Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Destroys variable or its terminal
+<H4>
+Grammar
+</H4>
+
+<blockquote>
+<pre>
+DeleteStmt -> <font color="blue"><b>Delete</b></font> [<font color="blue"><b>TerminalOf</b></font>] Expression
+</pre>
+</blockquote>
+</blockquote>
+
+
+
+
+<a name="Dim Statements"><h3>Dim Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Declares a variable.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+DimStmt -> [<font color="blue"><b>Shared</b></font>] <font color="blue"><b>Dim</b></font> Variable [<font color="Red">'('</font> Subscripts <font color="Red">')'</font>] [ = Value ] /,... 
+Subscripts -> Upperbound /<font color="Red">','</font>...
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Variable</i>
+<blockquote>
+The name of the <font color="black"><i>variable</i></font> being declared.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Value</i>
+<blockquote>
+The initial <font color="black"><i>value</i></font> assigned to the <font color="black"><i>variable</i></font>.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Subscripts</i>
+<blockquote>
+Dimensions of an array <font color="black"><i>variable</i></font>.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Upperbound</i>
+<blockquote>
+Upper bound. The lower bound of an array is always zero.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Shared</i>
+<blockquote>
+Optional. The class keyword specifies a static (<font color="black"><i>shared</i></font>) field of a class. Can be used only inside of a class body.
+</blockquote>
+</blockquote>
+Use the dim statement to declare variables. These variables can be assigned values at declaration or later in your script.
+<H4>
+Example 1
+</H4>
+<pre>
+<font color="blue"><b>Dim</b></font> A(30, 4)
+<font color="blue"><b>Dim</b></font> X = [10, 20, 30]
+<font color="blue"><b>Dim</b></font> Y
+<font color="blue"><b>Dim</b></font> Z = <font color="blue"><b>New</b></font> TObject()
+</pre>
+You can use the dim statement inside of a class body. In such case the statement declares a field of a class instance or a static (<font color="black"><i>shared</i></font>) field of the class.
+<H4>
+Example 2
+</H4>
+<pre>
+<font color="blue"><b>Class</b></font> <font color="blue"><b>MyClass</b></font>
+  <font color="blue"><b>Dim</b></font> A(10, 2)
+  <font color="blue"><b>Dim</b></font> X  
+  <font color="blue"><b>Dim</b></font> Y = [100, 200, 300]
+  <font color="blue"><b>Shared</b></font> <font color="blue"><b>Dim</b></font> Z = 5
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Assignment Statements">Assignment Statements</a></li>
+<li><a href="#Class Statements">Class Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Do-loop statements"><h3>Do-loop statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Repeats a block of statements while a condition is True or until a condition becomes True.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+DoStmt -> DoStmt1 | DoStmt2
+
+DoStmt1 -> <font color="blue"><b>Do</b></font> [{<font color="blue"><b>While</b></font> | <font color="blue"><b>Until</b></font>} Condition]
+             [Statements]
+             [<font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>]
+             [Statements]
+           <font color="blue"><b>Loop</b></font> 
+
+DoStmt2 -> <font color="blue"><b>Do</b></font>
+            [Statements]
+            [<font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>]
+            [Statements]
+           <font color="blue"><b>Loop</b></font> [{<font color="blue"><b>While</b></font> | <font color="blue"><b>Until</b></font>} Condition]
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Condition</i>
+<blockquote>
+A Boolean expression. If <font color="black"><i>condition</i></font> is null or undefined, <font color="black"><i>condition</i></font> is treated as false.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> that are repeated while or until <font color="black"><i>condition</i></font> is True.
+</blockquote>
+</blockquote>
+<H4>
+Example 1
+</H4>
+<pre>
+<font color="blue"><b>Dim</b></font> x <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font> = 10
+<font color="blue"><b>Do</b></font> 
+  <font color="blue"><b>print</b></font> x
+  <font color="blue"><b>If</b></font> x = 5 <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font> 
+  x = x - 1 
+<font color="blue"><b>Loop</b></font> <font color="blue"><b>Until</b></font> x = 0
+</pre>
+<H4>
+Example 2
+</H4>
+<pre>
+<font color="blue"><b>Dim</b></font> x <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font> = 10 
+<font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> x > 0
+  <font color="blue"><b>print</b></font> x
+  x = x - 1 
+  <font color="blue"><b>If</b></font> x = 5 <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font> 
+<font color="blue"><b>Loop</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Exit Statements">Exit Statements</a></li>
+<li><a href="#For-Next Statements">For-Next Statements</a></li>
+<li><a href="#While Statements">While Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Enum Statements"><h3>Enum Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Creates enumeration type
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+EnumStmt -> <font color="blue"><b>Enum</b></font> TypeName
+              Ident { = Number }
+              ..............
+            <font color="blue"><b>End</b></font> <font color="blue"><b>Enum</b></font>
+</pre>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Enum</b></font> E
+  A
+  B = 10
+  C
+<font color="blue"><b>End</b></font> <font color="blue"><b>Enum</b></font>
+<font color="blue"><b>Dim</b></font> X <font color="blue"><b>As</b></font> E
+<font color="blue"><b>print</b></font> X.A
+<font color="blue"><b>print</b></font> X.B
+<font color="blue"><b>print</b></font> X.C
+</pre>
+</blockquote>
+<a name="Exit Statements"><h3>Exit Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Exits a block of Do...Loop, For...Next, Function, or Sub code.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+ExitStmt -> <font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font> |
+            <font color="blue"><b>Exit</b></font> <font color="blue"><b>For</b></font> |
+            <font color="blue"><b>Exit</b></font> <font color="blue"><b>Function</b></font> |
+            <font color="blue"><b>Exit</b></font> <font color="blue"><b>Property</b></font> |
+            <font color="blue"><b>Exit</b></font> <font color="blue"><b>Sub</b></font> |
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Exit Do</i>
+<blockquote>
+Provides a way to exit a Do...Loop statement.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Exit For</i>
+<blockquote>
+Provides a way to exit a For loop.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Exit Function</i>
+<blockquote>
+Immediately exits the Function procedure in which it appears.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Exit Property</i>
+<blockquote>
+Immediately exits the Property procedure in which it appears.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Exit Sub</i>
+<blockquote>
+Immediately exits the Sub procedure in which it appears.
+</blockquote>
+</blockquote>
+<H4>
+Example 1
+</H4>
+<pre>
+x = 10 
+<font color="blue"><b>Do</b></font> <font color="blue"><b>While</b></font> x > 0
+  <font color="blue"><b>print</b></font> x
+  x = x - 1 
+  <font color="blue"><b>If</b></font> x = 5 <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Exit</b></font> <font color="blue"><b>Do</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font> 
+<font color="blue"><b>Loop</b></font>
+</pre>
+<H4>
+Example 2
+</H4>
+<pre>
+<font color="blue"><b>For</b></font> i = 5 <font color="blue"><b>to</b></font> 1 <font color="blue"><b>Step</b></font> -1
+  <font color="blue"><b>If</b></font> i = 2 <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Exit</b></font> <font color="blue"><b>For</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font> 
+  <font color="blue"><b>print</b></font> i
+<font color="blue"><b>Next</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Do-loop statements">Do-loop statements</a></li>
+<li><a href="#For-Next Statements">For-Next Statements</a></li>
+<li><a href="#Function Statements">Function Statements</a></li>
+<li><a href="#Sub Statements">Sub Statements</a></li>
+<li><a href="#Property Statements">Property Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="For-Next Statements"><h3>For-Next Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Repeats a group of statements a specified number of times.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+<font color="blue"><b>For</b></font>-NextStmt -> <font color="blue"><b>For</b></font> Counter = InitialValue <font color="blue"><b>To</b></font> FinalValue [<font color="blue"><b>Step</b></font> StepValue]
+  [Statements]
+  [<font color="blue"><b>Exit</b></font> <font color="blue"><b>For</b></font>]
+  [Statements]
+<font color="blue"><b>Next</b></font> [ NextExpressionList ] 
+
+NextExpressionList -> Counter/<font color="Red">','</font>...
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Counter</i>
+<blockquote>
+Numeric variable used as a loop <font color="black"><i>counter</i></font>. The variable can't be an array element or an element of 
+a user-defined type.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>InitialValue</i>
+<blockquote>
+Initial value of <font color="black"><i>Counter</i></font>.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>FinalValue</i>
+<blockquote>
+Final value of <font color="black"><i>Counter</i></font>.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>StepValue</i>
+<blockquote>
+Amount <font color="black"><i>Counter</i></font> is changed each time through the loop. If not specified, <font color="black"><i>StepValue</i></font> defaults to one.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> between For and Next that are executed the specified number of times.
+</blockquote>
+</blockquote>
+<H4>
+Example 1
+</H4>
+<pre>
+<font color="blue"><b>For</b></font> i = 5 <font color="blue"><b>to</b></font> 1 <font color="blue"><b>Step</b></font> -1
+  <font color="blue"><b>If</b></font> i = 2 <font color="blue"><b>Then</b></font>
+    <font color="blue"><b>Exit</b></font> <font color="blue"><b>For</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font> 
+  <font color="blue"><b>print</b></font> i
+<font color="blue"><b>Next</b></font>
+</pre>
+A Next statement with one or more variables will, from left to right, close the For loops that match each variable. If a variable closes a For loop that is not the most nested loop at that point, a compile-time error results.
+<H4>
+Example 2
+</H4>
+<pre>
+<font color="blue"><b>Dim</b></font> I, J
+<font color="blue"><b>For</b></font> I = 1 <font color="blue"><b>To</b></font> 2
+  <font color="blue"><b>For</b></font> J = 1 <font color="blue"><b>to</b></font> 3
+    <font color="blue"><b>print</b></font> I, <font color="Red">" "</font>, J
+<font color="blue"><b>Next</b></font> J, I
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Do-loop statements">Do-loop statements</a></li>
+<li><a href="#Exit Statements">Exit Statements</a></li>
+<li><a href="#While Statements">While Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Function Statements"><h3>Function Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Declares the name, arguments, and code that form the body of a function.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+FunctionStmt -> [<font color="blue"><b>Shared</b></font>] <font color="blue"><b>Function</b></font> Ident [<font color="Red">'('</font> FormalParam/<font color="Red">','</font>... <font color="Red">')'</font>] <font color="Red">';'</font>
+                  Statements
+                <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+FormalParam -> [<font color="blue"><b>ByRef</b></font>] Parameter
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Ident</i>
+<blockquote>
+Name of function.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Parameter</i>
+<blockquote>
+Represents formal <font color="black"><i>parameter</i></font> of function. The ByRef keyword indicates that the 
+argument is passed by reference.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> separated by colons.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Shared</i>
+<blockquote>
+Optional. The <font color="black"><i>shared</i></font> keyword specifies a static (<font color="black"><i>shared</i></font>) method of a class. Can be used only inside of a class body.
+</blockquote>
+</blockquote>
+<H4>
+Example 1
+</H4>
+<pre>
+<font color="blue"><b>Function</b></font> Fact(N)
+  <font color="blue"><b>If</b></font> N = 1 <font color="blue"><b>Then</b></font> 
+    <font color="blue"><b>return</b></font> 1
+  <font color="blue"><b>Else</b></font>
+    <font color="blue"><b>return</b></font> N * Fact(N - 1)
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+You can use the function statement inside of a class body. In such case the statement declares a method of the class.
+<H4>
+Example 2
+</H4>
+<pre>
+<font color="blue"><b>Class</b></font> <font color="blue"><b>MyClass</b></font>
+  <font color="blue"><b>Dim</b></font> Z = <font color="Red">"abc"</font>
+  <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>()
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>Function</b></font> DoubleZ()
+    <font color="blue"><b>return</b></font> Z + Z
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+  <font color="blue"><b>Shared</b></font> <font color="blue"><b>Function</b></font> Hello()
+    <font color="blue"><b>return</b></font> <font color="Red">"Hello "</font> + ClassName
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Class Statements">Class Statements</a></li>
+<li><a href="#Sub Statements">Sub Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="If Statements"><h3>If Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Conditionally executes a group of statements, depending on the value of an expression.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+IFStmt -> <font color="blue"><b>If</b></font> Condition <font color="blue"><b>Then</b></font> 
+             Statements 
+          [<font color="blue"><b>ElseIf</b></font> Condition-n <font color="blue"><b>Then</b></font>
+             ElseifStatements] 
+          /...
+          [<font color="blue"><b>Else</b></font> 
+             ElseStatements] 
+          <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Condition</i>
+<blockquote>
+A Boolean expression. If <font color="black"><i>condition</i></font> is null or undefined, <font color="black"><i>condition</i></font> is treated as false.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Condition-n</i>
+<blockquote>
+The same as <font color="black"><i>Condition</i></font>.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> separated by colons; executed if <font color="black"><i>Condition</i></font> is True.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ElseifStatements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> executed if the associated <font color="black"><i>Condition</i></font>-n is True.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ElseStatements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> executed if no previous <font color="black"><i>Condition</i></font> or <font color="black"><i>Condition</i></font>-n expression is True.
+</blockquote>
+</blockquote>
+<H4>
+Example 1
+</H4>
+<pre>
+<font color="blue"><b>If</b></font> y = 6 <font color="blue"><b>Then</b></font>
+  z = 17
+<font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+</pre>
+<H4>
+Example 2
+</H4>
+<pre>
+<font color="blue"><b>If</b></font> x > 0 <font color="blue"><b>Then</b></font>
+  s = 1
+<font color="blue"><b>ElseIf</b></font> x < 0 <font color="blue"><b>Then</b></font>
+  s = -1
+<font color="blue"><b>Else</b></font>
+  s = 0
+<font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Select-case Statements">Select-case Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Imports Statements"><h3>Imports Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Imports statements are provided to facilitate the use of namespaces.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+ImportsStmt -> <font color="blue"><b>imports</b></font> NamespaceName, /<font color="Red">','</font>... <font color="Red">';'</font>
+</pre>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Imports</b></font> StdCtrls, Forms
+
+<font color="blue"><b>Dim</b></font> F = <font color="blue"><b>new</b></font> TForm(<font color="blue"><b>NULL</b></font>), B = <font color="blue"><b>new</b></font> TButton(F)
+
+F.Show
+B.Parent = F
+B.OnClick = <font color="blue"><b>AddressOf</b></font> AHandler
+B.Caption = <font color="Red">"Click Me"</font>
+
+<font color="blue"><b>Function</b></font> AHandler(Sender)
+  <font color="blue"><b>print</b></font> <font color="Red">"You have clicked the button"</font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Function</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Namespace Statements">Namespace Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Namespace Statements"><h3>Namespace Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Programs are organized using namespaces. You can consider the namespace as a class which contains only static (shared) members.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+NamespaceStmt -> <font color="blue"><b>Namespace</b></font> 
+                   Statements
+                 <font color="blue"><b>End</b></font> <font color="blue"><b>Namespace</b></font>
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Statements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> separated by colons.
+</blockquote>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Namespace</b></font> Shapes
+  <font color="blue"><b>Dim</b></font> ShapeCount, ShapeList[100]
+
+  <font color="blue"><b>Sub</b></font> RegisterShape(S)
+    ShapeCount += 1
+    ShapeList[ShapeCount] = S 
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+   
+  <font color="blue"><b>Class</b></font> Point
+    <font color="blue"><b>Dim</b></font> X, Y
+    <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(X, Y)
+      <font color="blue"><b>Me</b></font>.X = X
+      <font color="blue"><b>Me</b></font>.Y = Y
+      RegisterShape(<font color="blue"><b>Me</b></font>)
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+  <font color="blue"><b>Class</b></font> Square
+    <font color="blue"><b>Dim</b></font> X1, Y1, X2, Y2
+    <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>(X1, Y1, X2, Y2)
+      <font color="blue"><b>Me</b></font>.X1 = X1
+      <font color="blue"><b>Me</b></font>.Y1 = Y1
+      <font color="blue"><b>Me</b></font>.X2 = X2
+      <font color="blue"><b>Me</b></font>.Y2 = Y2
+      RegisterShape(<font color="blue"><b>Me</b></font>)
+    <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Namespace</b></font>
+
+<font color="blue"><b>Dim</b></font> P = Shapes.Point(3, 5)
+<font color="blue"><b>print</b></font> P
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Imports Statements">Imports Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Print Statements"><h3>Print Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Prints value of an expression.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+PrintStmt -> <font color="blue"><b>print</b></font> Expression /<font color="Red">','</font>...
+</pre>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>print</b></font> 4 * 100 div 7
+</pre>
+</blockquote>
+<a name="Select-case Statements"><h3>Select-case Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Executes one of several groups of statements, depending on the value of an expression.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+<font color="blue"><b>Select</b></font> <font color="blue"><b>Case</b></font> TestExpression
+   [<font color="blue"><b>Case</b></font> ExpressionList
+      [Statements]]
+   /...
+   [<font color="blue"><b>Case</b></font> <font color="blue"><b>Else</b></font> ExpressionList
+      [ElseStatements]]
+<font color="blue"><b>End</b></font> <font color="blue"><b>Select</b></font>
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>TestExpression</i>
+<blockquote>
+Any numeric or string expression.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ExpressionList</i>
+<blockquote>
+Delimited list of one or more expressions.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> executed if <font color="black"><i>testexpression</i></font> matches any part of <font color="black"><i>ExpressionList</i></font>.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>ElseStatements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> executed if <font color="black"><i>testexpression</i></font> doesn't match any of the Case clauses.
+</blockquote>
+</blockquote>
+If <font color="black"><i>TestExpression</i></font> matches any Case <font color="black"><i>ExpressionList</i></font> expression, the <font color="black"><i>statements</i></font> following that Case clause are executed up to the next Case clause, or for the last clause, up to End Select. Control then passes to the statement following End Select. If <font color="black"><i>TestExpression</i></font> matches an <font color="black"><i>ExpressionList</i></font> expression in more than one Case clause, only the <font color="black"><i>statements</i></font> following the first match are executed.
+
+The Case Else clause is used to indicate the <font color="black"><i>ElseStatements</i></font> to be executed if no match is found between the <font color="black"><i>TestExpression</i></font> and an <font color="black"><i>expressionlist</i></font> in any of the other Case selections. Although not required, it is a good idea to have a Case Else statement in your Select Case block to handle unforeseen <font color="black"><i>TestExpression</i></font> values. If no Case <font color="black"><i>ExpressionList</i></font> matches <font color="black"><i>TestExpression</i></font> and there is no Case Else statement, execution continues at the statement following End Select.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Dim</b></font> x = 10
+<font color="blue"><b>Select</b></font> <font color="blue"><b>Case</b></font> x
+  <font color="blue"><b>Case</b></font> 1 <font color="blue"><b>print</b></font> <font color="Red">"one"</font>
+  <font color="blue"><b>Case</b></font> 2 <font color="blue"><b>print</b></font> <font color="Red">"two"</font>
+  <font color="blue"><b>Case</b></font> 3 <font color="blue"><b>print</b></font> <font color="Red">"three"</font>
+  <font color="blue"><b>Case</b></font> <font color="blue"><b>Else</b></font> <font color="blue"><b>print</b></font> <font color="Red">"else"</font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Select</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#If Statements">If Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Sub Statements"><h3>Sub Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Declares the name, arguments, and code that form the body of a procedure.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+SubStmt -> [<font color="blue"><b>Shared</b></font>] procedure Ident [<font color="Red">'('</font> FormalParam/<font color="Red">','</font>... <font color="Red">')'</font>] <font color="Red">';'</font>
+                   Statements 
+                 <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+FormalParam -> [<font color="blue"><b>ByRef</b></font>] Parameter
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Ident</i>
+<blockquote>
+Name of procedure.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Parameter</i>
+<blockquote>
+Represents formal <font color="black"><i>parameter</i></font> of procedure. The ByRef keyword indicates that the 
+argument is passed by reference.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> separated by colons.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Shared</i>
+<blockquote>
+Optional. The class keyword specifies a static (<font color="black"><i>shared</i></font>) method of a class. Can be used only inside of a class body.
+</blockquote>
+</blockquote>
+<H4>
+Example 1
+</H4>
+<pre>
+<font color="blue"><b>Sub</b></font> Hanoi(N, X, Y, Z)
+  <font color="blue"><b>If</b></font> N > 0 <font color="blue"><b>Then</b></font>
+    Hanoi N - 1, X, Z, Y
+    <font color="blue"><b>print</b></font> <font color="Red">"Transfer a ring from        "</font> + X + <font color="Red">" to "</font> + Y
+    Hanoi N - 1, Z, Y, X
+  <font color="blue"><b>End</b></font> <font color="blue"><b>If</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+</pre>
+You can use the sub statement inside of a class body. In such case the statement declares a method of the class.
+<H4>
+Example 2
+</H4>
+<pre>
+<font color="blue"><b>Class</b></font> <font color="blue"><b>MyClass</b></font>
+  <font color="blue"><b>Dim</b></font> Z = <font color="Red">"abc"</font>
+  <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>()
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>Sub</b></font> PrintZ()
+    <font color="blue"><b>print</b></font> Z
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+  <font color="blue"><b>Shared</b></font> <font color="blue"><b>Sub</b></font> PrintHello()
+    <font color="blue"><b>print</b></font> <font color="Red">"Hello "</font>
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Class Statements">Class Statements</a></li>
+<li><a href="#Function Statements">Function Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Property Statements"><h3>Property Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+A property, like a field, defines an attribute of an object. But while a field is merely a storage location whose contents can be examined and changed, a property associates specific actions with reading or modifying its data. Properties provide control over access to an object’s attributes, and they allow attributes to be computed.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+PropertyStmt -> [<font color="blue"><b>Default</b></font>] <font color="blue"><b>property</b></font> Ident [ParamList] 
+                 [ <font color="blue"><b>Get</b></font>
+                    Statements 
+                  <font color="blue"><b>End</b></font> <font color="blue"><b>Get</b></font> ]
+                 [ <font color="blue"><b>Set</b></font> 
+                    Statements
+                  <font color="blue"><b>End</b></font> <font color="blue"><b>Set</b></font> ]                    
+                 <font color="blue"><b>End</b></font> <font color="blue"><b>Property</b></font>
+           
+ParamList -> <font color="Red">'('</font> Param/<font color="Red">','</font>... <font color="Red">')'</font>
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Ident</i>
+<blockquote>
+Name of property
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Optional</i>
+<blockquote>
+<font color="black"><i>Optional</i></font>. Parameter of indexed property.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statements</i>
+<blockquote>
+One or more <font color="black"><i>statements</i></font> separated by colons.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Default</i>
+<blockquote>
+<font color="black"><i>Optional</i></font>. Specifies an indexed property which is array property. A class can have only one <font color="black"><i>default</i></font> property.
+</blockquote>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Class</b></font> AClass
+   <font color="blue"><b>Dim</b></font> fZ = [10, 20, 30, 40, 50]
+   <font color="blue"><b>Sub</b></font> <font color="blue"><b>New</b></font>()
+   <font color="blue"><b>End</b></font> <font color="blue"><b>Sub</b></font>
+   <font color="blue"><b>Default</b></font> <font color="blue"><b>Property</b></font> Z(I)
+     <font color="blue"><b>Get</b></font>
+       <font color="blue"><b>return</b></font> fZ(I)
+     <font color="blue"><b>End</b></font> <font color="blue"><b>Get</b></font>
+     <font color="blue"><b>Set</b></font>
+       fZ(I) = Value
+     <font color="blue"><b>End</b></font> <font color="blue"><b>Set</b></font>
+   <font color="blue"><b>End</b></font> <font color="blue"><b>Property</b></font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Class</b></font>
+
+<font color="blue"><b>Dim</b></font> X = <font color="blue"><b>new</b></font> AClass()
+X(1) = 90
+<font color="blue"><b>print</b></font> X
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Class Statements">Class Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Structure Statements"><h3>Structure Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Declares the name of a structure type, as well as a definition of the variables, properties, and methods that comprise the structure.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+StructureStmt -> <font color="blue"><b>Structure</b></font> Ident 
+                 [<font color="blue"><b>Inherits</b></font> Ancestor]
+                 MemberStatement /...
+                 <font color="blue"><b>End</b></font> <font color="blue"><b>Structure</b></font>
+		 
+MemberStatement -> DimStmt |
+                   SubStmt |
+                   PropertyStmt |
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Ident</i>
+<blockquote>
+Name of structure
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Ancestor</i>
+<blockquote>
+Optional. Name of <font color="black"><i>ancestor</i></font> structure type.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>MemberStatement</i>
+<blockquote>
+One or more statements that define the variables, properties, and methods of the structure.
+</blockquote>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Structure</b></font> RandomPoint
+  <font color="blue"><b>Dim</b></font> X <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font> = rnd(0, 100)
+  <font color="blue"><b>Dim</b></font> Y <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font> = rnd(0, 100)
+<font color="blue"><b>End</b></font> <font color="blue"><b>Structure</b></font>
+
+<font color="blue"><b>Structure</b></font> RandomCircle
+  <font color="blue"><b>Dim</b></font> R <font color="blue"><b>As</b></font> <font color="blue"><b>Integer</b></font> = rnd(0, 100)
+<font color="blue"><b>End</b></font> <font color="blue"><b>Structure</b></font>
+
+<font color="blue"><b>Dim</b></font> C <font color="blue"><b>As</b></font> RandomCircle
+<font color="blue"><b>print</b></font> C
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Class Statements">Class Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Throw Statements"><h3>Throw Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Generates an error condition that can be handled by a try...except or try...finally statement.
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Try-catch Statements">Try-catch Statements</a></li>
+<li><a href="#Try-finally statements">Try-finally statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Try-catch Statements"><h3>Try-catch Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Exceptions are handled within try...catch statements.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+TryExceptStmt -> <font color="blue"><b>Try</b></font> 
+                   TryStatements    
+                 <font color="blue"><b>Catch</b></font> [Expression]
+                   [CatchStatements]
+                 <font color="blue"><b>End</b></font> <font color="blue"><b>Try</b></font>
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>TryStatements</i>
+<blockquote>
+Required. Statements where an error can occur.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Expression</i>
+<blockquote>
+Optional. Represents an exception object.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>CatchStatements</i>
+<blockquote>
+Optional. Statements to handle errors occurring in the associated <font color="black"><i>TryStatements</i></font>.
+</blockquote>
+</blockquote>
+The <font color="black"><i>TryStatements</i></font> contain code where an error can occur, while <font color="black"><i>CatchStatements</i></font> contain the code to handle any error that does occur. If an error occurs in the <font color="black"><i>TryStatements</i></font>, program control is passed to <font color="black"><i>CatchStatements</i></font> for processing. The initial value of exception is the value of the error that occurred in <font color="black"><i>TryStatements</i></font>. If no error occurs, <font color="black"><i>CatchStatements</i></font> are never executed.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Try</b></font>
+  <font color="blue"><b>Try</b></font>
+    <font color="blue"><b>Throw</b></font> 100
+  <font color="blue"><b>Catch</b></font> E
+    <font color="blue"><b>print</b></font> <font color="Red">"catch"</font>
+    <font color="blue"><b>print</b></font> E
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Try</b></font>
+<font color="blue"><b>Finally</b></font>
+  <font color="blue"><b>print</b></font> <font color="Red">"finally"</font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Try</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Throw Statements">Throw Statements</a></li>
+<li><a href="#Try-finally statements">Try-finally statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="Try-finally statements"><h3>Try-finally statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+Sometimes you want to ensure that specific parts of an operation are completed, whether or not the operation is interrupted by an exception. In these situations, you can use a try...finally statement.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+TryFinallyStmt -> <font color="blue"><b>Try</b></font> 
+                    TryStatements 
+                  <font color="blue"><b>Finally</b></font> 
+                    FinallyStatements 
+                  <font color="blue"><b>End</b></font> <font color="blue"><b>Try</b></font>
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>TryStatements</i>
+<blockquote>
+A sequence of statements (delimited by colons).
+</blockquote>
+</blockquote>
+<blockquote>
+<i>FinallyStatements</i>
+<blockquote>
+Optional. Statements that are unconditionally executed after all other error processing has occurred.
+</blockquote>
+</blockquote>
+The try-finally statement executes the statements in <font color="black"><i>TryStatements</i></font> 
+(the try clause). If <font color="black"><i>TryStatements</i></font> finishes without raising exceptions, 
+<font color="black"><i>FinallyStatements</i></font> (the finally clause) is executed. If an exception is
+raised during execution of <font color="black"><i>TryStatements</i></font>, control is transferred to 
+<font color="black"><i>FinallyStatements</i></font>; once <font color="black"><i>FinallyStatements</i></font> finishes executing, the 
+exception is re-raised. 
+
+If an exception is raised but not handled in the finally clause, 
+that exception is propagated out of the try...finally statement, 
+and any exception already raised in the try clause is lost. 
+The finally clause should therefore handle all locally raised 
+exceptions, so as not to disturb propagation of other exceptions.
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Try</b></font>
+  <font color="blue"><b>Try</b></font>
+    <font color="blue"><b>Throw</b></font> 100
+  <font color="blue"><b>Catch</b></font> E
+    <font color="blue"><b>print</b></font> <font color="Red">"catch"</font>
+    <font color="blue"><b>print</b></font> E
+  <font color="blue"><b>End</b></font> <font color="blue"><b>Try</b></font>
+<font color="blue"><b>Finally</b></font>
+  <font color="blue"><b>print</b></font> <font color="Red">"finally"</font>
+<font color="blue"><b>End</b></font> <font color="blue"><b>Try</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Throw Statements">Throw Statements</a></li>
+<li><a href="#Try-catch Statements">Try-catch Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="While Statements"><h3>While Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+The while statement executes its constituent statement repeatedly, testing Condition 
+expression before each iteration. As long as 
+Condition returns True, execution continues.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+WhileStmt -> <font color="blue"><b>While</b></font> Condition 
+               Statement
+               /...
+             <font color="blue"><b>End</b></font> <font color="blue"><b>While</b></font>
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Condition</i>
+<blockquote>
+A Boolean expression. If <font color="black"><i>condition</i></font> is undefined, <font color="black"><i>condition</i></font> is treated as false.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statement</i>
+<blockquote>
+Any <font color="black"><i>statement</i></font>
+</blockquote>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>Dim</b></font> i = 0
+<font color="blue"><b>While</b></font> i <= 5
+  <font color="blue"><b>Print</b></font> i
+  i = i + 1
+<font color="blue"><b>End</b></font> <font color="blue"><b>While</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Do-loop statements">Do-loop statements</a></li>
+<li><a href="#For-Next Statements">For-Next Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<a name="With Statements"><h3>With Statements</h3></a>
+<!-------------------------------------------------------------------->
+<blockquote>
+The with statement is a shorthand for referencing the 
+the fields, properties, and methods of an object.
+<H4>
+Grammar
+</H4>
+<blockquote>
+<pre>
+WithStmt -> <font color="blue"><b>With</b></font> Obj /<font color="Red">','</font>...
+              Statement
+              /...
+            <font color="blue"><b>End</b></font> <font color="blue"><b>With</b></font>
+</pre>
+</blockquote>
+<H4>
+Arguments
+</H4>
+<blockquote>
+<i>Obj</i>
+<blockquote>
+A variable reference denoting an object.
+</blockquote>
+</blockquote>
+<blockquote>
+<i>Statement</i>
+<blockquote>
+Any <font color="black"><i>statement</i></font>
+</blockquote>
+</blockquote>
+<H4>
+Example
+</H4>
+<pre>
+<font color="blue"><b>With</b></font> Form1 
+  .Caption = <font color="Red">"My Form"</font>
+  .Height = 200
+  .Width = 300
+<font color="blue"><b>End</b></font> <font color="blue"><b>With</b></font>
+</pre>
+<H4>
+See Also
+</H4>
+<blockquote>
+<ul>
+<li><a href="#Class Statements">Class Statements</a></li>
+<//ul>
+</blockquote>
+</blockquote>
+<p>
+<HR>
+<font size = 1 color ="gray">
+Copyright &copy; 1999-2005
+VIRT Laboratory. All rights reserved.
+</font>
+</body>
+</html>
