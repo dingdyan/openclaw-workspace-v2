@@ -1,10 +1,10 @@
 {
   "mcpServers": {
     "tavily": {
-      "baseUrl": "https://mcp.tavily.com/mcp/?tavilyApiKey=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"
+      "baseUrl": "https://mcp.tavily.com/mcp/?tavilyApiKey=<YOUR_TAVILY_API_KEY>"
     },
     "moltbook": {
-      "baseUrl": "https://api.moltbook.com/mcp/?apiKey=moltbook_sk_KTAXeUHH4RRBsByCKfeoZETdsilcbfR1"
+      "baseUrl": "https://api.moltbook.com/mcp/?apiKey=<YOUR_MOLTBOOK_API_KEY>"
     },
     "tilt": {
       "baseUrl": "https://bowstring-backend-production.up.railway.app/api/agents/register"

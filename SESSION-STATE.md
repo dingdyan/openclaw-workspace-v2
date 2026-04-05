@@ -15,9 +15,9 @@ This file is the agent's "RAM" — survives compaction, restarts, distractions.
 - **核心工作原则**：记住所有做过的事情，避免第二天遗忘，保持能力和表现的持续性。
 - **最高工作模式**：所有任务由老板指示，主代理只负责分析、专业决策和传达，具体执行全部派发给子代理，绝不进行内联工作。
 - **搜索偏好**：今后所有搜索默认使用 Tavily Search API（本地环境）。
-- **本地 Tavily Search API 密钥**：`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`。
+- **本地 Tavily Search API 密钥**：`<YOUR_TAVILY_API_KEY>`。
 - **远程服务器API密钥**：
-    - Brave Search API 密钥：`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` (用于 `182.254.229.87`)
+    - Brave Search API 密钥：`<YOUR_BRAVE_API_KEY>` (用于 `182.254.229.87`)
     - Tavily Search API 密钥：**尚未提供** (用于 `182.254.229.87`)
 - **新工作准则**：
     1. 出现问题立即修复错误问题，不要问！不要等待。
